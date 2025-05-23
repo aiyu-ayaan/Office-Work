@@ -1,0 +1,267 @@
+<style>
+    .e-book-banner {
+        background: linear-gradient(180deg, #1C638D 12.08%, #1A2C47 107.69%);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .e-book-hero-banner {
+            /* background: linear-gradient(180deg, #1C638D 14.98%, #1A2C47 31.54%),#fff; */
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            padding: 10.51% 3.37% 5.89%;
+            flex: 1;
+
+            .left-text-box {
+                width: 50%;
+                display: flex;
+                /* gap: 2em; */
+                padding-left: 0%;
+                padding-right: 2em;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .e-book-text-above-title {
+                margin-top: 0% !important;
+                margin-bottom: 0% !important;
+            }
+
+            .e-book-title {
+                margin-top: 2.79% !important;
+                width: 79.88%;
+            }
+
+            .e-book-minute-read {
+                color: var(--adro-yellow);
+                margin-top: 2.79% !important;
+                margin-bottom: 0% !important;
+            }
+
+            .e-book-download-artical {
+                margin-top: 7.42% !important;
+                margin-bottom: 0% !important;
+            }
+
+            .custom-button {
+                background-color: var(--adro-electric-blue);
+                color: var(--adro-deep-blue);
+                margin-top: 9.69% !important;
+            }
+
+            .right-img {
+                /* width: 42%; */
+                width: 48.54%;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                aspect-ratio: 727/568;
+            }
+
+            @media screen and (max-width: 1680px) {
+                .left-text-box {
+                    width: 62%;
+                }
+
+                .right-img {
+                    width: 38%;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1024px) and (orientation: portrait) {
+        .e-book-banner {
+            .e-book-hero-banner {
+                align-items: start;
+                align-content: space-between;
+                flex-direction: column-reverse;
+                justify-content: start;
+
+                .left-text-box,
+                .right-img {
+                    width: 100%;
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .e-book-banner {
+            height: 94.03%;
+            height: 94.03vh;
+            min-height: fit-content;
+
+            .e-book-hero-banner {
+                padding: 11.52% 4.89% 5%;
+                /* gap: 2.5em; */
+                z-index: 1;
+                /* background: linear-gradient(0deg,
+                        #0cf 2.81%,
+                        #06a8d6 32.15%,
+                        #135677 82.85%,
+                        #1a2c47 108.58%),
+                    #fff;
+                     */
+                    justify-content: start;
+
+                .left-text-box {
+                    /* gap: 1.5em; */
+
+                    .custom-button {
+                        min-width: 176px;
+                        min-height: 48px;
+                    }
+
+                    .e-book-text-above-title{
+                        margin-top: 4.45% !important;
+                    }
+                    .e-book-title {
+                        margin-top: 2.23% !important
+                    }
+                    .e-book-minute-read {
+                        margin-top: 3.34% !important
+                    }
+                    .e-book-download-artical {
+                        margin-top: 7.78% !important
+                    }
+                    .custom-button {
+                        margin-top: 13.65% !important;
+                    }
+                }
+
+                .right-img {
+                    background-position: right;
+                    width: 71.11%;
+                    position: relative;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            }
+
+            @media screen and (orientation: landscape) {
+                height: 79.68%;
+                height: 79.68vh;
+                min-height: fit-content;
+
+                @supports (-moz-appearance: none) {
+                    height: -moz-max-content;
+                }
+
+                .e-book-hero-banner {
+                    padding: 11.54% 3.4% 3.4%;
+                    flex-wrap: nowrap;
+                    gap: 0;
+                    align-items: start;
+
+                    .left-text-box {
+                        width: 52.64%;
+                        padding-left: 0;
+                        gap: 1.5em;
+                    }
+
+                    .right-img {
+                        width: 52.4%;
+                        background-position: bottom;
+                        margin-top: 10%;
+                        position: relative;
+                        margin-left: auto;
+
+                        @supports (-moz-appearance: none) {
+                            height: 43.09vh;
+                            margin-top: 11.6%;
+                        }
+                    }
+
+                    @media (min-aspect-ratio: 3/2) {
+                        .right-img {
+                            margin: auto;
+                            width: 30%;
+
+                            @supports (-moz-appearance: none) {
+                                height: 43.09vh;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 767.5px) and (orientation: portrait) {
+        .e-book-banner {
+            height: 97%;
+            height: 97vh;
+            min-height: fit-content;
+
+            .e-book-hero-banner {
+                padding: 4.12% 6.17% 12.82%;
+                /* gap: 2.5em; */
+                 flex-direction: column-reverse;
+                 justify-content: unset;
+                .left-text-box {
+                    /* gap: 1em; */
+
+                    .e-book-text-above-title {
+                        margin-top: 7.8% !important;
+            
+                }
+                .e-book-title {
+                    margin-top: 5.2% !important;
+                    width: 100%;
+                }
+
+                .e-book-minute-read {
+                    margin-top: 5.2% !important;
+                }
+
+                .e-book-download-artical {
+                    margin-top: 13% !important;
+                
+                }
+                .custom-button {
+                    margin-top: 5.2% !important;
+                }
+                }
+
+                
+
+                .right-img {
+                    margin: 0;
+                    width: 100%;
+                }
+            }
+        }
+    }
+</style>
+
+<div class="e-book-banner">
+    <div class="e-book-hero-banner">
+        <div class="left-text-box">
+            <h2 class="small-size e-book-text-above-title">Ebook</h2>
+            <p class="largest-size e-book-title">
+                Pardot: The GenNext AI driven B2B Marketing Tool​
+            </p>
+            <h2 class="small-size e-book-minute-read">8 minute read</h1>
+                <h2 class="small-size e-book-download-artical">Download for full article</h1>
+                    <a href="">
+                        <button class="custom-button e-book-get-in-touch">
+                            Download
+                        </button>
+                    </a>
+        </div>
+        <div class="right-img manual-lazy-load"
+            data-src="/wp-content/uploads/2025/02/Services%20banner%20illustration%20frame%20-%20IA%20-%20To%20Be%20Replaced.svg"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
+            <!-- <iframe src="<?php echo esc_html($banner_graphic_url); ?>" class="banner-iframe" scrolling="no"></iframe> -->
+        </div>
+        <!-- <div class="right-img manual-lazy-load">
+        <img src="/wp-content/uploads/2025/04/Ebook-Thumbnail-An-Introduction-To-Robotic-Process-Automation.webp"
+          alt="Service Banner Image" style="width:100%;height:auto;display:block;" />
+      </div> -->
+    </div>
+</div>
