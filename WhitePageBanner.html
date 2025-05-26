@@ -52,14 +52,35 @@
                 margin-top: 9.69% !important;
             }
 
+            .right-container {
+                position: relative;
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
             .right-img {
-                /* width: 42%; */
-                width: 48.54%;
+                width: 75.74%;
+                height: 98.63%;
                 background-position: center;
                 background-repeat: no-repeat;
-                background-size: contain;
-                aspect-ratio: 727/568;
+                background-size: cover;
+                z-index: 2;
+                filter: drop-shadow(0px 0px 30px rgba(120, 160, 246, 0.80));
             }
+
+            .white-paper-border {
+                position: absolute;
+                top: 17.46%;
+                left: 7.15%;
+                width: 67.36%;
+                height: 88.83%;
+                border: 2px solid var(--ADROSONIC-Lilac-Secondary, #78a0f6);
+    
+                z-index: 1;
+            }
+
 
             @media screen and (max-width: 1680px) {
                 .left-text-box {
@@ -107,7 +128,7 @@
                         #1a2c47 108.58%),
                     #fff;
                      */
-                    justify-content: start;
+                justify-content: start;
 
                 .left-text-box {
                     /* gap: 1.5em; */
@@ -117,18 +138,22 @@
                         min-height: 48px;
                     }
 
-                    .e-book-text-above-title{
+                    .e-book-text-above-title {
                         margin-top: 4.45% !important;
                     }
+
                     .e-book-title {
                         margin-top: 2.23% !important
                     }
+
                     .e-book-minute-read {
                         margin-top: 3.34% !important
                     }
+
                     .e-book-download-artical {
                         margin-top: 7.78% !important
                     }
+
                     .custom-button {
                         margin-top: 13.65% !important;
                     }
@@ -201,34 +226,37 @@
             .e-book-hero-banner {
                 padding: 4.12% 6.17% 12.82%;
                 /* gap: 2.5em; */
-                 flex-direction: column-reverse;
-                 justify-content: unset;
+                flex-direction: column-reverse;
+                justify-content: unset;
+
                 .left-text-box {
                     /* gap: 1em; */
 
                     .e-book-text-above-title {
                         margin-top: 7.8% !important;
-            
-                }
-                .e-book-title {
-                    margin-top: 5.2% !important;
-                    width: 100%;
+
+                    }
+
+                    .e-book-title {
+                        margin-top: 5.2% !important;
+                        width: 100%;
+                    }
+
+                    .e-book-minute-read {
+                        margin-top: 5.2% !important;
+                    }
+
+                    .e-book-download-artical {
+                        margin-top: 13% !important;
+
+                    }
+
+                    .custom-button {
+                        margin-top: 5.2% !important;
+                    }
                 }
 
-                .e-book-minute-read {
-                    margin-top: 5.2% !important;
-                }
 
-                .e-book-download-artical {
-                    margin-top: 13% !important;
-                
-                }
-                .custom-button {
-                    margin-top: 5.2% !important;
-                }
-                }
-
-                
 
                 .right-img {
                     margin: 0;
@@ -254,12 +282,15 @@
                         </button>
                     </a>
         </div>
-        <div class="right-img manual-lazy-load"
-            data-src="/wp-content/uploads/2025/04/White-Paper-Thumbnail-Pardot-The-GenNext-AI-driven-B2B-Marketing-Automation-Tool​.webp"
-            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
-            <!-- <iframe src="<?php echo esc_html($banner_graphic_url); ?>" class="banner-iframe" scrolling="no"></iframe> -->
+        <div class="right-container">
+            <div class="white-paper-border"></div>
+            <div class="right-img manual-lazy-load"
+                data-src="/wp-content/uploads/2025/04/White-Paper-Thumbnail-Pardot-The-GenNext-AI-driven-B2B-Marketing-Automation-Tool​.webp"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
+                <!-- <iframe src="<?php echo esc_html($banner_graphic_url); ?>" class="banner-iframe" scrolling="no"></iframe> -->
+            </div>
+
         </div>
-        
         <!-- <div class="right-img manual-lazy-load">
         <img src="/wp-content/uploads/2025/04/Ebook-Thumbnail-An-Introduction-To-Robotic-Process-Automation.webp"
           alt="Service Banner Image" style="width:100%;height:auto;display:block;" />
