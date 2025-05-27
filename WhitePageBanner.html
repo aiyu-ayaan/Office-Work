@@ -1,11 +1,11 @@
 <style>
-    .e-book-banner {
-        background: linear-gradient(180deg, #1C638D 12.08%, #1A2C47 107.69%);
+    .white-paper-banner {
+        /* background: linear-gradient(180deg, #1C638D 12.08%, #1A2C47 107.69%); */
         width: 100%;
         display: flex;
         flex-direction: column;
 
-        .e-book-hero-banner {
+        .white-paper-hero-banner {
             /* background: linear-gradient(180deg, #1C638D 14.98%, #1A2C47 31.54%),#fff; */
             display: flex;
             flex-wrap: wrap;
@@ -25,31 +25,37 @@
                 text-align: left;
             }
 
-            .e-book-text-above-title {
+            .white-paper-text-above-title {
                 margin-top: 0% !important;
                 margin-bottom: 0% !important;
             }
 
-            .e-book-title {
+            .white-paper-title {
                 margin-top: 2.79% !important;
                 width: 79.88%;
             }
 
-            .e-book-minute-read {
+            .white-paper-minute-read {
                 color: var(--adro-yellow);
                 margin-top: 2.79% !important;
                 margin-bottom: 0% !important;
             }
 
-            .e-book-download-artical {
+            .white-paper-download-artical {
                 margin-top: 7.42% !important;
                 margin-bottom: 0% !important;
             }
 
             .custom-button {
-                background-color: var(--adro-electric-blue);
+                background-color: var(--adro-lilac);
+                border-color: var(--adro-lilac);
                 color: var(--adro-deep-blue);
                 margin-top: 9.69% !important;
+            }
+            .custom-button:hover {
+                background-color: var(--de-btn-hover-color);
+                        border-color: var(--de-btn-hover-color);
+                        color: white;
             }
 
             .right-container {
@@ -84,7 +90,7 @@
 
 
 
-            @media screen and (max-width: 1680px) {
+            /* @media screen and (max-width: 1680px) {
                 .left-text-box {
                     width: 62%;
                 }
@@ -92,13 +98,13 @@
                 .right-img {
                     width: 38%;
                 }
-            }
+            } */
         }
     }
 
     @media screen and (max-width: 1024px) and (orientation: portrait) {
-        .e-book-banner {
-            .e-book-hero-banner {
+        .white-paper-banner {
+            .white-paper-hero-banner {
                 align-items: start;
                 align-content: space-between;
                 flex-direction: column-reverse;
@@ -114,12 +120,12 @@
     }
 
     @media screen and (max-width: 1024px) {
-        .e-book-banner {
+        .white-paper-banner {
             height: 94.03%;
             height: 94.03vh;
             min-height: fit-content;
 
-            .e-book-hero-banner {
+            .white-paper-hero-banner {
                 padding: 11.52% 4.89% 5%;
                 /* gap: 2.5em; */
                 z-index: 1;
@@ -140,19 +146,20 @@
                         min-height: 48px;
                     }
 
-                    .e-book-text-above-title {
+                    .white-paper-text-above-title {
                         margin-top: 4.45% !important;
                     }
 
-                    .e-book-title {
+                    .white-paper-title {
+                        width: 100%;
                         margin-top: 2.23% !important
                     }
 
-                    .e-book-minute-read {
+                    .white-paper-minute-read {
                         margin-top: 3.34% !important
                     }
 
-                    .e-book-download-artical {
+                    .white-paper-download-artical {
                         margin-top: 7.78% !important
                     }
 
@@ -198,7 +205,7 @@
                     height: -moz-max-content;
                 }
 
-                .e-book-hero-banner {
+                .white-paper-hero-banner {
                     padding: 11.54% 3.4% 3.4%;
                     flex-wrap: nowrap;
                     gap: 0;
@@ -239,12 +246,12 @@
     }
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
-        .e-book-banner {
+        .white-paper-banner {
             height: 97%;
             height: 97vh;
             min-height: fit-content;
 
-            .e-book-hero-banner {
+            .white-paper-hero-banner {
                 padding: 4.12% 6.17% 12.82%;
                 /* gap: 2.5em; */
                 flex-direction: column-reverse;
@@ -253,28 +260,28 @@
                 .left-text-box {
                     /* gap: 1em; */
 
-                    .e-book-text-above-title {
+                    .white-paper-text-above-title {
                         margin-top: 7.8% !important;
 
                     }
 
-                    .e-book-title {
+                    .white-paper-title {
                         margin-top: 5.2% !important;
                         width: 100%;
                     }
 
-                    .e-book-minute-read {
+                    .white-paper-minute-read {
                         margin-top: 5.2% !important;
                     }
 
-                    .e-book-download-artical {
+                    .white-paper-download-artical {
                         margin-top: 13% !important;
 
                     }
 
                     .custom-button {
-                        margin-top: 5.2% !important;
-                    }
+                    margin-top: 9.1% !important;
+                }
                 }
 
                 .right-container {
@@ -312,17 +319,17 @@
     }
 </style>
 
-<div class="e-book-banner">
-    <div class="e-book-hero-banner">
+<div class="white-paper-banner">
+    <div class="white-paper-hero-banner">
         <div class="left-text-box">
-            <h2 class="small-size e-book-text-above-title">Whitepaper</h2>
-            <p class="largest-size e-book-title">
+            <h2 class="small-size white-paper-text-above-title">Whitepaper</h2>
+            <p class="largest-size white-paper-title">
                 Pardot: The GenNext AI driven B2B Marketing Tool​
             </p>
-            <h2 class="small-size e-book-minute-read">8 minute read</h1>
-                <h2 class="small-size e-book-download-artical">Download for full article</h1>
+            <h2 class="small-size white-paper-minute-read">8 minute read</h1>
+                <h2 class="small-size white-paper-download-artical">Download for full article</h1>
                     <a href="">
-                        <button class="custom-button e-book-get-in-touch">
+                        <button class="custom-button white-paper-download-button">
                             Download
                         </button>
                     </a>
