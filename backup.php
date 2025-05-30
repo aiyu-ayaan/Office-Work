@@ -1,17 +1,16 @@
 <style>
-    .white-paper-banner {
+    .e-book-banner {
         /* background: linear-gradient(180deg, #1C638D 12.08%, #1A2C47 107.69%); */
         width: 100%;
         display: flex;
         flex-direction: column;
-        margin-bottom: 0px;
 
-        .white-paper-hero-banner {
+        .e-book-hero-banner {
             /* background: linear-gradient(180deg, #1C638D 14.98%, #1A2C47 31.54%),#fff; */
             display: flex;
             flex-wrap: wrap;
             width: 100%;
-            padding: 10.51% 3.37% 8.76%;
+            padding: 10.51% 3.37% 5.89%;
             flex: 1;
 
             .left-text-box {
@@ -26,73 +25,48 @@
                 text-align: left;
             }
 
-            .white-paper-text-above-title {
+            .e-book-text-above-title {
                 margin-top: 0% !important;
                 margin-bottom: 0% !important;
             }
 
-            .white-paper-title {
+            .e-book-title {
                 margin-top: 2.79% !important;
                 width: 79.88%;
             }
 
-            .white-paper-minute-read {
+            .e-book-minute-read {
                 color: var(--adro-yellow);
                 margin-top: 2.79% !important;
                 margin-bottom: 0% !important;
             }
 
-            .white-paper-download-artical {
+            .e-book-download-artical {
                 margin-top: 7.42% !important;
                 margin-bottom: 0% !important;
-                font-weight: 500;
             }
 
             .custom-button {
-                background-color: var(--adro-lilac);
-                border-color: var(--adro-lilac);
+                background-color: var(--adro-electric-blue);
                 color: var(--adro-deep-blue);
                 margin-top: 9.69% !important;
             }
             .custom-button:hover {
-                background-color: var(--de-btn-hover-color);
-                        border-color: var(--de-btn-hover-color);
+                background-color: var(--ia-btn-hover-color);
+                        border-color: var(--ia-btn-hover-color);
                         color: white;
             }
 
-            .right-container {
-                position: relative;
-                width: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+            .right-img {
+                /* width: 42%; */
                 width: 48.54%;
-                aspect-ratio: 869 / 792;
-
-                .right-img {
-                 width: 78.01%;
-                aspect-ratio: 678 / 644;
                 background-position: center;
                 background-repeat: no-repeat;
-                background-size: cover;
-                z-index: 2;
-                filter: drop-shadow(0px 0px 30px rgba(120, 160, 246, 0.80));
+                background-size: contain;
+                aspect-ratio: 869/792;
             }
 
-            .white-paper-border {
-                position: absolute;
-                top: 22.1%;
-                left: 6.91%;
-                width: 69.5%;
-                aspect-ratio: 600 / 576;
-                border: 2px solid var(--ADROSONIC-Lilac-Secondary, #78a0f6);
-                z-index: 1;
-            }
-            }
-
-
-
-            /* @media screen and (max-width: 1680px) {
+            @media screen and (max-width: 1680px) {
                 .left-text-box {
                     width: 62%;
                 }
@@ -100,13 +74,13 @@
                 .right-img {
                     width: 38%;
                 }
-            } */
+            }
         }
     }
 
     @media screen and (max-width: 1024px) and (orientation: portrait) {
-        .white-paper-banner {
-            .white-paper-hero-banner {
+        .e-book-banner {
+            .e-book-hero-banner {
                 align-items: start;
                 align-content: space-between;
                 flex-direction: column-reverse;
@@ -122,12 +96,12 @@
     }
 
     @media screen and (max-width: 1024px) {
-        .white-paper-banner {
+        .e-book-banner {
             height: 94.03%;
             height: 94.03vh;
             min-height: fit-content;
 
-            .white-paper-hero-banner {
+            .e-book-hero-banner {
                 padding: 11.52% 4.89% 5%;
                 /* gap: 2.5em; */
                 z-index: 1;
@@ -138,7 +112,7 @@
                         #1a2c47 108.58%),
                     #fff;
                      */
-                justify-content: start;
+                    justify-content: start;
 
                 .left-text-box {
                     /* gap: 1.5em; */
@@ -148,54 +122,32 @@
                         min-height: 48px;
                     }
 
-                    .white-paper-text-above-title {
+                    .e-book-text-above-title{
                         margin-top: 4.45% !important;
                     }
-
-                    .white-paper-title {
+                    .e-book-title {
                         width: 100%;
                         margin-top: 2.23% !important
                     }
-
-                    .white-paper-minute-read {
+                    .e-book-minute-read {
                         margin-top: 3.34% !important
                     }
-
-                    .white-paper-download-artical {
+                    .e-book-download-artical {
                         margin-top: 7.78% !important
                     }
-
                     .custom-button {
                         margin-top: 13.65% !important;
                     }
                 }
-                .right-container {
-                    margin: auto;
-                position: relative;
-                width:  71.11%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                aspect-ratio: 535 / 488;
+
                 .right-img {
                     background-position: right;
-                    width: 77.94%;
-                    height: 81.35%;
+                    width: 71.11%;
                     position: relative;
                     margin-left: auto;
                     margin-right: auto;
-                    aspect-ratio: 1.05;
+                    aspect-ratio: 535/488;
                 }
-
-                
-            .white-paper-border {
-                position: absolute;
-                top: 21.93%;
-                left: 6.92%;
-                width: 69.72%;
-                height: 73.57%;
-            }
-            }
             }
 
             @media screen and (orientation: landscape) {
@@ -207,7 +159,7 @@
                     height: -moz-max-content;
                 }
 
-                .white-paper-hero-banner {
+                .e-book-hero-banner {
                     padding: 11.54% 3.4% 3.4%;
                     flex-wrap: nowrap;
                     gap: 0;
@@ -236,7 +188,6 @@
                         .right-img {
                             margin: auto;
                             width: 30%;
-
                             @supports (-moz-appearance: none) {
                                 height: 43.09vh;
                             }
@@ -248,101 +199,76 @@
     }
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
-        .white-paper-banner {
+        .e-book-banner {
             height: 97%;
             height: 97vh;
             min-height: fit-content;
 
-            .white-paper-hero-banner {
+            .e-book-hero-banner {
                 padding: 4.12% 6.17% 12.82%;
                 /* gap: 2.5em; */
-                flex-direction: column-reverse;
-                justify-content: unset;
-
+                 flex-direction: column-reverse;
+                 justify-content: unset;
                 .left-text-box {
                     /* gap: 1em; */
 
-                    .white-paper-text-above-title {
+                    .e-book-text-above-title {
                         margin-top: 7.8% !important;
+            
+                }
+                .e-book-title {
+                    margin-top: 5.2% !important;
+                    width: 100%;
+                }
 
-                    }
+                .e-book-minute-read {
+                    margin-top: 5.2% !important;
+                }
 
-                    .white-paper-title {
-                        margin-top: 5.2% !important;
-                        width: 100%;
-                    }
-
-                    .white-paper-minute-read {
-                        margin-top: 5.2% !important;
-                    }
-
-                    .white-paper-download-artical {
-                        margin-top: 13% !important;
-
-                    }
-
-                    .custom-button {
+                .e-book-download-artical {
+                    margin-top: 13% !important;
+                
+                }
+                .custom-button {
                     margin-top: 9.1% !important;
                 }
                 }
 
-                .right-container {
-                position: relative;
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-top: 25.75%;
-                aspect-ratio: 342 / 312;
+                
 
                 .right-img {
-                width: 78.1%;
-                height: 81.45%;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                z-index: 2;
-                filter: drop-shadow(0px 0px 30px rgba(120, 160, 246, 0.80));
-            }
-
-            .white-paper-border {
-                position: absolute;
-                top: 22.13%;
-                    left: 7.15%;
-                    width: 70.21%;
-                    height: 74.1%;
-                border: 2px solid var(--ADROSONIC-Lilac-Secondary, #78a0f6);
-                z-index: 1;
-            }
-            }
-
+                    margin: 0;
+                    width: 100%;
+                    aspect-ratio: 342 / 312;
+                }
             }
         }
     }
 </style>
 
-<div class="white-paper-banner">
-    <div class="white-paper-hero-banner">
+<div class="e-book-banner">
+    <div class="e-book-hero-banner">
         <div class="left-text-box">
-            <h2 class="small-size white-paper-text-above-title">Whitepaper</h2>
-            <p class="largest-size white-paper-title">
-                Pardot: The GenNext AI driven B2B Marketing Tool​
+            <h2 class="small-size e-book-text-above-title">E-book</h2>
+            <p class="largest-size e-book-title">
+                An Introduction To Robotic Process Automation
             </p>
-            <h2 class="small-size white-paper-minute-read">8 minute read</h1>
-                <h2 class="small-size white-paper-download-artical">Download for full article</h1>
+            <h2 class="small-size e-book-minute-read">8 minute read</h1>
+                <h2 class="small-size e-book-download-artical">Download for full E-book</h1>
                     <a href="">
-                        <button class="custom-button white-paper-download-button">
+                        <button class="custom-button e-book-get-in-touch">
                             Download
                         </button>
                     </a>
         </div>
-        <div class="right-container">
-            <div class="white-paper-border"></div>
-            <div class="right-img manual-lazy-load"
-                data-src="/wp-content/uploads/2025/05/White-Paper-Pardot-The-GenNext-AI-driven-B2B-Marketing-Automation-Tool_-Banner-Image.webp"
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
-            </div>
-
+        <div class="right-img manual-lazy-load"
+            data-src="/wp-content/uploads/2025/05/E-Book-An-Introduction-To-Robotic-Process-Automation-Banner-Graphics.png"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
+            <!-- <iframe src="<?php echo esc_html($banner_graphic_url); ?>" class="banner-iframe" scrolling="no"></iframe> -->
         </div>
+        <!-- <div class="right-img manual-lazy-load">
+        <img src="/wp-content/uploads/2025/04/Ebook-Thumbnail-An-Introduction-To-Robotic-Process-Automation.webp"
+          alt="Service Banner Image" style="width:100%;height:auto;display:block;" />
+      </div> -->
     </div>
 </div>
