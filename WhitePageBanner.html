@@ -11,7 +11,7 @@
             display: flex;
             flex-wrap: wrap;
             width: 100%;
-            padding: 6.25% 3.37% 8.76%;
+            padding: 6.25% 3.37% 0%;
             flex: 1;
 
             .left-text-box {
@@ -56,7 +56,7 @@
                 background-color: var(--adro-lilac);
                 border-color: var(--adro-lilac);
                 color: var(--adro-deep-blue);
-                margin-top: 9.69% !important;
+               margin-top: 2.79% !important;
             }
             .custom-button:hover {
                 background-color: var(--de-btn-hover-color);
@@ -127,13 +127,24 @@
     }
 
     @media screen and (max-width: 1024px) {
-        .white-paper-banner {
-            height: 94.03%;
+            .white-paper-banner {
+            height: 94.03dvh; /* Dynamic viewport height */
+            min-height: fit-content;
+
+            @supports not (height: 1dvh) {
             height: 94.03vh;
+        }
+        
+        /* Firefox-specific override */
+        @supports (-moz-appearance: none) {
+            height: auto;
+            min-height: 94.03vh;
+        }
+            
             min-height: fit-content;
 
             .white-paper-hero-banner {
-                padding: 11.52% 4.8% 12.24%;
+                padding: 11.52% 4.8% 0%;
                 /* gap: 2.5em; */
                 z-index: 1;
                 /* background: linear-gradient(0deg,
@@ -174,7 +185,7 @@
                     }
 
                     .custom-button {
-                        margin-top: 13.65% !important;
+                        margin-top: 3.19% !important;
                     }
                 }
                 .right-container {
@@ -216,7 +227,8 @@
                 }
 
                 .white-paper-hero-banner {
-                    padding: 11.54% 3.4% 3.4%;
+                    padding: 11.54% 3.4% 0%;
+                    margin-bottom: 3.4%;
                     flex-wrap: nowrap;
                     gap: 0;
                     align-items: start;
@@ -257,12 +269,21 @@
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
         .white-paper-banner {
-            height: 97%;
-            height: 97vh;
+            height: 97dvh; /* Dynamic viewport height */
             min-height: fit-content;
 
+            @supports not (height: 1dvh) {
+            height: 97vh;
+        }
+        
+        /* Firefox-specific override */
+        @supports (-moz-appearance: none) {
+            height: auto;
+            min-height: 97vh;
+        }
+
             .white-paper-hero-banner {
-                padding: 4.12% 6.17% 18.47%;
+                padding: 4.12% 6.17% 0%;
                 /* gap: 2.5em; */
                 flex-direction: column-reverse;
                 justify-content: unset;
@@ -291,7 +312,7 @@
                     }
 
                     .custom-button {
-                    margin-top: 9.1% !important;
+                        margin-top:4.69% !important;
                 }
                 }
 
@@ -301,7 +322,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                margin-top: 25.75%;
+                margin-top: 21.07%;
                 aspect-ratio: 342 / 312;
 
                 .right-img {
@@ -339,11 +360,10 @@
             </p>
             <h2 class="small-size white-paper-minute-read">8 minute read</h1>
                 <h2 class="small-size white-paper-download-artical">Download for full article</h1>
-                    <a href="">
-                        <button class="custom-button white-paper-download-button">
+                        <button class="custom-button white-paper-download-button open-download-popup">
                             Download
                         </button>
-                    </a>
+                    
         </div>
         <div class="right-container">
             <div class="white-paper-border"></div>
