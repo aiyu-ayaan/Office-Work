@@ -1,0 +1,245 @@
+<style>
+    .not-found {
+        width: 100%;
+        padding-left: 3.34%;
+        padding-right: 3.34%;
+        margin-top: 10%;
+    }
+
+    .main-heading {
+        text-align: center;
+        margin-bottom: 48px;
+        width: 100%;
+        color: #0CF !important;
+    }
+
+
+
+    .content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5%;
+        justify-content: center;
+    }
+
+    .img-frame-left {
+        flex: 1 1;
+    }
+
+    .not-img {
+        width: 94%;
+        margin-top: 7.38%;
+        aspect-ratio: 612 / 462;
+    }
+
+    .content-frame-right {
+        flex: 1 1 400px;
+    }
+
+    .p-heading {
+        width: 99.8%;
+        margin-top: 15.7%;
+    }
+
+    .sub-heading {
+        margin-top: 3.05% !important;
+    }
+
+    .sub-heading .item {}
+
+    .sub-heading a {
+        color: #00ccff;
+        text-decoration: none !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .sub-heading a svg {
+        vertical-align: middle;
+    }
+
+    .not-found-search {
+        text-align: center;
+        margin-top: 2.68%;
+    }
+
+
+    /* serch bar div */
+
+    .seach-bar-parent-div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .search-heading {
+        color: #0CF !important;
+    }
+
+    .search-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        border-radius: 20px;
+        border: 2px solid var(--ADROSONIC-Electric-blue-Secondary, #0CF);
+        background: #354A60;
+        width: 64.52%;
+    }
+
+    .search-icon {
+        position: absolute;
+        right: calc(2.78%);
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    #live-search {
+        width: 100%;
+        padding: 10px 16px;
+        outline: none;
+        border: transparent;
+        background-color: transparent;
+        /* color: white; */
+        color: white;
+
+    }
+
+    #suggestions-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: white;
+        border: 1px solid #ccc;
+        border-top: none;
+        position: absolute;
+        top: 100%;
+        left: 15%;
+        z-index: 999;
+        max-height: 280px;
+        overflow-y: auto;
+        display: none;
+
+    }
+
+    #suggestions-list li {
+        padding: 10px 16px;
+        cursor: pointer;
+        border-bottom: 1px solid;
+        transition: background 0.2s;
+
+        color: black;
+    }
+
+    #suggestions-list li:hover {
+        background-color: #f2f2f2;
+    }
+
+
+    .helpfull-link {
+        text-align: center;
+        width: 60%;
+        margin-top: 5.42%;
+    }
+
+
+    .buttons-div {
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        width: 60%;
+        column-gap: 18%;
+        margin-top: 2.08%;
+        margin-bottom: 5.84%;
+    }
+
+
+
+    .custom-button {
+        background-color: var(--adro-light-seagreen);
+        border-color: var(--adro-light-seagreen);
+        color: var(--adro-deep-blue);
+    }
+
+    .custom-button:hover {
+        background-color: var(--adro-deep-blue);
+        border-color: var(--adro-deep-blue);
+        color: white;
+    }
+</style>
+<div class="not-found">
+
+    <h1 class="main-heading font-bold large-size">This page doesn’t seem to exist</h1>
+
+
+    <div class="content">
+        <div class="img-frame-left">
+            <img class="not-img" src="/wp-content/uploads/2025/06/Artboard-20.png" alt="404 Illustration">
+        </div>
+        <div class="content-frame-right">
+            <p class="p-heading small-size">We're sorry, the page you requested has moved or doesn't exist. We suggest
+                you:</p>
+            <ul class="sub-heading">
+                <li class="item small-size">
+                    Return to the
+                    <a href="/home">home page
+                        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="28" viewBox="0 0 56 28" fill="none">
+                            <path d="M42 14L2 14" stroke="#00CCFF" stroke-width="2" stroke-linecap="round" />
+                            <path
+                                d="M30.2354 14C30.2354 16.3734 30.9391 18.6935 32.2577 20.6668C33.5763 22.6402 35.4504 24.1783 37.6431 25.0866C39.8359 25.9948 42.2487 26.2324 44.5764 25.7694C46.9042 25.3064 49.0424 24.1635 50.7206 22.4853C52.3989 20.807 53.5417 18.6689 54.0048 16.3411C54.4678 14.0133 54.2302 11.6005 53.3219 9.4078C52.4137 7.21508 50.8756 5.34094 48.9022 4.02236C46.9288 2.70379 44.6087 2 42.2353 2C39.0528 2 36.0005 3.26428 33.7501 5.51472C31.4996 7.76515 30.2354 10.8174 30.2354 14Z"
+                                stroke="#00CCFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </li>
+                <li class="item small-size">Search the site using the box below</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="not-found-search">
+        <h2 class="search-heading large-size font-bold">Looking for something else</h2>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="seach-bar-parent-div">
+    <div class="search-wrapper">
+        <form role="search" method="get" class="searchform" action="/" style="width: 100%;">
+            <input type="search" id="live-search" name="s" placeholder="Search..." autocomplete="off"
+                class="smallest-size">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 34 34"
+                fill="none">
+                <path
+                    d="M33 33L25.445 25.431M29.632 15.316C29.632 18.1474 28.7924 20.9153 27.2193 23.2695C25.6463 25.6238 23.4104 27.4587 20.7945 28.5423C18.1786 29.6258 15.3001 29.9093 12.5231 29.3569C9.74606 28.8045 7.19519 27.4411 5.19307 25.4389C3.19094 23.4368 1.82747 20.8859 1.27508 18.1089C0.722698 15.3319 1.0062 12.4534 2.08975 9.8375C3.17329 7.2216 5.00821 4.98574 7.36246 3.41268C9.71671 1.83962 12.4846 1 15.316 1C19.1128 1 22.7542 2.50829 25.4389 5.19306C28.1237 7.87783 29.632 11.5192 29.632 15.316Z"
+                    stroke="#00CCFF" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </form>
+        <ul id="suggestions-list" role="listbox" aria-label="Search Suggestions"></ul>
+    </div>
+    <h2 class="helpfull-link small-size">Here are some helpful Links</h2>
+    <div class="buttons-div">
+        <a href="">
+            <button class="custom-button user-case-download-button">
+                Insights
+            </button>
+        </a>
+        <a href="">
+            <button class="custom-button user-case-download-button">
+                Innovation
+            </button>
+        </a>
+        <a href="">
+            <button class="custom-button user-case-download-button">
+                About Us
+            </button>
+        </a>
+    </div>
+</div>
