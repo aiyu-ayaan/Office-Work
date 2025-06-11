@@ -85,6 +85,7 @@
         flex-direction: column;
         align-items: center;
         position: relative;
+        margin-top: 1.83%;
         border-radius: 20px;
         border: 2px solid var(--ADROSONIC-Electric-blue-Secondary, #0CF);
         background: #354A60;
@@ -121,26 +122,25 @@
         border-top: none;
         position: absolute;
         top: 100%;
-        left: 15%;
+        left: 0px;
         z-index: 999;
         max-height: 280px;
         overflow-y: auto;
         display: none;
+        border-radius: 20px;
+        border: 2px solid var(--adro-electric-blue);
+        background: #354A60;
+        margin-top: 0.4%;
 
     }
 
     #suggestions-list li {
         padding: 10px 16px;
         cursor: pointer;
-        border-bottom: 1px solid;
         transition: background 0.2s;
-
-        color: black;
+        color: white;
     }
 
-    #suggestions-list li:hover {
-        background-color: #f2f2f2;
-    }
 
 
     .helpfull-link {
@@ -163,13 +163,13 @@
 
 
 
-    .custom-button {
-        background-color: var(--adro-light-seagreen);
-        border-color: var(--adro-light-seagreen);
+    .user-case-download-button {
+        background-color: var(--adro-electric-blue);
+        border-color: var(--adro-electric-blue);
         color: var(--adro-deep-blue);
     }
 
-    .custom-button:hover {
+    .user-case-download-button:hover {
         background-color: var(--adro-deep-blue);
         border-color: var(--adro-deep-blue);
         color: white;
@@ -224,6 +224,7 @@
         /* search wrapper */
         .search-wrapper {
             width: 79.02%;
+            margin-top: 3.84%;
         }
 
 
@@ -315,6 +316,7 @@
         .buttons-div a:nth-child(2) button {
             margin-top: 9.11%;
         }
+
         .buttons-div a:nth-child(3) button {
             margin-top: 9.11%;
         }
@@ -373,20 +375,71 @@
     </div>
     <h2 class="helpfull-link small-size">Here are some helpful Links</h2>
     <div class="buttons-div">
-        <a href="">
+        <a href="/insights/">
             <button class="custom-button user-case-download-button">
                 Insights
             </button>
         </a>
-        <a href="">
+        <a href="/innovation/">
             <button class="custom-button user-case-download-button">
                 Innovation
             </button>
         </a>
-        <a href="">
+        <a href="/about-us/">
             <button class="custom-button user-case-download-button">
                 About Us
             </button>
         </a>
     </div>
 </div>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $('#live-search').on('keyup', function () {
+            let query = $(this).val();
+            if (query.length < 3) {
+                $('#suggestions-list').hide();
+                return;
+            }
+
+            $.ajax({
+                url: search_ajax_obj.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'acf_live_search',
+                    keyword: query
+                },
+                success: function (data) {
+                    const suggestions = JSON.parse(data);
+                    let html = '';
+                    if (suggestions.length > 0) {
+                        suggestions.forEach(item => {
+                            html += `<li data-url="${item.url}">${item.title}</li>`;
+                        });
+                        $('#suggestions-list').html(html).show();
+                    } else {
+                        $('#suggestions-list').hide();
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '#suggestions-list li', function (e) {
+            e.preventDefault();
+            window.location.href = $(this).data('url');
+        });
+
+        // Close suggestions when clicking outside
+        $(document).on('click', function (e) {
+            // Check if the click target is not within the search wrapper
+            if (!$(e.target).closest('.search-wrapper').length) {
+                $('#suggestions-list').hide();
+            }
+        });
+
+        // Prevent the suggestions list from closing when clicking on the search input
+        $('#live-search').on('click', function (e) {
+            e.stopPropagation();
+        });
+    });
+</script>

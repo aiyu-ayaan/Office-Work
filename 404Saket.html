@@ -1,0 +1,193 @@
+<style>
+    .not-found {
+        width: 100%;
+    }
+
+    .main-heading {
+        text-align: center;
+        margin-bottom: 48px;
+        margin-top: 10%;
+        width: 93.3%;
+
+    }
+
+    .not-main-heading {
+        color: #0CF !important;
+    }
+
+    .content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5%;
+        justify-content: center;
+    }
+
+    .img-frame-left {
+        flex: 1 1;
+    }
+
+    .not-img {
+        width: 82.5%;
+        height: 43vh;
+        margin-left: 8.5%;
+    }
+
+    .content-frame-right {
+        flex: 1 1 400px;
+    }
+
+    .p-heading {
+        width: 96.8%;
+    }
+
+    .sub-heading {}
+
+    .sub-heading .item {}
+
+    .sub-heading a {
+        color: #00ccff;
+        text-decoration: none !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .sub-heading a svg {
+        vertical-align: middle;
+    }
+
+    .not-found-search {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .search-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        position: relative;
+    }
+
+    #live-search {
+        width: 70%;
+        padding: 10px 16px;
+        font-size: 1rem;
+        border: 2px solid #0CF;
+        border-radius: 6px;
+        outline: none;
+        background-color: white;
+        color: black;
+    }
+
+    #suggestions-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        width: 70%;
+        background: white;
+        border: 1px solid #ccc;
+        border-top: none;
+        position: absolute;
+        top: 100%;
+        left: 15%;
+        z-index: 999;
+        max-height: 280px;
+        overflow-y: auto;
+        display: none;
+    }
+
+    #suggestions-list li {
+        padding: 10px 16px;
+        cursor: pointer;
+        border-bottom: 1px solid;
+        transition: background 0.2s;
+
+        color: black;
+    }
+
+    #suggestions-list li:hover {
+        background-color: #f2f2f2;
+    }
+</style>
+<div class="not-found">
+    <div class="main-heading">
+        <h1 class="not-main-heading font-bold large-size">This page doesn’t seem to exist</h1>
+    </div>
+
+    <div class="content">
+        <div class="img-frame-left">
+            <img class="not-img" src="/wp-content/uploads/2025/06/Artboard-20.png" alt="404 Illustration">
+        </div>
+        <div class="content-frame-right">
+            <p class="p-heading small-size">We're sorry, the page you requested has moved or doesn't exist. We suggest
+                you:</p>
+            <ul class="sub-heading">
+                <li class="item small-size">
+                    Return to the
+                    <a href="/home">home page
+                        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="28" viewBox="0 0 56 28" fill="none">
+                            <path d="M42 14L2 14" stroke="#00CCFF" stroke-width="2" stroke-linecap="round" />
+                            <path
+                                d="M30.2354 14C30.2354 16.3734 30.9391 18.6935 32.2577 20.6668C33.5763 22.6402 35.4504 24.1783 37.6431 25.0866C39.8359 25.9948 42.2487 26.2324 44.5764 25.7694C46.9042 25.3064 49.0424 24.1635 50.7206 22.4853C52.3989 20.807 53.5417 18.6689 54.0048 16.3411C54.4678 14.0133 54.2302 11.6005 53.3219 9.4078C52.4137 7.21508 50.8756 5.34094 48.9022 4.02236C46.9288 2.70379 44.6087 2 42.2353 2C39.0528 2 36.0005 3.26428 33.7501 5.51472C31.4996 7.76515 30.2354 10.8174 30.2354 14Z"
+                                stroke="#00CCFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </li>
+                <li class="item small-size">Search the site using the box below</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="not-found-search">
+        <h2 class="search-heading large-size font-bold">Looking for something else</h2>
+        <div class="search-wrapper">
+            <form role="search" method="get" class="searchform" action="/" style="width: 100%;">
+                <input type="search" id="live-search" name="s" placeholder="Search..." autocomplete="off">
+            </form>
+            <ul id="suggestions-list" role="listbox" aria-label="Search Suggestions"></ul>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $('#live-search').on('keyup', function () {
+            let query = $(this).val();
+            if (query.length < 3) {
+                $('#suggestions-list').hide();
+                return;
+            }
+
+            $.ajax({
+                url: search_ajax_obj.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'acf_live_search',
+                    keyword: query
+                },
+                success: function (data) {
+                    const suggestions = JSON.parse(data);
+                    let html = '';
+                    if (suggestions.length > 0) {
+                        suggestions.forEach(item => {
+                            html += `<li data-url="${item.url}">${item.title}</li>`;
+                        });
+                        $('#suggestions-list').html(html).show();
+                    } else {
+                        $('#suggestions-list').hide();
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '#suggestions-list li', function () {
+            window.location.href = $(this).data('url');
+        });
+        $(document).on('click', '#suggestions-list li', function (e) {
+            e.preventDefault(); // <-- Add this
+            window.location.href = $(this).data('url');
+        });
+    });
+</script>
