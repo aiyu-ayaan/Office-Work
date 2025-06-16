@@ -1128,7 +1128,7 @@ function getVimeoVideoDuration($videoUrl) {
     
     // Validate video ID
     if (empty($videoId) || !is_numeric($videoId)) {
-        return "Error: Invalid Vimeo video URL or ID provided";
+        return 'N/A';
     }
     
     // Vimeo oEmbed API endpoint
@@ -1139,7 +1139,7 @@ function getVimeoVideoDuration($videoUrl) {
         'http' => [
             'method' => 'GET',
             'header' => [
-                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'User-Agent: Mozilla/5.0',
                 'Accept: application/json'
             ],
             'timeout' => 30
@@ -1149,73 +1149,61 @@ function getVimeoVideoDuration($videoUrl) {
     // Get response using file_get_contents
     $response = @file_get_contents($url, false, $context);
     
-    // Check for HTTP errors
+    // Check for HTTP or network errors
     if ($response === false) {
-        return "Error: Unable to fetch video data from Vimeo";
+        return 'N/A';
     }
     
-    // Parse JSON response
+    // Decode JSON
     $data = json_decode($response, true);
     
-    // Check if JSON parsing was successful
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        return "Error: Invalid response from Vimeo API";
+    if (json_last_error() !== JSON_ERROR_NONE || !isset($data['duration']) || !is_numeric($data['duration'])) {
+        return 'N/A';
     }
     
-    // Check if duration is available
-    if (!isset($data['duration']) || !is_numeric($data['duration'])) {
-        return "Error: Video duration not available";
-    }
-    
-    // Format and return duration with labels (ignore seconds)
+    // Format duration
     $seconds = (int)$data['duration'];
     $hours = floor($seconds / 3600);
     $minutes = floor(($seconds % 3600) / 60);
     
-    $formatted = "";
-    
+    $formatted = '';
     if ($hours > 0) {
-        $formatted .= $hours . " hour" . ($hours > 1 ? "s" : "") . " ";
+        $formatted .= $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ';
     }
-    
     if ($minutes > 0) {
-        $formatted .= $minutes . " min" . ($minutes > 1 ? "s" : "");
+        $formatted .= $minutes . ' min' . ($minutes > 1 ? 's' : '');
     }
-    
-    // If video is less than 1 minute, show "Less than 1 min"
     if ($hours == 0 && $minutes == 0) {
-        $formatted = "Less than 1 min";
+        $formatted = 'Less than 1 min';
     }
     
     return trim($formatted);
 }
 
-
 function extractVimeoVideoId($url) {
-    // If it's already just a numeric ID, return it
     if (is_numeric($url)) {
         return $url;
     }
-    
-    // Handle different Vimeo URL formats
+
     $patterns = [
-        '/vimeo\.com\/(\d+)/',                    // https://vimeo.com/123456789
-        '/vimeo\.com\/video\/(\d+)/',             // https://vimeo.com/video/123456789
-        '/player\.vimeo\.com\/video\/(\d+)/',     // https://player.vimeo.com/video/123456789
-        '/vimeo\.com\/channels\/[^\/]+\/(\d+)/',  // https://vimeo.com/channels/channel/123456789
-        '/vimeo\.com\/groups\/[^\/]+\/videos\/(\d+)/', // https://vimeo.com/groups/group/videos/123456789
-        '/vimeo\.com\/album\/\d+\/video\/(\d+)/', // https://vimeo.com/album/123/video/456789
-        '/vimeo\.com\/ondemand\/[^\/]+\/(\d+)/',  // https://vimeo.com/ondemand/movie/123456789
+        '/vimeo\.com\/(\d+)/',
+        '/vimeo\.com\/video\/(\d+)/',
+        '/player\.vimeo\.com\/video\/(\d+)/',
+        '/vimeo\.com\/channels\/[^\/]+\/(\d+)/',
+        '/vimeo\.com\/groups\/[^\/]+\/videos\/(\d+)/',
+        '/vimeo\.com\/album\/\d+\/video\/(\d+)/',
+        '/vimeo\.com\/ondemand\/[^\/]+\/(\d+)/',
     ];
-    
+
     foreach ($patterns as $pattern) {
         if (preg_match($pattern, $url, $matches)) {
             return $matches[1];
         }
     }
-    
+
     return null;
 }
+
 
 
 // TODO:End

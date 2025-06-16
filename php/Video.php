@@ -3,7 +3,7 @@
 function getVimeoVideoDuration($videoId) {
     // Validate video ID
     if (empty($videoId) || !is_numeric($videoId)) {
-        return "Error: Invalid video ID provided";
+        return "N/A";
     }
     
     // Vimeo oEmbed API endpoint
@@ -26,7 +26,7 @@ function getVimeoVideoDuration($videoId) {
     
     // Check for HTTP errors
     if ($response === false) {
-        return "Error: Unable to fetch video data from Vimeo";
+        return "N/A";
     }
     
     // Parse JSON response
@@ -34,12 +34,12 @@ function getVimeoVideoDuration($videoId) {
     
     // Check if JSON parsing was successful
     if (json_last_error() !== JSON_ERROR_NONE) {
-        return "Error: Invalid response from Vimeo API";
+        return "N/A";
     }
     
     // Check if duration is available
     if (!isset($data['duration']) || !is_numeric($data['duration'])) {
-        return "Error: Video duration not available";
+        return "N/A";
     }
     
     // Format and return duration with labels (ignore seconds)
@@ -66,8 +66,8 @@ function getVimeoVideoDuration($videoId) {
 }
 
 // Usage examples:
-echo getVimeoVideoDuration("866043708") . "\n";  // Returns formatted duration or error
-echo getVimeoVideoDuration("invalid") . "\n";    // Returns error message
-echo getVimeoVideoDuration("") . "\n";           // Returns error message
+echo getVimeoVideoDuration("866043708") . "\n";  // Returns formatted duration or N/A
+echo getVimeoVideoDuration("invalid") . "\n";    // Returns N/A
+echo getVimeoVideoDuration("") . "\n";           // Returns N/A
 
 ?>
