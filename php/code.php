@@ -75,10 +75,13 @@ function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     return $minutes . ' min' . ($minutes > 1 ? 's' : '') . ' read';
 }
 
-function getVimeoVideoDuration($videoId) {
+function getVimeoVideoDuration($videoUrl) {
+    // Extract video ID from URL
+    $videoId = extractVimeoVideoId($videoUrl);
+    
     // Validate video ID
     if (empty($videoId) || !is_numeric($videoId)) {
-        return "Error: Invalid video ID provided";
+        return "Error: Invalid Vimeo video URL or ID provided";
     }
     
     // Vimeo oEmbed API endpoint
@@ -138,6 +141,33 @@ function getVimeoVideoDuration($videoId) {
     }
     
     return trim($formatted);
+}
+
+
+function extractVimeoVideoId($url) {
+    // If it's already just a numeric ID, return it
+    if (is_numeric($url)) {
+        return $url;
+    }
+    
+    // Handle different Vimeo URL formats
+    $patterns = [
+        '/vimeo\.com\/(\d+)/',                    // https://vimeo.com/123456789
+        '/vimeo\.com\/video\/(\d+)/',             // https://vimeo.com/video/123456789
+        '/player\.vimeo\.com\/video\/(\d+)/',     // https://player.vimeo.com/video/123456789
+        '/vimeo\.com\/channels\/[^\/]+\/(\d+)/',  // https://vimeo.com/channels/channel/123456789
+        '/vimeo\.com\/groups\/[^\/]+\/videos\/(\d+)/', // https://vimeo.com/groups/group/videos/123456789
+        '/vimeo\.com\/album\/\d+\/video\/(\d+)/', // https://vimeo.com/album/123/video/456789
+        '/vimeo\.com\/ondemand\/[^\/]+\/(\d+)/',  // https://vimeo.com/ondemand/movie/123456789
+    ];
+    
+    foreach ($patterns as $pattern) {
+        if (preg_match($pattern, $url, $matches)) {
+            return $matches[1];
+        }
+    }
+    
+    return null;
 }
 
 // Usage examples:
