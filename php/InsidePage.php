@@ -1043,6 +1043,151 @@ function redirect_empty_page_shortcode($atts, $content = null)
 add_shortcode('redirect_empty', 'redirect_empty_page_shortcode');
 
 
+// TODO:My Code 
+
+
+function get_minutes($post_id, $field_names = null, $videoId = null) {
+    // Validate required post_id parameter
+    if (empty($post_id)) {
+        return "N/A";
+    }
+    
+    $results = [];
+    
+    // Check if field_names is provided and get reading time
+    if (!empty($field_names)) {
+        $reading_time = get_acf_reading_time($post_id, $field_names);
+        if ($reading_time !== '0 min read') {
+            $results[] = $reading_time;
+        }
+    }
+    
+    // Check if videoId is provided and get video duration
+    if (!empty($videoId)) {
+        $video_duration = getVimeoVideoDuration($videoId);
+        // Only add if it's not an error message
+        if (strpos($video_duration, 'Error:') === false) {
+            $results[] = $video_duration;
+        }
+    }
+    
+    // Return combined results or N/A if nothing found
+    if (empty($results)) {
+        return "N/A";
+    }
+    
+    return implode(' + ', $results);
+}
+
+function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
+    $total_content = '';
+    
+    // Handle both string and array inputs for field names
+    if (is_string($field_names)) {
+        $field_names = [$field_names];
+    }
+    
+    // Loop through each field and concatenate content
+    foreach ($field_names as $field_name) {
+        $content = get_field($field_name, $post_id);
+        
+        // Check if content exists and is not false/null/empty
+        if ($content && !empty($content)) {
+            // Handle different field types
+            if (is_array($content)) {
+                // If it's an array (like repeater fields), extract text from each item
+                $content = implode(' ', array_map(function($item) {
+                    return is_array($item) ? implode(' ', $item) : $item;
+                }, $content));
+            }
+            
+            $total_content .= ' ' . $content;
+        }
+    }
+
+    if (empty(trim($total_content))) {
+        return '0 min read';
+    }
+
+    // Strip HTML tags and shortcodes to get plain text
+    $text_content = wp_strip_all_tags(strip_shortcodes($total_content));
+
+    // Count words
+    $word_count = str_word_count($text_content);
+
+    // Calculate read time (assuming 200 words per minute)
+    $minutes = ceil($word_count / 200);
+
+    // Return formatted string
+    return $minutes . ' min' . ($minutes > 1 ? 's' : '') . ' read';
+}
+
+function getVimeoVideoDuration($videoId) {
+    // Validate video ID
+    if (empty($videoId) || !is_numeric($videoId)) {
+        return "Error: Invalid video ID provided";
+    }
+    
+    // Vimeo oEmbed API endpoint
+    $url = "https://vimeo.com/api/oembed.json?url=https://vimeo.com/" . $videoId;
+    
+    // Create context for file_get_contents
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'GET',
+            'header' => [
+                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'Accept: application/json'
+            ],
+            'timeout' => 30
+        ]
+    ]);
+    
+    // Get response using file_get_contents
+    $response = @file_get_contents($url, false, $context);
+    
+    // Check for HTTP errors
+    if ($response === false) {
+        return "Error: Unable to fetch video data from Vimeo";
+    }
+    
+    // Parse JSON response
+    $data = json_decode($response, true);
+    
+    // Check if JSON parsing was successful
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return "Error: Invalid response from Vimeo API";
+    }
+    
+    // Check if duration is available
+    if (!isset($data['duration']) || !is_numeric($data['duration'])) {
+        return "Error: Video duration not available";
+    }
+    
+    // Format and return duration with labels (ignore seconds)
+    $seconds = (int)$data['duration'];
+    $hours = floor($seconds / 3600);
+    $minutes = floor(($seconds % 3600) / 60);
+    
+    $formatted = "";
+    
+    if ($hours > 0) {
+        $formatted .= $hours . " hour" . ($hours > 1 ? "s" : "") . " ";
+    }
+    
+    if ($minutes > 0) {
+        $formatted .= $minutes . " min" . ($minutes > 1 ? "s" : "");
+    }
+    
+    // If video is less than 1 minute, show "Less than 1 min"
+    if ($hours == 0 && $minutes == 0) {
+        $formatted = "Less than 1 min";
+    }
+    
+    return trim($formatted);
+}
+
+// TODO:End
 
 
 function fetch_posts() {
@@ -1078,9 +1223,9 @@ function fetch_posts() {
             $post_type_name = !empty($post_types) && !is_wp_error($post_types) ? $post_types[0]->name : 'Uncategorized';
 			
             // Get read_minutes from ACF instead of Pods
-            $read_minutes = get_field('acf_read_minutes', get_the_ID());
+            $read_minutes = get_minutes(get_the_ID(), ['acf_post_content_frame_section']);
             $read_minutes_display = !empty($read_minutes) ? esc_html($read_minutes) : 'N/A';
-            
+         
 
             $featured_posts[] = [
                 'id'           => get_the_ID(),
@@ -1128,8 +1273,9 @@ function fetch_posts() {
         $post_type_name = !empty($post_types) && !is_wp_error($post_types) ? $post_types[0]->name : 'Uncategorized';
 
         // Get read_minutes from ACF
-        $read_minutes = get_field('acf_read_minutes', get_the_ID());
+        $read_minutes = get_minutes(get_the_ID(), ['acf_post_content_frame_section']);
         $read_minutes_display = !empty($read_minutes) ? esc_html($read_minutes) : 'N/A';
+    
 
         $regular_posts[] = [
             'id'           => get_the_ID(),
@@ -2515,24 +2661,3 @@ add_action('wp_head', function () {
     </script>
     <?php
 });
-
-function get_acf_reading_time($post_id) {
-    // Get content from ACF WYSIWYG field
-    $content = get_field('acf_posts_content', $post_id);
-
-    if (!$content) {
-        return '0 min read';
-    }
-
-    // Strip HTML tags and shortcodes to get plain text
-    $text_content = wp_strip_all_tags(strip_shortcodes($content));
-
-    // Count words
-    $word_count = str_word_count($text_content);
-
-    // Calculate read time (assuming 200 words per minute)
-    $minutes = ceil($word_count / 200);
-
-    // Return formatted string
-    return $minutes . ' min' . ($minutes > 1 ? 's' : '') . ' read';
-}
