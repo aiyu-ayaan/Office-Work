@@ -1,15 +1,11 @@
 using System;
+using System.Collections;
 
 
-public interface ICar
-{
-    public string Name();
-
-    public string Milage();
-}
 
 
-public class BMW : ICar
+
+public class BMW
 {
     private string name;
     private string milage;
@@ -21,19 +17,29 @@ public class BMW : ICar
         this.milage = milage;
     }
 
-    public string Name()
+    public string Name
     {
-        return $"{this.name}";
+        get
+        {
+            return this.name;
+        }
     }
 
-    public string Milage()
+    public string Milage
     {
-        return $"Milage of the car is {this.milage}";
+        get
+        {
+            return this.name;
+        }
+        set
+        {
+            this.milage = value;
+        }
     }
 
     public void PrintName()
     {
-        Console.WriteLine($"{this.Name()} {this.Milage()}");
+        Console.WriteLine($"{this.name} {this.milage}");
     }
 }
 
@@ -43,7 +49,11 @@ class HelloWorld
 {
     public static void Main(string[] args)
     {
-        BMW bMW =new BMW("BMW","40");
+        BMW bMW = new BMW("BMW M5 CS", "40");
+        bMW.Milage = "400";
         bMW.PrintName();
+        ArrayList list = new ArrayList<Int>();
+        list.add(12);
+        // foreach(var items in )
     }
 }
