@@ -1241,8 +1241,14 @@ function fetch_posts() {
             $post_types = get_the_terms(get_the_ID(), 'post_type_category');
             $post_type_name = !empty($post_types) && !is_wp_error($post_types) ? $post_types[0]->name : 'Uncategorized';
 			
-            // Get read_minutes from ACF instead of Pods
-            $read_minutes = get_minutes(get_the_ID(), ['acf_post_content_frame_section']);
+            if ($post_type_name === 'Webinar' || $post_type_name === 'Video') {
+                $videoId = get_field('acf_pardot_vimeo_video_url', get_the_ID());
+                $cal_read_minutes = get_minutes(get_the_ID(), null, $videoId);
+            } else {
+                $cal_read_minutes = get_minutes(get_the_ID(), ['acf_post_content_frame_section']);
+            }
+            // check cal_read_minutes is N/A or not
+            $read_minutes = $cal_read_minutes !== 'N/A' ? $cal_read_minutes : get_field('acf_read_minutes', get_the_ID());
             $read_minutes_display = !empty($read_minutes) ? esc_html($read_minutes) : 'N/A';
          
 
@@ -1292,7 +1298,15 @@ function fetch_posts() {
         $post_type_name = !empty($post_types) && !is_wp_error($post_types) ? $post_types[0]->name : 'Uncategorized';
 
         // Get read_minutes from ACF
-        $read_minutes = get_minutes(get_the_ID(), ['acf_post_content_frame_section']);
+        // check if post_type_name is 'Webinar' or 'Video' then get_minutes with videoId
+        if ($post_type_name === 'Webinar' || $post_type_name === 'Video') {
+            $videoId = get_field('acf_pardot_vimeo_video_url', get_the_ID());
+            $cal_read_minutes = get_minutes(get_the_ID(), null, $videoId);
+        } else {
+            $cal_read_minutes = get_minutes(get_the_ID(), ['acf_post_content_frame_section']);
+        }
+        // check cal_read_minutes is N/A or not
+        $read_minutes = $cal_read_minutes !== 'N/A' ? $cal_read_minutes : get_field('acf_read_minutes', get_the_ID());
         $read_minutes_display = !empty($read_minutes) ? esc_html($read_minutes) : 'N/A';
     
 
