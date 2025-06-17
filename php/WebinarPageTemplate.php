@@ -17,27 +17,21 @@ $GLOBALS['should_show_download_popup_form'] = true;
 get_header(); ?>
 <?php 
 $post_type = get_the_terms( get_the_ID(), 'post_type_category' )[0]->name;
-	$banner_title = get_field('acf_whitepaper_banner_title')?? '';
-	$banner_image = get_field('acf_whitepaper_banner_image')?? '';
-    $text_above_button_in_banner = get_field('acf_whitepaper_text_above_button_in_banner')?? '';
-    $banner_button_text = get_field('acf_whitepaper_banner_button_text')?? '';
+	$banner_title = get_field('acf_webinar_banner_title')?? '';
+	$banner_image = get_field('acf_webinar_banner_image')?? '';
+    $vimeo_popup_button_text = get_field('acf_webinar_vimeo_popup_button_text')?? '';
+    $subscribe_popup_button_text = get_field('acf_webinar_subscribe_popup_button_text')?? '';
 // 	$minute_read = get_field('acf_read_minutes')?? '';
     
     $minute_read = get_minutes(get_the_ID(), ['acf_post_content_frame_section']); 	
-	$content_frame_bottom_card = get_field('acf_whitepaper_content_frame_text_card')?? '';
+	$text_above_watch_now_button_content_frame =  get_field('acf_webinar_text_above_watch_now_button_in_content_frame')?? '';
 
-$whitepaper_author_card = get_field('acf_whitepaper_author_card');
-if (!empty($whitepaper_author_card)) {
-	$author_card_role_type = $whitepaper_author_card['acf_whitepaper_role_type']?? '';
-	$author_card_photo = $whitepaper_author_card['acf_whitepaper_author_card_photo']?? '';
-	$author_card_name_of_the_person = $whitepaper_author_card['acf_whitepaper_name_of_the_person']?? '';
-	$author_card_designation_of_person = $whitepaper_author_card['acf_whitepaper_designation_of_person']?? '';
-	$author_card_text_above_download_button = $whitepaper_author_card['acf_whitepaper_text_above_download_button']?? '';
-	$author_card_download_button_text = $whitepaper_author_card['acf_whitepaper_download_button_text']?? '';
-	$author_card_text_above_get_in_touch_button = $whitepaper_author_card['acf_whitepaper_text_above_get_in_touch_button']?? '';
-	$author_card_get_in_touch_button_text = $whitepaper_author_card['acf_whitepaper_get_in_touch_button_text']?? '';
-	$author_card_get_in_touch_button_url = $whitepaper_author_card['acf_whitepaper_get_in_touch_button_url']?? '';
-	$post_content_frame_section = $whitepaper_author_card['acf_post_content_frame_section']?? '';
+$webinar_author_card = get_field('acf_webinar_author_card');
+if (!empty($webinar_author_card)) {
+	$author_card_photo = $webinar_author_card['acf_webinar_author_card_photo']?? '';
+	$author_card_name_of_the_person = $webinar_author_card['acf_webinar_name_of_the_person']?? '';
+	$author_card_designation_of_person = $webinar_author_card['acf_webinar_designation_of_person']?? '';
+    $author_card_brief_description = $webinar_author_card['acf_webinar_author_card_brief_description']?? '';
 }
 $post_content_frame_section = get_field('acf_post_content_frame_section')?? '';
 	
@@ -48,31 +42,41 @@ $post_content_frame_section = get_field('acf_post_content_frame_section')?? '';
         <article id="post-<?php the_ID(); ?>" <?php post_class('ast-article-single'); ?> itemscope itemtype="https://schema.org/CreativeWork">
 			<div class="ast-post-format- single-layout-1">
             <div class="entry-content clear" data-ast-blocks-layout="true" itemprop="text">
-<!-- banner section  -->
-<div class="white-paper-banner">
-    <div class="white-paper-hero-banner">
-        <div class="left-text-box">
-            <h2 class="small-size white-paper-text-above-title"><?php echo ($post_type); ?></h2>
-            <p class="largest-size white-paper-title"><?php echo $banner_title; ?></p>
-            <h2 class="small-size white-paper-minute-read"><?php echo ($minute_read); ?></h2>
-                <h2 class="small-size white-paper-download-artical"><?php echo ($text_above_button_in_banner); ?></h2>
-                        <button class="custom-button white-paper-download-button open-download-popup">
-                            <?php echo ($banner_button_text); ?>
-                        </button>
-                    
-        </div>
-        <div class="right-container">
-            <div class="white-paper-border"></div>
-            <div class="right-img manual-lazy-load"
-                data-src="<?php echo ($banner_image); ?>"
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
-            </div>
+<!--DONE: banner section  -->
 
+<div class="webinar-banner">
+    <div class="banner-area manual-lazy-load" data-src="<?php> echo($banner_image) ?>" style="background: linear-gradient(0deg, rgba(5, 9, 14, 0.67) 14.88%, rgba(67, 102, 143, 0.00) 66.9%, rgba(58, 88, 123, 0.09) 70.37%, rgba(5, 9, 14, 0.60) 93.85%), url('data:image/svg+xml,%3Csvgxmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1 1\'%3E%3C/svg%3E') lightgray -147.207px -35.184px / 110.167% 106.667% no-repeat;">
+        <!-- DEBUG: -->
+        <div class="svg-icon open-pardot-play-popup">
+            <svg class="svg-play" xmlns="http://www.w3.org/2000/svg" width="" height="" viewBox="0 0 210 210" fill="none">
+  <g clip-path="url(#clip0_13075_4206)">
+    <mask id="path-1-inside-1_13075_4206" fill="white">
+      <path d="M210 105C210 125.767 203.842 146.068 192.304 163.335C180.767 180.602 164.368 194.06 145.182 202.007C125.996 209.954 104.884 212.034 84.5162 207.983C64.1482 203.931 45.439 193.931 30.7544 179.247C16.0698 164.562 6.06943 145.853 2.01779 125.485C-2.03384 105.118 0.0452732 84.0056 7.99222 64.8194C15.9392 45.6331 29.397 29.2342 46.664 17.6965C63.9309 6.15875 84.2314 0.000327632 104.998 0C132.846 0.00043933 159.553 11.063 179.244 30.7543C198.935 50.4455 209.998 77.1524 209.998 105"/>
+    </mask>
+    <path d="M210 105C210 125.767 203.842 146.068 192.304 163.335C180.767 180.602 164.368 194.06 145.182 202.007C125.996 209.954 104.884 212.034 84.5162 207.983C64.1482 203.931 45.439 193.931 30.7544 179.247C16.0698 164.562 6.06943 145.853 2.01779 125.485C-2.03384 105.118 0.0452732 84.0056 7.99222 64.8194C15.9392 45.6331 29.397 29.2342 46.664 17.6965C63.9309 6.15875 84.2314 0.000327632 104.998 0C132.846 0.00043933 159.553 11.063 179.244 30.7543C198.935 50.4455 209.998 77.1524 209.998 105" fill="#354A60" fill-opacity="0.6"/>
+    <path d="M104.998 0L104.998 -4.53237H104.998L104.998 0ZM210 105H205.468C205.468 124.871 199.575 144.295 188.536 160.817L192.304 163.335L196.073 165.853C208.108 147.84 214.532 126.663 214.532 105H210ZM192.304 163.335L188.536 160.817C177.496 177.338 161.806 190.216 143.448 197.82L145.182 202.007L146.917 206.195C166.931 197.904 184.037 183.865 196.073 165.853L192.304 163.335ZM145.182 202.007L143.448 197.82C125.09 205.424 104.889 207.414 85.4003 203.537L84.5162 207.983L83.632 212.428C104.879 216.654 126.902 214.485 146.917 206.195L145.182 202.007ZM84.5162 207.983L85.4003 203.537C65.9116 199.661 48.01 190.092 33.9593 176.042L30.7544 179.247L27.5496 182.452C42.868 197.77 62.3848 208.202 83.632 212.428L84.5162 207.983ZM30.7544 179.247L33.9593 176.042C19.9086 161.991 10.3398 144.09 6.46307 124.601L2.01779 125.485L-2.42748 126.37C1.79904 147.617 12.2311 167.133 27.5496 182.452L30.7544 179.247ZM2.01779 125.485L6.46307 124.601C2.58633 105.113 4.5757 84.9119 12.1796 66.5538L7.99222 64.8194L3.80483 63.085C-4.48515 83.0994 -6.65401 105.123 -2.42748 126.37L2.01779 125.485ZM7.99222 64.8194L12.1796 66.5538C19.7835 48.1957 32.6605 32.5047 49.1821 21.465L46.664 17.6965L44.1459 13.928C26.1336 25.9638 12.0948 43.0705 3.80483 63.085L7.99222 64.8194ZM46.664 17.6965L49.1821 21.465C65.7037 10.4253 85.1279 4.53269 104.998 4.53237L104.998 0L104.998 -4.53237C83.3349 -4.53203 62.1581 1.89222 44.1459 13.928L46.664 17.6965ZM104.998 0L104.998 4.53237C131.644 4.53279 157.198 15.1179 176.039 33.9591L179.244 30.7543L182.449 27.5494C161.908 7.00821 134.048 -4.53192 104.998 -4.53237L104.998 0ZM179.244 30.7543L176.039 33.9591C194.88 52.8004 205.466 78.3545 205.466 105L209.998 105L214.531 105C214.53 75.9503 202.99 48.0906 182.449 27.5494L179.244 30.7543Z" fill="white" mask="url(#path-1-inside-1_13075_4206)"/>
+    <path d="M148.449 103.512L86.8975 68.7949V137.588L148.449 103.512Z" stroke="white" stroke-width="4.53237" stroke-miterlimit="10"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_13075_4206">
+      <rect width="210" height="210" fill="white"/>
+    </clipPath>
+  </defs>
+</svg> 
+        </div>
+
+        <h1 class="about-us-banner-stmt medium-size"><?php> echo($banner_title) ?></h1>
+
+        <div class="banner-buttons">
+            <button class="webinar-banner-button font-bold custom-button open-pardot-play-popup"><?php> echo($vimeo_popup_button_text) ?></button>
+            <button class="webinar-banner-button font-bold custom-button openSubscribeModal open-subscribe-btn" onclick="console.log('clicked');"><?php> echo($subscribe_popup_button_text) ?></button>
         </div>
     </div>
 </div>
+
 				<!-- space below the banner  -->
 <div aria-hidden="true" class="wp-block-spacer spacer-below-banner-section"></div>
+
 <!-- content frame section  -->
 <div class="main-frame">
     <div class="outer">
