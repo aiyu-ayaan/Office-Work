@@ -136,10 +136,19 @@
 
     @media screen and (max-width: 1024px) {
         .case-study-banner {
-            height: 94.03%;
-            height: 94.03vh;
+            height: 94.03dvh; /* Dynamic viewport height */
             min-height: fit-content;
 
+            @supports not (height: 1dvh) {
+            height: 94.03vh;
+        }
+        
+        /* Firefox-specific override */
+        @supports (-moz-appearance: none) {
+            height: auto;
+            min-height: 94.03vh;
+        }
+            
             .case-study-hero-banner {
                 padding: 11.52% 4.8% 14.39%;
                 /* gap: 2.5em; */
@@ -183,7 +192,7 @@
                     }
 
                     .case-study-download-button {
-                        margin-top: 13.65% !important;
+                        margin-top: 3.19% !important;
                     }
                 }
 
@@ -274,9 +283,18 @@
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
         .case-study-banner {
-            height: 97%;
-            height: 97vh;
+            height: 97dvh; /* Dynamic viewport height */
             min-height: fit-content;
+
+            @supports not (height: 1dvh) {
+            height: 97vh;
+        }
+        
+        /* Firefox-specific override */
+        @supports (-moz-appearance: none) {
+            height: auto;
+            min-height: 97vh;
+        }
 
             .case-study-hero-banner {
                 padding: 4.12% 6.17% 18.47%;
@@ -308,7 +326,7 @@
                     }
 
                     .case-study-download-button {
-                        margin-top: 9.1% !important;
+                        margin-top: 4.7% !important;
                     }
                 }
 

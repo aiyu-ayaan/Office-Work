@@ -134,9 +134,19 @@
 
     @media screen and (max-width: 1024px) {
         .user-case-banner {
-            height: 94.03%;
-            height: 94.03vh;
+            height: 94.03dvh; /* Dynamic viewport height */
             min-height: fit-content;
+
+            @supports not (height: 1dvh) {
+            height: 94.03vh;
+        }
+        
+        /* Firefox-specific override */
+        @supports (-moz-appearance: none) {
+            height: auto;
+            min-height: 94.03vh;
+        }
+            
 
             .user-case-hero-banner {
                 padding: 11.52% 4.8% 21.11%;
@@ -181,7 +191,7 @@
                     }
 
                     .user-case-download-button {
-                        margin-top: 13.65% !important;
+                        margin-top: 3.19% !important;
                     }
                 }
 
@@ -273,10 +283,18 @@
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
         .user-case-banner {
-            height: 97%;
-            height: 97vh;
+            height: 97dvh; /* Dynamic viewport height */
             min-height: fit-content;
 
+            @supports not (height: 1dvh) {
+            height: 97vh;
+        }
+        
+        /* Firefox-specific override */
+        @supports (-moz-appearance: none) {
+            height: auto;
+            min-height: 97vh;
+        }
             .user-case-hero-banner {
                 padding: 4.12% 6.17% 32.83%;
                 /* gap: 2.5em; */
@@ -307,7 +325,7 @@
                     }
 
                     .user-case-download-button {
-                        margin-top: 9.1% !important;
+                        margin-top: 4.7% !important;
                     }
                 }
 

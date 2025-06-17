@@ -1168,10 +1168,10 @@ function getVimeoVideoDuration($videoUrl) {
     
     $formatted = '';
     if ($hours > 0) {
-        $formatted .= $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ';
+        $formatted .= $hours . ' hour' . ($hours > 1 ? 's' : '') . ' watch';
     }
     if ($minutes > 0) {
-        $formatted .= $minutes . ' min' . ($minutes > 1 ? 's' : '');
+        $formatted .= $minutes . ' min' . ($minutes > 1 ? 's' : ' ') . ' watch';
     }
     if ($hours == 0 && $minutes == 0) {
         $formatted = 'Less than 1 min';
