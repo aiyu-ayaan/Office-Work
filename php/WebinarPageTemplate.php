@@ -89,9 +89,6 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                         </div>
                     </div>
 
-                    <!-- Space below the banner -->
-                    <div aria-hidden="true" class="wp-block-spacer spacer-below-banner-section"></div>
-
                     <!-- Content frame section -->
                     <div class="main-frame">
                         <div class="outer">
@@ -129,7 +126,6 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                                 <div class="inner top">
                                     <div class="text-content-box">
                                         <?php echo wp_kses_post($post_content_frame_section) ?>
-                                    </div>
                                     <button class="toggle-btn collapsed" id="toggleBtn">
                                         <span class="toggle-text">See more</span>
                                         <svg class="arrow-svg" width="50" height="24" viewBox="0 0 50 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,9 +165,7 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                 <div id="copy-notification">
                     Link copied to clipboard!
                 </div>
-                
-                <p class="next-section"></p>
-
+            
                 <!-- Space below content frame -->
                 <div aria-hidden="true" class="wp-block-spacer spacer-below-content-frame"></div>
                 

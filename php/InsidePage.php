@@ -1043,8 +1043,7 @@ function redirect_empty_page_shortcode($atts, $content = null)
 add_shortcode('redirect_empty', 'redirect_empty_page_shortcode');
 
 
-// TODO:My Code 
-
+// DESCRIPTION: My Code 
 
 function get_minutes($post_id, $field_names = null, $videoId = null) {
     // Validate required post_id parameter
@@ -1057,7 +1056,7 @@ function get_minutes($post_id, $field_names = null, $videoId = null) {
     // Check if field_names is provided and get reading time
     if (!empty($field_names)) {
         $reading_time = get_acf_reading_time($post_id, $field_names);
-        if ($reading_time !== '0 min read') {
+        if ($reading_time !== '0 minute read') {
             $results[] = $reading_time;
         }
     }
@@ -1106,7 +1105,7 @@ function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     }
 
     if (empty(trim($total_content))) {
-        return '0 min read';
+        return '0 minute read';
     }
 
     // Strip HTML tags and shortcodes to get plain text
@@ -1119,7 +1118,7 @@ function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     $minutes = ceil($word_count / 200);
 
     // Return formatted string
-    return $minutes . ' min' . ($minutes > 1 ? 's' : '') . ' read';
+    return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' read';
 }
 
 function getVimeoVideoDuration($videoUrl) {
@@ -1171,10 +1170,10 @@ function getVimeoVideoDuration($videoUrl) {
         $formatted .= $hours . ' hour' . ($hours > 1 ? 's' : '') . ' watch';
     }
     if ($minutes > 0) {
-        $formatted .= $minutes . ' min' . ($minutes > 1 ? 's' : ' ') . ' watch';
+        $formatted .= $minutes . ' minute' . ($minutes > 1 ? 's' : ' ') . ' watch';
     }
     if ($hours == 0 && $minutes == 0) {
-        $formatted = 'Less than 1 min';
+        $formatted = 'Less than 1 minute';
     }
     
     return trim($formatted);
@@ -1204,10 +1203,22 @@ function extractVimeoVideoId($url) {
     return null;
 }
 
+function get_post_read_minutes($post_id, $post_type_name) {
+    if ($post_type_name === 'Webinar' || $post_type_name === 'Video') {
+         $videoId = get_field('acf_pardot_vimeo_video_url', $post_id);
+         $minutes = get_minutes($post_id, null, $videoId);
+     } else {
+         $minutes = get_minutes($post_id, ['acf_post_content_frame_section']);
+         if (is_numeric($minutes)) {
+             $minutes = $minutes . ' minute' . ($minutes == 1 ? '' : 's');
+         } 
+     }
+ 
+     return $minutes !== null ? $minutes : "N/A";
+}
+ 
 
-
-// TODO:End
-
+// DESCRIPTION: Fetch posts with pagination and featured posts logic
 
 function fetch_posts() {
 	if (!function_exists('get_field')) {
@@ -1240,13 +1251,8 @@ function fetch_posts() {
             $image = get_the_post_thumbnail_url(get_the_ID(), 'full') ?: '/wp-content/uploads/2025/04/Service-Sub-Service-General-Our-Offerings-and-Capabilities-Texture.webp';
             $post_types = get_the_terms(get_the_ID(), 'post_type_category');
             $post_type_name = !empty($post_types) && !is_wp_error($post_types) ? $post_types[0]->name : 'Uncategorized';
-			
-            if ($post_type_name === 'Webinar' || $post_type_name === 'Video') {
-                $videoId = get_field('acf_pardot_vimeo_video_url', get_the_ID());
-                $cal_read_minutes = get_minutes(get_the_ID(), null, $videoId);
-            } else {
-                $cal_read_minutes = get_minutes(get_the_ID(), ['acf_post_content_frame_section']);
-            }
+            
+            $cal_read_minutes = get_post_read_minutes(get_the_ID(), $post_type_name);
             // check cal_read_minutes is N/A or not
             $read_minutes = $cal_read_minutes !== 'N/A' ? $cal_read_minutes : get_field('acf_read_minutes', get_the_ID());
             $read_minutes_display = !empty($read_minutes) ? esc_html($read_minutes) : 'N/A';
@@ -1299,12 +1305,7 @@ function fetch_posts() {
 
         // Get read_minutes from ACF
         // check if post_type_name is 'Webinar' or 'Video' then get_minutes with videoId
-        if ($post_type_name === 'Webinar' || $post_type_name === 'Video') {
-            $videoId = get_field('acf_pardot_vimeo_video_url', get_the_ID());
-            $cal_read_minutes = get_minutes(get_the_ID(), null, $videoId);
-        } else {
-            $cal_read_minutes = get_minutes(get_the_ID(), ['acf_post_content_frame_section']);
-        }
+        $cal_read_minutes = get_post_read_minutes(get_the_ID(), $post_type_name);
         // check cal_read_minutes is N/A or not
         $read_minutes = $cal_read_minutes !== 'N/A' ? $cal_read_minutes : get_field('acf_read_minutes', get_the_ID());
         $read_minutes_display = !empty($read_minutes) ? esc_html($read_minutes) : 'N/A';
