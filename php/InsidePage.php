@@ -1044,7 +1044,6 @@ add_shortcode('redirect_empty', 'redirect_empty_page_shortcode');
 
 
 // DESCRIPTION: My Code 
-
 function get_minutes($post_id, $field_names = null, $videoId = null) {
     // Validate required post_id parameter
     if (empty($post_id)) {

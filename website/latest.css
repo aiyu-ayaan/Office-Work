@@ -1,0 +1,640 @@
+/* global font size fluid */
+html {
+  font-size: 16px !important;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div {
+  font-family: "Montserrat", "Verdana", sans-serif !important;
+}
+
+
+.our-offerings-container a.no-text-decor {
+  text-decoration: none;
+}
+
+:root {
+  *:focus {
+    outline: none;
+  }
+
+  .font-boldest {
+    font-weight: 700;
+  }
+
+  .font-bolder {
+    font-weight: 600;
+  }
+
+  .font-bold {
+    font-weight: 500;
+  }
+
+  .font-normal {
+    font-weight: 400;
+  }
+
+  h1,
+  h3,
+  h4,
+  h5,
+  a,
+  p {
+    text-transform: none;
+    color: #fff;
+    margin-bottom: 0;
+    line-height: normal;
+  }
+
+  a.underline-on-hover span {
+    font-weight: 500;
+  }
+
+  div {
+    line-height: normal;
+  }
+
+  h2 {
+    text-transform: none !important;
+  }
+
+  @media screen and (min-width:320px) and (max-width: 767.5px) {
+    .abt-grad-desc {
+      font-size: clamp(1rem, 0.285rem + 3.575vw, 2rem);
+    }
+  }
+
+  @media screen and (max-width: 390px) {
+    .largest-size {
+      font-size: clamp(1.405rem, -1.354rem + 13.797vw, 2rem) !important;
+    }
+
+    .large-size {
+      font-size: clamp(1.2rem, -0.191rem + 6.957vw, 1.5rem) !important;
+    }
+
+    .medium-size {
+      font-size: clamp(0.95rem, -0.441rem + 6.957vw, 1.25rem) !important;
+    }
+
+    .small-size{
+      font-size: clamp(0.825rem, -0.566rem + 6.957vw, 1.125rem) !important;
+    }
+
+    .post-content {
+
+      ul,
+      li,
+      p,
+      div {
+        font-size: clamp(0.825rem, -0.566rem + 6.957vw, 1.125rem);
+      }
+    }
+
+    .smaller-size,
+    footer .menu-item {
+      font-size: clamp(0.875rem, 0.304rem + 2.857vw, 1rem) !important;
+    }
+
+    footer .menu-item {
+      font-size: 14px !important;
+    }
+
+    .smallest-size {
+      font-size: clamp(0.75rem, -0.393rem + 5.714vw, 1rem) !important;
+    }
+  }
+
+  @media screen and (min-width: 391px) and (max-width: 767.5px) {
+    .largest-size {
+      font-size: clamp(2rem, 1.484rem + 2.116vw, 2.5rem) !important;
+    }
+
+    .large-size {
+      font-size: clamp(1.5rem, 1.371rem + 0.529vw, 1.625rem) !important;
+    }
+
+    .medium-size {
+      font-size: clamp(1.25rem, 1.121rem + 0.529vw, 1.375rem) !important;
+    }
+
+    .small-size {
+      font-size: clamp(1.125rem, 0.996rem + 0.529vw, 1.25rem) !important;
+    }
+
+    .post-content {
+
+      ul,
+      li,
+      p,
+      div {
+        font-size: clamp(1.125rem, 0.996rem + 0.529vw, 1.25rem);
+      }
+    }
+
+    .smallest-size {
+      font-size: clamp(1rem, 1rem + 0vw, 1rem) !important;
+    }
+
+    .smaller-size,
+    footer .menu-item {
+      font-size: clamp(1rem, 1rem + 0vw, 1rem) !important;
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1193.5px) {
+    .largest-size {
+      font-size: clamp(2.23rem, 1.509rem + 1.502vw, 2.63rem) !important;
+    }
+
+    .large-size {
+      font-size: clamp(1.425rem, -0.378rem + 3.756vw, 2.425rem) !important;
+    }
+
+    .medium-size {
+      font-size: clamp(1.225rem, 0.504rem + 1.502vw, 1.625rem) !important;
+    }
+
+    .small-size {
+      font-size: clamp(1.11rem, 0.677rem + 0.901vw, 1.35rem) !important;
+    }
+
+    .post-content {
+
+      ul,
+      li,
+      p,
+      div {
+        font-size: clamp(1.11rem, 0.677rem + 0.901vw, 1.35rem);
+      }
+    }
+
+    .smallest-size {
+      font-size: clamp(0.813rem, 0.474rem + 0.704vw, 1rem) !important;
+    }
+
+    .smaller-size,
+    footer .menu-item {
+      font-size: clamp(0.875rem, 0.424rem + 0.939vw, 1.125rem) !important;
+    }
+  }
+
+  @media screen and (min-width: 1193.98px) and (max-width: 1194.5px),
+  screen and (min-width: 833.98px) and (max-width: 834.5px) and (orientation:portrait) {
+    .largest-size {
+      font-size: 44px !important;
+    }
+
+    .large-size {
+      font-size: 40px !important;
+    }
+
+    .medium-size {
+      font-size: 28px !important;
+    }
+
+    .small-size {
+      font-size: 24px !important;
+    }
+
+    .post-content {
+
+      ul,
+      li,
+      p,
+      div {
+        font-size: 24px;
+      }
+    }
+
+    .smallest-size {
+      font-size: 16px !important;
+    }
+
+    .smaller-size,
+    footer .menu-item {
+      font-size: 18px !important;
+    }
+  }
+
+  @media screen and (min-width: 1195px) and (max-width: 1280.5px) {
+    .largest-size {
+      font-size: clamp(2.23rem, -1.611rem + 5.143vw, 2.5rem) !important
+    }
+
+    .large-size {
+      font-size: clamp(2rem, 0.244rem + 2.353vw, 2.125rem) !important;
+    }
+
+    .medium-size {
+      font-size: clamp(1.313rem, 0.442rem + 1.167vw, 1.375rem) !important;
+    }
+
+    .small-size {
+      font-size: clamp(1.25rem, 0.365rem + 1.186vw, 1.313rem) !important;
+    }
+
+    .post-content {
+
+      ul,
+      li,
+      p,
+      div {
+        font-size: clamp(1.25rem, 0.365rem + 1.186vw, 1.313rem);
+      }
+    }
+
+    .smallest-size {
+      font-size: 16px !important;
+    }
+
+    .smaller-size,
+    footer .menu-item {
+      font-size: 18px !important;
+    }
+  }
+
+  @media screen and (min-width: 1281px) and (max-width: 1439.5px) {
+    .largest-size {
+      font-size: clamp(1.925rem, -8.675rem + 13.25vw, 3.25rem) !important;
+    }
+
+    .large-size {
+      font-size: clamp(1.625rem, -2.375rem + 5vw, 2.125rem) !important;
+    }
+
+    .medium-size {
+      font-size: clamp(1.225rem, -2.975rem + 5.25vw, 1.75rem) !important;
+    }
+
+    .small-size {
+      font-size: clamp(1.225rem, -0.975rem + 2.75vw, 1.5rem) !important;
+    }
+
+    .post-content {
+
+      ul,
+      li,
+      p,
+      div {
+        font-size: clamp(1.225rem, -0.975rem + 2.75vw, 1.5rem);
+      }
+    }
+
+    .smallest-size {
+      font-size: clamp(1rem, 1rem + 0vw, 1rem) !important;
+    }
+
+    .smaller-size,
+    footer .menu-item {
+      font-size: clamp(1.063rem, -0.448rem + 1.887vw, 1.25rem) !important;
+    }
+  }
+
+  @media screen and (min-width: 1440px) and (max-width: 1920.5px) {
+    .largest-size {
+      font-size: clamp(3.25rem, -0.5rem + 4.167vw, 4.5rem) !important;
+    }
+
+    .large-size {
+      font-size: clamp(2.375rem, 0.5rem + 2.083vw, 3rem) !important;
+    }
+
+    .medium-size {
+      font-size: clamp(1.875rem, 0rem + 2.083vw, 2.5rem) !important;
+    }
+
+    .small-size {
+      font-size: clamp(1.5rem, -0.004rem + 1.67vw, 2rem) !important;
+    }
+
+    .post-content {
+
+      ul,
+      li,
+      p,
+      div {
+        font-size: clamp(1.5rem, -0.004rem + 1.67vw, 2rem);
+      }
+    }
+
+    .smallest-size {
+      font-size: clamp(1rem, 0.624rem + 0.418vw, 1.125rem) !important;
+    }
+
+    .smaller-size,
+    footer .menu-item {
+      font-size: clamp(1.25rem, 0.498rem + 0.835vw, 1.5rem) !important;
+    }
+  }
+
+  @media screen and (min-width: 1921px) {
+    .largest-size {
+      font-size: 72px !important;
+    }
+
+    .large-size {
+      font-size: 48px !important;
+    }
+
+    .medium-size {
+      font-size: 40px !important;
+    }
+
+    .small-size {
+      font-size: 32px !important;
+    }
+
+    .post-content {
+
+      ul,
+      li,
+      p,
+      div {
+        font-size: 32px;
+      }
+    }
+
+    .smaller-size,
+    footer .menu-item {
+      font-size: 24px !important;
+    }
+
+    .smallest-size {
+      font-size: 18px !important;
+    }
+  }
+
+  .larger-size {
+    font-size: clamp(2rem, -1.289rem + 4.408vw, 4rem) !important;
+  }
+
+  .custom-button,
+  .wp-block-button__link.wp-element-button,
+  .about-our-people .cta-button {
+    min-width: 248px;
+    min-height: 40px;
+    padding: 0 10px;
+    align-content: center;
+    /* 		display:inline-flex;
+		align-items:center;
+		justify-content:center; */
+  }
+
+  @media screen and (max-width: 1024px) {
+
+    .custom-button,
+    .global-secondary-button,
+    .wp-block-button__link.wp-element-button {
+      min-width: 176px;
+      height: 48px;
+    }
+  }
+}
+
+:root {
+  --adro-deep-blue: #1a2c47;
+  --adro-mid-blue: #144074;
+  --adro-blue: #2d79a6;
+  --adro-yellow: #f2cc05;
+  --adro-electric-blue: #00ccff;
+  --adro-electric-green: #23E4BA;
+  --adro-magenta: #b175ff;
+  --adro-deep-purple: #2e039b;
+  --adro-light-seagreen: #03b7b7;
+  --adro-lilac: #78a0f6;
+  --ia-btn-hover-color: #007a99;
+  --qe-btn-hover-color: #7f48c5;
+  --de-btn-hover-color: #5173bd;
+  --dea-btn-hover-color: #018484;
+}
+
+.color-ia {
+  color: var(--adro-electric-blue);
+}
+
+.color-qe {
+  color: var(--adro-magenta);
+}
+
+.color-dea {
+  color: var(--adro-light-seagreen);
+}
+
+.color-de {
+  color: var(--adro-lilac);
+}
+
+.section-central-heading {
+  text-align: center;
+  /* line-height: 1.35 !important; */
+  margin-top: 0;
+  margin-bottom: 2.9% !important;
+}
+
+@media screen and (min-width:1281px) {
+  .featured-insight-header-area {
+    .main-header {
+      margin: 0;
+    }
+  }
+}
+
+.section-header-container {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  padding: 0 3.34%;
+
+  .main-header {
+    width: 100%;
+  }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .section-header-container {
+    padding: 0 4.8%;
+  }
+}
+
+@media screen and (max-width: 767.5px) {
+  .section-header-container {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* our industry section fonts */
+@media screen and (max-width: 1280px) {
+  .industry-title-font {
+    font-size: 18px !important;
+  }
+}
+
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+  .industry-title-font {
+    font-size: 24px !important;
+  }
+}
+
+@media screen and (min-width: 1441px) and (max-width: 1920px) {
+  .industry-title-font {
+    font-size: clamp(1.5rem, -0.004rem + 1.67vw, 2rem) !important;
+  }
+}
+
+@media screen and (min-width: 1921px) {
+  .industry-title-font {
+    font-size: 32px !important;
+  }
+}
+
+.who-we-are-btn .wp-block-button__link.wp-element-button {
+  min-width: 296px;
+}
+
+@media screen and (max-width:1024px) {
+
+  .who-we-are-btn .wp-block-button__link.wp-element-button,
+  .below-homepage-banner .custom-button,
+  footer #block-21 .wp-block-button__link.wp-element-button,
+  .about-our-people .cta-button {
+    min-width: 280px !important;
+  }
+}
+
+/* custom cta for desktop in service pages */
+.service-button-cta {
+  text-decoration: none !important;
+  text-wrap: nowrap;
+}
+
+@media screen and (max-width: 1024px) {
+  .service-button-cta {
+    display: none;
+  }
+
+  .service-btn-solid {
+    display: block !important;
+  }
+
+  .section-central-heading {
+    margin-bottom: 10.3% !important;
+  }
+}
+
+.service-button-cta:after {
+  content: "";
+  display: inline-block;
+  width: 3em;
+  aspect-ratio: 2;
+  margin: 0 2%;
+  vertical-align: middle;
+  background: url(/wp-content/uploads/2025/01/Icon-button-desktop-Laptop-tablet-Mobile-menu-3.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Service button for mobile and tablet */
+.service-btn-solid {
+  display: none;
+  color: var(--adro-deep-blue);
+  border: none;
+}
+
+.service-btn-solid:hover {
+  color: white;
+}
+
+/* service get in touch button in hero section hover transparent*/
+.industry-get-in-touch {
+  background-color: var(--adro-deep-blue);
+  border-color: var(--adro-electric-blue);
+}
+
+.service-get-in-touch {
+  background-color: var(--adro-deep-blue);
+  border-color: var(--adro-deep-blue);
+}
+
+.service-get-in-touch:hover {
+  color: var(--adro-deep-blue);
+  border-color: var(--adro-deep-blue);
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/*Our Services Home Page*/
+@media screen and (min-width: 768px) and (max-width: 1280px) and (orientation: portrait) {
+  .our-services-container .section-central-heading {
+    margin-bottom: 5.8% !important;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
+  .our-services-container .section-central-heading {
+    margin-bottom: 4.05% !important;
+  }
+}
+
+/* used in cta where  arrow is added who we are cookie etc. */
+.learn-more-btn {
+  text-wrap: nowrap;
+}
+
+.learn-more-btn:after {
+  content: '';
+  display: inline-block;
+  width: 17%;
+  aspect-ratio: 2;
+  margin: 0 3%;
+  vertical-align: middle;
+  background: url(/wp-content/uploads/2025/01/Property-1Icon-Property-2DT-LT-menu-Property-3Electric-blue.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* post color theme variable definition */
+:root {
+  /* fallback or default if no theme class is present */
+  --post-primary-color: var(--adro-electric-green);
+  --post-hover-color: #218838;
+  --gradient-color: linear-gradient(45deg, #28a745, #218838);
+}
+
+/* .theme-generic,.theme-green {
+  --post-primary-color: var(--adro-electric-green);
+   --post-hover-color: #218838; 
+  --gradient-color: linear-gradient(45deg, #28a745, #218838);
+} */
+
+.theme-ia {
+  --post-primary-color: var(--adro-electric-blue);
+  --post-hover-color: var(--ia-btn-hover-color);
+  --gradient-color: linear-gradient(45deg, #007bff, #0056b3);
+}
+
+.theme-de {
+  --post-primary-color: var(--adro-lilac);
+  --post-hover-color: var(--de-btn-hover-color);
+  --gradient-color: linear-gradient(45deg, #dc3545, #bd2130);
+}
+
+.theme-qa {
+  --post-primary-color: var(--adro-magenta);
+  --post-hover-color: var(--qa-btn-hover-color);
+  --gradient-color: linear-gradient(45deg, #fd7e14, #e8590c);
+}
+
+.theme-dea {
+  --post-primary-color: var(--adro-light-seagreen);
+  --post-hover-color: var(--dea-btn-hover-color);
+  --gradient-color: linear-gradient(45deg, #fd7e14, #e8590c);
+}

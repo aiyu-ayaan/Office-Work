@@ -68,7 +68,7 @@ body,h1,h2,h3,h4,h5,h6,p,div{
         font-size: clamp(0.95rem, -0.441rem + 6.957vw, 1.25rem) !important;
       }
   
-      .small-size, {
+      .small-size {
         font-size: clamp(0.825rem, -0.566rem + 6.957vw, 1.125rem) !important;
       }
 	  .post-content {
@@ -516,6 +516,7 @@ body,h1,h2,h3,h4,h5,h6,p,div{
         background-size: contain;
         background-repeat: no-repeat;
     }
+  }
 
-
+  
   
