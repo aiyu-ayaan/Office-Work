@@ -56,15 +56,15 @@
             }
 
             .case-study-download-button {
-                background-color: var(--adro-electric-green);
-                border-color: var(--adro-electric-green);
+                background-color: var(--post-primary-color);
+                border-color: var(--post-primary-color);
                 color: var(--adro-deep-blue);
                 margin-top: 2.79% !important;
             }
 
             .case-study-download-button:hover {
-                background-color: var(--dea-btn-hover-color);
-                border-color: var(--dea-btn-hover-color);
+                background-color: var(--post-hover-color);
+                border-color: var(--post-hover-color);
                 color: white;
             }
 
@@ -86,7 +86,7 @@
                     margin-right: 12.54%;
                     margin-top: 2.16%;
                     z-index: 2;
-                    filter: drop-shadow(0px 0px 30px rgba(35, 228, 186, 0.80));
+                    filter: drop-shadow(0px 0px 30px var(--post-primary-color));
                 }
 
                 .case-study-border {
@@ -97,7 +97,7 @@
                     aspect-ratio: 708 / 708;
                     border-radius: 708px;
                     margin-left: 9.44%;
-                    border: 2px solid #23E4BA;
+                    border: 2px solid var(--post-primary-color);
                     z-index: 1;
                 }
             }
@@ -216,6 +216,7 @@
                         margin-right: 13.46%;
                         margin-left: auto;
                         margin-bottom: 3.56%;
+                    background-size: contain;
                     }
 
 
@@ -242,24 +243,54 @@
                     height: -moz-max-content;
                 }
 
+                
                 .case-study-hero-banner {
                     padding: 11.54% 3.4% 3.4%;
                     flex-wrap: nowrap;
-                    gap: 0;
                     align-items: start;
 
                     .left-text-box {
                         width: 52.64%;
                         padding-left: 0;
-                        gap: 1.5em;
+
+                        .case-study-download-button {
+                            min-width: 176px;
+                            min-height: 48px;
+                        }
+
+                        .case-study-text-above-title {
+                            margin-top: 4.25% !important;
+                            width: 47.75%;
+                        }
+
+                        .case-study-title {
+                            width: 100%;
+                            margin-top: 2.23% !important
+                        }
+
+                        .case-study-minute-read {
+                            margin-top: 3.19% !important;
+                            width: 66.59%;
+                        }
+
+                        .case-study-download-artical {
+                            margin-top: 7.43% !important;
+                            width: 76.55%;
+                        }
+
+                        .case-study-download-button {
+                            margin-top: 3.19% !important;
+                        }
                     }
 
                     .right-container {
-                        width: 52.4%;
+                                           width: 47.4%;
                         background-position: bottom;
-                        margin-top: 10%;
+                        margin-top: 5%;
                         position: relative;
                         margin-left: auto;
+                        margin-right: 2% !important;
+
 
                         @supports (-moz-appearance: none) {
                             height: 43.09vh;

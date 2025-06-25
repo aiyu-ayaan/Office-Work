@@ -1086,20 +1086,15 @@ function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     }
     
     // Loop through each field and concatenate content
-    foreach ($field_names as $field_name) {
-        $content = get_field($field_name, $post_id);
-        
-        // Check if content exists and is not false/null/empty
-        if ($content && !empty($content)) {
-            // Handle different field types
-            if (is_array($content)) {
-                // If it's an array (like repeater fields), extract text from each item
-                $content = implode(' ', array_map(function($item) {
-                    return is_array($item) ? implode(' ', $item) : $item;
-                }, $content));
-            }
-            
-            $total_content .= ' ' . $content;
+    foreach ($content as $item) {
+        if (is_array($item)) {
+            // If nested array, flatten it
+            $total_content .= ' ' . implode(' ', array_map(function($subitem) {
+                $subitem = is_array($subitem) ? implode(' ', $subitem) : $subitem;
+                return html_entity_decode($subitem, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            }, $item));
+        } else {
+            $total_content .= ' ' . html_entity_decode($item, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         }
     }
 
@@ -1206,7 +1201,33 @@ function get_post_read_minutes($post_id, $post_type_name) {
     if ($post_type_name === 'Webinar' || $post_type_name === 'Video') {
          $videoId = get_field('acf_pardot_vimeo_video_url', $post_id);
          $minutes = get_minutes($post_id, null, $videoId);
-     } else {
+     }elseif($post_type_name === 'Use Case' || $post_type_name ==='Case Study'){
+        $content_frame_left_container =''
+        $content_frame_text_above_button = '';
+        $content_frame_button_text = '';
+        $content_frame_benefits = '';
+        $content_frame_accordion = '';
+        $post_content_frame_section = get_field('acf_usecase_content_frame',$post_id)?? '';
+        if (!empty($post_content_frame_section)) {
+            $content_frame_left_container = $post_content_frame_section['acf_usecase_content_frame_left_container']?? '';
+            $content_frame_text_above_button = $post_content_frame_section['acf_usecase_text_above_button']?? '';
+            $content_frame_button_text = $post_content_frame_section['acf_content_frame_usecase_button_text']?? '';
+            $content_frame_benefits = $post_content_frame_section['acf_usecase_content_frame_benefits']?? '';
+            $content_frame_accordion = $post_content_frame_section['acf_usecase_content_frame_accordion']?? '';
+        } 
+        // Collect all accordion titles and contents into a single string
+        $accordion_text = '';
+        if (!empty($content_frame_accordion)&& is_array($content_frame_accordion)) {
+            foreach ($content_frame_accordion as $row) {
+            $accordion_title = isset($row['acf_usecase_accordion_title']) ? strip_tags($row['acf_usecase_accordion_title']) : '';
+            $accordion_content = isset($row['acf_usecase_accordion_content']) ? strip_tags($row['acf_usecase_accordion_content']) : '';
+            $accordion_text .= $accordion_title . ' ' . $accordion_content . ' ';
+            }
+        }
+
+        $minutes = get_minutes($post_id, null, null, [$content_frame_left_container, $content_frame_benefits,$accordion_text]);
+     }
+      else {
          $minutes = get_minutes($post_id, ['acf_post_content_frame_section']);
          if (is_numeric($minutes)) {
              $minutes = $minutes . ' minute' . ($minutes == 1 ? '' : 's');

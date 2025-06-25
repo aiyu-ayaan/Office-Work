@@ -1,5 +1,5 @@
 <?php
-function get_minutes($post_id, $field_names = null, $videoId = null) {
+function get_minutes($post_id, $field_names = null, $videoId = null, $direct_content = null) {
     // Validate required post_id parameter
     if (empty($post_id)) {
         return "N/A";
@@ -10,8 +10,16 @@ function get_minutes($post_id, $field_names = null, $videoId = null) {
     // Check if field_names is provided and get reading time
     if (!empty($field_names)) {
         $reading_time = get_acf_reading_time($post_id, $field_names);
-        if ($reading_time !== '0 min read') {
+        if ($reading_time !== '0 minute read') {
             $results[] = $reading_time;
+        }
+    }
+    
+    // Check if direct_content is provided and calculate reading time
+    if (!empty($direct_content)) {
+        $direct_reading_time = calculate_direct_content_reading_time($direct_content);
+        if ($direct_reading_time !== '0 minute read') {
+            $results[] = $direct_reading_time;
         }
     }
     
@@ -32,6 +40,52 @@ function get_minutes($post_id, $field_names = null, $videoId = null) {
     return implode(' + ', $results);
 }
 
+function calculate_direct_content_reading_time($content) {
+    // Handle array of content
+    if (is_array($content)) {
+        $total_content = '';
+        foreach ($content as $item) {
+            if (is_array($item)) {
+                // If nested array, flatten it
+                $total_content .= ' ' . implode(' ', array_map(function($subitem) {
+                    $subitem = is_array($subitem) ? implode(' ', $subitem) : $subitem;
+                    return html_entity_decode($subitem, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                }, $item));
+            } else {
+                $total_content .= ' ' . html_entity_decode($item, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            }
+        }
+        $content = $total_content;
+    }
+    
+    // Convert to string if not already
+    $content = (string)$content;
+    
+    if (empty(trim($content))) {
+        return '0 minute read';
+    }
+
+    // Strip HTML tags and shortcodes to get plain text
+    // First strip shortcodes, then HTML tags for better cleaning
+    $text_content = strip_shortcodes($content);
+    $text_content = wp_strip_all_tags($text_content);
+    
+    // Additional HTML cleaning in case wp_strip_all_tags doesn't catch everything
+    $text_content = html_entity_decode($text_content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $text_content = strip_tags($text_content);
+    
+    // Remove extra whitespaces and normalize
+    $text_content = preg_replace('/\s+/', ' ', trim($text_content));
+
+    // Count words
+    $word_count = str_word_count($text_content);
+
+    // Calculate read time (assuming 200 words per minute)
+    $minutes = ceil($word_count / 200);
+
+    // Return formatted string
+    return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' read';
+}
 function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     $total_content = '';
     
@@ -59,7 +113,7 @@ function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     }
 
     if (empty(trim($total_content))) {
-        return '0 min read';
+        return '0 minute read';
     }
 
     // Strip HTML tags and shortcodes to get plain text
@@ -72,7 +126,7 @@ function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     $minutes = ceil($word_count / 200);
 
     // Return formatted string
-    return $minutes . ' min' . ($minutes > 1 ? 's' : '') . ' read';
+    return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' read';
 }
 
 function getVimeoVideoDuration($videoUrl) {
@@ -81,7 +135,7 @@ function getVimeoVideoDuration($videoUrl) {
     
     // Validate video ID
     if (empty($videoId) || !is_numeric($videoId)) {
-        return "Error: Invalid Vimeo video URL or ID provided";
+        return 'N/A';
     }
     
     // Vimeo oEmbed API endpoint
@@ -92,7 +146,7 @@ function getVimeoVideoDuration($videoUrl) {
         'http' => [
             'method' => 'GET',
             'header' => [
-                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'User-Agent: Mozilla/5.0',
                 'Accept: application/json'
             ],
             'timeout' => 30
@@ -102,78 +156,72 @@ function getVimeoVideoDuration($videoUrl) {
     // Get response using file_get_contents
     $response = @file_get_contents($url, false, $context);
     
-    // Check for HTTP errors
+    // Check for HTTP or network errors
     if ($response === false) {
-        return "Error: Unable to fetch video data from Vimeo";
+        return 'N/A';
     }
     
-    // Parse JSON response
+    // Decode JSON
     $data = json_decode($response, true);
     
-    // Check if JSON parsing was successful
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        return "Error: Invalid response from Vimeo API";
+    if (json_last_error() !== JSON_ERROR_NONE || !isset($data['duration']) || !is_numeric($data['duration'])) {
+        return 'N/A';
     }
     
-    // Check if duration is available
-    if (!isset($data['duration']) || !is_numeric($data['duration'])) {
-        return "Error: Video duration not available";
-    }
-    
-    // Format and return duration with labels (ignore seconds)
+    // Format duration
     $seconds = (int)$data['duration'];
     $hours = floor($seconds / 3600);
     $minutes = floor(($seconds % 3600) / 60);
     
-    $formatted = "";
-    
+    $formatted = '';
     if ($hours > 0) {
-        $formatted .= $hours . " hour" . ($hours > 1 ? "s" : "") . " ";
+        $formatted .= $hours . ' hour' . ($hours > 1 ? 's' : '') . ' watch';
     }
-    
     if ($minutes > 0) {
-        $formatted .= $minutes . " min" . ($minutes > 1 ? "s" : "");
+        $formatted .= $minutes . ' minute' . ($minutes > 1 ? 's' : ' ') . ' watch';
     }
-    
-    // If video is less than 1 minute, show "Less than 1 min"
     if ($hours == 0 && $minutes == 0) {
-        $formatted = "Less than 1 min";
+        $formatted = 'Less than 1 minute';
     }
     
     return trim($formatted);
 }
 
-
 function extractVimeoVideoId($url) {
-    // If it's already just a numeric ID, return it
     if (is_numeric($url)) {
         return $url;
     }
-    
-    // Handle different Vimeo URL formats
+
     $patterns = [
-        '/vimeo\.com\/(\d+)/',                    // https://vimeo.com/123456789
-        '/vimeo\.com\/video\/(\d+)/',             // https://vimeo.com/video/123456789
-        '/player\.vimeo\.com\/video\/(\d+)/',     // https://player.vimeo.com/video/123456789
-        '/vimeo\.com\/channels\/[^\/]+\/(\d+)/',  // https://vimeo.com/channels/channel/123456789
-        '/vimeo\.com\/groups\/[^\/]+\/videos\/(\d+)/', // https://vimeo.com/groups/group/videos/123456789
-        '/vimeo\.com\/album\/\d+\/video\/(\d+)/', // https://vimeo.com/album/123/video/456789
-        '/vimeo\.com\/ondemand\/[^\/]+\/(\d+)/',  // https://vimeo.com/ondemand/movie/123456789
+        '/vimeo\.com\/(\d+)/',
+        '/vimeo\.com\/video\/(\d+)/',
+        '/player\.vimeo\.com\/video\/(\d+)/',
+        '/vimeo\.com\/channels\/[^\/]+\/(\d+)/',
+        '/vimeo\.com\/groups\/[^\/]+\/videos\/(\d+)/',
+        '/vimeo\.com\/album\/\d+\/video\/(\d+)/',
+        '/vimeo\.com\/ondemand\/[^\/]+\/(\d+)/',
     ];
-    
+
     foreach ($patterns as $pattern) {
         if (preg_match($pattern, $url, $matches)) {
             return $matches[1];
         }
     }
-    
+
     return null;
 }
 
-// Usage examples:
-// get_minutes(123); // Returns "N/A" (no field_names or videoId provided)
-// get_minutes(123, 'content_field'); // Returns reading time only
-// get_minutes(123, null, '123456789'); // Returns video duration only
-// get_minutes(123, 'content_field', '123456789'); // Returns "X mins read + Y mins"
-// get_minutes(123, ['field1', 'field2']); // Returns reading time from multiple fields
+function get_post_read_minutes($post_id, $post_type_name) {
+    if ($post_type_name === 'Webinar' || $post_type_name === 'Video') {
+         $videoId = get_field('acf_pardot_vimeo_video_url', $post_id);
+         $minutes = get_minutes($post_id, null, $videoId);
+     } else {
+         $minutes = get_minutes($post_id, ['acf_post_content_frame_section']);
+         if (is_numeric($minutes)) {
+             $minutes = $minutes . ' minute' . ($minutes == 1 ? '' : 's');
+         } 
+     }
+ 
+     return $minutes !== null ? $minutes : "N/A";
+}
 ?>

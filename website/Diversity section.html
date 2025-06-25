@@ -40,7 +40,7 @@
                 text-transform: capitalize;
             }
 
-           
+
 
             .user-case-download-button {
                 border-radius: 50px;
@@ -52,8 +52,8 @@
 
             .user-case-download-button:hover {
                 background-color: var(--ia-btn-hover-color);
-            border-color: var(--ia-btn-hover-color);
-            color: white;
+                border-color: var(--ia-btn-hover-color);
+                color: white;
             }
 
             .right-container {
@@ -62,7 +62,7 @@
                 display: flex;
                 justify-content: start;
                 align-items: center;
-                
+
 
                 .right-img {
                     width: 72%;
@@ -79,16 +79,20 @@
 
                 .user-case-border {
                     position: absolute;
-                top: auto;
-                left: auto;
-                width: 72.46%;
-                aspect-ratio: 497 / 520;
-                z-index: 1;
-                top: 21.18%;
-                right: 21.56%;
-                border-radius: 20px;
-                border: 2px solid var(--adro-electric-blue, #0CF);
+                    top: auto;
+                    left: auto;
+                    width: 72.46%;
+                    aspect-ratio: 497 / 520;
+                    z-index: 1;
+                    top: 21.18%;
+                    right: 21.56%;
+                    border-radius: 20px;
+                    border: 2px solid var(--adro-electric-blue, #0CF);
                 }
+            }
+
+            .diversity-title-tablet-mobile {
+                display: none;
             }
 
 
@@ -128,32 +132,34 @@
             height: 94.03dvh;
 
             @supports not (height: 1dvh) {
-            height: 94.03vh;
-        }
-        
-        /* Firefox-specific override */
-        @supports (-moz-appearance: none) {
-            height: auto;
-            min-height: 94.03vh;
-            min-height:fit-content;
-        }
-            
+                height: 94.03vh;
+            }
+
+            /* Firefox-specific override */
+            @supports (-moz-appearance: none) {
+                height: auto;
+                min-height: 94.03vh;
+                min-height: fit-content;
+            }
+
 
             .user-case-hero-banner {
-                padding: 11.52% 4.8% 21.11%;
-                /* gap: 2.5em; */
+                padding: 0% 4.8% 21.11%;
+                flex-direction: column-reverse;
                 z-index: 1;
-                /* background: linear-gradient(0deg,
-                        #0cf 2.81%,
-                        #06a8d6 32.15%,
-                        #135677 82.85%,
-                        #1a2c47 108.58%),
-                    #fff;
-                     */
                 justify-content: start;
+
+                .diversity-title-tablet-mobile {
+                    display: block;
+                    width: 100%;
+                    text-align: center;
+                    margin-top: 5.31%;
+                    margin-bottom: 1.07%;
+                }
 
                 .left-text-box {
                     /* gap: 1.5em; */
+                    align-items: center;
 
                     .user-case-download-button {
                         min-width: 176px;
@@ -163,17 +169,19 @@
                     .user-case-text-above-title {
                         margin-top: 4.25% !important;
                         width: 47.75%;
+                        display: none;
                     }
 
                     .user-case-title {
                         width: 100%;
-                        margin-top: 2.23% !important
+                        margin-top: 6.37% !important;
                     }
 
-                
+
 
                     .user-case-download-button {
                         margin-top: 3.19% !important;
+                        margin-top: 4.25% !important;
                     }
                 }
 
@@ -181,35 +189,32 @@
                     margin-left: 14.6%;
                     margin-right: 14.5%;
                     position: relative;
-                    width: 70.97%;
+                    width: 56.38%;
                     padding: 0px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    aspect-ratio: 535 / 488;
+                    aspect-ratio: 425 / 456;
 
                     .right-img {
                         background-position: right;
-                        width: 94.49%;
-                        aspect-ratio: 501 / 324;
+                        width: 87.05%;
+                        aspect-ratio: 370 / 389;
                         margin-top: 13.09%;
-                        margin-right: 2.62%;
-                        margin-left: 3.74%;
-                        margin-bottom: 17.57%;
+                        margin-right: auto;
+                        margin-left: 2.36%;
+                        margin-bottom: auto;
                     }
 
 
                     .user-case-border {
                         position: absolute;
-                        width: 83.55%;
-                        height: 64.55%;
+                        width: 88%;
                         left: 0;
-                        right: 0;
-                        aspect-ratio: 447 / 315;
-                        margin-left: 2.81%;
-                        margin-top: 19.26%;
-                        margin-right: 8.04%;
-                        margin-bottom: 13.09%;
+                        top: 0;
+                        aspect-ratio: 370 / 389;
+                        margin-left: 10.6%;
+                        margin-top: 3.77%;
                     }
                 }
             }
@@ -265,20 +270,30 @@
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
         .user-case-banner {
-            height: 97dvh; /* Dynamic viewport height */
+            height: 118dvh;
+            /* Dynamic viewport height */
             min-height: fit-content;
 
             @supports not (height: 1dvh) {
-            height: 97vh;
-        }
-        
-        /* Firefox-specific override */
-        @supports (-moz-appearance: none) {
-            height: auto;
-            min-height: 97vh;
-        }
+                height: 118vh;
+            }
+
+            /* Firefox-specific override */
+            @supports (-moz-appearance: none) {
+                height: auto;
+                min-height: 118vh;
+            }
+
+            .diversity-title-tablet-mobile {
+                display: block;
+                width: 100%;
+                text-align: center;
+                margin-top: 11.71%;
+                margin-bottom: 0px !important;
+            }
+
             .user-case-hero-banner {
-                padding: 4.12% 6.17% 32.83%;
+                padding: 0% 6.17% 32.83%;
                 /* gap: 2.5em; */
                 flex-direction: column-reverse;
                 justify-content: unset;
@@ -292,13 +307,13 @@
                     }
 
                     .user-case-title {
-                        margin-top: 4.69% !important;
+                        margin-top: 9.37% !important;
                         width: 100%;
                     }
 
-                  
+
                     .user-case-download-button {
-                        margin-top: 4.7% !important;
+                        margin-top: 11.71% !important;
                     }
                 }
 
@@ -310,31 +325,33 @@
                     margin-right: 0px;
                     justify-content: center;
                     align-items: center;
-                    margin-top: 21.07%;
-                    aspect-ratio: 342 / 312;
+                    margin-top: 9.37%;
+                    aspect-ratio: 342 / 360;
 
                     .right-img {
-                        width: 93.55%;
-                        aspect-ratio: 317 / 207;
-                        background-position: center;
-                        background-repeat: no-repeat;
-                        background-size: cover;
-                        z-index: 2;
-                        margin-top: 13.17%;
-                        margin-right: 3.22%;
-                        margin-left: 4.1%;
-                        margin-bottom: 17.56%;
+                        width: 88.34%;
+                    aspect-ratio: 302 / 312;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    z-index: 2;
+                    margin-top: 11.71%;
+                    margin-right: auto;
+                    margin-left: 1.76%;
+                    margin-bottom: auto;
                     }
 
                     .user-case-border {
                         position: absolute;
-                        width: 88.34%;
-                        aspect-ratio: 302 / 202;
-                        z-index: 1;
-                        margin-top: 19.02%;
-                        margin-right: 8.49%;
-                        margin-left: 3.22%;
-                        margin-bottom: 13.17%;
+                    width: 89.51%;
+                    aspect-ratio: 302 / 312;
+                    z-index: 1;
+                    top: 0px;
+                    left: 0px;
+                    margin-top: 2.35%;
+                    margin-right: auto;
+                    margin-left: 10%;
+                    margin-bottom: auto;
                     }
                 }
 
@@ -349,24 +366,27 @@
             <h2 class="large-size user-case-text-above-title">Diversity, Equity and Inclusiveness
             </h2>
             <p class="small-size user-case-title">
-             Wed encourage and attract people with diverse backgrounds, different perspectives, and vastly varying experiences. This cognitive diversity is key to delivering innovative solutions.
-We cultivate a culture,underpinned by respect at all times, that provides the foundation for a diverse and vibrant organisation​
+                Wed encourage and attract people with diverse backgrounds, different perspectives, and vastly varying
+                experiences. This cognitive diversity is key to delivering innovative solutions.
+                We cultivate a culture,underpinned by respect at all times, that provides the foundation for a diverse
+                and vibrant organisation​
             </p>
-                    
-                        <button class="open-download-popup custom-button user-case-download-button">
-                            Discover who we are
-                        </button>
-                    
+
+            <button class="open-download-popup custom-button user-case-download-button">
+                Discover who we are
+            </button>
+
         </div>
         <div class="right-container">
             <div class="user-case-border">
-            
+
             </div>
-            <div class="right-img manual-lazy-load"
-                data-src="/wp-content/uploads/2025/06/Rectangle-3585.png"
+            <div class="right-img manual-lazy-load" data-src="/wp-content/uploads/2025/06/Rectangle-3585.png"
                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
             </div>
 
         </div>
+        <h2 class="large-size diversity-title-tablet-mobile">Diversity, Equity and Inclusiveness
+        </h2>
     </div>
 </div>
