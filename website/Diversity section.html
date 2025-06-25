@@ -1,5 +1,5 @@
 <style>
-    .user-case-banner {
+    .careers-diversity-banner {
         /* background: linear-gradient(180deg, #1C638D 12.08%, #1A2C47 107.69%); */
         /* background: var(--insight-individual-gradient, linear-gradient(180deg, #1C638D 14.98%, #1A2C47 31.54%)); */
         width: 100%;
@@ -7,8 +7,9 @@
         flex-direction: column;
         margin-bottom: 0px;
         height: 84.45vh;
+        /*margin-bottom: 3.75%; */
 
-        .user-case-hero-banner {
+        .careers-diversity-hero-banner {
             /* background: linear-gradient(180deg, #1C638D 14.98%, #1A2C47 31.54%),#fff; */
             display: flex;
             flex-wrap: nowrap;
@@ -26,14 +27,14 @@
                 text-align: left;
             }
 
-            .user-case-text-above-title {
+            .careers-diversity-text-above-title {
                 margin-top: 23.3% !important;
                 margin-bottom: 0% !important;
                 width: 100%;
                 font-weight: 500;
             }
 
-            .user-case-title {
+            .careers-diversity-title {
                 margin-top: 3.89% !important;
                 width: 100.31%;
                 font-weight: 400;
@@ -42,7 +43,7 @@
 
 
 
-            .user-case-download-button {
+            .careers-diversity-download-button {
                 border-radius: 50px;
                 border: 2px solid var(--adro-electric-blue);
                 background: var(--adro-deep-blue);
@@ -50,7 +51,7 @@
                 margin-top: 2.34% !important;
             }
 
-            .user-case-download-button:hover {
+            .careers-diversity-download-button:hover {
                 background-color: var(--ia-btn-hover-color);
                 border-color: var(--ia-btn-hover-color);
                 color: white;
@@ -77,7 +78,7 @@
                     border-radius: 20px;
                 }
 
-                .user-case-border {
+                .careers-diversity-border {
                     position: absolute;
                     top: auto;
                     left: auto;
@@ -110,8 +111,8 @@
     }
 
     @media screen and (max-width: 1024px) and (orientation: portrait) {
-        .user-case-banner {
-            .user-case-hero-banner {
+        .careers-diversity-banner {
+            .careers-diversity-hero-banner {
                 align-items: start;
                 align-content: space-between;
                 flex-direction: column-reverse;
@@ -128,7 +129,7 @@
     }
 
     @media screen and (max-width: 1024px) {
-        .user-case-banner {
+        .careers-diversity-banner {
             height: 94.03dvh;
 
             @supports not (height: 1dvh) {
@@ -143,7 +144,7 @@
             }
 
 
-            .user-case-hero-banner {
+            .careers-diversity-hero-banner {
                 padding: 0% 4.8% 21.11%;
                 flex-direction: column-reverse;
                 z-index: 1;
@@ -161,25 +162,25 @@
                     /* gap: 1.5em; */
                     align-items: center;
 
-                    .user-case-download-button {
+                    .careers-diversity-download-button {
                         min-width: 176px;
                         min-height: 48px;
                     }
 
-                    .user-case-text-above-title {
+                    .careers-diversity-text-above-title {
                         margin-top: 4.25% !important;
                         width: 47.75%;
                         display: none;
                     }
 
-                    .user-case-title {
+                    .careers-diversity-title {
                         width: 100%;
                         margin-top: 6.37% !important;
                     }
 
 
 
-                    .user-case-download-button {
+                    .careers-diversity-download-button {
                         margin-top: 3.19% !important;
                         margin-top: 4.25% !important;
                     }
@@ -207,7 +208,7 @@
                     }
 
 
-                    .user-case-border {
+                    .careers-diversity-border {
                         position: absolute;
                         width: 88%;
                         left: 0;
@@ -228,16 +229,29 @@
                     height: -moz-max-content;
                 }
 
-                .user-case-hero-banner {
+
+
+                .careers-diversity-hero-banner {
                     padding: 11.54% 3.4% 3.4%;
                     flex-wrap: nowrap;
                     gap: 0;
+                    flex-direction: row;
                     align-items: start;
+
+                    .diversity-title-tablet-mobile {
+                        display: none;
+                    }
 
                     .left-text-box {
                         width: 52.64%;
                         padding-left: 0;
-                        gap: 1.5em;
+                   
+
+                        .careers-diversity-text-above-title {
+
+                            width: 100%;
+                            display: block;
+                        }
                     }
 
                     .right-container {
@@ -245,7 +259,7 @@
                         background-position: bottom;
                         margin-top: 10%;
                         position: relative;
-                        margin-left: auto;
+                        margin-right: 1%;
 
                         @supports (-moz-appearance: none) {
                             height: 43.09vh;
@@ -269,7 +283,7 @@
     }
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
-        .user-case-banner {
+        .careers-diversity-banner {
             height: 118dvh;
             /* Dynamic viewport height */
             min-height: fit-content;
@@ -292,7 +306,7 @@
                 margin-bottom: 0px !important;
             }
 
-            .user-case-hero-banner {
+            .careers-diversity-hero-banner {
                 padding: 0% 6.17% 32.83%;
                 /* gap: 2.5em; */
                 flex-direction: column-reverse;
@@ -301,18 +315,18 @@
                 .left-text-box {
                     /* gap: 1em; */
 
-                    .user-case-text-above-title {
+                    .careers-diversity-text-above-title {
                         margin-top: 7.03% !important;
                         width: 97.41%;
                     }
 
-                    .user-case-title {
+                    .careers-diversity-title {
                         margin-top: 9.37% !important;
                         width: 100%;
                     }
 
 
-                    .user-case-download-button {
+                    .careers-diversity-download-button {
                         margin-top: 11.71% !important;
                     }
                 }
@@ -330,28 +344,28 @@
 
                     .right-img {
                         width: 88.34%;
-                    aspect-ratio: 302 / 312;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    background-size: cover;
-                    z-index: 2;
-                    margin-top: 11.71%;
-                    margin-right: auto;
-                    margin-left: 1.76%;
-                    margin-bottom: auto;
+                        aspect-ratio: 302 / 312;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        z-index: 2;
+                        margin-top: 11.71%;
+                        margin-right: auto;
+                        margin-left: 1.76%;
+                        margin-bottom: auto;
                     }
 
-                    .user-case-border {
+                    .careers-diversity-border {
                         position: absolute;
-                    width: 89.51%;
-                    aspect-ratio: 302 / 312;
-                    z-index: 1;
-                    top: 0px;
-                    left: 0px;
-                    margin-top: 2.35%;
-                    margin-right: auto;
-                    margin-left: 10%;
-                    margin-bottom: auto;
+                        width: 89.51%;
+                        aspect-ratio: 302 / 312;
+                        z-index: 1;
+                        top: 0px;
+                        left: 0px;
+                        margin-top: 2.35%;
+                        margin-right: auto;
+                        margin-left: 10%;
+                        margin-bottom: auto;
                     }
                 }
 
@@ -359,34 +373,3 @@
         }
     }
 </style>
-
-<div class="user-case-banner">
-    <div class="user-case-hero-banner">
-        <div class="left-text-box">
-            <h2 class="large-size user-case-text-above-title">Diversity, Equity and Inclusiveness
-            </h2>
-            <p class="small-size user-case-title">
-                Wed encourage and attract people with diverse backgrounds, different perspectives, and vastly varying
-                experiences. This cognitive diversity is key to delivering innovative solutions.
-                We cultivate a culture,underpinned by respect at all times, that provides the foundation for a diverse
-                and vibrant organisation​
-            </p>
-
-            <button class="open-download-popup custom-button user-case-download-button">
-                Discover who we are
-            </button>
-
-        </div>
-        <div class="right-container">
-            <div class="user-case-border">
-
-            </div>
-            <div class="right-img manual-lazy-load" data-src="/wp-content/uploads/2025/06/Rectangle-3585.png"
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
-            </div>
-
-        </div>
-        <h2 class="large-size diversity-title-tablet-mobile">Diversity, Equity and Inclusiveness
-        </h2>
-    </div>
-</div>
