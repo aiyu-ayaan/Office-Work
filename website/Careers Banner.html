@@ -1,0 +1,448 @@
+<style>
+    .service-banner-sub-menu-together {
+
+        min-height: 88.15vh;
+        height: fit-content;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .service-hero-banner>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-hero-banner::before {
+            content: "";
+            position: absolute;
+            background: linear-gradient(0deg, rgba(67, 102, 143, 0.14) 27.62%, rgba(35, 51, 70, 0.60) 88.81%);
+            inset: 0;
+            z-index: 1;
+            border-radius: 0 0 0 10.41vw;
+            pointer-events: none;
+
+        }
+
+        .career-get-in-touch {
+            background-color: var(--adro-electric-blue);
+            color: var(--adro-deep-blue);
+        }
+
+        .career-get-in-touch:hover {
+            background-color: var(--adro-deep-blue);
+            color: var(--adro-electric-blue);
+            border-color: var(--adro-electric-blue);
+        }
+
+        .service-hero-banner {
+            position: relative;
+            border-radius: 0 0 0 10.41vw;
+            background-size: cover !important;
+            background-position: 80% 17% !important;
+            background-repeat: no-repeat !important;
+            box-shadow: 0px 0px 30px 0px rgba(0, 204, 255, 0.80);
+            margin-bottom: 3.8%;
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            padding: 12.97% 3.34% 5.89%;
+            flex: 1;
+
+            .left-text-box {
+
+                display: flex;
+                padding-left: 6.48%;
+                flex-direction: column;
+                justify-content: start;
+                align-items: flex-start;
+                text-align: left;
+
+                h1 {
+                    margin-bottom: 1.91%;
+                }
+
+                p {
+                    margin-bottom: 1.91%;
+                }
+            }
+        }
+
+        .service-scroll-menu {
+            width: 100%;
+            z-index: 5;
+
+            .service-menu-dropdown-toggle {
+                display: none;
+            }
+
+            .service-menu-dropdown-toggle::after {
+                color: inherit !important;
+                content: '';
+                display: inline-block;
+                min-height: 16px;
+                aspect-ratio: 1;
+                margin: 0 10px;
+                vertical-align: middle;
+                background: url(/wp-content/uploads/2025/03/insurance-drop-down-white.svg);
+                background-size: contain;
+                transform: rotate(180deg);
+                background-repeat: no-repeat;
+                transition: transform 0.3s ease;
+            }
+
+            .service-menu-dropdown-container.open {
+                .service-scroll-list {
+                    display: flex;
+                    justify-content: flex-start;
+                    gap: 5.6%;
+                    flex-direction: row;
+                    margin: 0;
+                    padding: 0.63% 3.34%;
+                    list-style: none;
+
+                    li a {
+                        text-decoration: none;
+
+                    }
+                }
+            }
+        }
+
+        .sticky-service-menu {
+            position: fixed;
+            top: 0;
+            /* background-color: var(--adro-blue); */
+        }
+
+        .non-sticky-service-menu {
+            position: none;
+            /* background: linear-gradient(0deg, #1B4466 0%, #1B4466 100%); */
+        }
+    }
+
+    @media screen and (orientation:portrait) {
+        .service-banner-sub-menu-together {
+            .service-hero-banner {
+                align-items: flex-start;
+                align-content: flex-start;
+                margin-bottom: 2.5em;
+
+                .left-text-box {
+                    width: 100%;
+                    padding-left: 0;
+                }
+            }
+        }
+
+    }
+
+    @media screen and (max-width:1024px) {
+
+        .service-banner-sub-menu-together {
+            min-height: 94.03vh;
+
+            .service-scroll-menu {
+                .service-menu-dropdown-container .service-scroll-list {
+                    li a {
+                        font-size: 18px !important;
+                    }
+                }
+            }
+
+            @media screen and (min-width:768px) and (orientation:portrait) {
+                .service-hero-banner {
+                    background-position: 97% center !important;
+                }
+            }
+
+            .service-hero-banner::before {
+                border-radius: 0 0 0 14.98vw;
+            }
+
+            .service-hero-banner {
+                border-radius: 0 0 0 14.98vw;
+                padding: 26% 4.8% 5%;
+                /* gap: 2.5em; */
+
+                .left-text-box {
+                    /* gap: 1.5em; */
+
+                    h1 {
+                        margin-bottom: 4.25%;
+                    }
+                    p{
+                        margin-bottom:  4.25%;
+                    }
+
+                    .custom-button {
+                        min-width: 176px;
+                    }
+                }
+
+
+            }
+
+            .service-scroll-menu {
+                .service-menu-dropdown-toggle {
+                    display: block;
+                    padding: 0.89em 3.34%;
+                    box-shadow: 0px -2px 10.8px 0px rgba(0, 0, 0, 0.10);
+                    font-size: 18px !important;
+                }
+
+                .service-menu-dropdown-container .service-scroll-list {
+                    box-shadow: inset 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
+                    display: none;
+                }
+
+                .service-menu-dropdown-container.open {
+                    .service-menu-dropdown-toggle::after {
+                        transform: rotate(0deg);
+
+                    }
+
+                    .service-scroll-list {
+                        flex-direction: column;
+                        position: absolute;
+                        background-color: var(--adro-blue);
+                        width: 100%;
+                        padding: 1em 3.34%;
+
+                        li {
+                            padding: 0.34em 0;
+                        }
+                    }
+                }
+            }
+
+            @media screen and (orientation:landscape) {
+                min-height: 78.68vh;
+
+                @supports (-moz-appearance: none) {
+                    height: -moz-max-content;
+                    min-height: 78.68vh;
+                }
+
+                @media screen and (max-height:650px) {
+                    min-height: 100vh;
+                }
+
+                .service-hero-banner::before {
+                    border-radius: 0 0 0 10.47vw;
+                }
+
+                .service-hero-banner {
+                    border-radius: 0 0 0 10.47vw;
+                    padding: 13.41% 6.79% 3.4%;
+                    flex-wrap: nowrap;
+                    gap: 0;
+                    align-items: start;
+                    margin-bottom: 3.36%;
+
+                    .left-text-box {
+                        width: 55.83%;
+                        padding-left: 0;
+                        justify-content: start;
+                        gap: 2em;
+
+                        h1 {
+                            margin-bottom: 0.55em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width:767.5px) and (orientation:portrait) {
+        .service-banner-sub-menu-together {
+            min-height: 97.13vh;
+
+            .service-hero-banner::before {
+                border-radius: 0 0 0 25.64vw;
+            }
+
+            .service-hero-banner {
+                border-radius: 0 0 0 25.64vw;
+                padding: 34.88% 6.16%;
+            
+
+                .left-text-box {
+                 
+
+                    h1 {
+                        margin-bottom: 7%;
+                    }
+                    p {
+                        margin-bottom: 7%;
+                    }
+                }
+            }
+
+            .service-scroll-menu {
+                .service-menu-dropdown-container.open {
+                    .service-scroll-list {
+                        padding: 4.12% 6.16%;
+
+                        li {
+                            padding: 0.38em 0;
+                        }
+                    }
+                }
+
+                .service-menu-dropdown-toggle {
+                    padding: 0.89em 1.34em;
+                    text-align: center;
+                }
+            }
+        }
+    }
+</style>
+<script>document.addEventListener("DOMContentLoaded", () => {
+        const nav = document.querySelector(".service-scroll-menu");
+        const heroBanner = document.querySelector(".service-banner-sub-menu-together");
+        const dropdownToggle = document.querySelector(".service-menu-dropdown-toggle");
+        const dropdownContainer = document.querySelector(".service-menu-dropdown-container");
+        const menuItems = document.querySelectorAll(".service-scroll-list li");
+        const navHeight = nav.getBoundingClientRect().height;
+        let isScrolling = false;
+
+        document.addEventListener("click", (event) => {
+            if (window.matchMedia("(max-width:1024px)").matches) {
+                if (dropdownContainer.classList.contains("open") && !dropdownToggle.contains(event.target) && !dropdownContainer.contains(event.target)) {
+                    dropdownContainer.classList.remove("open");
+                }
+
+                updateJumpBarColor();
+            }
+        });
+
+        nav.querySelectorAll(".submenu a").forEach(function (anchor) {
+            anchor.addEventListener("click", function (event) {
+                event.preventDefault();
+                if (isScrolling) return;
+                isScrolling = true;
+                const targetId = this.getAttribute("href");
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - nav.offsetHeight;
+
+                    smoothScrollTo(targetPosition, 800, () => {
+                        isScrolling = false;
+                    });
+                }
+            });
+        });
+
+        function smoothScrollTo(targetPosition, duration, callback) {
+            let startPosition = window.scrollY;
+            let distance = targetPosition - startPosition;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                let elapsedTime = currentTime - startTime;
+                let progress = Math.min(elapsedTime / duration, 1);
+                let ease = easeInOutQuad(progress);
+
+                window.scrollTo(0, startPosition + distance * ease);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animation);
+                }
+
+                else if (callback) {
+                    callback();
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        function easeInOutQuad(t) {
+            return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+
+        window.addEventListener("scroll", () => {
+            const navTop = nav.getBoundingClientRect().y;
+            const heroBannerBottom = heroBanner.getBoundingClientRect().bottom;
+
+            if (navTop < 0) {
+                nav.classList.add('sticky-service-menu');
+                nav.classList.remove('non-sticky-service-menu');
+
+                nav.parentElement.style.paddingTop = `$ {
+                        nav.offsetHeight
+                    }
+
+                    px`;
+            }
+
+            else if (heroBannerBottom >= navHeight) {
+                nav.classList.add('non-sticky-service-menu');
+                nav.classList.remove('sticky-service-menu');
+                nav.parentElement.style.paddingTop = "0";
+            }
+
+            updateJumpBarColor();
+        });
+
+        const updateJumpBarColor = () => {
+            if (window.innerWidth <= 1024) {
+                if (dropdownContainer.classList.contains("open") || nav.classList.contains("sticky-service-menu")) {
+                    nav.style.background = "var(--adro-blue)";
+                }
+
+                else {
+                    nav.style.background = "linear-gradient(0deg, #1B4466 0%, #1B4466 100%)";
+                }
+            }
+
+            else {
+                if (nav.classList.contains("sticky-service-menu")) {
+                    nav.style.background = "#1B476A";
+                }
+
+                else {
+                    nav.style.background = "rgb(0,0,0,0)";
+                }
+            }
+        }
+
+        const updateDropdownState = () => {
+            if (window.matchMedia("(max-width:1024px)").matches) {
+                dropdownContainer.classList.remove("open");
+            }
+
+            else {
+                dropdownContainer.classList.add("open");
+            }
+
+            updateJumpBarColor();
+        }
+
+            ;
+
+        updateDropdownState();
+        window.addEventListener("resize", updateDropdownState);
+
+        dropdownToggle.addEventListener("click", () => {
+            if (window.matchMedia("(max-width:1024px)").matches) {
+                dropdownContainer.classList.toggle("open");
+                updateJumpBarColor();
+            }
+        });
+
+        menuItems.forEach(item => {
+            item.addEventListener("click", () => {
+                if (window.matchMedia("(max-width:1024px)").matches) {
+                    dropdownContainer.classList.remove("open");
+                }
+
+                updateJumpBarColor();
+            });
+        });
+    });
+
+</script>
