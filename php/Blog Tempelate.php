@@ -17,6 +17,9 @@ if (! defined('ABSPATH')) {
 
 get_header(); ?>
 <?php
+
+
+$creation_date = get_the_date('F Y');
 $blog_author_section = get_field('acf_blog_author_section');
 if (!empty($blog_author_section)) {
   $section_heading = $blog_author_section['acf_blog_author_section_heading'] ?? '';
@@ -25,10 +28,52 @@ if (!empty($blog_author_section)) {
   $button_url = $blog_author_section['acf_blog_author_card_button_url'] ?? '';
   $author_groups = $blog_author_section['acf_blog_single_author'] ?? '';
 }
-$banner_title = get_fields('acf_blog_banner_title');
-$banner_image = get_fields('acf_blog_banner_image');
+$banner_title = get_field('acf_blog_banner_title');
+$banner_image = get_field('acf_blog_banner_image');
+
+// DESCRIPTION: For the blog content frame 
+$all_text_content = '';
+$all_divider_content = '';
+$all_takeaways_heading = '';
+$all_takeaways_content = '';
+
+// Collect both text and divider content (removing HTML tags)
+if (have_rows('acf_blog_content_blocks')):
+  while (have_rows('acf_blog_content_blocks')): the_row();
+    if (get_row_layout() === 'acf_blog_text_block'):
+      $text_content = get_sub_field('acf_blog_text_content');
+      $all_text_content .= strip_tags($text_content) . ' ';
+    elseif (get_row_layout() === 'acf_blog_blue_divider'):
+      $divider_content = get_sub_field('acf_blog_divider_content');
+      $all_divider_content .= strip_tags($divider_content) . ' ';
+    endif;
+  endwhile;
+endif;
+
+// Collect key takeaways content (removing HTML tags)
+$acf_blog_key_takeaways_section = get_field('acf_blog_key_takeaways_section');
+if ($acf_blog_key_takeaways_section):
+  if (!empty($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading'])):
+    $all_takeaways_heading = strip_tags($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading']);
+  endif;
+  
+  if (!empty($acf_blog_key_takeaways_section['acf_key_takeaways_list_items'])):
+    $all_takeaways_content = strip_tags($acf_blog_key_takeaways_section['acf_key_takeaways_list_items']);
+  endif;
+endif;
+
+$quote_text = get_field('acf_quote_text');
+$quote_author = get_field('acf_quote_author');
 
 
+$minute_read = get_minutes(get_the_ID(),null,null,[
+  $all_text_content,
+  $all_divider_content,
+  $all_takeaways_heading,
+  $all_takeaways_content,
+  $quote_text,
+  $quote_author
+]);
 
 ?>
 <div id="primary" <?php astra_primary_class(); ?>>
@@ -49,13 +94,13 @@ $banner_image = get_fields('acf_blog_banner_image');
                 <div class="blog-hero-banner">
                   <header>
                     <h1 class="largest-size blog-title">
-                     <?php echo ($banner_title); ?>
+                       <?php echo ($banner_title); ?>
                     </h1>
                   </header>
 
                   <div class="blog-button-container">
-                    <p class="small-size blog-bottom-text">8 minute read</p>
-                    <p class="small-size blog-bottom-text">January 2025</p>
+                    <p class="small-size blog-bottom-text"><?php echo $minute_read; ?></p>
+                    <p class="small-size blog-bottom-text"><?php echo $creation_date; ?></p>
                   </div>
                 </div>
               </section>
@@ -205,13 +250,14 @@ $banner_image = get_fields('acf_blog_banner_image');
                             $author_designation = $row['acf_blog_author_designation'] ?? '';
                             $linkedin_cta_text = $row['acf_blog_author_linkedin_cta_text'] ?? '';
                             $linkedin_url = $row['acf_blog_author_linkedin_url'] ?? '';
+						  $author_img = $row['acf_blog_author_image'] ?? '';
                         ?>
 
                             <div class="profile-card">
                               <div class="profile-box">
                                 <div class="profile">
                                   <img class="manual-lazy-load profile-img"
-                                    data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-SME-Kamlesh-Yadav.png"
+                                    data-src="<?php echo esc_html($author_img); ?>"
                                     alt="Author Image" src="">
                                   <div class="info">
                                     <div class="name small-size font-bold"><?php echo $author_name; ?></div>
