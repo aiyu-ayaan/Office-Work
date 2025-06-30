@@ -1296,21 +1296,21 @@ function get_post_read_minutes($post_id, $post_type_name) {
         $all_takeaways_heading = '';
         $all_takeaways_content = '';
 
-        if (have_rows('acf_blog_content_blocks')) {
-            while (have_rows('acf_blog_content_blocks')) {
+        if (have_rows('acf_blog_content_blocks',$post_id)) {
+            while (have_rows('acf_blog_content_blocks',$post_id)) {
                 the_row();
                 if (get_row_layout() === 'acf_blog_text_block') {
-                    $text_content = get_sub_field('acf_blog_text_content');
+                    $text_content = get_sub_field('acf_blog_text_content',$post_id);
                     $all_text_content .= strip_tags($text_content) . ' ';
                 } elseif (get_row_layout() === 'acf_blog_blue_divider') {
-                    $divider_content = get_sub_field('acf_blog_divider_content');
+                    $divider_content = get_sub_field('acf_blog_divider_content',$post_id);
                     $all_divider_content .= strip_tags($divider_content) . ' ';
                 }
             }
         }
         
         // Collect key takeaways content (removing HTML tags)
-        $acf_blog_key_takeaways_section = get_field('acf_blog_key_takeaways_section');
+        $acf_blog_key_takeaways_section = get_field('acf_blog_key_takeaways_section',$post_id);
         if ($acf_blog_key_takeaways_section) {
             if (!empty($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading'])) {
                 $all_takeaways_heading = strip_tags($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading']);
@@ -1322,8 +1322,8 @@ function get_post_read_minutes($post_id, $post_type_name) {
         }
 
         
-        $quote_text = get_field('acf_quote_text');
-        $quote_author = get_field('acf_quote_author');
+        $quote_text = get_field('acf_quote_text',$post_id);
+        $quote_author = get_field('acf_quote_author',$post_id);
 
         $minutes = get_minutes(get_the_ID(), null, null, [
             $all_text_content,
