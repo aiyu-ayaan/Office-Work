@@ -476,10 +476,6 @@ function get_tags_list($atts) // for industry drop-down-menu
     $output .= '</div>';
     $output .= '</div>';
     $output .= '</nav>';
-    $output .= '<style>';
-    $output .= '.sub-menu { width: 38.7% !important; float: right; }';
-    $output .= '.main-menu { float: left; width: 50%; }';
-    $output .= '</style>';
     return $output;
 }
 
@@ -592,13 +588,10 @@ function get_subcategories_by_parent_slug($atts) //for service drop-down menu
     $output .= '</div>';
     $output .= '</div>';
     $output .= '</nav>';
-    $output .= '<style>';
-    $output .= '.sub-menu { width: 38.7% !important; float: right; }';
-    $output .= '.main-menu { float: left; width: 50%; }';
-    $output .= '</style>';
 
     $output .= '<script>';
     $output .= 'document.addEventListener("DOMContentLoaded", function () {
+	const menuContainer = document.querySelector("#dropdown-4717");
     const menuItems = document.querySelectorAll(".menu-services-drop-down-container .main-menu li");
     const subMenus = document.querySelectorAll(".menu-services-drop-down-container .sub-menu > div");
     const spotlightMenu = document.querySelector(".menu-services-drop-down-container .sub-menu > .widget_post"); // Spotlight menu
@@ -622,6 +615,11 @@ function get_subcategories_by_parent_slug($atts) //for service drop-down menu
         });
     });
 
+    // Reset menu state when mouse leaves the dropdown container
+    menuContainer.addEventListener("mouseleave", function () {
+        menuItems.forEach((el) => el.classList.remove("active"));
+        subMenus.forEach((subMenu) => subMenu.style.display = "none");
+    });
 
 });';
     $output .= '</script>';
@@ -1043,8 +1041,10 @@ function redirect_empty_page_shortcode($atts, $content = null)
 add_shortcode('redirect_empty', 'redirect_empty_page_shortcode');
 
 
-// DESCRIPTION: My Code 
-function get_minutes($post_id, $field_names = null, $videoId = null) {
+// TODO:My Code 
+
+
+function get_minutes($post_id, $field_names = null, $videoId = null, $direct_content = null) {
     // Validate required post_id parameter
     if (empty($post_id)) {
         return "N/A";
@@ -1057,6 +1057,14 @@ function get_minutes($post_id, $field_names = null, $videoId = null) {
         $reading_time = get_acf_reading_time($post_id, $field_names);
         if ($reading_time !== '0 minute read') {
             $results[] = $reading_time;
+        }
+    }
+    
+    // Check if direct_content is provided and calculate reading time
+    if (!empty($direct_content)) {
+        $direct_reading_time = calculate_direct_content_reading_time($direct_content);
+        if ($direct_reading_time !== '0 minute read') {
+            $results[] = $direct_reading_time;
         }
     }
     
@@ -1076,6 +1084,60 @@ function get_minutes($post_id, $field_names = null, $videoId = null) {
     
     return implode(' + ', $results);
 }
+function calculate_direct_content_reading_time($content) {
+    // Handle array of content
+    if (is_array($content)) {
+        $total_content = '';
+       foreach ($content as $item) {
+    if (is_array($item)) {
+        // If nested array, flatten it
+        $total_content .= ' ' . implode(' ', array_map(function($subitem) {
+            // Handle null values and ensure we have a string
+            if ($subitem === null) {
+                return '';
+            }
+            
+            $subitem = is_array($subitem) ? implode(' ', $subitem) : (string)$subitem;
+            return html_entity_decode($subitem, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        }, $item));
+    } else {
+        // Handle null values before passing to html_entity_decode
+        if ($item !== null) {
+            $total_content .= ' ' . html_entity_decode((string)$item, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        }
+    }
+}
+$content = $total_content;
+    }
+    
+    // Convert to string if not already
+    $content = (string)$content;
+    
+    if (empty(trim($content))) {
+        return '0 minute read';
+    }
+
+    // Strip HTML tags and shortcodes to get plain text
+    // First strip shortcodes, then HTML tags for better cleaning
+    $text_content = strip_shortcodes($content);
+    $text_content = wp_strip_all_tags($text_content);
+    
+    // Additional HTML cleaning in case wp_strip_all_tags doesn't catch everything
+    $text_content = html_entity_decode($text_content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $text_content = strip_tags($text_content);
+    
+    // Remove extra whitespaces and normalize
+    $text_content = preg_replace('/\s+/', ' ', trim($text_content));
+
+    // Count words
+    $word_count = str_word_count($text_content);
+
+    // Calculate read time (assuming 200 words per minute)
+    $minutes = ceil($word_count / 200);
+
+    // Return formatted string
+    return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' read';
+}
 
 function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     $total_content = '';
@@ -1086,15 +1148,20 @@ function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     }
     
     // Loop through each field and concatenate content
-    foreach ($content as $item) {
-        if (is_array($item)) {
-            // If nested array, flatten it
-            $total_content .= ' ' . implode(' ', array_map(function($subitem) {
-                $subitem = is_array($subitem) ? implode(' ', $subitem) : $subitem;
-                return html_entity_decode($subitem, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            }, $item));
-        } else {
-            $total_content .= ' ' . html_entity_decode($item, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    foreach ($field_names as $field_name) {
+        $content = get_field($field_name, $post_id);
+        
+        // Check if content exists and is not false/null/empty
+        if ($content && !empty($content)) {
+            // Handle different field types
+            if (is_array($content)) {
+                // If it's an array (like repeater fields), extract text from each item
+                $content = implode(' ', array_map(function($item) {
+                    return is_array($item) ? implode(' ', $item) : $item;
+                }, $content));
+            }
+            
+            $total_content .= ' ' . $content;
         }
     }
 
@@ -1202,31 +1269,75 @@ function get_post_read_minutes($post_id, $post_type_name) {
          $videoId = get_field('acf_pardot_vimeo_video_url', $post_id);
          $minutes = get_minutes($post_id, null, $videoId);
      }elseif($post_type_name === 'Use Case' || $post_type_name ==='Case Study'){
-        $content_frame_left_container =''
-        $content_frame_text_above_button = '';
+        $post_content_frame_section = get_field('acf_usecase_content_frame',$post_id)?? '';
+		$content_frame_left_container = '';
         $content_frame_button_text = '';
         $content_frame_benefits = '';
         $content_frame_accordion = '';
-        $post_content_frame_section = get_field('acf_usecase_content_frame',$post_id)?? '';
+
         if (!empty($post_content_frame_section)) {
             $content_frame_left_container = $post_content_frame_section['acf_usecase_content_frame_left_container']?? '';
-            $content_frame_text_above_button = $post_content_frame_section['acf_usecase_text_above_button']?? '';
             $content_frame_button_text = $post_content_frame_section['acf_content_frame_usecase_button_text']?? '';
             $content_frame_benefits = $post_content_frame_section['acf_usecase_content_frame_benefits']?? '';
             $content_frame_accordion = $post_content_frame_section['acf_usecase_content_frame_accordion']?? '';
-        } 
-        // Collect all accordion titles and contents into a single string
-        $accordion_text = '';
+        }
+           $accordion_text = '';
         if (!empty($content_frame_accordion)&& is_array($content_frame_accordion)) {
             foreach ($content_frame_accordion as $row) {
-            $accordion_title = isset($row['acf_usecase_accordion_title']) ? strip_tags($row['acf_usecase_accordion_title']) : '';
+             $accordion_title = isset($row['acf_usecase_accordion_title']) ? strip_tags($row['acf_usecase_accordion_title']) : '';
             $accordion_content = isset($row['acf_usecase_accordion_content']) ? strip_tags($row['acf_usecase_accordion_content']) : '';
             $accordion_text .= $accordion_title . ' ' . $accordion_content . ' ';
             }
         }
-
         $minutes = get_minutes($post_id, null, null, [$content_frame_left_container, $content_frame_benefits,$accordion_text]);
-     }
+     }elseif($post_type_name === 'Blog'){
+        $all_text_content = '';
+        $all_divider_content = '';
+        $all_takeaways_heading = '';
+        $all_takeaways_content = '';
+
+        if (have_rows('acf_blog_content_blocks')) {
+            while (have_rows('acf_blog_content_blocks')) {
+                the_row();
+                if (get_row_layout() === 'acf_blog_text_block') {
+                    $text_content = get_sub_field('acf_blog_text_content');
+                    $all_text_content .= strip_tags($text_content) . ' ';
+                } elseif (get_row_layout() === 'acf_blog_blue_divider') {
+                    $divider_content = get_sub_field('acf_blog_divider_content');
+                    $all_divider_content .= strip_tags($divider_content) . ' ';
+                }
+            }
+        }
+        
+        // Collect key takeaways content (removing HTML tags)
+        $acf_blog_key_takeaways_section = get_field('acf_blog_key_takeaways_section');
+        if ($acf_blog_key_takeaways_section) {
+            if (!empty($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading'])) {
+                $all_takeaways_heading = strip_tags($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading']);
+            }
+            
+            if (!empty($acf_blog_key_takeaways_section['acf_key_takeaways_list_items'])) {
+                $all_takeaways_content = strip_tags($acf_blog_key_takeaways_section['acf_key_takeaways_list_items']);
+            }
+        }
+
+        
+        $quote_text = get_field('acf_quote_text');
+        $quote_author = get_field('acf_quote_author');
+
+        $minutes = get_minutes(get_the_ID(), null, null, [
+            $all_text_content,
+            $all_divider_content,
+            $all_takeaways_heading,
+            $all_takeaways_content,
+            $quote_text,
+            $quote_author
+        ]);
+        
+
+
+        // END:
+    }
       else {
          $minutes = get_minutes($post_id, ['acf_post_content_frame_section']);
          if (is_numeric($minutes)) {
@@ -1236,9 +1347,8 @@ function get_post_read_minutes($post_id, $post_type_name) {
  
      return $minutes !== null ? $minutes : "N/A";
 }
- 
-
 // DESCRIPTION: Fetch posts with pagination and featured posts logic
+
 
 function fetch_posts() {
 	if (!function_exists('get_field')) {
@@ -1271,8 +1381,8 @@ function fetch_posts() {
             $image = get_the_post_thumbnail_url(get_the_ID(), 'full') ?: '/wp-content/uploads/2025/04/Service-Sub-Service-General-Our-Offerings-and-Capabilities-Texture.webp';
             $post_types = get_the_terms(get_the_ID(), 'post_type_category');
             $post_type_name = !empty($post_types) && !is_wp_error($post_types) ? $post_types[0]->name : 'Uncategorized';
-            
-            $cal_read_minutes = get_post_read_minutes(get_the_ID(), $post_type_name);
+			
+           $cal_read_minutes = get_post_read_minutes(get_the_ID(), $post_type_name);
             // check cal_read_minutes is N/A or not
             $read_minutes = $cal_read_minutes !== 'N/A' ? $cal_read_minutes : get_field('acf_read_minutes', get_the_ID());
             $read_minutes_display = !empty($read_minutes) ? esc_html($read_minutes) : 'N/A';
@@ -1831,12 +1941,7 @@ add_action('template_redirect', function () {
     }
 });
 
-add_action('template_redirect', function () {
-    if (strpos($_SERVER['REQUEST_URI'], '/careers') !== false) {
-        wp_redirect(home_url('/contact-us/'), 301);
-        exit;
-    }
-});
+
 
 
 //From UAT instance
@@ -2000,13 +2105,26 @@ if ($pdf && isset($pdf['url'])) {
     });
 
 
-    function handlePardotFormSuccess() {
-        triggerPDFDownload();
-		function triggerPDFDownload() {
-			window.open('<?php echo esc_url($pdf['url']); ?>', '_blank');
+   function handlePardotFormSuccess() {
+    triggerPDFDownload();
+
+    function triggerPDFDownload() {
+        const pdfUrl = '<?php echo esc_url($pdf['url']); ?>';
+
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        const isIOS = /iP(ad|hone|od)/i.test(navigator.userAgent);
+
+        if (isSafari && isIOS) {
+            // For iOS Safari — open in same tab
+            window.location.href = pdfUrl;
+        } else {
+            // For all other browsers — open in new tab
+            window.open(pdfUrl, '_blank');
+            location.reload(); // Reload only for non-Safari
         }
-      location.reload();
     }
+}
+
 </script>
 <?php
         }
@@ -2022,8 +2140,8 @@ function inject_pardot_iframe_with_Product_Interest() {
 
     global $post;
     if (!$post) return;
-    if (strpos($post->post_content, 'open-download-popup') === false) return;
-    
+//     if (strpos($post->post_content, 'open-download-popup') === false) return;
+    if (empty($GLOBALS['should_show_download_popup_form']) && strpos($post->post_content, 'open-download-popup') === false) return;
 
     // Fetch parent category ID for "Service"
     $service_parent = get_term_by('name', 'Service', 'category');
@@ -2219,8 +2337,8 @@ function inject_pardot_video_iframe_with_Product_Interest() {
 
     global $post;
     if (!$post) return;
-    if (strpos($post->post_content, 'open-pardot-play-popup') === false) return;
-    
+//     if (strpos($post->post_content, 'open-pardot-play-popup') === false) return;
+    if (empty($GLOBALS['should_show_play_popup_form']) && strpos($post->post_content, 'open-pardot-play-popup') === false) return;
 
     // Fetch parent category ID for "Service"
     $service_parent = get_term_by('name', 'Service', 'category');
@@ -2521,26 +2639,16 @@ function get_ranked_post_ids_by_keyword($keyword) {
     $thank_you_page = get_page_by_path('thank-you');
     $exclude_id = $thank_you_page ? $thank_you_page->ID : null;
 
-    // Title match
+    // Title match (exact and partial)
     $title_matches = $wpdb->get_results($wpdb->prepare(
-        "SELECT ID, post_type, post_date FROM $wpdb->posts
+        "SELECT ID, post_title, post_type, post_date FROM $wpdb->posts
          WHERE post_status = 'publish' AND post_type IN ('post', 'page')
          AND post_title LIKE %s", $keyword_like));
+
     foreach ($title_matches as $post) {
         if ($exclude_id && $post->ID == $exclude_id) continue;
-        $posts[$post->ID] = ['score' => 100, 'type' => $post->post_type, 'date' => $post->post_date];
-    }
-
-    // Content match
-    $content_matches = $wpdb->get_results($wpdb->prepare(
-        "SELECT ID, post_type, post_date FROM $wpdb->posts
-         WHERE post_status = 'publish' AND post_type IN ('post', 'page')
-         AND post_content LIKE %s", $keyword_like));
-    foreach ($content_matches as $post) {
-        if ($exclude_id && $post->ID == $exclude_id) continue;
-        $posts[$post->ID]['score'] = ($posts[$post->ID]['score'] ?? 70) + 20;
-        $posts[$post->ID]['type'] = $post->post_type;
-        $posts[$post->ID]['date'] = $post->post_date;
+        $score = (strtolower(trim($post->post_title)) === strtolower(trim($keyword))) ? 1000 : 900;
+        $posts[$post->ID] = ['score' => $score, 'type' => $post->post_type, 'date' => $post->post_date];
     }
 
     // Slug match
@@ -2550,19 +2658,44 @@ function get_ranked_post_ids_by_keyword($keyword) {
          AND post_name LIKE %s", $keyword_like));
     foreach ($slug_matches as $post) {
         if ($exclude_id && $post->ID == $exclude_id) continue;
-        $posts[$post->ID]['score'] = ($posts[$post->ID]['score'] ?? 60) + 10;
+        $posts[$post->ID]['score'] = max($posts[$post->ID]['score'] ?? 800, 800);
         $posts[$post->ID]['type'] = $post->post_type;
         $posts[$post->ID]['date'] = $post->post_date;
     }
 
-    // ACF/meta match
+    // Meta value match
+    $meta_matches = $wpdb->get_results($wpdb->prepare(
+        "SELECT post_id FROM $wpdb->postmeta WHERE meta_value LIKE %s", $keyword_like));
+    foreach ($meta_matches as $meta) {
+        if ($exclude_id && $meta->post_id == $exclude_id) continue;
+        $post_data = get_post($meta->post_id);
+        if ($post_data && $post_data->post_status === 'publish' && in_array($post_data->post_type, ['post', 'page'])) {
+            $posts[$meta->post_id]['score'] = max($posts[$meta->post_id]['score'] ?? 700, 700);
+            $posts[$meta->post_id]['type'] = $post_data->post_type;
+            $posts[$meta->post_id]['date'] = $post_data->post_date;
+        }
+    }
+
+    // Content match
+    $content_matches = $wpdb->get_results($wpdb->prepare(
+        "SELECT ID, post_type, post_date FROM $wpdb->posts
+         WHERE post_status = 'publish' AND post_type IN ('post', 'page')
+         AND post_content LIKE %s", $keyword_like));
+    foreach ($content_matches as $post) {
+        if ($exclude_id && $post->ID == $exclude_id) continue;
+        $posts[$post->ID]['score'] = max($posts[$post->ID]['score'] ?? 600, 600);
+        $posts[$post->ID]['type'] = $post->post_type;
+        $posts[$post->ID]['date'] = $post->post_date;
+    }
+
+    // ACF field match
     $acf_matches = $wpdb->get_results($wpdb->prepare(
         "SELECT post_id FROM $wpdb->postmeta WHERE meta_value LIKE %s", $keyword_like));
     foreach ($acf_matches as $meta) {
         if ($exclude_id && $meta->post_id == $exclude_id) continue;
         $post_data = get_post($meta->post_id);
         if ($post_data && $post_data->post_status === 'publish' && in_array($post_data->post_type, ['post', 'page'])) {
-            $posts[$meta->post_id]['score'] = ($posts[$meta->post_id]['score'] ?? 50) + 10;
+            $posts[$meta->post_id]['score'] = max($posts[$meta->post_id]['score'] ?? 500, 500);
             $posts[$meta->post_id]['type'] = $post_data->post_type;
             $posts[$meta->post_id]['date'] = $post_data->post_date;
         }
@@ -2587,24 +2720,30 @@ function get_ranked_post_ids_by_keyword($keyword) {
         ]);
         foreach ($term_posts as $post) {
             if ($exclude_id && $post->ID == $exclude_id) continue;
-            $posts[$post->ID]['score'] = ($posts[$post->ID]['score'] ?? 40) + 5;
+            $posts[$post->ID]['score'] = max($posts[$post->ID]['score'] ?? 450, 450);
             $posts[$post->ID]['type'] = $post->post_type;
             $posts[$post->ID]['date'] = $post->post_date;
         }
     }
 
+    // Final sorting: score desc → page before post → recent first
     uasort($posts, function ($a, $b) {
-        return $b['score'] <=> $a['score'] ?: strcmp($a['type'], $b['type']) ?: strtotime($b['date']) <=> strtotime($a['date']);
+        return $b['score'] <=> $a['score']
+            ?: strcmp($a['type'], $b['type']) // 'page' before 'post'
+            ?: strtotime($b['date']) <=> strtotime($a['date']);
     });
 
     return array_keys($posts);
 }
 
+
 // AJAX Search Handler
 function acf_live_search() {
     global $wpdb;
+
     $keyword = isset($_POST['keyword']) ? trim(wp_unslash($_POST['keyword'])) : '';
     $results = [];
+
     $thank_you_page = get_page_by_path('thank-you');
     $exclude_id = $thank_you_page ? $thank_you_page->ID : null;
 
@@ -2613,6 +2752,7 @@ function acf_live_search() {
         wp_die();
     }
 
+    // Handle quick match shortcuts
     if (strtolower($keyword) === 'posts') {
         $matched_posts = get_posts([
             'post_type'      => 'post',
@@ -2631,13 +2771,14 @@ function acf_live_search() {
         foreach ($pages as $page) {
             if ($exclude_id && $page->ID == $exclude_id) continue;
             $matched_posts[] = $page;
-            if (count($matched_posts) >= 20) break;
+            if (count($matched_posts) >= 10) break;
         }
     } else {
         $post_ids = get_ranked_post_ids_by_keyword($keyword);
         if ($exclude_id) {
             $post_ids = array_filter($post_ids, fn($id) => $id !== $exclude_id);
         }
+
         $matched_posts = !empty($post_ids) ? get_posts([
             'post__in'       => $post_ids,
             'orderby'        => 'post__in',
@@ -2647,14 +2788,9 @@ function acf_live_search() {
         ]) : [];
     }
 
-    $fallback_image_url = '/wp-content/uploads/2025/04/Home-Page-Banner-1-Video-Snippet-Bulb-Thumb-nail.webp'; 
-    if (empty($matched_posts)) {
-        $results[] = [
-            'title'     => 'No matching found. Try anything else.',
-            'url'       => '#',
-            'image_url' => $fallback_image_url,
-        ];
-    } else {
+    $fallback_image_url = '/wp-content/uploads/2025/04/Home-Page-Banner-1-Video-Snippet-Bulb-Thumb-nail.webp';
+
+    if (!empty($matched_posts)) {
         foreach ($matched_posts as $post) {
             if ($exclude_id && $post->ID == $exclude_id) continue;
             $image_url = get_the_post_thumbnail_url($post->ID, 'medium') ?: $fallback_image_url;
@@ -2666,7 +2802,7 @@ function acf_live_search() {
         }
     }
 
-    // Inject "Leadership" if ACF match found
+    // ACF leader name check
     $keyword_like = '%' . $wpdb->esc_like($keyword) . '%';
     $acf_leader_match = $wpdb->get_var($wpdb->prepare(
         "SELECT COUNT(*) FROM $wpdb->postmeta pm
@@ -2686,9 +2822,17 @@ function acf_live_search() {
         }
     }
 
+	 if (empty($results)) {
+        $results[] = [
+            'title'     => 'No matching found. Try anything else.',
+            'url'       => '#',
+            'image_url' => $fallback_image_url,
+        ];
+    }
     echo json_encode($results);
     wp_die();
 }
+
 
 // Exclude Thank You page from regular WordPress search
 add_action('pre_get_posts', function ($query) {
@@ -2715,3 +2859,236 @@ add_action('wp_head', function () {
     </script>
     <?php
 });
+
+
+// custom color picker option in admin panel
+// custom color picker option in admin panel
+function add_theme_color_column($columns) {
+    $columns['theme_color'] = 'Theme Color';
+    return $columns;
+}
+add_filter('manage_posts_columns', 'add_theme_color_column'); 
+function show_theme_color_column_content($column, $post_id) {
+    if ($column === 'theme_color') {
+        echo esc_html(get_post_meta($post_id, 'theme_color', true) ?: 'generic');
+    }
+}
+add_action('manage_posts_custom_column', 'show_theme_color_column_content', 10, 2);
+add_action('admin_head', function () {
+    echo '<style>.column-theme_color { display: none; }</style>';
+});
+function register_theme_color_meta() {
+    register_post_meta('post', 'theme_color', [
+        'type' => 'string',
+        'single' => true,
+        'show_in_rest' => true,
+        'default' => 'generic',
+    ]);
+}
+add_action('init', 'register_theme_color_meta');
+
+function add_theme_color_dropdown_meta_box() {
+    add_meta_box(
+        'theme_color_meta_box',
+        'Theme Color',
+        'render_theme_color_dropdown',
+        'post',
+        'side',
+        'default'
+    );
+}
+add_action('add_meta_boxes', 'add_theme_color_dropdown_meta_box');
+
+function render_theme_color_dropdown($post) {
+    $value = get_post_meta($post->ID, 'theme_color', true) ?: 'generic';
+    ?>
+    <label for="theme_color">Choose a Theme:</label>
+    <select name="theme_color" id="theme_color">
+        <option value="generic" <?php selected($value, 'generic'); ?>>Electric Green (default)</option>
+        <option value="ia" <?php selected($value, 'ia'); ?>>Intelligent Automation</option>
+        <option value="de" <?php selected($value, 'de'); ?>>Digital Engineering</option>
+        <option value="qe" <?php selected($value, 'qe'); ?>>Quality Engineering</option>
+        <option value="dea" <?php selected($value, 'dea'); ?>>Data Engineering & Analytics</option>
+    </select>
+    <?php
+}
+
+function save_theme_color_meta($post_id) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (array_key_exists('theme_color', $_POST)) {
+        update_post_meta($post_id, 'theme_color', sanitize_text_field($_POST['theme_color']));
+    }
+}
+add_action('save_post', 'save_theme_color_meta');
+
+function add_theme_color_quick_edit_field($column_name, $post_type) {
+    if ($column_name !== 'theme_color' || $post_type !== 'post') return;
+    ?>
+    <fieldset class="inline-edit-col-left">
+        <div class="inline-edit-col">
+            <span class="title">Theme Color</span>
+            <select name="theme_color" class="theme_color">
+                <option value="generic">Electric Green(Default)</option>
+                <option value="ia">Intelligent Automation</option>
+                <option value="de">Digital Engineering</option>
+                <option value="qe">Quality Engineering</option>
+                <option value="dea">Data Engineering & Analytics</option>
+            </select>
+        </div>
+    </fieldset>
+    <?php
+}
+add_action('quick_edit_custom_box', 'add_theme_color_quick_edit_field', 10, 2);
+
+function save_quick_edit_theme_color($post_id) {
+    if (isset($_POST['theme_color'])) {
+        update_post_meta($post_id, 'theme_color', sanitize_text_field($_POST['theme_color']));
+    }
+}
+add_action('save_post', 'save_quick_edit_theme_color');
+
+function enqueue_quick_edit_script() {
+    ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const $ = jQuery;
+
+            function setThemeColorInQuickEdit(id) {
+                const theme = $(`#post-${id}`).data('theme-color') || 'generic';
+                $(`#edit-${id} select.theme_color`).val(theme);
+            }
+
+            const inlineEditPost = inlineEditPost || {};
+            const original = inlineEditPost.edit;
+            inlineEditPost.edit = function (id) {
+                original.apply(this, arguments);
+                if (typeof id === 'object') id = this.getId(id);
+                setThemeColorInQuickEdit(id);
+            };
+        });
+    </script>
+    <?php
+}
+add_action('admin_footer-edit.php', 'enqueue_quick_edit_script');
+
+function add_theme_color_data_attribute($column_name, $post_id) {
+    if ($column_name === 'theme_color') {
+        $theme = get_post_meta($post_id, 'theme_color', true) ?: 'generic';
+        echo "<script>
+            jQuery(document).ready(function($) {
+                $('#post-{$post_id}').attr('data-theme-color', '{$theme}');
+            });
+        </script>";
+    }
+}
+add_action('manage_posts_custom_column', 'add_theme_color_data_attribute', 10, 2);
+
+function add_theme_color_body_class($classes) {
+    if (is_singular('post')) {
+        $theme_color = get_post_meta(get_the_ID(), 'theme_color', true) ?: 'generic';
+        $classes[] = 'theme-' . sanitize_html_class($theme_color);
+    }
+    return $classes;
+}
+add_filter('body_class', 'add_theme_color_body_class');
+
+// global search barr suggestion injection
+
+function disable_astra_live_search() {
+    wp_dequeue_script( 'astra-live-search' );
+    wp_deregister_script( 'astra-live-search' );
+}
+function enqueue_custom_live_search_script() {
+    wp_enqueue_script(
+        'custom-live-search',
+        '/wp-content/themes/astra-child/js/custom-live-search.js',
+        array('jquery'),
+        null,
+        true
+    );
+
+    wp_localize_script(
+        'custom-live-search',
+        'search_ajax_obj',
+        array(
+            'ajaxurl' => admin_url('admin-ajax.php')
+        )
+    );
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_live_search_script');
+
+function enqueue_custom_template_assets() {
+    // Get current template file name
+    $template = basename(get_page_template());
+ 
+    switch ($template) {
+        case 'whitepaper_template.php':
+            $css = 'whitepaper.css';
+            $js  = 'whitepaper.js';
+            break;
+ 		case 'ebook_template.php':
+            $css = 'ebook.css';
+            $js  = 'ebook.js';
+            break;
+		case 'webinar.php':
+            $css = 'webinar.css';
+            $js  = 'webinar.js';
+            break;
+		case 'cwa.php':
+            $css = 'video-cwa.css';
+            $js  = 'video-cwa.js';
+            break;
+		case 'case_study_template.php':
+            $css = 'case-study.css';
+            $js  = 'case-study.js';
+            break;
+		case 'use_case.php':
+            $css = 'use-case.css';
+            $js  = 'use-case.js';
+            break;
+		
+        default:
+            return;
+    }
+ 
+    // Enqueue the matched CSS and JS
+    $css_path = get_stylesheet_directory_uri() . '/css/' . $css;
+    $js_path  = get_stylesheet_directory_uri() . '/js/' . $js;
+ 
+    wp_enqueue_style("template-style-{$template}", $css_path, [], filemtime(get_stylesheet_directory() . '/css/' . $css));
+    wp_enqueue_script("template-script-{$template}", $js_path, ['jquery'], filemtime(get_stylesheet_directory() . '/js/' . $js), true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_template_assets');
+
+add_filter('wp_die_handler', function () {
+    return 'my_custom_fatal_error_handler';
+});
+
+function my_custom_fatal_error_handler($message, $title = '', $args = []) {
+    status_header(500);
+
+    $error_file_path = get_theme_file_path('critical-error.html');
+
+    if (file_exists($error_file_path)) {
+        readfile($error_file_path);
+    } else {
+        // Fallback if the file is missing
+        echo '<h1>Critical Error</h1>';
+        echo '<p>A fatal error occurred.</p>';
+    }
+
+    exit;
+}
+
+if (isset($_GET['test_fatal']) && $_GET['test_fatal'] === '1') {
+    non_existing_function(); // triggers fatal error
+}
+
+
+//visual editor 
+add_filter('acf/update_value/type=wysiwyg', 'acf_clean_tinymce_bookmarks_before_save', 10, 3);
+function acf_clean_tinymce_bookmarks_before_save($value, $post_id, $field) {
+    // Remove TinyMCE bookmark spans
+    $value = preg_replace('/<span[^>]*data-mce-type="bookmark"[^>]*>.*?<\/span>/i', '', $value);
+    return $value;
+}

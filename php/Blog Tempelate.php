@@ -18,7 +18,7 @@ if (! defined('ABSPATH')) {
 get_header(); ?>
 <?php
 
-
+$post_type = get_the_terms( get_the_ID(), 'post_type_category' )[0]->name;
 $creation_date = get_the_date('F Y');
 $blog_author_section = get_field('acf_blog_author_section');
 if (!empty($blog_author_section)) {
@@ -30,51 +30,8 @@ if (!empty($blog_author_section)) {
 }
 $banner_title = get_field('acf_blog_banner_title');
 $banner_image = get_field('acf_blog_banner_image');
-
 // DESCRIPTION: For the blog content frame 
-$all_text_content = '';
-$all_divider_content = '';
-$all_takeaways_heading = '';
-$all_takeaways_content = '';
-
-// Collect both text and divider content (removing HTML tags)
-if (have_rows('acf_blog_content_blocks')):
-  while (have_rows('acf_blog_content_blocks')): the_row();
-    if (get_row_layout() === 'acf_blog_text_block'):
-      $text_content = get_sub_field('acf_blog_text_content');
-      $all_text_content .= strip_tags($text_content) . ' ';
-    elseif (get_row_layout() === 'acf_blog_blue_divider'):
-      $divider_content = get_sub_field('acf_blog_divider_content');
-      $all_divider_content .= strip_tags($divider_content) . ' ';
-    endif;
-  endwhile;
-endif;
-
-// Collect key takeaways content (removing HTML tags)
-$acf_blog_key_takeaways_section = get_field('acf_blog_key_takeaways_section');
-if ($acf_blog_key_takeaways_section):
-  if (!empty($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading'])):
-    $all_takeaways_heading = strip_tags($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading']);
-  endif;
-  
-  if (!empty($acf_blog_key_takeaways_section['acf_key_takeaways_list_items'])):
-    $all_takeaways_content = strip_tags($acf_blog_key_takeaways_section['acf_key_takeaways_list_items']);
-  endif;
-endif;
-
-$quote_text = get_field('acf_quote_text');
-$quote_author = get_field('acf_quote_author');
-
-
-$minute_read = get_minutes(get_the_ID(),null,null,[
-  $all_text_content,
-  $all_divider_content,
-  $all_takeaways_heading,
-  $all_takeaways_content,
-  $quote_text,
-  $quote_author
-]);
-
+$minute_read =  get_post_read_minutes(get_the_ID(),$post_type);
 ?>
 <div id="primary" <?php astra_primary_class(); ?>>
   <main id="main" class="site-main">
@@ -138,9 +95,7 @@ $minute_read = get_minutes(get_the_ID(),null,null,[
                         <div id="copy-link-btn" class="ic_share"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
                             <path d="M43 0C45.7614 5.15405e-07 48 2.23858 48 5V43C48 45.7614 45.7614 48 43 48H5C2.23858 48 0 45.7614 0 43V5C5.15422e-07 2.23858 2.23858 0 5 0H43ZM29.0566 21.9121C26.4403 17.2984 19.9192 16.5988 16.124 20.3936L9.36816 27.1494C6.21084 30.3068 6.21036 35.4735 9.36719 38.6318C12.5248 41.7894 17.6923 41.7894 20.8506 38.6318L26.54 32.9424C27.0387 32.4437 27.4709 31.8824 27.8242 31.2715C25.9728 31.733 23.9879 31.5379 22.25 30.6865L17.5889 35.3477C16.1631 36.7733 13.8265 36.7747 12.3994 35.3477C10.9726 33.9206 10.9725 31.5852 12.3994 30.1582L18.999 23.5586C20.3511 22.2066 23.0499 21.8037 25.0898 23.6709C27.064 23.4631 27.8303 23.086 29.0566 21.9121ZM38.6318 9.36816C35.4736 6.20992 30.3061 6.21067 27.1484 9.36816L21.6602 14.8574C21.1788 15.3388 20.759 15.8785 20.4131 16.4648C22.0952 16.1574 23.858 16.3807 25.4238 17.1338L30.1572 12.4004C31.583 10.9746 33.9196 10.9733 35.3467 12.4004C36.7737 13.8275 36.7737 16.1628 35.3467 17.5898L28.7471 24.1885C27.662 25.2733 26.0944 25.5758 24.7578 25.0107C22.4876 24.0506 21.3255 23.3812 18.9424 25.4521C21.1132 30.423 27.8886 31.5926 31.875 27.6074L38.6309 20.8516C41.7885 17.6939 41.7885 12.5258 38.6309 9.36816H38.6318Z" fill="#1A2C47" />
                           </svg></div>
-                        <div id="copy-notification">
-                          Link copied to clipboard!
-                        </div>
+<!--                       here -->
                       </div>
                     </div>
                   </div>
@@ -235,6 +190,9 @@ $minute_read = get_minutes(get_the_ID(),null,null,[
                   </div>
                 </div>
               </div>
+				  <div id="copy-notification">
+                          Link copied to clipboard!
+                        </div>
               <!-- 							author section -->
               <div class="author-section-container">
                 <h2 class="section-heading large-size font-bold"><?php echo $section_heading; ?></h2>
@@ -317,12 +275,6 @@ $minute_read = get_minutes(get_the_ID(),null,null,[
                       endif; ?>
 
                     <?php endif; ?>
-
-
-
-
-
-
                   </div>
                 </section>
               </div>
