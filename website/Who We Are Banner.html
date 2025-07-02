@@ -40,9 +40,10 @@
                 margin-left: 25.53% !important;
 
                 .banner-heading {
+                    white-space: nowrap;
                     width: 100%;
                     display: flex;
-
+                    align-items: center;
 
                     span {
                         margin-right: 1%;
@@ -50,11 +51,29 @@
                         text-transform: capitalize;
                     }
 
-                    div {
-                        color: var(--adro-yellow);
-                        letter-spacing: 4px;
-                        text-transform: uppercase;
-                        font-weight: 600;
+                    .animated-text {
+                        overflow: visible;
+                        position: relative;
+                        width: auto;
+                        height: 1.2em;
+
+
+                        div {
+                            color: var(--adro-yellow);
+                            letter-spacing: 4px;
+                            text-transform: uppercase;
+                            font-weight: 600;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 0;
+                            animation: typewriter 6s infinite;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            border-right: 2px solid var(--adro-yellow);
+                            animation-delay: var(--delay, 0s);
+                            width: 0;
+                        }
                     }
                 }
 
@@ -81,6 +100,7 @@
                 .who-we-are-banner-quote-text {
                     width: 45.84%;
                     font-weight: 400;
+
                     span {
                         font-weight: 600;
                         color: var(--adro-electric-blue);
@@ -100,6 +120,38 @@
             }
         }
     }
+
+    @keyframes typewriter {
+        0% {
+            opacity: 1;
+            width: 0;
+            border-right-color: var(--adro-yellow);
+        }
+
+        20% {
+            opacity: 1;
+            width: var(--text-width);
+            border-right-color: var(--adro-yellow);
+        }
+
+        30% {
+            opacity: 1;
+            width: var(--text-width);
+            border-right-color: var(--adro-yellow);
+        }
+
+        31% {
+            opacity: 0;
+            width: var(--text-width);
+            border-right-color: transparent;
+        }
+
+        100% {
+            opacity: 0;
+            width: var(--text-width);
+            border-right-color: transparent;
+        }
+    }
 </style>
 
 <div class="who-we-are-banner-container">
@@ -114,7 +166,11 @@
         <div class="top-section">
             <h1 class="banner-heading largest-size">
                 <span>We are </span>
-                <div class="animated-text ">Collaborative</div>
+                <div class="animated-text">
+                    <div>Collaborative</div>
+                    <div>Innovative</div>
+                    <div>Passionate</div>
+                </div>
             </h1>
             <button class="custom-button who-we-are-banner-button">
                 Download
@@ -134,3 +190,36 @@
     </div>
 </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const animatedTextContainer = document.querySelector('.animated-text');
+        const textElements = animatedTextContainer.querySelectorAll('div');
+
+        // Calculate width for each text element individually
+        textElements.forEach((element, index) => {
+            // Create a temporary element to measure width with proper styles
+            const temp = document.createElement('div');
+            temp.textContent = element.textContent;
+            temp.style.position = 'absolute';
+            temp.style.visibility = 'hidden';
+            temp.style.whiteSpace = 'nowrap';
+            temp.style.fontSize = getComputedStyle(element).fontSize;
+            temp.style.fontFamily = getComputedStyle(element).fontFamily;
+            temp.style.fontWeight = getComputedStyle(element).fontWeight;
+            temp.style.letterSpacing = getComputedStyle(element).letterSpacing;
+            temp.style.textTransform = getComputedStyle(element).textTransform;
+            temp.style.padding = '0';
+            temp.style.margin = '0';
+            temp.style.border = 'none';
+
+            document.body.appendChild(temp);
+            const width = temp.offsetWidth;
+            document.body.removeChild(temp);
+
+            // Set individual width for each element
+            element.style.setProperty('--text-width', width + 'px');
+            element.style.setProperty('--delay', `${index * 2}s`);
+        });
+    });
+</script>
