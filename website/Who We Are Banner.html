@@ -145,7 +145,8 @@
 
                 .top-section {
                     margin-left: 12.48% !important;
-                    .who-we-are-banner-button{
+
+                    .who-we-are-banner-button {
                         margin-top: 3.3%;
                     }
                 }
@@ -169,7 +170,131 @@
         }
     }
 
+    @media screen and (max-width: 767.5px) and (orientation: portrait) {
+        .who-we-are-banner-container {
+            width: 100%;
+            height: 114vh;
+            overflow: hidden;
+
+            .who-we-are-bg-container {
+                .who-we-are-banner-bg-img {
+                    width: 100%;
+                    aspect-ratio: 390/800;
+                    background-size: cover;
+                }
+
+                .overlay {
+                    width: 103%;
+                    aspect-ratio: 390/800;
+                }
+            }
+
+            .who-we-are-banner-content {
+                width: 100%;
+                top: 36.74%;
+                padding-left: 6.16%;
+                padding-right: 6.16%;
+
+                .top-section {
+                    margin-left: 0% !important;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+
+                    .banner-heading {
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+
+                        .animated-text {
+                            position: relative !important;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: auto;
+                            height: 1.2em;
+                            margin-top: 0.5em;
+
+                            div {
+                                position: absolute !important;
+                                top: 0;
+                                left: 50%;
+                                transform: translateX(-50%);
+                                margin-left: 0 !important;
+                                opacity: 0;
+                                animation: typewriter-mobile 6s infinite;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                border-right: 2px solid var(--adro-yellow);
+                                animation-delay: var(--delay, 0s);
+                                width: 0;
+                                color: var(--adro-yellow);
+                                letter-spacing: 4px;
+                                text-transform: uppercase;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+
+                    .who-we-are-banner-button {
+                        margin-top: 4.68%;
+                    }
+                }
+
+                .who-we-are-banner-quote {
+                    margin-top: 64.63%;
+
+                    .who-we-are-banner-quote-text {
+                        width: 100%;
+                    margin-right: 0px;
+                    margin-left: 0px;
+                    text-align: center;
+                    }
+
+                    .who-we-are-banner-learn-more-button {
+                        margin-top: 7.02%;
+                    }
+                }
+            }
+
+
+        }
+    }
+
     @keyframes typewriter {
+        0% {
+            opacity: 1;
+            width: 0;
+            border-right-color: var(--adro-yellow);
+        }
+
+        20% {
+            opacity: 1;
+            width: var(--text-width);
+            border-right-color: var(--adro-yellow);
+        }
+
+        30% {
+            opacity: 1;
+            width: var(--text-width);
+            border-right-color: var(--adro-yellow);
+        }
+
+        31% {
+            opacity: 0;
+            width: var(--text-width);
+            border-right-color: transparent;
+        }
+
+        100% {
+            opacity: 0;
+            width: var(--text-width);
+            border-right-color: transparent;
+        }
+    }
+    @keyframes typewriter-mobile {
         0% {
             opacity: 1;
             width: 0;
@@ -221,7 +346,7 @@
                 </div>
             </h1>
             <button class="custom-button who-we-are-banner-button">
-                Download
+                Get in touch
             </button>
         </div>
         <div class="who-we-are-banner-quote">
@@ -240,6 +365,7 @@
 </div>
 
 <script>
+    
     document.addEventListener('DOMContentLoaded', function () {
         const animatedTextContainer = document.querySelector('.animated-text');
         const textElements = animatedTextContainer.querySelectorAll('div');
