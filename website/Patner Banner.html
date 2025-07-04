@@ -1,0 +1,343 @@
+<style>
+    .case-study-banner {
+        /* background: linear-gradient(180deg, #1C638D 12.08%, #1A2C47 107.69%); */
+        /* background: var(--insight-individual-gradient, linear-gradient(180deg, #1C638D 14.98%, #1A2C47 31.54%)); */
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0px;
+
+        .case-study-hero-banner {
+            background: linear-gradient(180deg, #1C638D 35.01%, #1A2C47 100%);
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            /* padding: 6.25% 3.37% 8.76%; */
+            padding: 6.25% 3.37% 2.09%;
+            flex: 1;
+
+            .left-text-box {
+                width: 51%;
+                display: flex;
+                /* gap: 2em; */
+                padding-left: 0%;
+                padding-right:  5.65%;;
+                flex-direction: column;
+                /* justify-content: center; */
+                align-items: flex-start;
+                text-align: left;
+            }
+
+          
+            .case-study-title {
+                margin-top: 34.49% !important;
+            width: 79.88%;
+            width: 100%;
+            font-weight: 500;
+            line-height: normal;
+            text-transform: capitalize;
+            }
+
+    
+
+            .case-study-download-button {
+                background-color: var(--post-primary-color);
+                border-color: var(--post-primary-color);
+                color: var(--adro-deep-blue);
+                margin-top: 2.79% !important;
+            }
+
+            .case-study-download-button:hover {
+                background-color: var(--post-hover-color);
+                border-color: var(--post-hover-color);
+                color: white;
+            }
+
+            .right-container {
+                position: relative;
+                width: 43.18%;
+                margin-top: 3.36%;
+                display: flex;
+                justify-content: start;
+                align-items: center;
+                aspect-ratio: 773 / 776;
+
+                .right-img {
+                    width: 100%;
+                    aspect-ratio: 773 / 776;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+
+            
+            }
+
+
+
+            /* @media screen and (max-width: 1680px) {
+                .left-text-box {
+                    width: 62%;
+                }
+
+                .right-img {
+                    width: 38%;
+                }
+            } */
+        }
+    }
+
+    @media screen and (max-width: 1024px) and (orientation: portrait) {
+        .case-study-banner {
+            .case-study-hero-banner {
+                align-items: start;
+                align-content: space-between;
+                flex-direction: column-reverse;
+                justify-content: start;
+
+                .left-text-box,
+                .right-img {
+                    width: 100%;
+                    padding-left: 0;
+                    padding-right: 0;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .case-study-banner {
+            height: 94.03dvh;
+            /* Dynamic viewport height */
+            min-height: fit-content;
+
+            @supports not (height: 1dvh) {
+                height: 94.03vh;
+            }
+
+            /* Firefox-specific override */
+            @supports (-moz-appearance: none) {
+                height: auto;
+                min-height: 94.03vh;
+            }
+
+            .case-study-hero-banner {
+                padding: 11.52% 4.8% 14.39%;
+                /* gap: 2.5em; */
+                z-index: 1;
+                /* background: linear-gradient(0deg,
+                        #0cf 2.81%,
+                        #06a8d6 32.15%,
+                        #135677 82.85%,
+                        #1a2c47 108.58%),
+                    #fff;
+                     */
+                justify-content: start;
+
+                .left-text-box {
+                    /* gap: 1.5em; */
+
+                    .case-study-download-button {
+                        min-width: 176px;
+                        min-height: 48px;
+                    }
+
+                 
+
+                    .case-study-title {
+                        width: 100%;
+                        margin-top: 4.25% !important;
+                    }
+
+    
+
+                    .case-study-download-button {
+                        margin-top: 3.19% !important;
+                    }
+                }
+
+                .right-container {
+                    margin-left: auto;
+                margin-right: auto;
+                margin-top: 3.59%;
+                position: relative;
+                width: 68.71%;
+                padding: 0px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                aspect-ratio: 518 / 533;
+
+                    .right-img {
+                        background-position: right;
+                        width:100%;
+                        aspect-ratio: 518/533;
+                        margin-top: 0%;
+                        margin-left: auto;
+                        margin-bottom: 0%;
+                    background-size: contain;
+                    }
+
+
+                   
+                }
+            }
+
+            @media screen and (orientation: landscape) {
+                height: 79.68%;
+                height: 79.68vh;
+                min-height: fit-content;
+
+                @supports (-moz-appearance: none) {
+                    height: -moz-max-content;
+                }
+
+                
+                .case-study-hero-banner {
+                    padding: 11.54% 3.4% 3.4%;
+                    flex-wrap: nowrap;
+                    align-items: start;
+
+                    .left-text-box {
+                        width: 52.64%;
+                        padding-left: 0;
+
+                        .case-study-download-button {
+                            min-width: 176px;
+                            min-height: 48px;
+                        }
+
+                     
+                        .case-study-title {
+                            width: 100%;
+                            margin-top: 2.23% !important
+                        }
+
+                    
+                        .case-study-download-button {
+                            margin-top: 3.19% !important;
+                        }
+                    }
+
+                    .right-container {
+                                           width: 47.4%;
+                        background-position: bottom;
+                        margin-top: 5%;
+                        position: relative;
+                        margin-left: auto;
+                        margin-right: 2% !important;
+
+
+                        @supports (-moz-appearance: none) {
+                            height: 43.09vh;
+                            margin-top: 11.6%;
+                        }
+                    }
+
+                    @media (min-aspect-ratio: 3/2) {
+                        .right-container {
+                            margin: auto;
+                            width: 30%;
+
+                            @supports (-moz-appearance: none) {
+                                height: 43.09vh;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 767.5px) and (orientation: portrait) {
+        .case-study-banner {
+            height: 97dvh;
+            /* Dynamic viewport height */
+            min-height: fit-content;
+
+            @supports not (height: 1dvh) {
+                height: 97vh;
+            }
+
+            /* Firefox-specific override */
+            @supports (-moz-appearance: none) {
+                height: auto;
+                min-height: 97vh;
+            }
+
+            .case-study-hero-banner {
+                padding: 4.12% 6.17% 18.47%;
+                /* gap: 2.5em; */
+                flex-direction: column-reverse;
+                justify-content: unset;
+
+                .left-text-box {
+                    /* gap: 1em; */
+
+
+                    .case-study-title {
+                        margin-top: 4.69% !important;
+                        width: 100%;
+                    }
+
+                
+
+                    .case-study-download-button {
+                        margin-top: 4.7% !important;
+                    }
+                }
+
+                .right-container {
+                    position: relative;
+                    width: 100%;
+                    display: flex;
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 21.07%;
+                    aspect-ratio: 342 / 312;
+                    padding: 7.61%;
+
+                    .right-img {
+                        width: 87.55%;
+                        aspect-ratio: 253.757 / 253.757;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        z-index: 2;
+                        margin-top: 2.15%;
+                        margin-right: 12.57%;
+                        margin-left: 0px;
+                        margin-bottom: 0px;
+                    }
+                }
+
+            }
+        }
+    }
+</style>
+
+<div class="case-study-banner">
+    <div class="case-study-hero-banner">
+        <div class="left-text-box">
+         
+            <p class="large-size case-study-title">
+                We provide professional services to power digital transformation leveraging the world’s leading technologies and partners.
+            </p>
+      
+
+                    <button class="open-download-popup custom-button case-study-download-button">
+                        Get in touch
+                    </button>
+
+        </div>
+        <div class="right-container">
+            <div class="right-img manual-lazy-load"
+                data-src="/wp-content/uploads/2025/07/Partner-illustration.png"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
+            </div>
+
+        </div>
+    </div>
+</div>

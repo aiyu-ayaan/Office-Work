@@ -69,11 +69,12 @@
                             position: absolute;
                             top: 0;
                             left: 0;
+                            font-size: clamp(5rem, 0.2rem + 4vw, 2.9rem) ;
                             opacity: 0;
                             animation: typewriter 6s infinite;
                             white-space: nowrap;
                             overflow: hidden;
-                            border-right: 2px solid var(--adro-yellow);
+                            /* border-right: 2px solid var(--adro-yellow) */
                             animation-delay: var(--delay, 0s);
                             width: 0;
                         }
@@ -148,6 +149,14 @@
 
                 .top-section {
                     margin-left: 12.48% !important;
+
+                    .banner-heading {
+                        .animated-text {
+                            div {
+                                font-size: clamp(3rem, 5.6632rem + -5.1092vw, 2.24rem);
+                            }
+                        }
+                    }
 
                     .who-we-are-banner-button {
                         margin-top: 3.3%;
@@ -272,6 +281,7 @@
                                 text-transform: uppercase;
                                 font-weight: 600;
                                 transform-origin: left center;
+                                font-size: clamp(2.25rem, 2.25rem + 0vw, 2.25rem);
                             }
                         }
                     }
@@ -299,31 +309,6 @@
         }
     }
 
-    /* Add landscape orientation support */
-    @media screen and (max-width: 767.5px) and (orientation: landscape) {
-        .who-we-are-banner-container {
-            height: 100vh;
-
-            .who-we-are-banner-content {
-                top: 20%;
-
-                .top-section {
-                    .banner-heading {
-                        .animated-text {
-                            div {
-                                transform: translateX(-50%);
-                                transform-origin: center center;
-                            }
-                        }
-                    }
-                }
-
-                .who-we-are-banner-quote {
-                    margin-top: 40%;
-                }
-            }
-        }
-    }
 
     @keyframes typewriter {
         0% {
