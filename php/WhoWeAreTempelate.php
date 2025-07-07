@@ -19,45 +19,21 @@ $GLOBALS['should_show_play_popup_form'] = true;
 get_header(); ?>
 
 <?php
-
+// Banner fields
 $banner_title = get_field('acf_who_we_are_page_banner_title') ?? '';
 $banner_image = get_field('acf_who_we_are_page_banner_image') ?? '';
 $banner_animated_text = get_field('acf_who_we_are_page_banner_animated_text') ?? '';
-
 $banner_button_text = get_field('acf_who_we_are_page_banner_button_text') ?? '';
 $banner_button_url = get_field('acf_who_we_are_page_banner_button_url') ?? '';
 $text_below_banner = get_field('acf_who_we_are_page_text_below_banner') ?? '';
 $button_below_banner_text = get_field('acf_who_we_are_page_button_below_banner_text') ?? '';
 $button_below_banner_url = get_field('acf_who_we_are_page_button_below_banner_url') ?? '';
 
+// Cards and end section fields
 $who_we_are_card = get_field('acf_who_we_are_page_who_we_are_cards');
-
 $statement_at_the_end_of_the_page = get_field('acf_who_we_are_page_statement_at_the_end_of_the_page') ?? '';
 $button_at_then_end_of_the_page_text = get_field('acf_who_we_are_page_button_at_the_end_of_page_text') ?? '';
 $button_at_then_end_of_the_page_url = get_field('acf_who_we_are_page_button_at_the_end_of_page_url') ?? '';
-
-
-// Check if get_minutes function exists before using it
-// if (function_exists('get_minutes')) {
-//     $minute_read = get_minutes(get_the_ID(), ['acf_post_content_frame_section']);
-// } else {
-//     $minute_read = get_field('acf_read_minutes') ?? '';
-// }
-
-// $text_above_watch_now_button_content_frame = get_field('acf_webinar_text_above_watch_now_button_in_content_frame') ?? '';
-
-// $webinar_author_card = get_field('acf_webinar_author_card');
-// $author_card_photo = '';
-// $author_card_name_of_the_person = '';
-// $author_card_designation_of_person = '';
-// $author_card_brief_description = '';
-
-// if (!empty($webinar_author_card)) {
-//     $author_card_photo = $webinar_author_card['acf_webinar_author_card_photo'] ?? '';
-//     $author_card_name_of_the_person = $webinar_author_card['acf_webinar_name_of_the_person'] ?? '';
-//     $author_card_designation_of_person = $webinar_author_card['acf_webinar_designation_of_person'] ?? '';
-//     $author_card_brief_description = $webinar_author_card['acf_webinar_author_card_brief_description'] ?? '';
-// }
 
 $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
 ?>
@@ -70,7 +46,6 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                         <div class="entry-content clear" data-ast-blocks-layout="true" itemprop="text">
 
                             <!-- DESCRIPTION: Banner section -->
-
                             <div class="who-we-are-banner-container">
                                 <div class="who-we-are-bg-container">
                                     <div class="who-we-are-banner-bg-img manual-lazy-load"
@@ -82,7 +57,7 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                                 <div class="who-we-are-banner-content">
                                     <div class="top-section">
                                         <h1 class="banner-heading largest-size">
-                                            <span><?php echo (wp_kses_post($banner_title)); ?></span>
+                                            <span><?php echo wp_kses_post($banner_title); ?></span>
                                             <div class="animated-text">
                                                 <?php if (have_rows('acf_who_we_are_page_banner_animated_text')): ?>
                                                     <?php while (have_rows('acf_who_we_are_page_banner_animated_text')): the_row(); ?>
@@ -109,20 +84,44 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                                     </div>
                                 </div>
                             </div>
+                            <!-- END: Banner Ends here -->
+
+                            <!-- Content frame section -->
+                            <div class="content-cards">
+                                <?php if (have_rows('acf_who_we_are_page_who_we_are_cards')): ?>
+                                    <?php while (have_rows('acf_who_we_are_page_who_we_are_cards')): the_row(); ?>
+                                        <div class="section-wrapper">
+                                            <div class="background-layout">
+                                                <div class="background-left animate-on-scroll" style="border-color: <?php the_sub_field('acf_who_we_are_page_card_border_color'); ?>;"></div>
+                                                <div class="background-right"></div>
+                                            </div>
+                                            <div class="content-overlay">
+                                                <div class="content-left animate-on-scroll small-size" style="border-color: <?php the_sub_field('acf_who_we_are_page_card_border_color'); ?>;">
+                                                    <h2 class="large-size font-bold"><?php the_sub_field('acf_who_we_are_page_card_title'); ?></h2>
+                                                    <?php the_sub_field('acf_who_we_are_page_card_description'); ?>
+                                                    <a class="underline-on-hover service-button-cta" href="<?php echo esc_url(get_sub_field('acf_who_we_are_page_card_button_url')); ?>">
+                                                        <span class="smaller-size"><?php echo esc_html(get_sub_field('acf_who_we_are_page_card_button_text')); ?></span>
+                                                    </a>
+                                                </div>
+                                                <div class="content-right animate-on-scroll">
+                                                    <img src="<?php echo esc_url(get_sub_field('acf_who_we_are_page_card_image')); ?>" alt="<?php echo esc_attr(get_sub_field('acf_who_we_are_page_card_title')); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endwhile; ?>
+                                <?php endif; ?>
+                            </div>
+
+                         
+
+                            <!-- WordPress content -->
+                            <?php the_content(); ?>
                         </div>
-
-                        <!-- END:Banner Ends here -->
-
-                        <!-- Content frame section -->
-
-
-                        <?php the_content(); ?>
                     </div>
-</div>
-</article>
-<?php endwhile;
+                </article>
+        <?php endwhile;
         endif; ?>
-</main>
+    </main>
 </div><!-- #primary -->
 
 <?php get_footer(); ?>
