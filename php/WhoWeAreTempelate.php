@@ -86,7 +86,7 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                             </div>
                             <!-- END: Banner Ends here -->
 
-                            <!-- Content frame section -->
+                            <!-- DESCRIPTION:Content frame section -->
                             <div class="content-cards">
                                 <?php if (have_rows('acf_who_we_are_page_who_we_are_cards')): ?>
                                     <?php while (have_rows('acf_who_we_are_page_who_we_are_cards')): the_row(); ?>
@@ -111,8 +111,18 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                                     <?php endwhile; ?>
                                 <?php endif; ?>
                             </div>
+                            <!-- END:Content Frame Ends Here  -->
 
-                         
+                            <!-- DESCRIPTION: -->
+
+                            <div class="statement-section">
+                                <p class="text medium-size">
+                                    <?php echo $statement_at_the_end_of_the_page; ?>
+                                </p>
+                                <a href="<?php echo esc_url($button_at_then_end_of_the_page_url); ?>">
+                                    <button class="custom-button smaller-size"><?php echo (esc_html($button_at_then_end_of_the_page_text)); ?></button>
+                                </a>
+                            </div>
 
                             <!-- WordPress content -->
                             <?php the_content(); ?>
