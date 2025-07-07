@@ -6,7 +6,7 @@
       display: flex;
       flex-direction: column;
 
-      .service-hero-banner > * {
+      .service-hero-banner>* {
         position: relative;
         z-index: 2;
       }
@@ -19,11 +19,13 @@
         border-radius: 0 0 0 10.41vw;
         pointer-events: none;
       }
+
       .innovatio-h1 {
         width: 90.8%;
         min-height: fit-content;
         max-height: 45.4vh;
       }
+
       .service-hero-banner {
         position: relative;
         border-radius: 0 0 0 10.41vw;
@@ -104,6 +106,7 @@
         position: none;
         /* background: linear-gradient(0deg, #1B4466 0%, #1B4466 100%); */
       }
+
       .carousel-controls {
         position: absolute;
         right: 0;
@@ -214,9 +217,11 @@
           height: -moz-max-content;
           min-height: 78.68vh;
         }
+
         @media screen and (max-height: 650px) {
           min-height: 100vh;
         }
+
         .service-hero-banner::before {
           border-radius: 0 0 0 10.47vw;
         }
@@ -230,72 +235,74 @@
           margin-bottom: 3.36% !important;
 
           .left-text-box {
-            width: 55.83%;
+            width: 100%;
             padding-left: 0;
             justify-content: start;
-            gap: 2em;
+            gap: 1em;
 
             h1 {
-              margin-bottom: 0.55em;
+              margin-top: 9%;
+              margin-bottom: 0px !important;
             }
           }
         }
       }
     }
-  
 
-  @media screen and (max-width: 767.5px) and (orientation: portrait) {
-    .service-banner-sub-menu-together {
-      .innovatio-h1 {
-        width: 100%;
-      }
 
-      .service-hero-banner::before {
-        border-radius: 0 0 0 25.64vw;
-      }
-      .service-hero-banner {
-        border-radius: 0 0 0 25.64vw;
-        padding: 59.75% 6.16%;
-        gap: 2.5em;
-        min-height: 84.125vh;
-        margin-bottom: 6%;
-        aspect-ratio: 390/673;
-
-        .left-text-box {
-          /* gap: 1em; */
-
-          h1 {
-            margin-bottom: 11.7%;
-          }
+    @media screen and (max-width: 767.5px) and (orientation: portrait) {
+      .service-banner-sub-menu-together {
+        .innovatio-h1 {
+          width: 100%;
         }
-      }
 
-      .service-scroll-menu {
-        .service-menu-dropdown-container.open {
-          .service-scroll-list {
-            padding: 4.12% 6.16%;
+        .service-hero-banner::before {
+          border-radius: 0 0 0 25.64vw;
+        }
 
-            li {
-              padding: 0.38em 0;
+        .service-hero-banner {
+          border-radius: 0 0 0 25.64vw;
+          padding: 59.75% 6.16%;
+          gap: 2.5em;
+          min-height: 84.125vh;
+          margin-bottom: 6%;
+          aspect-ratio: 390/673;
+
+          .left-text-box {
+            /* gap: 1em; */
+
+            h1 {
+              margin-bottom: 11.7%;
             }
           }
         }
 
-        .service-menu-dropdown-toggle {
-          padding: 0.89em 1.34em;
-          text-align: center;
-        }
-      }
+        .service-scroll-menu {
+          .service-menu-dropdown-container.open {
+            .service-scroll-list {
+              padding: 4.12% 6.16%;
 
-      .carousel-controls {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 88.8% !important;
+              li {
+                padding: 0.38em 0;
+              }
+            }
+          }
+
+          .service-menu-dropdown-toggle {
+            padding: 0.89em 1.34em;
+            text-align: center;
+          }
+        }
+
+        .carousel-controls {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          top: 88.8% !important;
+        }
       }
     }
   }
-}
 </style>
 
 <!-- Owl Carousel JS Init -->
