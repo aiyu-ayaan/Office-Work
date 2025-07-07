@@ -22,6 +22,8 @@ get_header(); ?>
 
 $banner_title = get_field('acf_who_we_are_page_banner_title') ?? '';
 $banner_image = get_field('acf_who_we_are_page_banner_image') ?? '';
+$banner_animated_text = get_field('acf_who_we_are_page_banner_animated_text') ??'';
+
 $banner_button_text = get_field('acf_who_we_are_page_banner_button_text') ?? '';
 $banner_button_url = get_field('acf_who_we_are_page_banner_button_url') ?? '';
 $text_below_banner = get_field('acf_who_we_are_page_text_below_banner') ?? '';
