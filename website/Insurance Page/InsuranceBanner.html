@@ -1,0 +1,303 @@
+<style>
+    .service-our-clients-section {
+        padding: 0 3.37%;
+        padding-top: 2.92vw;
+
+        .main-header {
+            margin-bottom: 2.71%;
+        }
+
+        .service-our-clients-slide {
+            padding-bottom: 7.21%;
+
+            .main-container {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: space-between;
+
+                .portrait-only {
+                    display: none;
+                }
+
+                .landscape-only {
+                    display: block;
+                    width: 34.5%;
+                    aspect-ratio: 5.95;
+                }
+
+                .box {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    text-align: left;
+                }
+
+                .left-box {
+                    width: 59.41%;
+                    padding-bottom: 0.45%;
+                    padding-top: 2.69%;
+
+                    .left-desc {
+                        margin-bottom: 1em;
+                    }
+
+                    .logo-author-box {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        .logo-img {}
+
+                        .author-line {
+                            width: 57.15%;
+                        }
+                    }
+
+                }
+
+                .separator {
+                    width: 1px;
+                    background-color: #fff;
+                    height: inherit;
+                    align-self: stretch;
+                }
+
+                .right-box {
+                    width: 32.17%;
+                    padding-top: 1.9%;
+
+                    .how-we-help-header {
+                        margin-bottom: 0.67em;
+                    }
+
+                    .how-we-help-line:first-of-type {
+                        margin-bottom: 1.34em;
+                    }
+                }
+            }
+
+
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait),
+        screen and (max-width:767.5px) {
+            .service-our-clients-slide {
+
+                .main-container {
+
+                    flex-direction: column;
+                    align-items: center;
+
+                    .portrait-only {
+                        display: block;
+                    }
+
+                    .landscape-only {
+                        display: none;
+                    }
+
+                    .box {
+                        align-items: center;
+                        text-align: center;
+                    }
+
+                    .left-box {
+
+                        .left-desc {
+                            font-style: italic;
+                        }
+
+                        .logo-author-box {
+                            justify-content: center;
+                        }
+
+                        .author-line::before {
+                            content: '';
+                            display: inline-block;
+                            margin-right: 1.3%;
+                            aspect-ratio: 1;
+                            vertical-align: sub;
+                            background: url(/wp-content/uploads/2025/01/2.png);
+                            background-size: contain;
+                            background-repeat: no-repeat;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+            padding: 0% 5%;
+            padding-top: 2.88vw;
+
+            .main-header {
+                margin-bottom: 1.2em;
+            }
+
+            .service-our-clients-slide {
+                padding-bottom: 1em;
+
+                .main-container {
+                    .portrait-only {
+                        width: 65%;
+                    }
+
+                    .box {
+                        width: 100%;
+                        padding: 0 3.21em;
+                    }
+
+                    .left-box {
+                        padding-top: 1em;
+                        padding-bottom: 0;
+
+                        .logo-author-box {
+                            .author-line {
+                                width: 75.7%;
+                            }
+                        }
+
+                        .author-line::before {
+                            width: 4.8%;
+                            margin-right: 0.39em;
+                        }
+                    }
+
+                    .separator {
+                        width: 100%;
+                        height: 2px;
+                        margin: 2.75em 0 3.25em;
+                    }
+
+                    .right-box {
+                        padding-top: 0;
+
+                        .how-we-help-header {
+                            margin-bottom: 1em;
+                        }
+
+                        .how-we-help-line {
+                            margin-bottom: 0.45em;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        @media screen and (max-width:767.5px) {
+            padding: 0 6.41%;
+            padding-top: 8.21vw;
+
+            .main-header {
+                text-align: center;
+                margin-bottom: 1.34em;
+            }
+
+            .service-our-clients-slide {
+                padding-bottom: 1em;
+
+                .main-container {
+                    padding: 0;
+
+                    .portrait-only {
+                        width: 73.48%;
+                        margin-bottom: 2em;
+                    }
+
+                    .separator {
+                        margin: 1.5em 0;
+                        width: 100%;
+                        height: 2px;
+                    }
+
+                    .box {
+                        width: 100%;
+                        padding: 0;
+                    }
+
+                    .right-box {
+                        margin-top: 0;
+                        padding-top: 0;
+
+                        .how-we-help-header {
+                            margin-bottom: 0.67em;
+                        }
+
+                        .how-we-help-line {
+                            margin-bottom: 0.5em;
+                        }
+                    }
+
+                    .left-box {
+                        padding-top: 0;
+                        padding-bottom: 0;
+
+                        .left-desc {
+                            margin-bottom: 1.78em;
+                        }
+
+                        .logo-author-box {
+                            .author-line {
+                                width: 67.97%;
+                            }
+                        }
+
+                        .author-line::before {
+                            width: 6.95%;
+                            margin-right: 0.39em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+</style>
+<script>
+    const service_our_clients_owl = jQuery(".service-our-clients-section .owl-carousel");
+    jQuery(document).ready(function () {
+
+        service_our_clients_owl.owlCarousel({
+            items: 1,
+            loop: true,
+            autoplay: true,
+            mouseDrag: false,
+            touchDrag: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            nav: true,
+            smartSpeed: 800,
+            dots: true,
+            margin: 20
+        });
+    });
+    let service_our_clients_autoplayTimeout;
+    // Pause autoplay on swipe
+    service_our_clients_owl.on("dragged.owl.carousel", function () {
+        service_our_clients_owl.trigger("stop.owl.autoplay");
+        clearTimeout(service_our_clients_autoplayTimeout);
+        service_our_clients_autoplayTimeout = setTimeout(() => {
+            owl.trigger("play.owl.autoplay", [5000]);
+        }, 100);
+    });
+    function updateClassForPortraitView() {
+        const left_desc = document.querySelectorAll(".service-our-clients-section .left-box .left-desc,.service-our-clients-section .left-box .author-line");
+        left_desc.forEach(item => {
+            if (window.matchMedia("(orientation:portrait)").matches) {
+                item.classList.add("small-size");
+                item.classList.remove("smaller-size");
+            } else {
+                item.classList.remove("small-size");
+                item.classList.add("smaller-size");
+            }
+        })
+
+    }
+
+    window.addEventListener("load", updateClassForPortraitView);
+    window.addEventListener("resize", updateClassForPortraitView);
+</script>
