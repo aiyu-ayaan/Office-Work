@@ -102,8 +102,15 @@ $image_urls = array_slice($image_urls, 0, $post_count);
                             while ($custom_posts->have_posts()) : $custom_posts->the_post();
                                 $image_url = isset($image_urls[$index]) ? esc_url($image_urls[$index]) : esc_url($fallback_image);
 
-                                // Fetch read_minutes
-                                $read_minutes = get_field('acf_read_minutes');
+                                $current_post_id = get_the_ID(); // Get current post ID
+                                $terms = get_the_terms($current_post_id, 'post_type_category');
+                                $post_type_name = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : 'Uncategorized';
+
+
+                                $cal_read_minutes = get_post_read_minutes($current_post_id, $post_type_name);
+
+                                // check cal_read_minutes is N/A or not
+                                $read_minutes = $cal_read_minutes !== 'N/A' ? $cal_read_minutes : get_field('acf_read_minutes', $post_id);
                                 $read_minutes_display = !empty($read_minutes) ? esc_html($read_minutes) : 'N/A';
 
                                 // Determine button text
