@@ -86,107 +86,7 @@ add_action('wp_enqueue_scripts', 'custom_logo_dynamic_url_script');
 //GDPR Cookie code
 
 
-// GDPR Cookie code
-function gdpr_cookie_consent_banner() {
-    // Only output the banner and script if the cookie is not set or explicitly 'no'
-    if (!isset($_COOKIE['gdpr_cooike_accept']) || ($_COOKIE['gdpr_cooike_accept'] === 'no')) {
-        ?>
-        <div id="cookieConsent" class="show" style="position: fixed; bottom: 0; width: 100%; background: var(--adro-mid-blue); z-index: 1000;">
-            <p class="smaller-size statement">We use cookies to deliver the best possible experience on our website. To learn more, visit our <a href="/wp-content/uploads/2024/09/ADROSONIC_GDPR_Policy.pdf" style="color:var(--adro-electric-blue);font-weight:500;" target="_blank;">Privacy Policy</a>. By continuing to use this site, or closing this box, you consent to our use of cookies. We value your privacy.</p>
-            <div class="buttons">
-                <button id="openCookiePopup" class=" custom-button">Cookie settings</button>
-                <button id="acceptCookies" class=" custom-button">Accept</button>
-            </div>
-            <a id="rejectCookies"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                        <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
-                        <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
-                        <circle cx="16" cy="16" r="15.5" stroke="white" />
-                    </svg></a>
-        </div>
-        <div class="popup-overlay">
-            <div id="cookiePopupBox" style="max-height: 90vh; overflow-y: auto;">
-                <div style="position:relative; color:#000;">
-                    <h3 class="smaller-size font-bold" style="color:var(--adro-electric-blue); margin-bottom:1.34em">Privacy Overview</h3>
-                    <a id="closePopup" onclick="closePopupFunc();"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                                <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round"></path>
-                                <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round"></path>
-                                <circle cx="16" cy="16" r="15.5" stroke="white"></circle>
-                            </svg></a>
-                    <p id="privacy-content-text" class="smaller-size">This website uses cookies to improve your experience while you navigate through
-                        the website. Out of these cookies, the cookies that are categorized as necessary are stored on your
-                        browser as they are essential for the working of basic functionalities...</p>
-                    <a id="showmorebtn" class="underline-on-hover learn-more-btn" onclick="toggleShowMoreText();"><span>See more</span></a>
-                    <div>
-                        <div class="cli-tab-header" id="toggleContentButton" onclick="toggleNeccesaryText();">
-                            <a class="font-bold smaller-size" style="color:var(--adro-deep-blue); padding-left: 1em;"><span id="icNeccesaryDrop"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="18" viewBox="0 0 10 18" fill="none">
-                                                <path d="M1 1L9 9.00038L1 17" stroke="#1A2C47" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg></span> &nbsp;Necessary</a>
-                            <span class="font-bold smaller-size" style="position:absolute; right:0; padding-right: 2em;">Always Enabled</span>
-                        </div>
-                        <div style="display: block;" id="extraContentNeccesary">
-                        </div>
-                    </div>
-                    <div class="save-accept-container">
-                        <button class="save-accept-btn custom-button" onclick="closeAcceptPopupFunc();">SAVE &amp; ACCEPT</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="cookie-banner-again">
-            <span>Privacy &amp; Cookies Policy</span>
-        </div>
-        <?php
-        // Enqueue the GDPR specific script only when the banner is shown
-        wp_enqueue_script('gdpr-cookie-consent-js', get_stylesheet_directory_uri() . '/js/gdpr-cookie-consent.js', array('jquery'), CHILD_THEME_ASTRA_CHILD_VERSION, true);
-        // Localize script to pass admin_url safely to JavaScript
-        wp_localize_script('gdpr-cookie-consent-js', 'gdpr_ajax_object', array(
-            'ajax_url' => admin_url('admin-ajax.php')
-        ));
-    }
-}
-add_action('wp_footer', 'gdpr_cookie_consent_banner');
 
-function create_gdpr_consent_table() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'gdpr_consent';
-
-    $charset_collate = $wpdb->get_charset_collate();
-    $sql = "CREATE TABLE IF NOT EXISTS $table_name (
-        id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-        user_ip VARCHAR(45) NOT NULL,
-        consent_status VARCHAR(10) NOT NULL,
-        consent_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (id)
-    ) $charset_collate;";
-
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    dbDelta($sql);
-}
-add_action('after_switch_theme', 'create_gdpr_consent_table');
-
-function save_gdpr_consent_for_forms() {
-    if (isset($_POST['gdpr-consent'])) {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'gdpr_consent';
-        $user_ip = $_SERVER['REMOTE_ADDR'];
-
-        $data = array(
-            'user_ip'        => $user_ip,
-            'consent_status' => sanitize_text_field($_POST['gdpr-consent']), // Sanitize input
-        );
-
-        $format = array(
-            '%s',
-            '%s',
-        );
-
-        $wpdb->insert($table_name, $data, $format);
-    }
-    wp_die(); // Always die for AJAX requests
-}
-add_action('wp_ajax_save_gdpr_consent', 'save_gdpr_consent_for_forms');
-add_action('wp_ajax_nopriv_save_gdpr_consent', 'save_gdpr_consent_for_forms');
-// GDPR cookie code ends here
 
 //GDPR cookie code ends here
 
@@ -305,7 +205,7 @@ add_action('wp_footer', 'custom_search_toggle_display_js');
 // 	 $nonce = get_csp_nonce();
 
 //     // Define Content Security Policy
-//     header("Content-Security-Policy: default-src 'none'; script-src 'self' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://player.vimeo.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://default-webapp-endpoint-9a734fc0-evgzcugwe7bgawfn.a03.azurefd.net https://fonts.googleapis.com https://cdnjs.cloudflare.com; connect-src 'self' https://api.ipgeolocation.io https://www.google-analytics.com; img-src 'self' https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net data: https:; frame-src 'self' https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://www.adrosonic.com https://go.demo.pardot.com https://player.vimeo.com; font-src 'self' https://fonts.gstatic.com; media-src 'self' https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://s3-figma-videos-production-sig.figma.com https://vimeo.com https://player.vimeo.com; block-all-mixed-content;");
+//     header("Content-Security-Policy: default-src 'none'; script-src 'self' https://cdnjs.cloudflare.com https://www.googletagmanager.com go.website-dev.adrosonic.com cdn.jsdelivr.net https://www.google-analytics.com https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://websitedev-db0c5dadd1-endpoint.azureedge.net https://player.vimeo.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://default-webapp-endpoint-9a734fc0-evgzcugwe7bgawfn.a03.azurefd.net https://websitedev-db0c5dadd1-endpoint.azureedge.net https://fonts.googleapis.com https://websitedev-db0c5dadd1-endpoint.azureedge.net https://cdnjs.cloudflare.com; connect-src 'self' go.website-dev.adrosonic.com cdn.jsdelivr.net https://api.ipgeolocation.io https://www.google-analytics.com; img-src 'self' https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://websitedev-db0c5dadd1-endpoint.azureedge.net data: https:; frame-src 'self' go.website-dev.adrosonic.com https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://www.adrosonic.com https://go.demo.pardot.com  https://player.vimeo.com; font-src 'self' https://websitedev-db0c5dadd1-endpoint.azureedge.net https://fonts.gstatic.com; media-src 'self' https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://websitedev-db0c5dadd1-endpoint.azureedge.net https://s3-figma-videos-production-sig.figma.com https://vimeo.com https://player.vimeo.com; block-all-mixed-content;");
 // }
 // add_action('send_headers', 'add_csp_header', 1);
 
@@ -1270,11 +1170,11 @@ function get_post_read_minutes($post_id, $post_type_name) {
          $minutes = get_minutes($post_id, null, $videoId);
      }elseif($post_type_name === 'Use Case' || $post_type_name ==='Case Study'){
         $post_content_frame_section = get_field('acf_usecase_content_frame',$post_id)?? '';
-        $content_frame_left_container = '';
+		$content_frame_left_container = '';
         $content_frame_button_text = '';
         $content_frame_benefits = '';
         $content_frame_accordion = '';
- 
+
         if (!empty($post_content_frame_section)) {
             $content_frame_left_container = $post_content_frame_section['acf_usecase_content_frame_left_container']?? '';
             $content_frame_button_text = $post_content_frame_section['acf_content_frame_usecase_button_text']?? '';
@@ -1291,14 +1191,12 @@ function get_post_read_minutes($post_id, $post_type_name) {
         }
         $minutes = get_minutes($post_id, null, null, [$content_frame_left_container, $content_frame_benefits,$accordion_text]);
      }elseif($post_type_name === 'Blog'){
-        
-		  $all_text_content = '';
+        $all_text_content = '';
         $all_divider_content = '';
         $all_takeaways_heading = '';
         $all_takeaways_content = '';
 
-       
-  if (have_rows('acf_blog_content_blocks',$post_id)) {
+        if (have_rows('acf_blog_content_blocks',$post_id)) {
             while (have_rows('acf_blog_content_blocks',$post_id)) {
                 the_row();
                 if (get_row_layout() === 'acf_blog_text_block') {
@@ -1327,7 +1225,7 @@ function get_post_read_minutes($post_id, $post_type_name) {
         $quote_text = get_field('acf_quote_text',$post_id);
         $quote_author = get_field('acf_quote_author',$post_id);
 
-        $minutes = get_minutes(get_the_ID(), null, null, [
+        $minutes = get_minutes($post_id, null, null, [
             $all_text_content,
             $all_divider_content,
             $all_takeaways_heading,
@@ -1335,13 +1233,14 @@ function get_post_read_minutes($post_id, $post_type_name) {
             $quote_text,
             $quote_author
         ]);
+// 		var_dump($minutes);
         // END:
     }
       else {
          $minutes = get_minutes($post_id, ['acf_post_content_frame_section']);
          if (is_numeric($minutes)) {
              $minutes = $minutes . ' minute' . ($minutes == 1 ? '' : 's');
-         }
+         } 
      }
  
      return $minutes !== null ? $minutes : "N/A";
@@ -1360,11 +1259,11 @@ function fetch_posts() {
     $default_image = '/wp-content/uploads/2025/04/Service-Sub-Service-General-Our-Offerings-and-Capabilities-Texture.webp';
 
     // Cache key based on page and postsPerPage
-    // $cache_key = "fetch_posts_cache_{$currentPage}_{$postsPerPage}";
-    // $cached    = get_transient($cache_key);
-    // if ($cached !== false) {
-    //     wp_send_json($cached);
-    // }
+    $cache_key = "fetch_posts_cache_{$currentPage}_{$postsPerPage}";
+    $cached    = get_transient($cache_key);
+    if ($cached !== false) {
+        wp_send_json($cached);
+    }
 
     // Get featured post IDs
     $featured_ids = array_filter(array_map('intval', explode(',', trim(get_field('acf_insight', 8223) ?? ''))));
@@ -1407,7 +1306,6 @@ function fetch_posts() {
         ]);
 
         foreach ($regular_query->posts as $post_id) {
-            var_dump($post_id);
             $regular_posts[] = get_post_data_for_output($post_id, $default_image);
         }
         wp_reset_postdata();
@@ -1440,13 +1338,12 @@ function fetch_posts() {
     ];
 
     // Cache response for 10 minutes
-    // set_transient($cache_key, $response, 10 * MINUTE_IN_SECONDS);
+    set_transient($cache_key, $response, 10 * MINUTE_IN_SECONDS);
 
     wp_send_json($response);
 }
 add_action('wp_ajax_fetch_posts', 'fetch_posts');
 add_action('wp_ajax_nopriv_fetch_posts', 'fetch_posts');
-
 function get_post_data_for_output($post_id, $default_image) {
     $image = get_the_post_thumbnail_url($post_id, 'full') ?: $default_image;
 
@@ -1455,20 +1352,19 @@ function get_post_data_for_output($post_id, $default_image) {
 
    
     $cal_read_minutes = get_post_read_minutes($post_id, $post_type_name);
-    
     // check cal_read_minutes is N/A or not
     $read_minutes = $cal_read_minutes !== 'N/A' ? $cal_read_minutes : get_field('acf_read_minutes', $post_id);
     $read_minutes_display = !empty($read_minutes) ? esc_html($read_minutes) : 'N/A';
- 
     return [
         'id'           => $post_id,
         'title'        => get_the_title($post_id),
         'image'        => $image,
         'post_type'    => $post_type_name,
         'permalink'    => get_permalink($post_id),
-        'read_minutes' => $read_minutes_display,
+		'read_minutes' => $read_minutes_display
     ];
 }
+
 
 // 1. Add Meta Box to Post Editor
 function add_adrosonic_oldurl_meta_box()
@@ -1915,11 +1811,6 @@ function force_noindex_nofollow_all_pages($robots) {
     return 'noindex, nofollow';
 }
 
-// functions.php or a custom plugin
-add_action('send_headers', function() {
-    header_remove('Server'); // Remove existing Server header
-    header('Server: adroserver'); // Set your own custom server name
-});
 
 add_action('template_redirect', function () {
     if (strpos($_SERVER['REQUEST_URI'], '/data-management-and-analytics') !== false) {
@@ -2060,193 +1951,206 @@ add_action('init', function () {
 //ACF custom field for pdf attachment
 
 
-function add_pardot_download_script() {
-	if (!function_exists('get_field')) {
-        wp_send_json_error(['message' => 'ACF not initialized']);
-        return;
-    }
-//$pdf = get_field('acf_posts_pdf_download');  // Returns an array if file exists
-if (is_single()) {
-$pdf = get_field('acf_posts_pdf_download');
-if ($pdf && isset($pdf['url'])) {
+function add_pardot_download_script()
+{
+  if (!function_exists('get_field')) {
+    wp_send_json_error(['message' => 'ACF not initialized']);
+    return;
+  }
+  //$pdf = get_field('acf_posts_pdf_download'); // Returns an array if file exists
+  if (is_single()) {
+    $pdf = get_field('acf_posts_pdf_download');
+    if ($pdf && isset($pdf['url'])) {
 ?>
-<script>
-    window.addEventListener('message', function (event) {
-        try {
+      <script>
+        window.addEventListener('message', function(event) {
+          try {
             const trustedOriginIs = 'https://go.website-dev.adrosonic.com';
 
             if (event.origin !== trustedOriginIs) {
-                console.warn('Blocked message from untrusted origin:', event.origin);
-                return;
+              console.warn('Blocked message from untrusted origin:', event.origin);
+              return;
             }
 
             if (event.data === 'pardot') {
-                jQuery('.download-pardot-popup-overlay').hide();
-                handlePardotFormSuccess();
-                console.log("Handled pardot message from trusted origin");
+              jQuery('.download-pardot-popup-overlay').hide();
+              handlePardotFormSuccess();
+              console.log("Handled pardot message from trusted origin");
             }
 
-        } catch (e) {
+          } catch (e) {
             console.log("Error while handling postMessage securely:", e);
+          }
+        });
+
+
+        function handlePardotFormSuccess() {
+          triggerPDFDownload();
+
+          function triggerPDFDownload() {
+            const pdfUrl = '<?php echo esc_url($pdf['url']); ?>';
+
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            const isIOS = /iP(ad|hone|od)/i.test(navigator.userAgent);
+
+            if (isSafari && isIOS) {
+              // For iOS Safari — open in same tab
+              window.location.href = pdfUrl;
+            } else {
+              // For all other browsers — open in new tab
+              window.open(pdfUrl, '_blank');
+              location.reload(); // Reload only for non-Safari
+            }
+          }
         }
-    });
-
-
-   function handlePardotFormSuccess() {
-    triggerPDFDownload();
-
-    function triggerPDFDownload() {
-        const pdfUrl = '<?php echo esc_url($pdf['url']); ?>';
-
-        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        const isIOS = /iP(ad|hone|od)/i.test(navigator.userAgent);
-
-        if (isSafari && isIOS) {
-            // For iOS Safari — open in same tab
-            window.location.href = pdfUrl;
-        } else {
-            // For all other browsers — open in new tab
-            window.open(pdfUrl, '_blank');
-            location.reload(); // Reload only for non-Safari
-        }
+      </script>
+  <?php
     }
-}
-
-</script>
-<?php
-        }
-    }
+  }
 }
 add_action('wp_footer', 'add_pardot_download_script');
 
 // Passes product interest on the basis of services assgined to the post
 add_action('wp_footer', 'inject_pardot_iframe_with_Product_Interest');
 
-function inject_pardot_iframe_with_Product_Interest() {
-    if (!is_single()) return;
+function inject_pardot_iframe_with_Product_Interest()
+{
+  if (!is_single()) return;
 
-    global $post;
-    if (!$post) return;
-//     if (strpos($post->post_content, 'open-download-popup') === false) return;
-    if (empty($GLOBALS['should_show_download_popup_form']) && strpos($post->post_content, 'open-download-popup') === false) return;
+  global $post;
+  if (!$post) return;
+  if (empty($GLOBALS['should_show_download_popup_form']) && strpos($post->post_content, 'open-download-popup') === false) return;
 
-    // Fetch parent category ID for "Service"
-    $service_parent = get_term_by('name', 'Service', 'category');
-    $service_parent_id = $service_parent ? $service_parent->term_id : 0;
+  // Get all categories assigned to the post
+  $post_categories = get_the_category($post->ID);
 
-    // Get assigned categories
-    $post_categories = get_the_category($post->ID);
+  // Get the "Service" category ID
+  $service_parent = get_term_by('name', 'Service', 'category');
+  $service_parent_id = $service_parent ? $service_parent->term_id : 0;
 
-    function is_descendant_of_service($cat_id, $service_id) {
-    $term = get_category($cat_id);
-    while ($term && $term->parent != 0) {
-        if ($term->parent == $service_id) return true;
-        $term = get_category($term->parent);
+  $included_names = [];
+
+  foreach ($post_categories as $cat) {
+    if ($cat->term_id == $service_parent_id) {
+      // Skip the top-level "Service" category
+      continue;
     }
-    return false;
-    }
 
-    $relevant_categories = array_filter($post_categories, function($cat) use ($service_parent_id) {
-    return ($cat->term_id == $service_parent_id) || is_descendant_of_service($cat->term_id, $service_parent_id);
-   });
-
-
-    // Extract names
-    $Product_Interest_values = array_map(function($cat) {
-        return $cat->name;
-    }, $relevant_categories);
-
-    $Product_Interest_encoded = urlencode(implode(',', $Product_Interest_values));
-    	
-	$terms = get_the_terms($post->ID, 'post_type_category');
-    if (!empty($terms) && !is_wp_error($terms)) {
-    $post_label = $terms[0]->name;
+    if ($cat->parent == $service_parent_id) {
+      // It's a direct child of "Service"
+      $included_names[] = $cat->name;
     } else {
+      // It's a grandchild; check its parent
+      $parent_cat = get_category($cat->parent);
+      if ($parent_cat && $parent_cat->parent == $service_parent_id) {
+        // Include the parent (which is a direct child of "Service")
+        $included_names[] = $parent_cat->name;
+      }
+    }
+  }
+
+  // Fallback if nothing relevant was found
+  if (empty($included_names)) {
+    $included_names[] = 'General';
+  }
+
+  // Remove duplicates and URL encode
+  $Product_Interest_values = array_unique($included_names);
+  $Product_Interest_encoded = urlencode(implode(',', $Product_Interest_values));
+
+  $terms = get_the_terms($post->ID, 'post_type_category');
+  if (!empty($terms) && !is_wp_error($terms)) {
+    $post_label = $terms[0]->name;
+  } else {
     // Fallback
     $post_label = 'Resource';
-   }
-    ?>
-<!-- The Popup -->
-<div class="download-pardot-popup-overlay">
+  }
+  ?>
+  <!-- The Popup -->
+  <div class="download-pardot-popup-overlay">
     <div class="download-pardot-popup-content">
-        <span class="close-popup">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
-                <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
-                <circle cx="16" cy="16" r="15.5" stroke="white" />
-            </svg></span>
-        <h2 class="popup-heading font-bold large-size">Download Our <?php echo esc_html($post_label);?></h2>
-        <!-- Pardot Form Embed -->
-        <div class="pardot-form-container">
-            <iframe src="" width="100%" class="download-iframe" type="text/html" frameborder="0"
-                allowTransparency="true" style="border: 0"></iframe>
-        </div>
+      <span class="close-popup">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
+          <circle cx="16" cy="16" r="15.5" stroke="white" />
+        </svg></span>
+      <h2 class="popup-heading font-bold large-size">Download Our
+        <?php echo esc_html($post_label); ?>
+      </h2>
+      <!-- Pardot Form Embed -->
+      <div class="pardot-form-container">
+        <iframe src="" width="100%" class="download-iframe" type="text/html" frameborder="0" allowTransparency="true"
+          style="border: 0"></iframe>
+      </div>
     </div>
-</div>
-<!-- herr -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const popupOverlay = document.querySelector('.download-pardot-popup-overlay');
-        const closeButton = document.querySelector('.download-pardot-popup-overlay .close-popup');
-        const openButtons = document.querySelectorAll('.open-download-popup');
-		let pardotPopupScrollY = 0;
-		function lockBodyScrollForPardotPopup() {
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const popupOverlay = document.querySelector('.download-pardot-popup-overlay');
+      const closeButton = document.querySelector('.download-pardot-popup-overlay .close-popup');
+      const openButtons = document.querySelectorAll('.open-download-popup');
+      let pardotPopupScrollY = 0;
+
+      function lockBodyScrollForPardotPopup() {
         pardotPopupScrollY = window.scrollY || window.pageYOffset;
         document.body.style.position = 'fixed';
         document.body.style.top = `-${pardotPopupScrollY}px`;
         document.body.style.left = '0';
         document.body.style.right = '0';
         document.body.style.width = '100%';
-       }
-		function unlockBodyScrollForPardotPopup() {
+      }
+
+      function unlockBodyScrollForPardotPopup() {
         document.body.style.position = '';
         document.body.style.top = '';
         document.body.style.left = '';
         document.body.style.right = '';
         document.body.style.width = '';
         window.scrollTo(0, pardotPopupScrollY);
-       }
+      }
 
-        // Handle all "Download" buttons
-        openButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                popupOverlay.style.display = 'flex';
-				lockBodyScrollForPardotPopup();
-            });
+      // Handle all "Download" buttons
+      openButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          popupOverlay.style.display = 'flex';
+          lockBodyScrollForPardotPopup();
         });
+      });
 
-        // Close popup on close button click
-        closeButton.addEventListener('click', function () {
-            popupOverlay.style.display = 'none';
-			unlockBodyScrollForPardotPopup();
+      // Close popup on close button click
+      closeButton.addEventListener('click', function() {
+        popupOverlay.style.display = 'none';
+        unlockBodyScrollForPardotPopup();
+      });
+
+      // Close popup on background click
+      window.addEventListener('click', function(e) {
+        if (e.target === popupOverlay) {
+          popupOverlay.style.display = 'none';
+          unlockBodyScrollForPardotPopup();
+        }
+      });
+      const productInterest = "<?php echo $Product_Interest_encoded; ?>";
+
+      fetch('https://api.ipgeolocation.io/ipgeo?apiKey=31bc120625344a6389c602f3bec22805')
+        .then(response => response.json())
+        .then(data => {
+          const country = encodeURIComponent(data.country_name || '');
+          const region = encodeURIComponent(data.state_prov || '');
+          const iframe = document.querySelector('.download-iframe');
+          const baseUrl = 'https://go.website-dev.adrosonic.com/l/791983/2025-05-28/2w63';
+
+          iframe.src = `${baseUrl}?country=${country}&territory=${region}&Product_Interest=${productInterest}`;
+        })
+        .catch(error => {
+          console.error('IPGeolocation failed:', error);
         });
-
-        // Close popup on background click
-        window.addEventListener('click', function (e) {
-            if (e.target === popupOverlay) {
-                popupOverlay.style.display = 'none';
-				unlockBodyScrollForPardotPopup();
-            }
-        });
-        const productInterest = "<?php echo $Product_Interest_encoded; ?>";
-
-        fetch('https://api.ipgeolocation.io/ipgeo?apiKey=31bc120625344a6389c602f3bec22805')
-            .then(response => response.json())
-            .then(data => {
-                const country = encodeURIComponent(data.country_name || '');
-                const region = encodeURIComponent(data.state_prov || '');
-                const iframe = document.querySelector('.download-iframe');
-                const baseUrl = 'https://go.website-dev.adrosonic.com/l/791983/2025-05-28/2w63';
-
-                iframe.src = `${baseUrl}?country=${country}&territory=${region}&Product_Interest=${productInterest}`;
-            })
-            .catch(error => {
-                console.error('IPGeolocation failed:', error);
-            });
     });
-</script>
+  </script>
 <?php
 }
+
 
 // play pardot code
  
@@ -2297,7 +2201,7 @@ if ($video) {
             }
             const baseSrc = video.dataset.originalSrc;
             if (video && !video.src.includes("autoplay=1")) {
-                video.src = baseSrc + "?autoplay=1&muted=1&playsinline=1";
+                video.src = baseSrc;
             }
             document.querySelector(".play-popup-overlay").classList.add("video-mode");
             const postHead = document.querySelector(".post-head");
@@ -2325,33 +2229,42 @@ function inject_pardot_video_iframe_with_Product_Interest() {
 //     if (strpos($post->post_content, 'open-pardot-play-popup') === false) return;
     if (empty($GLOBALS['should_show_play_popup_form']) && strpos($post->post_content, 'open-pardot-play-popup') === false) return;
 
-    // Fetch parent category ID for "Service"
-    $service_parent = get_term_by('name', 'Service', 'category');
-    $service_parent_id = $service_parent ? $service_parent->term_id : 0;
+  // Get all categories assigned to the post
+  $post_categories = get_the_category($post->ID);
 
-    // Get assigned categories
-    $post_categories = get_the_category($post->ID);
+  // Get the "Service" category ID
+  $service_parent = get_term_by('name', 'Service', 'category');
+  $service_parent_id = $service_parent ? $service_parent->term_id : 0;
 
-    function is_descendant_of_service($cat_id, $service_id) {
-    $term = get_category($cat_id);
-    while ($term && $term->parent != 0) {
-        if ($term->parent == $service_id) return true;
-        $term = get_category($term->parent);
+  $included_names = [];
+
+  foreach ($post_categories as $cat) {
+    if ($cat->term_id == $service_parent_id) {
+      // Skip the top-level "Service" category
+      continue;
     }
-    return false;
+
+    if ($cat->parent == $service_parent_id) {
+      // It's a direct child of "Service"
+      $included_names[] = $cat->name;
+    } else {
+      // It's a grandchild; check its parent
+      $parent_cat = get_category($cat->parent);
+      if ($parent_cat && $parent_cat->parent == $service_parent_id) {
+        // Include the parent (which is a direct child of "Service")
+        $included_names[] = $parent_cat->name;
+      }
     }
+  }
 
-    $relevant_categories = array_filter($post_categories, function($cat) use ($service_parent_id) {
-    return ($cat->term_id == $service_parent_id) || is_descendant_of_service($cat->term_id, $service_parent_id);
-   });
+  // Fallback if nothing relevant was found
+  if (empty($included_names)) {
+    $included_names[] = 'General';
+  }
 
-
-    // Extract names
-    $Product_Interest_values = array_map(function($cat) {
-        return $cat->name;
-    }, $relevant_categories);
-
-    $Product_Interest_encoded = urlencode(implode(',', $Product_Interest_values));
+  // Remove duplicates and URL encode
+  $Product_Interest_values = array_unique($included_names);
+  $Product_Interest_encoded = urlencode(implode(',', $Product_Interest_values));
 	
 	$terms = get_the_terms($post->ID, 'post_type_category');
     if (!empty($terms) && !is_wp_error($terms)) {
@@ -3066,11 +2979,62 @@ function acf_clean_tinymce_bookmarks_before_save($value, $post_id, $field) {
     return $value;
 }
 
-//cookie
+// ----------------------------
+// 1. Smart Cache Headers
+// ----------------------------
 add_action('send_headers', function () {
-    if (!isset($_COOKIE['gdpr_cookie_accept'])) {
-        header("Cache-Control: no-cache, no-store, must-revalidate");
+    if (!is_user_logged_in()) {
+        // Public pages: cache for 1 min in browser, 5 mins in AFD
+        header("Cache-Control: public, max-age=60, s-maxage=300");
+    } else {
+        // Private/admin pages: prevent caching
+        header("Cache-Control: private, no-store, no-cache, must-revalidate");
         header("Pragma: no-cache");
         header("Expires: 0");
     }
 });
+
+// ----------------------------
+// 2. Enable bfcache-safe events
+// ----------------------------
+function add_bfcache_script() {
+    ?>
+    <script>
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+            // You came back via back/forward nav (from bfcache)
+           // console.log('Restored from bfcache');
+        }
+    });
+    </script>
+    <?php
+}
+add_action('wp_footer', 'add_bfcache_script');
+
+// ----------------------------
+// 3. Instant Navigation
+// ----------------------------
+function load_instant_page() {
+    echo '<script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>';
+}
+add_action('wp_footer', 'load_instant_page');
+
+// ----------------------------
+// 4. Preload/prefetch critical internal links
+// ----------------------------
+function add_prefetch_links() {
+    ?>
+    <link rel="prerender" href="/about-us">
+    <link rel="prerender" href="/contact">
+    <link rel="prerender" href="/insights">
+	<link rel="prerender" href="/">
+    <?php
+}
+add_action('wp_head', 'add_prefetch_links');
+
+add_action('send_headers', function() {
+    header_remove('Server'); // Remove existing Server header
+    header('Server: adroserver'); // Set your own custom server name
+});
+
+require_once get_stylesheet_directory() . '/cookie.php';

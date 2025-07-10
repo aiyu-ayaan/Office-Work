@@ -1,0 +1,122 @@
+<?php
+
+/**
+ * Template Name: Partner
+ * Template Post Type: page
+ */
+/**
+ * The template for displaying all webinar posts.
+ *
+ * @package Astra
+ * @since 1.0.0
+ */
+
+if (! defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
+}
+
+$GLOBALS['should_show_play_popup_form'] = true;
+get_header(); ?>
+
+<?php
+
+$banner_title = get_field('acf_partner_page_banner_title') ?? '';
+$banner_image = get_field('acf_partner_page_banner_image') ?? '';
+$banner_svg_url = get_field('acf_partner_page_banner_svg_url') ?? '';
+$banner_button_text = get_field('acf_partner_page_banner_button_text') ?? '';
+$banner_button_url = get_field('acf_partner_page_banner_button_url') ?? '';
+
+$partnership_section = get_field('acf_partner_page_partnership_section') ?? '';
+
+// On Advance custom fields $partnership_section is an group field
+$partnership_section_title = $partnership_section['acf_partner_page_partnership_title'] ?? '';
+$partnership_section_description = $partnership_section['acf_partner_page_partnership_description'] ?? '';
+$partnership_section_button_text = $partnership_section['acf_partner_page_partnership_button_text'] ?? '';
+$partnership_section_button_url = $partnership_section['acf_partner_page_partnership_button_url'] ?? '';
+$partnership_section_image = $partnership_section['acf_partner_page_partnership_image'] ?? '';
+?>
+
+<div id="primary" <?php astra_primary_class(); ?>>
+    <main id="main" class="site-main">
+        <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                <article id="post-<?php the_ID(); ?>" <?php post_class('ast-article-single'); ?> itemscope itemtype="https://schema.org/CreativeWork">
+                    <div class="ast-post-format- single-layout-1">
+                        <div class="entry-content clear" data-ast-blocks-layout="true" itemprop="text">
+
+                            <!-- DESCRIPTION: Banner section -->
+
+                            <div class="patner-banner">
+                                <div class="patner-hero-banner">
+                                    <div class="left-text-box">
+
+                                        <p class="large-size patner-title">
+                                            <?php echo wp_kses_post($banner_title); ?>
+                                        </p>
+
+
+                                        <a href="<?php echo esc_url($banner_button_url); ?>">
+                                            <button class="open-download-popup custom-button patner-download-button">
+                                                <?php echo esc_html($banner_button_text); ?>
+                                            </button>
+                                        </a>
+
+                                    </div>
+                                    <div class="right-container">
+                                        <div class="right-img manual-lazy-load"
+                                            data-src="<?php echo esc_url($banner_svg_url ? $banner_svg_url : $banner_image); ?>"
+                                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DESCRIPTION:Partner page- Technology & Strategy Partner section -->
+
+
+
+
+
+
+
+                            <!-- DESCRIPTION:Partner Page- Partnership Section -->
+
+                            <div class="harness-the-power">
+                                <div class="content-wrapper">
+                                    <div class="left-container">
+                                        <!-- SVG Circle Chart -->
+                                        <svg class="circle-chart" viewBox="0 0 120 120">
+                                            <circle class="circle-bg" cx="60" cy="60" r="59.5" />
+                                            <!-- Inner circle with the background image -->
+                                            <circle class="inner-circle-bg" cx="60" cy="60" r="57" />
+                                            <!-- Image inside the inner circle -->
+                                            <image href="<?php echo esc_url($partnership_section_image) ?>" x="3" y="3" width="114"
+                                                height="114" />
+                                        </svg>
+                                    </div>
+                                    <div class="right-container">
+                                        <h2 class="header largest-size">
+                                            <?php echo wp_kses_post($partnership_section_title); ?>
+                                        </h2>
+                                        <p class="description-text small-size">
+                                            <?php echo wp_kses_post($partnership_section_description); ?>
+                                        </p>
+                                        <a href="<?php echo esc_url($partnership_section_button_url); ?>">
+                                            <button class="custom-button">
+                                                <?php echo esc_html($partnership_section_button_text); ?>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- WordPress content -->
+                            <?php the_content(); ?>
+                        </div>
+                    </div>
+                </article>
+        <?php endwhile;
+        endif; ?>
+    </main>
+</div><!-- #primary -->
+
+<?php get_footer(); ?>
