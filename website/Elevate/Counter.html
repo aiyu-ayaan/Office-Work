@@ -1,0 +1,136 @@
+<div class="counter-section">
+    <h1 class="medium-size event-start-title">
+        Event starts in
+    </h1>
+    <div class="counter">
+        <div class="counter-day counter-style">
+            <span class="counter-number-day largest-size">26</span>
+            <span class="counter-label-day smaller-size">Days</span>
+        </div>
+
+        <div class="counter-hours counter-style">
+            <span class="counter-number-hours largest-size">10</span>
+            <span class="counter-label-hours smaller-size">Hours</span>
+        </div>
+
+
+        <div class="counter-minutes counter-style">
+            <span class="counter-number-minutes largest-size">34</span>
+            <span class="counter-label-minutes smaller-size">Minutes</span>
+        </div>
+
+
+        <div class="counter-seconds counter-style">
+            <span class="counter-number-seconds largest-size">56</span>
+            <span class="counter-label-seconds smaller-size">Seconds</span>
+        </div>
+    </div>
+</div>
+<style>
+    .counter-section {
+        width: 100%;
+        height: 15.93vh;
+        background-color: var(--adro-electric-green);
+        color: var(--adro-deep-blue);
+        padding: 1.41% 3.34%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: row;
+
+        .event-start-title {
+            width: auto;
+            font-weight: 500;
+            text-align: left;
+            color: var(--adro-deep-blue);
+            margin: 0;
+            margin-left: unset !important;
+            margin-right: unset !important;
+        }
+
+        .counter {
+            color: var(--adro-deep-blue);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: row;
+            margin-left: 9.77% !important;
+            width: 100%;
+            margin-right: 11.78% !important;
+            justify-content: space-between;
+            flex: 1;
+
+            .counter-style {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+
+                /* select 1 div */
+                span:nth-child(1) {
+                    font-weight: 500;
+                }
+
+                span:nth-child(2) {
+                    font-weight: 400;
+                }
+            }
+        }
+
+    }
+</style>
+
+<script>
+    // Set the target date (30 days from now for demo)
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 30);
+
+    // Get DOM elements
+    const dayElement = document.querySelector('.counter-number-day');
+    const hourElement = document.querySelector('.counter-number-hours');
+    const minuteElement = document.querySelector('.counter-number-minutes');
+    const secondElement = document.querySelector('.counter-number-seconds');
+
+    const dayContainer = document.querySelector('.counter-day');
+    const hourContainer = document.querySelector('.counter-hours');
+    const minuteContainer = document.querySelector('.counter-minutes');
+    const secondContainer = document.querySelector('.counter-seconds');
+
+    // Update countdown function
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const timeLeft = targetDate.getTime() - now;
+
+        if (timeLeft > 0) {
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            // Update display
+            dayElement.textContent = days.toString().padStart(2, '0');
+            hourElement.textContent = hours.toString().padStart(2, '0');
+            minuteElement.textContent = minutes.toString().padStart(2, '0');
+            secondElement.textContent = seconds.toString().padStart(2, '0');
+        } else {
+            // Event has started
+            dayElement.textContent = '00';
+            hourElement.textContent = '00';
+            minuteElement.textContent = '00';
+            secondElement.textContent = '00';
+
+            document.querySelector('.event-start-title').textContent = 'Event has started!';
+        }
+    }
+
+    // Initial call
+    updateCountdown();
+
+    // Update every second
+    setInterval(updateCountdown, 1000);
+
+    // Initialize with current time-based values
+    setTimeout(() => {
+        updateCountdown();
+    }, 100);
+</script>
