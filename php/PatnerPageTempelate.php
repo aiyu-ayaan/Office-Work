@@ -37,6 +37,8 @@ $partnership_section_description = $partnership_section['acf_partner_page_partne
 $partnership_section_button_text = $partnership_section['acf_partner_page_partnership_button_text'] ?? '';
 $partnership_section_button_url = $partnership_section['acf_partner_page_partnership_button_url'] ?? '';
 $partnership_section_image = $partnership_section['acf_partner_page_partnership_image'] ?? '';
+
+$you_may_be_interested_plugin_shortcode = get_field('you_might_be_interested_plugin_shortcode');
 ?>
 
 <div id="primary" <?php astra_primary_class(); ?>>
@@ -91,13 +93,13 @@ $partnership_section_image = $partnership_section['acf_partner_page_partnership_
                                             <?php $first_tab = false; ?>
                                         <?php endwhile; ?>
                                     <?php endif; ?>
-                                    
+
                                 </div>
                                 <div id="grid-container">
                                     <?php if (have_rows('acf_partner_page_content_section')): ?>
                                         <?php while (have_rows('acf_partner_page_content_section')): the_row(); ?>
-                                            <?php 
-                                                $category_title = get_sub_field('acf_partner_page_category_title'); 
+                                            <?php
+                                            $category_title = get_sub_field('acf_partner_page_category_title');
                                             ?>
                                             <section class="category-section" data-category="<?php echo esc_attr($category_title); ?>">
                                                 <h2 class="medium-size font-bold partner-category-header"><?php echo esc_html($category_title); ?></h2>
@@ -105,8 +107,8 @@ $partnership_section_image = $partnership_section['acf_partner_page_partnership_
                                                     <?php if (have_rows('acf_partner_page_section_items')): ?>
                                                         <?php while (have_rows('acf_partner_page_section_items')): the_row(); ?>
                                                             <?php
-                                                                $item_logo = get_sub_field('acf_partner_page_content_section_item_logo');
-                                                                $item_description = get_sub_field('acf_partner_page_content_section_item_description');
+                                                            $item_logo = get_sub_field('acf_partner_page_content_section_item_logo');
+                                                            $item_description = get_sub_field('acf_partner_page_content_section_item_description');
                                                             ?>
                                                             <div class="card">
                                                                 <div class="partner-img">
@@ -123,7 +125,7 @@ $partnership_section_image = $partnership_section['acf_partner_page_partnership_
                                                     <?php endif; ?>
                                                 </div>
                                                 <!-- Mobile Dots -->
-                                            
+
                                                 <div class="mobile-dots"></div>
 
                                             </section>
@@ -196,6 +198,14 @@ $partnership_section_image = $partnership_section['acf_partner_page_partnership_
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Spacer between Partner page and you might be interested -->
+                            <div aria-hidden="true" class="spacer-above-related-posts wp-block-spacer"></div>
+
+                            <!-- DESCRIPTION:You might be interested -->
+                            <?php if (!empty($you_may_be_interested_plugin_shortcode)) {
+                                echo do_shortcode($you_may_be_interested_plugin_shortcode);
+                            } ?>
                             <!-- WordPress content -->
                             <?php the_content(); ?>
                         </div>
