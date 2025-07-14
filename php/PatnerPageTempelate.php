@@ -76,8 +76,6 @@ $partnership_section_image = $partnership_section['acf_partner_page_partnership_
 
                             <!-- DESCRIPTION:Partner page- Technology & Strategy Partner section -->
 
-
-
                             <div class="partners-section">
                                 <div class="button-container">
                                     <?php if (have_rows('acf_partner_page_content_section')): ?>
@@ -93,264 +91,44 @@ $partnership_section_image = $partnership_section['acf_partner_page_partnership_
                                             <?php $first_tab = false; ?>
                                         <?php endwhile; ?>
                                     <?php endif; ?>
-                                    <!-- <button data-category="Technology Partners" class="tab-btn active">Technology Partners</button> -->
-                                    <!-- <button data-category="Strategic Partners" class="tab-btn">Strategic Partners</button> -->
+                                    
                                 </div>
                                 <div id="grid-container">
-                                    <section class="category-section" data-category="Technology Partners">
-                                        <h2 class="medium-size font-bold partner-category-header">Technology Partners</h2>
-                                        <div class="grid">
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/Updated-Microsoft-Power-Automate-Logo-2.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
+                                    <?php if (have_rows('acf_partner_page_content_section')): ?>
+                                        <?php while (have_rows('acf_partner_page_content_section')): the_row(); ?>
+                                            <?php 
+                                                $category_title = get_sub_field('acf_partner_page_category_title'); 
+                                            ?>
+                                            <section class="category-section" data-category="<?php echo esc_attr($category_title); ?>">
+                                                <h2 class="medium-size font-bold partner-category-header"><?php echo esc_html($category_title); ?></h2>
+                                                <div class="grid">
+                                                    <?php if (have_rows('acf_partner_page_section_items')): ?>
+                                                        <?php while (have_rows('acf_partner_page_section_items')): the_row(); ?>
+                                                            <?php
+                                                                $item_logo = get_sub_field('acf_partner_page_content_section_item_logo');
+                                                                $item_description = get_sub_field('acf_partner_page_content_section_item_description');
+                                                            ?>
+                                                            <div class="card">
+                                                                <div class="partner-img">
+                                                                    <img src="<?php echo esc_url($item_logo); ?>" alt="">
+                                                                    <a class="see-more underline-on-hover service-button-cta">
+                                                                        <span class="see-more-text">See More</span>
+                                                                    </a>
+                                                                </div>
+                                                                <p class="partner-description smallest-size">
+                                                                    <?php echo esc_html($item_description); ?>
+                                                                </p>
+                                                            </div>
+                                                        <?php endwhile; ?>
+                                                    <?php endif; ?>
                                                 </div>
-                                                <p class="partner-description smallest-size">1Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/open-ai-logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">1Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/UIPATH-Logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">1Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/Updated-Microsoft-Power-Automate-Logo-2.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">1Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/Updated-Microsoft-Power-Automate-Logo-2.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">1Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/UIPATH-Logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">1Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/open-ai-logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">2Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/open-ai-logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">3Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/Updated-Microsoft-Power-Automate-Logo-2.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">4Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/open-ai-logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">5Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/UIPATH-Logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">6Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/UIPATH-Logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">7Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/Updated-Microsoft-Power-Automate-Logo-2.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">8Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/open-ai-logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">9Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/open-ai-logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">10Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                        </div>
-                                        <!-- Mobile Dots -->
-                                        <div class="mobile-dots"></div>
-                                    </section>
+                                                <!-- Mobile Dots -->
+                                            
+                                                <div class="mobile-dots"></div>
 
-                                    <section class="category-section" data-category="Strategic Partners">
-                                        <h2 class="medium-size font-bold partner-category-header">Strategic Partners</h2>
-                                        <div class="grid">
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/UIPATH-Logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">1Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/UIPATH-Logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">2Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/UIPATH-Logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">3Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/Updated-Microsoft-Power-Automate-Logo-2.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">4Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                            <div class="card">
-                                                <div class="partner-img">
-                                                    <img src="/wp-content/uploads/2025/04/open-ai-logo.png" alt="">
-                                                    <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See
-                                                            More</span></a>
-                                                </div>
-                                                <p class="partner-description smallest-size">5Corem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit.
-                                                    Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad
-                                                    litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis
-                                                    condimentum lobortis. Ut commodo efficitur neque.</p>
-                                            </div>
-                                        </div>
-                                        <div class="mobile-dots"></div>
-                                    </section>
+                                            </section>
+                                        <?php endwhile; ?>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="pagination" id="desktop-nav">
                                     <button id="prev-btn"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34"
