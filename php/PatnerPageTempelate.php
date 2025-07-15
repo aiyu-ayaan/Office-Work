@@ -76,7 +76,11 @@ $you_may_be_interested_plugin_shortcode = get_field('you_might_be_interested_plu
                                 </div>
                             </div>
 
-                            <!-- DESCRIPTION:Partner page- Technology & Strategy Partner section -->
+                            <!-- 		DESCRIPTION:Spacer below banner frame 					 -->
+
+                            <div aria-hidden="true" class="spacer-below-banner wp-block-spacer"></div>
+
+                            <!-- DESCRIPTION: Content Frame -->
 
                             <div class="partners-section">
                                 <div class="button-container">
@@ -167,6 +171,10 @@ $you_may_be_interested_plugin_shortcode = get_field('you_might_be_interested_plu
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- 		DESCRIPTION:Spacer below content frame 					 -->
+
+                            <div aria-hidden="true" class="spacer-below-content-frame wp-block-spacer"></div>
 
                             <!-- DESCRIPTION:Partner Page- Partnership Section -->
 
