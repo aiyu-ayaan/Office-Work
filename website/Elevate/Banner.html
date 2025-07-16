@@ -2,6 +2,8 @@
     .elevate-banner {
         width: 100%;
         height: 99.63vh;
+        position: relative;
+        overflow: hidden;
 
         /* .banner-bg {
             width: 100%;
@@ -22,13 +24,13 @@
             justify-content: center;
 
             svg {
-                max-width: 100%;
-                max-height: 100%;
+                  width: 100%;
+    height: 100%;
                 top: 0px;
                 position: absolute;
                 width: auto;
                 height: auto;
-               animation: svgLanding 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
+                animation: svgLanding 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
                 transform: translateZ(200px) scale(1.2);
                 opacity: 0;
             }
@@ -82,30 +84,33 @@
             }
         }
     }
-@keyframes svgLanding {
-    0% {
-        transform: translateZ(200px) scale(2);
-        opacity: 0;
-    }
-    60% {
-        transform: translateZ(3px) scale(1.015);
-        opacity: 0.97;
-    }
-    75% {
-        transform: translateZ(1.5px) scale(1.005);
-        opacity: 0.985;
-    }
-    90% {
-        transform: translateZ(0.5px) scale(1.0015);
-        opacity: 0.995;
-    }
-    100% {
-        transform: translateZ(0px) scale(1);
-        opacity: 1;
-    }
-}
 
+    @keyframes svgLanding {
+        0% {
+            transform: translateZ(200px) scale(2);
+            opacity: 0;
+        }
 
+        60% {
+            transform: translateZ(3px) scale(1.015);
+            opacity: 0.97;
+        }
+
+        75% {
+            transform: translateZ(1.5px) scale(1.005);
+            opacity: 0.985;
+        }
+
+        90% {
+            transform: translateZ(0.5px) scale(1.0015);
+            opacity: 0.995;
+        }
+
+        100% {
+            transform: translateZ(0px) scale(1);
+            opacity: 1;
+        }
+    }
 </style>
 
 
