@@ -4,28 +4,26 @@
     </h1>
     <div class="counter">
         <div class="counter-day counter-style">
-            <span class="counter-number-day largest-size">26</span>
+            <span class="counter-number-day largest-size"></span>
             <span class="counter-label-day smaller-size">Days</span>
         </div>
 
         <div class="counter-hours counter-style">
-            <span class="counter-number-hours largest-size">10</span>
+            <span class="counter-number-hours largest-size"></span>
             <span class="counter-label-hours smaller-size">Hours</span>
         </div>
-
-
         <div class="counter-minutes counter-style">
-            <span class="counter-number-minutes largest-size">34</span>
+            <span class="counter-number-minutes largest-size"></span>
             <span class="counter-label-minutes smaller-size">Minutes</span>
         </div>
 
-
         <div class="counter-seconds counter-style">
-            <span class="counter-number-seconds largest-size">56</span>
+            <span class="counter-number-seconds largest-size"></span>
             <span class="counter-label-seconds smaller-size">Seconds</span>
         </div>
     </div>
 </div>
+
 <style>
     .counter-section {
         width: 100%;
@@ -76,7 +74,6 @@
                 }
             }
         }
-
     }
 </style>
 
@@ -84,12 +81,12 @@
     // Set your target date and time here in dd-mm-yyyy hh-mm aa format
     const targetDateString = "03-05-2026 12:00 AM"; // Change this to your desired date and time
 
-    // Parse the date string
+    // Parse the date string and create date in user's timezone
     function parseCustomDate(dateString) {
         const parts = dateString.split(' ');
-        const datePart = parts[0]; // "15-08-2025"
-        const timePart = parts[1]; // "02:30"
-        const ampm = parts[2]; // "PM"
+        const datePart = parts[0]; // "03-05-2026"
+        const timePart = parts[1]; // "12:00"
+        const ampm = parts[2]; // "AM"
 
         const [day, month, year] = datePart.split('-');
         const [hours, minutes] = timePart.split(':');
@@ -101,9 +98,148 @@
             hour24 = 0;
         }
 
+        // Create date in user's local timezone
         return new Date(year, month - 1, day, hour24, minutes, 0);
     }
 
+    // Get user's timezone and region information
+    async function getUserTimezone() {
+        try {
+            // Get timezone using Intl.DateTimeFormat
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+            // Get timezone offset in minutes
+            const offset = new Date().getTimezoneOffset();
+
+            // Convert offset to hours for display
+            const offsetHours = Math.abs(offset) / 60;
+            const offsetSign = offset <= 0 ? '+' : '-';
+
+            let regionInfo = {
+                timezone: timezone,
+                offset: offset,
+                offsetDisplay: `UTC${offsetSign}${offsetHours.toString().padStart(2, '0')}:00`,
+                country: 'Unknown',
+                city: 'Unknown',
+                region: 'Unknown'
+            };
+
+
+
+            // Try multiple geolocation services
+            const services = [
+                {
+                    name: 'ipapi.co',
+                    url: 'https://ipapi.co/json/',
+                    parser: (data) => ({
+                        country: data.country_name || 'Unknown',
+                        city: data.city || 'Unknown',
+                        region: data.region || 'Unknown',
+                        countryCode: data.country_code || 'Unknown'
+                    })
+                },
+                {
+                    name: 'ipgeolocation.io',
+                    url: 'https://api.ipgeolocation.io/ipgeo?apiKey=',
+                    parser: (data) => ({
+                        country: data.country_name || 'Unknown',
+                        city: data.city || 'Unknown',
+                        region: data.state_prov || 'Unknown',
+                        countryCode: data.country_code2 || 'Unknown'
+                    })
+                },
+                {
+                    name: 'ipinfo.io',
+                    url: 'https://ipinfo.io/json',
+                    parser: (data) => ({
+                        country: data.country || 'Unknown',
+                        city: data.city || 'Unknown',
+                        region: data.region || 'Unknown',
+                        countryCode: data.country || 'Unknown'
+                    })
+                },
+                {
+                    name: 'ip-api.com',
+                    url: 'http://ip-api.com/json/',
+                    parser: (data) => ({
+                        country: data.country || 'Unknown',
+                        city: data.city || 'Unknown',
+                        region: data.regionName || 'Unknown',
+                        countryCode: data.countryCode || 'Unknown'
+                    })
+                }
+            ];
+
+            for (const service of services) {
+                try {
+                    const response = await fetch(service.url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        const parsed = service.parser(data);
+
+                        if (parsed.country !== 'Unknown') {
+                            regionInfo = { ...regionInfo, ...parsed };
+                            break;
+                        }
+                    }
+                } catch (serviceError) {
+                    continue;
+                }
+            }
+
+            // If all services failed, try to extract region from timezone
+            if (regionInfo.country === 'Unknown') {
+                const timezoneParts = timezone.split('/');
+                if (timezoneParts.length >= 2) {
+                    regionInfo.region = timezoneParts[0]; // e.g., "America", "Europe", "Asia"
+                    regionInfo.city = timezoneParts[1].replace(/_/g, ' '); // e.g., "New_York" -> "New York"
+                    if (timezoneParts.length > 2) {
+                        regionInfo.city = timezoneParts[2].replace(/_/g, ' ');
+                    }
+                }
+            }
+
+            return regionInfo;
+        } catch (error) {
+            return {
+                timezone: 'Unknown',
+                offset: 0,
+                offsetDisplay: 'UTC+00:00',
+                country: 'Unknown',
+                city: 'Unknown',
+                region: 'Unknown'
+            };
+        }
+    }
+
+    // Initialize timezone and region detection
+    let userTimezone;
+
+    async function initializeRegionDetection() {
+        userTimezone = await getUserTimezone();
+
+        // Start the countdown after region detection
+        updateCountdown();
+
+        // Update every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        // Check for timezone changes every 30 seconds
+        setInterval(handleTimezoneChange, 30000);
+
+        // Initialize with current time-based values
+        setTimeout(() => {
+            updateCountdown();
+        }, 100);
+    }
+
+    // Parse target date in user's timezone
     const targetDate = parseCustomDate(targetDateString);
 
     // Get DOM elements
@@ -119,8 +255,9 @@
 
     // Update countdown function
     function updateCountdown() {
-        const now = new Date().getTime();
-        const timeLeft = targetDate.getTime() - now;
+        // Get current time in user's timezone
+        const now = new Date();
+        const timeLeft = targetDate.getTime() - now.getTime();
 
         if (timeLeft > 0) {
             const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -144,14 +281,26 @@
         }
     }
 
-    // Initial call
-    updateCountdown();
+    // Function to handle timezone changes (if user changes system timezone)
+    async function handleTimezoneChange() {
+        const newTimezone = await getUserTimezone();
+        if (newTimezone.timezone !== userTimezone.timezone ||
+            newTimezone.country !== userTimezone.country) {
+            // Update the global timezone reference
+            userTimezone = newTimezone;
+            // Immediately update countdown
+            updateCountdown();
+        }
+    }
 
-    // Update every second
-    setInterval(updateCountdown, 1000);
+    // Handle page visibility change to ensure accuracy when tab becomes active
+    document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) {
+            handleTimezoneChange();
+            updateCountdown();
+        }
+    });
 
-    // Initialize with current time-based values
-    setTimeout(() => {
-        updateCountdown();
-    }, 100);
+    // Start the initialization process
+    initializeRegionDetection();
 </script>
