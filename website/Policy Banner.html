@@ -52,7 +52,6 @@
             .patner-title {
                 margin-top: 30.58% !important;
                 width: 100%;
-                font-weight: 500;
                 line-height: normal;
             margin-bottom: 0px;
                 text-transform: capitalize;
@@ -121,76 +120,60 @@
 
     @media screen and (max-width: 1024px) {
         .patner-banner {
-            height: 94.03dvh;
+            height: 88.03dvh;
             /* Dynamic viewport height */
             min-height: fit-content;
 
             @supports not (height: 1dvh) {
-                height: 94.03vh;
+                height: 88.03vh;
             }
 
             /* Firefox-specific override */
             @supports (-moz-appearance: none) {
                 height: auto;
-                min-height: 94.03vh;
+                min-height: 88.03vh;
             }
 
             .patner-hero-banner {
                 padding: 11.52% 4.8% 14.39%;
-                /* gap: 2.5em; */
+                flex-direction: column;
                 z-index: 1;
-                /* background: linear-gradient(0deg,
-                        #0cf 2.81%,
-                        #06a8d6 32.15%,
-                        #135677 82.85%,
-                        #1a2c47 108.58%),
-                    #fff;
-                     */
                 justify-content: start;
 
                 .left-text-box {
-                    /* gap: 1.5em; */
-
-                    .patner-download-button {
-                        min-width: 176px;
-                        min-height: 48px;
-                    }
-
-
 
                     .patner-title {
                         width: 100%;
-                        margin-top: 4.25% !important;
+                        margin-top: 5.31% !important;
                     }
 
 
 
-                    .patner-download-button {
-                        margin-top: 13.64% !important;
+                    .patner-description {
+                    margin-top: 3.19% !important;
                     }
                 }
 
                 .right-container {
                     margin-left: auto;
                     margin-right: auto;
-                    margin-top: 3.59%;
+                    margin-top: 11.68%;
                     position: relative;
-                    width: 68.71%;
+                    width: 77%;
                     padding: 0px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    aspect-ratio: 518 / 533;
+                    aspect-ratio: 580 / 455;
 
                     .right-img {
                         background-position: right;
-                        width: 90%;
-                        aspect-ratio: 466 / 466;
+                        width: 100%;
+                        aspect-ratio: 580 / 455;
                         margin-top: 0%;
                         margin-left: auto;
                         margin-bottom: 0%;
                         background-size: contain;
-                        top: 3.38%;
                     }
 
 
@@ -232,7 +215,7 @@
                         }
 
 
-                        .patner-download-button {
+                        .patner-description {
                             margin-top: 3.19% !important;
                         }
                     }
