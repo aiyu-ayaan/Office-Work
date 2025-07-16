@@ -2,7 +2,7 @@
     <h1 class="medium-size event-start-title">
         Event starts in
     </h1>
-    <div class="counter">
+    <div class="counter" endDate="03-05-2026 12:00 AM">
         <div class="counter-day counter-style">
             <span class="counter-number-day largest-size"></span>
             <span class="counter-label-day smaller-size">Days</span>
@@ -78,8 +78,9 @@
 </style>
 
 <script>
-    // Set your target date and time here in dd-mm-yyyy hh-mm aa format
-    const targetDateString = "03-05-2026 12:00 AM"; // Change this to your desired date and time
+    // Get the endDate from the HTML attribute
+    const counterElement = document.querySelector('.counter');
+    const targetDateString = counterElement.getAttribute('endDate') || "03-05-2026 12:00 AM"; // fallback
 
     // Parse the date string and create date in user's timezone
     function parseCustomDate(dateString) {
