@@ -76,232 +76,90 @@
         }
     }
 </style>
-
 <script>
-    // Get the endDate from the HTML attribute
-    const counterElement = document.querySelector('.counter');
-    const targetDateString = counterElement.getAttribute('endDate') || "03-05-2026 12:00 AM"; // fallback
+      document.addEventListener("DOMContentLoaded", function () {
+            if (typeof window.geoData !== "undefined") {
+                const { timezone, localTime } = window.geoData || {};
+                const userTimezone = window.geoData?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    // Parse the date string and create date in user's timezone
-    function parseCustomDate(dateString) {
-        const parts = dateString.split(' ');
-        const datePart = parts[0]; // "03-05-2026"
-        const timePart = parts[1]; // "12:00"
-        const ampm = parts[2]; // "AM"
+                // Get the endDate from the HTML attribute
+                const counterElement = document.querySelector('.counter');
+                const targetDateString = counterElement.getAttribute('endDate') || "03-05-2026 12:00 AM";
 
-        const [day, month, year] = datePart.split('-');
-        const [hours, minutes] = timePart.split(':');
+                // Parse the date string into local time (browser timezone)
+                function parseCustomDate(dateString) {
+                    const parts = dateString.split(' ');
+                    const datePart = parts[0]; // "03-05-2026"
+                    const timePart = parts[1]; // "12:00"
+                    const ampm = parts[2]; // "AM"
 
-        let hour24 = parseInt(hours);
-        if (ampm.toUpperCase() === 'PM' && hour24 !== 12) {
-            hour24 += 12;
-        } else if (ampm.toUpperCase() === 'AM' && hour24 === 12) {
-            hour24 = 0;
-        }
+                    const [day, month, year] = datePart.split('-');
+                    const [hours, minutes] = timePart.split(':');
 
-        // Create date in user's local timezone
-        return new Date(year, month - 1, day, hour24, minutes, 0);
-    }
+                    let hour24 = parseInt(hours);
+                    if (ampm.toUpperCase() === 'PM' && hour24 !== 12) hour24 += 12;
+                    if (ampm.toUpperCase() === 'AM' && hour24 === 12) hour24 = 0;
 
-    // Get user's timezone and region information
-    async function getUserTimezone() {
-        try {
-            // Get timezone using Intl.DateTimeFormat
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-            // Get timezone offset in minutes
-            const offset = new Date().getTimezoneOffset();
-
-            // Convert offset to hours for display
-            const offsetHours = Math.abs(offset) / 60;
-            const offsetSign = offset <= 0 ? '+' : '-';
-
-            let regionInfo = {
-                timezone: timezone,
-                offset: offset,
-                offsetDisplay: `UTC${offsetSign}${offsetHours.toString().padStart(2, '0')}:00`,
-                country: 'Unknown',
-                city: 'Unknown',
-                region: 'Unknown'
-            };
-
-
-
-            // Try multiple geolocation services
-            const services = [
-                {
-                    name: 'ipapi.co',
-                    url: 'https://ipapi.co/json/',
-                    parser: (data) => ({
-                        country: data.country_name || 'Unknown',
-                        city: data.city || 'Unknown',
-                        region: data.region || 'Unknown',
-                        countryCode: data.country_code || 'Unknown'
-                    })
-                },
-                {
-                    name: 'ipgeolocation.io',
-                    url: 'https://api.ipgeolocation.io/ipgeo?apiKey=',
-                    parser: (data) => ({
-                        country: data.country_name || 'Unknown',
-                        city: data.city || 'Unknown',
-                        region: data.state_prov || 'Unknown',
-                        countryCode: data.country_code2 || 'Unknown'
-                    })
-                },
-                {
-                    name: 'ipinfo.io',
-                    url: 'https://ipinfo.io/json',
-                    parser: (data) => ({
-                        country: data.country || 'Unknown',
-                        city: data.city || 'Unknown',
-                        region: data.region || 'Unknown',
-                        countryCode: data.country || 'Unknown'
-                    })
-                },
-                {
-                    name: 'ip-api.com',
-                    url: 'http://ip-api.com/json/',
-                    parser: (data) => ({
-                        country: data.country || 'Unknown',
-                        city: data.city || 'Unknown',
-                        region: data.regionName || 'Unknown',
-                        countryCode: data.countryCode || 'Unknown'
-                    })
+                    // This creates a Date in the browser's local timezone
+                    return new Date(year, month - 1, day, hour24, minutes, 0);
                 }
-            ];
 
-            for (const service of services) {
-                try {
-                    const response = await fetch(service.url, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                        }
-                    });
+                const targetDate = parseCustomDate(targetDateString);
 
-                    if (response.ok) {
-                        const data = await response.json();
-                        const parsed = service.parser(data);
+                // DOM Elements
+                const dayElement = document.querySelector('.counter-number-day');
+                const hourElement = document.querySelector('.counter-number-hours');
+                const minuteElement = document.querySelector('.counter-number-minutes');
+                const secondElement = document.querySelector('.counter-number-seconds');
 
-                        if (parsed.country !== 'Unknown') {
-                            regionInfo = { ...regionInfo, ...parsed };
-                            break;
-                        }
+                // Countdown updater
+                function updateCountdown() {
+                    const now = new Date();
+
+                    // Use localTime for hours and minutes, but keep actual seconds
+                    if (localTime) {
+                        const [hoursStr, minutesStr] = localTime.split(':');
+                        now.setHours(parseInt(hoursStr, 10));
+                        now.setMinutes(parseInt(minutesStr, 10));
+                        // Keep the actual seconds from new Date() - don't override them
                     }
-                } catch (serviceError) {
-                    continue;
-                }
-            }
 
-            // If all services failed, try to extract region from timezone
-            if (regionInfo.country === 'Unknown') {
-                const timezoneParts = timezone.split('/');
-                if (timezoneParts.length >= 2) {
-                    regionInfo.region = timezoneParts[0]; // e.g., "America", "Europe", "Asia"
-                    regionInfo.city = timezoneParts[1].replace(/_/g, ' '); // e.g., "New_York" -> "New York"
-                    if (timezoneParts.length > 2) {
-                        regionInfo.city = timezoneParts[2].replace(/_/g, ' ');
+                    const diff = targetDate.getTime() - now.getTime();
+
+                    if (diff > 0) {
+                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                        dayElement.textContent = String(days).padStart(2, '0');
+                        hourElement.textContent = String(hours).padStart(2, '0');
+                        minuteElement.textContent = String(minutes).padStart(2, '0');
+                        secondElement.textContent = String(seconds).padStart(2, '0');
+                    } else {
+                        dayElement.textContent = '00';
+                        hourElement.textContent = '00';
+                        minuteElement.textContent = '00';
+                        secondElement.textContent = '00';
+                        document.querySelector('.event-start-title').textContent = 'Event has started!';
                     }
                 }
+
+                // Start countdown
+                updateCountdown();
+                const intervalId = setInterval(updateCountdown, 1000);
+
+                // Refresh when tab becomes active again
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) updateCountdown();
+                });
+
+                // Optional: Log timezone info
+                console.log("Using timezone:", userTimezone);
+                console.log("Target date:", targetDate);
+                console.log("Current time:", new Date());
+            } else {
+                console.warn("GeoData not available.");
             }
-
-            return regionInfo;
-        } catch (error) {
-            return {
-                timezone: 'Unknown',
-                offset: 0,
-                offsetDisplay: 'UTC+00:00',
-                country: 'Unknown',
-                city: 'Unknown',
-                region: 'Unknown'
-            };
-        }
-    }
-
-    // Initialize timezone and region detection
-    let userTimezone;
-
-    async function initializeRegionDetection() {
-        userTimezone = await getUserTimezone();
-
-        // Start the countdown after region detection
-        updateCountdown();
-
-        // Update every second
-        const countdownInterval = setInterval(updateCountdown, 1000);
-
-        // Check for timezone changes every 30 seconds
-        setInterval(handleTimezoneChange, 30000);
-
-        // Initialize with current time-based values
-        setTimeout(() => {
-            updateCountdown();
-        }, 100);
-    }
-
-    // Parse target date in user's timezone
-    const targetDate = parseCustomDate(targetDateString);
-
-    // Get DOM elements
-    const dayElement = document.querySelector('.counter-number-day');
-    const hourElement = document.querySelector('.counter-number-hours');
-    const minuteElement = document.querySelector('.counter-number-minutes');
-    const secondElement = document.querySelector('.counter-number-seconds');
-
-    const dayContainer = document.querySelector('.counter-day');
-    const hourContainer = document.querySelector('.counter-hours');
-    const minuteContainer = document.querySelector('.counter-minutes');
-    const secondContainer = document.querySelector('.counter-seconds');
-
-    // Update countdown function
-    function updateCountdown() {
-        // Get current time in user's timezone
-        const now = new Date();
-        const timeLeft = targetDate.getTime() - now.getTime();
-
-        if (timeLeft > 0) {
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            // Update display
-            dayElement.textContent = days.toString().padStart(2, '0');
-            hourElement.textContent = hours.toString().padStart(2, '0');
-            minuteElement.textContent = minutes.toString().padStart(2, '0');
-            secondElement.textContent = seconds.toString().padStart(2, '0');
-        } else {
-            // Event has started
-            dayElement.textContent = '00';
-            hourElement.textContent = '00';
-            minuteElement.textContent = '00';
-            secondElement.textContent = '00';
-
-            document.querySelector('.event-start-title').textContent = 'Event has started!';
-        }
-    }
-
-    // Function to handle timezone changes (if user changes system timezone)
-    async function handleTimezoneChange() {
-        const newTimezone = await getUserTimezone();
-        if (newTimezone.timezone !== userTimezone.timezone ||
-            newTimezone.country !== userTimezone.country) {
-            // Update the global timezone reference
-            userTimezone = newTimezone;
-            // Immediately update countdown
-            updateCountdown();
-        }
-    }
-
-    // Handle page visibility change to ensure accuracy when tab becomes active
-    document.addEventListener('visibilitychange', function () {
-        if (!document.hidden) {
-            handleTimezoneChange();
-            updateCountdown();
-        }
-    });
-
-    // Start the initialization process
-    initializeRegionDetection();
+        });
 </script>
