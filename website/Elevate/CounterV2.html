@@ -52,7 +52,7 @@
             align-items: center;
             flex-direction: row;
             margin-left: 9.27%;
-            width: 62.51% ;
+            width: 62.51%;
             justify-content: space-between;
 
             .counter-style {
@@ -90,6 +90,36 @@
                 width: 100%;
                 flex-direction: row;
                 justify-content: space-between;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+
+                .counter-style {
+                    text-align: center;
+                    min-width: 16.19%;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 767.5px) and (orientation: portrait) {
+        .counter-section {
+            height: 34.38vh;
+            padding: 4.62% 6.16%;
+            flex-direction: column;
+            align-items: center;
+
+            .event-start-title {
+                margin-bottom: 5.27%;
+                text-align: center;
+            }
+
+            .counter {
+                width: 100%;
+                height: 100%;   
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr;
+                gap: 3%;
                 margin-left: 0 !important;
                 margin-right: 0 !important;
 
