@@ -3,8 +3,7 @@
         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
     </div> -->
     <div class="animated-svg">
-        <svg viewBox="0 0 1920 1074" fill="none" xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="xMidYMid slice">
+        <svg viewBox="0 0 1920 1074" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
             <g clip-path="url(#clip0_17466_1413)">
                 <g opacity="0.3">
                     <path d="M1749.12 229.891L1477.5 229.829" stroke="#00CCFF" stroke-width="2.65241"
@@ -275,11 +274,12 @@
                 width: 100%;
                 height: 100%;
                 position: absolute;
-                top: 0;
-                left: 0;
-                transform: translateZ(200px) scale(1.2);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) translateZ(200px) scale(1.2);
                 animation: svgLanding 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
                 opacity: 0;
+                object-fit: cover;
             }
         }
 
@@ -338,12 +338,6 @@
             width: 100%;
             height: 84.52vh;
 
-            .animated-svg {
-                svg {
-                    animation: svgLandingTablet 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
-                    transform: translateZ(150px) scale(1.1);
-                }
-            }
 
             .banner-content {
                 padding-left: 14.63%;
@@ -380,12 +374,7 @@
             width: 100%;
             height: 84.25vh;
 
-            .animated-svg {
-                svg {
-                    animation: svgLandingMobile 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
-                    transform: translateZ(100px) scale(1.05);
-                }
-            }
+
 
             .banner-content {
                 padding-left: 8.23%;
@@ -449,7 +438,7 @@
 
     @keyframes svgLandingTablet {
         0% {
-            transform: translateZ(150px) scale(1.8);
+            transform: translate(-50%, -50%) translateZ(150px) scale(1.8);
             opacity: 0;
         }
 
@@ -476,7 +465,7 @@
 
     @keyframes svgLandingMobile {
         0% {
-            transform: translateZ(100px) scale(1.5);
+            transform: translate(-50%, -50%) translateZ(100px) scale(1.5);
             opacity: 0;
         }
 
