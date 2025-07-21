@@ -1,119 +1,3 @@
-<style>
-    .elevate-banner {
-        width: 100%;
-        height: 99.63vh;
-        position: relative;
-        overflow: hidden;
-
-        /* .banner-bg {
-            width: 100%;
-            height: 100%;
-            background-size: contain;
-            background-repeat: no-repeat;
-            position: absolute;
-        } */
-        .animated-svg {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            svg {
-                  width: 100%;
-    height: 100%;
-                top: 0px;
-                position: absolute;
-                width: auto;
-                height: auto;
-                animation: svgLanding 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
-                transform: translateZ(200px) scale(1.2);
-                opacity: 0;
-            }
-        }
-
-        .banner-content {
-            width: 100%;
-            height: 87.69vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            position: relative;
-            padding-left: 22%;
-            padding-right: 22%;
-
-            .text-above-logo {
-                width: 100%;
-                text-align: center;
-                color: var(--adro-electric-green);
-                font-weight: 500;
-                margin-bottom: 1.87%;
-            }
-
-            .elevate-logo {
-                width: 41.11%;
-                height: auto;
-                aspect-ratio: 442/230;
-                margin-bottom: 4.47%;
-            }
-
-            .elevate-title {
-                width: 100%;
-                text-align: center;
-                font-weight: 500;
-                margin-bottom: 1.4%;
-            }
-
-            .text-below-title {
-                width: 100%;
-                text-align: center;
-                font-weight: 500;
-                color: var(--adro-electric-green);
-                margin-bottom: 5.03%;
-            }
-
-            a .elevate-get-in-touch {
-                background-color: var(--adro-deep-blue);
-                color: var(--adro-electric-green);
-                border-color: 2px solid var(--adro-electric-green);
-            }
-        }
-    }
-
-    @keyframes svgLanding {
-        0% {
-            transform: translateZ(200px) scale(2);
-            opacity: 0;
-        }
-
-        60% {
-            transform: translateZ(3px) scale(1.015);
-            opacity: 0.97;
-        }
-
-        75% {
-            transform: translateZ(1.5px) scale(1.005);
-            opacity: 0.985;
-        }
-
-        90% {
-            transform: translateZ(0.5px) scale(1.0015);
-            opacity: 0.995;
-        }
-
-        100% {
-            transform: translateZ(0px) scale(1);
-            opacity: 1;
-        }
-    }
-</style>
-
-
 <div class="elevate-banner">
     <!-- <div class="banner-bg manual-lazy-load" data-src="/wp-content/uploads/2025/07/Isolation_Mode.png"
         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
@@ -362,3 +246,157 @@
         </a>
     </div>
 </div>
+
+<style>
+    .elevate-banner {
+        width: 100%;
+        height: 99.63vh;
+        position: relative;
+        overflow: hidden;
+
+        /* .banner-bg {
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: absolute;
+        } */
+        .animated-svg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 100%;
+                height: 100%;
+                top: 0px;
+                position: absolute;
+                width: auto;
+                height: auto;
+                animation: svgLanding 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
+                transform: translateZ(200px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .banner-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            padding-left: 22%;
+            padding-right: 22%;
+            padding-top: 10.42%;
+
+            .text-above-logo {
+                width: 100%;
+                text-align: center;
+                color: var(--adro-electric-green);
+                font-weight: 500;
+                margin-bottom: 1.87%;
+            }
+
+            .elevate-logo {
+                width: 41.11%;
+                height: auto;
+                aspect-ratio: 442/230;
+                margin-bottom: 4.47%;
+                background-size: cover;
+            }
+
+            .elevate-title {
+                width: 100%;
+                text-align: center;
+                font-weight: 500;
+                margin-bottom: 1.4%;
+            }
+
+            .text-below-title {
+                width: 100%;
+                text-align: center;
+                font-weight: 500;
+                color: var(--adro-electric-green);
+                margin-bottom: 5.03%;
+            }
+
+            a .elevate-get-in-touch {
+                background-color: var(--adro-deep-blue);
+                color: var(--adro-electric-green);
+                border-color: 2px solid var(--adro-electric-green);
+            }
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        .elevate-banner {
+            width: 100%;
+            height: 84.52vh;
+
+            .banner-content {
+                padding-left: 14.63%;
+                padding-right: 14.63%;
+                padding-top: 26.5%;
+
+                .text-above-logo {
+                    margin-bottom: 5.77%;
+                }
+
+                .elevate-logo {
+                    width: 53.9%;
+                    height: auto;
+                    aspect-ratio: 318 / 166;
+                    margin-bottom: 6.78%;
+                    object-fit: cover;
+
+                }
+
+                .elevate-title {
+                    margin-bottom: 5.77%;
+                }
+
+                .text-below-title {
+                    margin-bottom: 4.07%;
+                }
+
+            }
+        }
+    }
+
+
+
+    @keyframes svgLanding {
+        0% {
+            transform: translateZ(200px) scale(2);
+            opacity: 0;
+        }
+
+        60% {
+            transform: translateZ(3px) scale(1.015);
+            opacity: 0.97;
+        }
+
+        75% {
+            transform: translateZ(1.5px) scale(1.005);
+            opacity: 0.985;
+        }
+
+        90% {
+            transform: translateZ(0.5px) scale(1.0015);
+            opacity: 0.995;
+        }
+
+        100% {
+            transform: translateZ(0px) scale(1);
+            opacity: 1;
+        }
+    }
+</style>
