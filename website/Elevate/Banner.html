@@ -3,7 +3,8 @@
         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
     </div> -->
     <div class="animated-svg">
-        <svg width="1920" height="1074" viewBox="0 0 1920 1074" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 1920 1074" fill="none" xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice">
             <g clip-path="url(#clip0_17466_1413)">
                 <g opacity="0.3">
                     <path d="M1749.12 229.891L1477.5 229.829" stroke="#00CCFF" stroke-width="2.65241"
@@ -268,19 +269,16 @@
             top: 0;
             left: 0;
             z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            overflow: hidden;
 
             svg {
                 width: 100%;
                 height: 100%;
-                top: 0px;
                 position: absolute;
-                width: auto;
-                height: auto;
-                animation: svgLanding 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
+                top: 0;
+                left: 0;
                 transform: translateZ(200px) scale(1.2);
+                animation: svgLanding 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
                 opacity: 0;
             }
         }
@@ -340,6 +338,13 @@
             width: 100%;
             height: 84.52vh;
 
+            .animated-svg {
+                svg {
+                    animation: svgLandingTablet 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
+                    transform: translateZ(150px) scale(1.1);
+                }
+            }
+
             .banner-content {
                 padding-left: 14.63%;
                 padding-right: 14.63%;
@@ -374,6 +379,13 @@
         .elevate-banner {
             width: 100%;
             height: 84.25vh;
+
+            .animated-svg {
+                svg {
+                    animation: svgLandingMobile 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
+                    transform: translateZ(100px) scale(1.05);
+                }
+            }
 
             .banner-content {
                 padding-left: 8.23%;
@@ -410,22 +422,76 @@
 
     @keyframes svgLanding {
         0% {
-            transform: translateZ(200px) scale(2);
+            transform: translate(-50%, -50%) translateZ(200px) scale(2);
             opacity: 0;
         }
 
         60% {
-            transform: translateZ(3px) scale(1.015);
+            transform: translate(-50%, -50%) translateZ(3px) scale(1.015);
             opacity: 0.97;
         }
 
         75% {
-            transform: translateZ(1.5px) scale(1.005);
+            transform: translate(-50%, -50%) translateZ(1.5px) scale(1.005);
             opacity: 0.985;
         }
 
         90% {
-            transform: translateZ(0.5px) scale(1.0015);
+            transform: translate(-50%, -50%) translateZ(0.5px) scale(1.0015);
+            opacity: 0.995;
+        }
+
+        100% {
+            transform: translate(-50%, -50%) translateZ(0px) scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes svgLandingTablet {
+        0% {
+            transform: translateZ(150px) scale(1.8);
+            opacity: 0;
+        }
+
+        60% {
+            transform: translateZ(2px) scale(1.01);
+            opacity: 0.97;
+        }
+
+        75% {
+            transform: translateZ(1px) scale(1.003);
+            opacity: 0.985;
+        }
+
+        90% {
+            transform: translateZ(0.3px) scale(1.001);
+            opacity: 0.995;
+        }
+
+        100% {
+            transform: translateZ(0px) scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes svgLandingMobile {
+        0% {
+            transform: translateZ(100px) scale(1.5);
+            opacity: 0;
+        }
+
+        60% {
+            transform: translateZ(1.5px) scale(1.008);
+            opacity: 0.97;
+        }
+
+        75% {
+            transform: translateZ(0.8px) scale(1.002);
+            opacity: 0.985;
+        }
+
+        90% {
+            transform: translateZ(0.2px) scale(1.0008);
             opacity: 0.995;
         }
 
