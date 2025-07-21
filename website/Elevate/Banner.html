@@ -290,7 +290,6 @@
             height: 100%;
             display: flex;
             align-items: center;
-            justify-content: center;
             flex-direction: column;
             position: relative;
             padding-left: 22%;
@@ -368,6 +367,42 @@
                 }
 
             }
+        }
+    }
+
+    @media screen and (max-width: 767.5px) and (orientation: portrait) {
+        .elevate-banner {
+            width: 100%;
+            height: 84.25vh;
+
+            .banner-content {
+                padding-left: 8.23%;
+                padding-right: 8.23%;
+                padding-top: 35.65%;
+
+                .text-above-logo {
+                    margin-bottom: 4.92%;
+                }
+            }
+
+            .elevate-logo {
+                width: 74.9%;
+                height: auto;
+                aspect-ratio: 244 / 128;
+                margin-bottom: 7.37%;
+
+            }
+
+            .elevate-title {
+                margin-bottom: 7.37%;
+            }
+
+            .text-below-title {
+                padding-left: 5%;
+                padding-right: 5%;
+                margin-bottom: 7.37%;
+            }
+
         }
     }
 
