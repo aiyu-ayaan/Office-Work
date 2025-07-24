@@ -1,5 +1,4 @@
 <style>
-
     .counter-section {
         width: 100%;
         height: 15.94vh;
@@ -169,6 +168,24 @@
 
             const targetDate = parseCustomDate(targetDateString);
 
+            // Store the initial localTime offset
+            let localTimeOffset = 0;
+            if (localTime) {
+                const now = new Date();
+                const [hoursStr, minutesStr] = localTime.split(':');
+                const localTimeDate = new Date();
+                localTimeDate.setHours(parseInt(hoursStr, 10));
+                localTimeDate.setMinutes(parseInt(minutesStr, 10));
+                localTimeDate.setSeconds(0);
+                localTimeDate.setMilliseconds(0);
+
+                const currentTimeDate = new Date();
+                currentTimeDate.setSeconds(0);
+                currentTimeDate.setMilliseconds(0);
+
+                localTimeOffset = localTimeDate.getTime() - currentTimeDate.getTime();
+            }
+
             // DOM Elements
             const dayElement = document.querySelector('.counter-number-day');
             const hourElement = document.querySelector('.counter-number-hours');
@@ -179,15 +196,13 @@
             function updateCountdown() {
                 const now = new Date();
 
-                // Use localTime for hours and minutes, but keep actual seconds
+                // Apply localTime offset if available
+                let adjustedNow = now;
                 if (localTime) {
-                    const [hoursStr, minutesStr] = localTime.split(':');
-                    now.setHours(parseInt(hoursStr, 10));
-                    now.setMinutes(parseInt(minutesStr, 10));
-                    // Keep the actual seconds from new Date() - don't override them
+                    adjustedNow = new Date(now.getTime() + localTimeOffset);
                 }
 
-                const diff = targetDate.getTime() - now.getTime();
+                const diff = targetDate.getTime() - adjustedNow.getTime();
 
                 if (diff > 0) {
                     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -200,11 +215,15 @@
                     minuteElement.textContent = String(minutes).padStart(2, '0');
                     secondElement.textContent = String(seconds).padStart(2, '0');
                 } else {
+                    // Event has ended
                     dayElement.textContent = '00';
                     hourElement.textContent = '00';
                     minuteElement.textContent = '00';
                     secondElement.textContent = '00';
                     document.querySelector('.event-start-title').textContent = 'Event has started!';
+
+                    // Clear the interval to stop updating
+                    clearInterval(intervalId);
                 }
             }
 
@@ -221,8 +240,10 @@
             console.log("Using timezone:", userTimezone);
             console.log("Target date:", targetDate);
             console.log("Current time:", new Date());
+            console.log("Local time offset:", localTimeOffset);
         } else {
             console.warn("GeoData not available.");
         }
     });
+
 </script>

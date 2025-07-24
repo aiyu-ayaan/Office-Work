@@ -151,10 +151,7 @@
             height: 84.25vh;
 
             .animated-svg {
-                svg {
-                    animation: svgLandingMobile 4s cubic-bezier(0.85, 0.01, 0.15, 1) forwards;
-                    transform: translateZ(100px) scale(1.05);
-                }
+                visibility: hidden;
             }
 
             .banner-content {
@@ -165,9 +162,8 @@
                 .text-above-logo {
                     margin-bottom: 4.92%;
                 }
-            }
 
-            .elevate-logo {
+                  .elevate-logo {
                 width: 74.9%;
                 height: auto;
                 aspect-ratio: 244 / 128;
@@ -184,7 +180,7 @@
                 padding-right: 5%;
                 margin-bottom: 7.37%;
             }
-
+            }
         }
     }
 
@@ -245,30 +241,4 @@
         }
     }
 
-    @keyframes svgLandingMobile {
-        0% {
-            transform: translateZ(100px) scale(1.5);
-            opacity: 0;
-        }
-
-        60% {
-            transform: translateZ(1.5px) scale(1.008);
-            opacity: 0.97;
-        }
-
-        75% {
-            transform: translateZ(0.8px) scale(1.002);
-            opacity: 0.985;
-        }
-
-        90% {
-            transform: translateZ(0.2px) scale(1.0008);
-            opacity: 0.995;
-        }
-
-        100% {
-            transform: translateZ(0px) scale(1);
-            opacity: 1;
-        }
-    }
 </style>
