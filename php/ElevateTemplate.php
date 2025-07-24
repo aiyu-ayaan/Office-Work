@@ -55,6 +55,16 @@ $counter_left_size_title = $banner_section_fields['acf_elevate_counter_left_side
 $counter_date_picker = $banner_section_fields['acf_elevate_counter_date_picker'];
 
 
+// DESCRIPTION: fetching elevate leader section fields from $elevate_leader_section_fields group
+$elevate_leader_title = $elevate_leader_section_fields['acf_elevate_leader_section_title'];
+$elevate_leader_section_sub_title = $elevate_leader_section_fields['acf_elevate_leader_section_sub_title'];
+
+
+// DESCRIPTION:Glimpse section fields from $elevate_glimpse_section_fields group
+$elevate_glimpse_section_title = $elevate_glimpse_section_fields['acf_elevate_glimpse_section_heading'];
+$elevate_glimpse_section_sub_title = $elevate_glimpse_section_fields['acf_elevate_glimpse_section_sub_heading'];
+$elevate_glimpse_section_video_url = $elevate_glimpse_section_fields['acf_elevate_glimpse_section_vimeo_video_url'];
+
 ?>
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -373,122 +383,87 @@ $counter_date_picker = $banner_section_fields['acf_elevate_counter_date_picker']
 
                 <div class="speakers-page-carousel-wrapper">
                     <div class="section-central-heading">
-                        <h2 class="large-size font-bold">Thought Leaders and speakers</h2>
-                        <h3 class="sub-heading small-size">Innovation in action across industries and academia.</h3>
+                        <h2 class="large-size font-bold"><?php echo esc_html($elevate_leader_title); ?></h2>
+                        <h3 class="sub-heading small-size"><?php echo esc_html($elevate_leader_section_sub_title); ?></h3>
                     </div>
 
                     <div class="owl-carousel speakers-page-carousel">
-                        <div class="item speakers-page-item">
-                            <div class="carousel-link">
-                                <div class="image-wrapper">
-                                    <img decoding="async" src="/wp-content/uploads/2025/04/placeholder1.jpg"
-                                        alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
-                                    <div class="speaker-name smaller-size">Hasani Jess, Group CTO of Aventum Group</div>
+                        <?php
+                        // Get the repeater field items from the group
+                        $elevate_leader_section_items = $elevate_leader_section_fields['acf_elevate_leader_section_items'] ?? [];
+                        ?>
+
+                        <?php if ($elevate_leader_section_items && is_array($elevate_leader_section_items)) : ?>
+                            <?php foreach ($elevate_leader_section_items as $item) :
+                                $name_and_designation = $item['acf_elevate_leader_section_item_name_and_designation'] ?? '';
+                                $description = $item['acf_elevate_leader_section_item_description'] ?? '';
+                                $image = $item['acf_elevate_leader_section_item_image'] ?? '';
+                            ?>
+                                <div class="item speakers-page-item">
+                                    <div class="carousel-link">
+                                        <div class="image-wrapper">
+                                            <img decoding="async" src="<?php echo esc_url($image); ?>"
+                                                alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+                                            <div class="speaker-name smaller-size">
+                                                <?php echo esc_html($name_and_designation); ?>
+                                            </div>
+                                        </div>
+                                        <div class="description-text smaller-size">
+                                            <?php echo esc_html($description); ?>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="description-text smaller-size">Grow your career with endless opportunities in diverse fields</div>
-                            </div>
-                        </div>
-                        <div class="item speakers-page-item">
-                            <div class="carousel-link">
-                                <div class="image-wrapper">
-                                    <img decoding="async" src="/wp-content/uploads/2025/04/placeholder1.jpg"
-                                        alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
-                                    <div class="speaker-name smaller-size">Hasani Jess, Group CTO of Aventum Group</div>
-                                </div>
-                                <div class="description-text smaller-size">Stay up-to-date with the latest news and information about
-                                    ADROSONIC</div>
-                            </div>
-                        </div>
-                        <div class="item speakers-page-item">
-                            <div class="carousel-link">
-                                <div class="image-wrapper">
-                                    <img decoding="async" src="/wp-content/uploads/2025/04/placeholder1.jpg"
-                                        alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
-                                    <div class="speaker-name smaller-size">Hasani Jess, Group CTO of Aventum Group</div>
-                                </div>
-                                <div class="description-text smaller-size">Stay connected about new roles and opportunities at ADROSONIC</div>
-                            </div>
-                        </div>
-                        <div class="item speakers-page-item">
-                            <div class="carousel-link">
-                                <div class="image-wrapper">
-                                    <img decoding="async" src="/wp-content/uploads/2025/04/placeholder1.jpg"
-                                        alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
-                                    <div class="speaker-name smaller-size">Hasani Jess, Group CTO of Aventum Group</div>
-                                </div>
-                                <div class="description-text smaller-size">Stay connected about new roles and opportunities at ADROSONIC</div>
-                            </div>
-                        </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
 
 
                 <!--DESCRIPTION: Keynote Section-->
                 <div class="keynotes">
-                    <div class="section-wrapper">
-                        <div class="background-layout">
-                            <div class="background-left animate-on-scroll"></div>
-                            <div class="background-right"></div>
-                        </div>
-                        <div class="content-overlay">
-                            <div class="content-left animate-on-scroll">
-                                <h2 class="large-size font-bold">Opening Keynote</h2>
-                                <p class="small-size">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
-                                    turpis molestie, dictum est a, mattis tellus. Sed dignissim,
-                                </p>
-                                <p class="small-size">
-                                    Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent
-                                    taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                    himenaeos.
-                                </p>
-                            </div>
-                            <div class="content-right animate-on-scroll">
-                                <div class="image-wrapper">
-                                    <img src="/wp-content/uploads/2025/07/Rectangle-3551.png" alt="Overlapping Image" />
-                                    <div class="info-overlay">
-                                        <div class="person-name large-size font-bold">Mayank</div>
-                                        <div class="person-designation small-size font-bold">
-                                            Founder, CEO and MD, ADROSONIC
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Repeat above block as needed -->
-                    <div class="section-wrapper">
-                        <div class="background-layout">
-                            <div class="background-left animate-on-scroll"></div>
-                            <div class="background-right"></div>
-                        </div>
-                        <div class="content-overlay">
-                            <div class="content-left animate-on-scroll">
-                                <h2 class="large-size font-bold">Closing Keynote</h2>
-                                <p class="small-size">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
-                                    turpis molestie, dictum est a, mattis tellus. Sed dignissim,
-                                </p>
-                                <p class="small-size">
-                                    Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent
-                                    taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                    himenaeos.
-                                </p>
-                            </div>
-                            <div class="content-right animate-on-scroll">
-                                <div class="image-wrapper">
-                                    <img src="/wp-content/uploads/2025/07/Rectangle-3551.png" alt="Overlapping Image" />
-                                    <div class="info-overlay">
-                                        <div class="person-name large-size font-bold">XYZ</div>
-                                        <div class="person-designation small-size font-bold">
-                                            Chief Technology Officer
+                    <?php
+                    $elevate_keynote_section_item = $keynote_section_fields['acf_elevate_keynote_section_item'] ?? [];
+                    ?>
+                    <?php if ($elevate_keynote_section_item && is_array($elevate_keynote_section_item)): ?>
+                        <?php foreach ($elevate_keynote_section_item as $item):
+                            $elevate_keynote_section_item_title = $item['acf_elevate_keynote_section_item_title'] ?? '';
+                            $elevate_keynote_section_item_description = $item['acf_elevate_keynote_section_item_description'] ?? '';
+                            $elevate_keynote_section_item_image = $item['acf_elevate_keynote_section_item_image'] ?? '';
+                            $elevate_keynote_section_item_person_name = $item['acf_elevate_keynote_section_item_person_name'] ?? '';
+                            $elevate_keynote_section_item_person_designation = $item['acf_elevate_keynote_section_item_person_designation'] ?? '';
+                        ?>
+
+                            <div class="section-wrapper">
+                                <div class="background-layout">
+                                    <div class="background-left animate-on-scroll"></div>
+                                    <div class="background-right"></div>
+                                </div>
+                                <div class="content-overlay">
+                                    <div class="content-left animate-on-scroll">
+                                        <h2 class="large-size font-bold"><?php echo esc_html($elevate_keynote_section_item_title); ?></h2>
+                                        <p class="small-size">
+                                            <?php echo ($elevate_keynote_section_item_description); ?>
+                                        </p>
+                                    </div>
+                                    <div class="content-right animate-on-scroll">
+                                        <div class="image-wrapper">
+                                            <img src="<?php echo esc_url($elevate_keynote_section_item_image); ?>" alt="<?php echo esc_attr($elevate_keynote_section_item_person_name); ?>" />
+                                            <div class="info-overlay">
+                                                <div class="person-name large-size font-bold">
+                                                    <?php echo esc_html($elevate_keynote_section_item_person_name); ?>
+                                                </div>
+                                                <div class="person-designation small-size font-bold">
+                                                    <?php echo esc_html($elevate_keynote_section_item_person_designation); ?>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
 
                 <!-- DESCRIPTION: Innovation Showcase  -->
@@ -550,10 +525,21 @@ $counter_date_picker = $banner_section_fields['acf_elevate_counter_date_picker']
                     </div>
                     <div class="content-container">
                         <div class="content">
-                            <h1 class="content-heading large-size">Elevate 2024 Glimpse</h1>
-                            <p class="content-description small-size">Catch a glimpse and the radiance of past events.</p>
+                            <h1 class="content-heading large-size"><?php echo esc_html($elevate_glimpse_section_title); ?></h1>
+                            <p class="content-description small-size"><?php echo esc_html($elevate_glimpse_section_sub_title); ?></p>
                             <div class="video-container">
-                                <iframe src="https://player.vimeo.com/video/866043708?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                                <?php
+                                    // Ensure the video URL ends with the required Vimeo params
+                                    $glimpse_video_url = trim($elevate_glimpse_section_video_url);
+                                    $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479';
+
+                                    // Remove any existing query string
+                                    $glimpse_video_url = preg_replace('/\?.*$/', '', $glimpse_video_url);
+
+                                    // Append the required params
+                                    $glimpse_video_url .= $vimeo_params;
+                                ?>
+                                <iframe src="<?php echo esc_url($glimpse_video_url); ?>"
                                     class="video-player" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
                                     title="Elevate 2024 Glimpse">
                                 </iframe>
