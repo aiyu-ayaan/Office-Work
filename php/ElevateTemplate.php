@@ -36,6 +36,25 @@ $our_innovations_button_url = get_field('acf_our_innovations_button_url');
 
 $our_clients_section_heading = get_field('acf_our_clients_section_heading');
 
+$banner_section_fields = get_field('acf_elevate_banner_section_fields');
+$elevate_leader_section_fields = get_field('acf_elevate_leader_section_fields');
+$keynote_section_fields = get_field('acf_elevate_keynote_section_fields');
+$elevate_glimpse_section_fields = get_field('acf_elevate_glimpse_section_fields');
+$elevate_agenda_section_fields = get_field('acf_elevate_agenda_section_fields');
+$elevate_join_us_at_section_fields = get_field('acf_elevate_join_us_at_section_fields');
+
+
+// DESCRIPTION: fetching banner section fields from $banner_seaction_fields group
+$banner_text_above_logo = $banner_section_fields['acf_elevate_banner_text_above_logo'];
+$banner_logo = $banner_section_fields['acf_elevate_banner_logo'];
+$banner_title = $banner_section_fields['acf_elevate_banner_title'];
+$banner_text_below_title = $banner_section_fields['acf_elevate_banner_text_below_title'];
+$banner_button_text = $banner_section_fields['acf_elevate_banner_button_text'];
+$banner_button_url = $banner_section_fields['acf_elevate_banner_button_url'];
+$counter_left_size_title = $banner_section_fields['acf_elevate_counter_left_side_title'];
+$counter_date_picker = $banner_section_fields['acf_elevate_counter_date_picker'];
+
+
 ?>
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -279,37 +298,40 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                         </svg>
 
                     </div>
+
                     <div class="banner-content">
                         <div class="text-above-logo smaller-size">
-                            Exclusively by invitation only
+                            <?php echo esc_html($banner_text_above_logo); ?>
                         </div>
 
-                        <div class="elevate-logo manual-lazy-load" data-src="/wp-content/uploads/2025/07/Elevate-Logo.png"
+                        <div class="elevate-logo manual-lazy-load" data-src="<?php echo esc_url($banner_logo); ?>"
                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
                         </div>
 
 
                         <div class="elevate-title largest-size">
-                            Innovation Blueprints: Turning Vision into Value
+                            <?php echo esc_html($banner_title); ?>
                         </div>
 
                         <div class="text-below-title small-size">
-                            16th September 2025 - Four Seasons - Ten Trinity Square London
+                            <?php echo esc_html($banner_text_below_title); ?>
                         </div>
-                        <a href="/contact-us/">
+
+                        <a href="<?php echo esc_url($banner_button_url); ?>">
                             <button class=" custom-button elevate-get-in-touch">
-                                Get in touch
+                                <?php echo esc_html($banner_button_text); ?>
                             </button>
                         </a>
                     </div>
                 </div>
 
-                <!-- ECL Counter section -->
+                <!--DESCRIPTION: ECL Counter section -->
                 <div class="counter-section">
                     <h1 class="medium-size event-start-title">
-                        Event starts in
+                        <?php echo esc_html($counter_left_size_title); ?>
                     </h1>
-                    <div class="counter" endDate="16-09-2025 12:00 AM">
+
+                    <div class="counter" endDate="<?php echo esc_html($counter_date_picker); ?>">
                         <div class="counter-day counter-style">
                             <span class="counter-number-day largest-size"></span>
                             <span class="counter-label-day smaller-size">Days</span>
@@ -331,7 +353,7 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                     </div>
                 </div>
 
-                <!-- our expertise section-->
+                <!--DESCRIPTION: Introduction section-->
                 <div class="our_expertise_container" id="expertise">
                     <h2 class="large-size font-bold portrait-only-header"><?php echo esc_html($our_expertise_section_main_heading); ?></h2>
                     <div class="video-container">
@@ -347,7 +369,61 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                     </div>
                 </div>
 
-                <!-- Keynote Section-->
+                <!-- DESCRIPTION:Speaker section -->
+
+                <div class="speakers-page-carousel-wrapper">
+                    <div class="section-central-heading">
+                        <h2 class="large-size font-bold">Thought Leaders and speakers</h2>
+                        <h3 class="sub-heading small-size">Innovation in action across industries and academia.</h3>
+                    </div>
+
+                    <div class="owl-carousel speakers-page-carousel">
+                        <div class="item speakers-page-item">
+                            <div class="carousel-link">
+                                <div class="image-wrapper">
+                                    <img decoding="async" src="/wp-content/uploads/2025/04/placeholder1.jpg"
+                                        alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+                                    <div class="speaker-name smaller-size">Hasani Jess, Group CTO of Aventum Group</div>
+                                </div>
+                                <div class="description-text smaller-size">Grow your career with endless opportunities in diverse fields</div>
+                            </div>
+                        </div>
+                        <div class="item speakers-page-item">
+                            <div class="carousel-link">
+                                <div class="image-wrapper">
+                                    <img decoding="async" src="/wp-content/uploads/2025/04/placeholder1.jpg"
+                                        alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+                                    <div class="speaker-name smaller-size">Hasani Jess, Group CTO of Aventum Group</div>
+                                </div>
+                                <div class="description-text smaller-size">Stay up-to-date with the latest news and information about
+                                    ADROSONIC</div>
+                            </div>
+                        </div>
+                        <div class="item speakers-page-item">
+                            <div class="carousel-link">
+                                <div class="image-wrapper">
+                                    <img decoding="async" src="/wp-content/uploads/2025/04/placeholder1.jpg"
+                                        alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+                                    <div class="speaker-name smaller-size">Hasani Jess, Group CTO of Aventum Group</div>
+                                </div>
+                                <div class="description-text smaller-size">Stay connected about new roles and opportunities at ADROSONIC</div>
+                            </div>
+                        </div>
+                        <div class="item speakers-page-item">
+                            <div class="carousel-link">
+                                <div class="image-wrapper">
+                                    <img decoding="async" src="/wp-content/uploads/2025/04/placeholder1.jpg"
+                                        alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+                                    <div class="speaker-name smaller-size">Hasani Jess, Group CTO of Aventum Group</div>
+                                </div>
+                                <div class="description-text smaller-size">Stay connected about new roles and opportunities at ADROSONIC</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--DESCRIPTION: Keynote Section-->
                 <div class="keynotes">
                     <div class="section-wrapper">
                         <div class="background-layout">
@@ -414,7 +490,8 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                         </div>
                     </div>
                 </div>
-                <!-- our innovation section  -->
+
+                <!-- DESCRIPTION: Innovation Showcase  -->
                 <div class="innovation-section">
                     <div class="our-innovation-header">
                         <h2 class="main-header large-size font-bold"><?php echo $our_innovations_section_main_heading; ?></h2>
@@ -463,7 +540,7 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                 </div>
 
 
-                <!--Glimpse Section-->
+                <!--DESCRIPTION:Glimpse Section-->
                 <div class="glimpse-container">
                     <div class="background-container">
                         <div class="background-image manual-lazy-load"
@@ -489,7 +566,7 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                 <!-- 		Spacer between glimpse and testimonial		 -->
                 <div aria-hidden="true" class="spacer-between-glimpse-testimonial wp-block-spacer"></div>
 
-                <!-- our clients testimonial  -->
+                <!-- DESCRIPTION:Testimonial  -->
                 <div class="testimonial-carousel carousel-container">
                     <div class="testimonial-heading section-header-container">
                         <h2 class="large-size font-bold">
@@ -521,6 +598,188 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                         <?php else : ?>
                             <p>No client testimonials found.</p>
                         <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- DESCRIPTION:Agenda section -->
+                <div class="agenda-section-head">
+                    <h2 class="large-size section-head">Agenda</h2>
+                </div>
+                <section class="svg-background-section">
+                    <div class="only-space-div"></div>
+                    <div class="timeline-container content">
+                        <div class="timeline-line-wrapper">
+                            <div class="timeline-head">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="23" viewBox="0 0 17 23" fill="none">
+                                    <path
+                                        d="M8.1543 1.73535L15.2012 20.8662L8.4375 17.2441L8.1543 17.0928L7.87207 17.2441L1.10742 20.8652L8.1543 1.73535Z"
+                                        fill="#23E4BA" stroke="#23E4BA" stroke-width="1.19921" />
+                                </svg>
+                            </div>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-foot">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="23" viewBox="0 0 17 23" fill="none">
+                                    <path
+                                        d="M8.1543 20.4023L15.2012 1.27148L8.4375 4.89355L8.1543 5.04492L7.87207 4.89355L1.10742 1.27246L8.1543 20.4023Z"
+                                        fill="#23E4BA" stroke="#23E4BA" stroke-width="1.19921" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="only-space-empty"></div>
+                        <div class="timeline-item">
+                            <div class="svg-connector"></div>
+                            <div class="content">
+                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
+                                <h3 class="smaller-size font-bold">WELCOME.</h3>
+                                <p class="smallest-size">Registration, innovation fair and Networking</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="svg-connector"></div>
+                            <div class="content">
+                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
+                                <h3 class="smaller-size font-bold">WELCOME.</h3>
+                                <p class="smallest-size">Performance Teams OR Psychology of Winning <br>
+                                    Rober Forzoni Performance Psychologist & Sport</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="svg-connector"></div>
+                            <div class="content">
+                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
+                                <h3 class="smaller-size font-bold">WELCOME.</h3>
+                                <p class="smallest-size">Unlocking Innovation:<br>
+                                    The Labrats Journey within Aventum Group</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="svg-connector"></div>
+                            <div class="content">
+                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
+                                <h3 class="smaller-size font-bold">WELCOME.</h3>
+                                <p class="smallest-size">Roundtable Discussion:<br>
+                                    Beyond the Buzz, The Truth about AI and Innovation</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="svg-connector"></div>
+                            <div class="content">
+                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
+                                <h3 class="smaller-size font-bold">WELCOME.</h3>
+                                <p class="smallest-size">AI and Innovation:<br>
+                                    Protection and Risk Mitigation with Haynes Boone</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="svg-connector"></div>
+                            <div class="content">
+                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
+                                <h3 class="smaller-size font-bold">WELCOME.</h3>
+                                <p class="smallest-size">AI-Powered Resilience:<br>
+                                    The Intelligent Self-Healing Automation Framework with Shipowners’Club</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="svg-connector"></div>
+                            <div class="content">
+                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
+                                <h3 class="smaller-size font-bold">WELCOME.</h3>
+                                <p class="smallest-size">Building Peak<br>
+                                    Performance Teams OR Psychology of Winning<br>
+                                    Rober Forzoni Performance Psychologist & Sport</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="svg-connector"></div>
+                            <div class="content">
+                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
+                                <h3 class="smaller-size font-bold">WELCOME.</h3>
+                                <p class="smallest-size">From Insight to Action: Our Vision for the Future </p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="svg-connector"></div>
+                            <div class="content">
+                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
+                                <h3 class="smaller-size font-bold">WELCOME.</h3>
+                                <p class="smallest-size">Innovate and Connect: A Journey of Discovery, 4 Featured Innovation Booths
+                                    along with Drinks and Networking</p>
+                            </div>
+                        </div>
+                        <div class="only-space-empty"></div>
+                    </div>
+                    <div class="only-space-div-bottom"></div>
+                </section>
+
+
+                <!-- DESCRIPTION:Join US at section -->
+
+
+                <div class="join-us-at-wrapper">
+                    <div class="section-header-container">
+                        <h2 class="large-size font-bold">Join us At</h2>
+                    </div>
+                    <div class="map-content-wrapper">
+                        <div class="google-map-container">
+                            <iframe width="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                                src="https://www.openstreetmap.org/export/embed.html?bbox=-0.07995270810946493%2C51.5091704563712%2C-0.07595270810946493%2C51.5111704563712&layer=mapnik&marker=51.5101704563712%2C-0.07795270810946493&zoom=19">
+                            </iframe>
+                            <div class="map-label smaller-size">
+                                The Thames Penthouse, Four Seasons, Ten Trinity Square, London EC3N 4AJ
+                            </div>
+                        </div>
+                        <p class="shortdesc small-size">
+                            Worem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate
+                            libero et velit interdum, ac aliquet odio mattis. Class aptent taciti
+                            sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                            Curabitur tempus urna at turpis condimentum lobortis.
+                        </p>
+                        <div class="transport-info">
+                            <div class="info">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="130" height="114" viewBox="0 0 130 114" fill="none">
+                                    <path d="M0 56.957L129.997 56.9601" stroke="#23E4BA" stroke-width="16.3101"
+                                        stroke-miterlimit="10" />
+                                    <path
+                                        d="M107.063 54.1419C105.601 32.2809 87.3262 15 64.9997 15C42.6732 15 24.3987 32.2809 22.9365 54.1419"
+                                        stroke="#23E4BA" stroke-width="16.3101" stroke-miterlimit="10" />
+                                    <path
+                                        d="M22.9336 59.7812C24.3865 81.6546 42.661 98.9478 64.9999 98.9478C87.3388 98.9478 105.613 81.6546 107.066 59.7812"
+                                        stroke="#23E4BA" stroke-width="16.3101" stroke-miterlimit="10" />
+                                </svg>
+                                <p class="small-size text">The closest tube station to the Four Seasons Hotel London at Ten Trinity
+                                    Square
+                                    is Tower
+                                    Hill. It is served by the
+                                    District and Circle lines. It’s a 2min walk via Trinity Square.</p>
+                            </div>
+                            <div class="info">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="130" height="114" viewBox="0 0 130 114" fill="none">
+                                    <g clip-path="url(#clip0_17721_8027)">
+                                        <path
+                                            d="M74.8839 111.401C83.0302 111.401 92.2639 111.401 101.114 111.407C101.281 111.407 101.438 111.407 101.585 111.407H101.92C104.089 111.407 104.351 111.531 105.914 113.331C106.176 113.632 106.624 113.855 107.058 114.066L107.154 114.114C107.664 114.367 108.14 114.105 108.447 113.841C108.664 113.655 108.714 113.328 108.624 112.708C108.551 112.19 108.207 111.824 107.734 111.365C105.458 109.159 103.182 106.956 100.906 104.753L100.588 104.444C99.1286 103.032 97.6694 101.618 96.2103 100.207C94.2554 98.314 92.3033 96.4183 90.354 94.5226C90.2667 94.438 90.216 94.3451 90.1822 94.2831C90.1709 94.2634 90.1681 94.2578 90.1625 94.2493C89.9343 93.993 89.985 93.5789 90.109 93.2803C90.2949 92.8353 90.5907 92.7536 90.7512 92.7451C91.0723 92.7282 91.3935 92.7057 91.7118 92.6831C92.5963 92.624 93.5117 92.562 94.4216 92.5733C96.3849 92.5958 98.337 92.1817 100.224 91.3451C104.148 89.6071 106.596 86.5255 107.497 82.1903C107.869 80.3988 107.9 78.5566 107.9 76.9707C107.897 67.4976 107.895 58.0245 107.892 48.5514V47.4979C107.892 40.9036 107.889 34.3094 107.886 27.7151C107.886 27.4616 107.889 27.2081 107.895 26.9546C107.906 26.2898 107.914 25.6053 107.85 24.9518C107.816 24.625 107.788 24.2983 107.757 23.9715C107.624 22.5603 107.489 21.1011 107.159 19.7321C105.889 14.4449 102.889 10.2844 98.2413 7.36611C95.799 5.83093 93.1934 4.58869 90.4921 3.66758C84.7767 1.71831 78.6106 0.543682 72.1656 0.180307C68.0811 -0.0506755 63.9657 -0.0140568 60.1038 0.0422804C54.2475 0.129603 48.1293 1.05072 41.9182 2.78027C37.3492 4.05349 33.5267 5.88445 30.2366 8.38018C28.6817 9.56045 27.3325 10.9407 26.2311 12.4872C23.8424 15.8336 22.5184 19.7237 22.2959 24.0447C22.2114 25.6757 22.2114 27.3461 22.2114 28.9602V29.3658C22.2058 36.1798 22.2086 43.0811 22.2114 49.7542V53.2894C22.2114 55.1823 22.2114 57.078 22.2114 58.971C22.2114 64.6779 22.2086 70.5708 22.2424 76.3651C22.2508 77.9679 22.2903 79.8242 22.6227 81.5988C23.5776 86.6748 26.5944 90.148 31.5887 91.9254C32.8281 92.3648 34.2197 92.5761 35.8478 92.5648C36.8901 92.5592 37.9464 92.5845 38.9661 92.6099C39.2421 92.6155 39.5182 92.624 39.7971 92.6296C40.0224 92.6353 40.3914 92.8015 40.4703 93.1423L40.4872 93.2099C40.5463 93.4465 40.6252 93.7705 40.4308 94.0493C40.152 94.4521 39.8309 94.8352 39.4844 95.1845C37.6591 97.0211 35.5013 99.1929 33.3155 101.359C31.862 102.798 30.4085 104.235 28.9522 105.669L28.9127 105.708C27.3437 107.258 25.7184 108.858 24.1072 110.458C23.51 111.052 22.8227 111.745 22.2339 112.477C22.0142 112.75 21.9466 113.069 22.0424 113.37C22.1551 113.717 22.4649 113.99 22.879 114.103C23.4762 114.266 24.0142 114.136 24.524 113.7C24.91 113.373 25.248 112.981 25.6057 112.565L25.617 112.55C25.6846 112.472 25.7522 112.396 25.8198 112.317C26.3466 111.714 27.0339 111.407 27.9212 111.381C28.186 111.373 28.4479 111.376 28.7014 111.379C28.8226 111.379 28.9409 111.379 29.062 111.379H65.8643V111.398H74.8839V111.401ZM37.2506 90.2184H37.1661C35.2563 90.2184 33.6619 90.0888 32.0901 89.4578C27.6592 87.6776 25.1776 84.4072 24.7184 79.7369C24.6536 79.0777 24.6593 78.4129 24.6677 77.7707C24.6677 77.5651 24.6733 77.3594 24.6733 77.1566V71.8581C24.6649 57.0837 24.6593 41.805 24.6677 26.7799V26.5602C24.6677 25.1377 24.6677 23.6645 24.8536 22.225C25.5071 17.1491 28.062 12.9548 32.4451 9.75763C34.276 8.42244 36.4225 7.28724 39.0027 6.28726C41.9632 5.14079 45.2702 4.2732 49.4166 3.56054C55.656 2.48731 62.4784 2.14084 70.2755 2.49576C76.1655 2.76337 81.3767 3.5211 86.2133 4.81122C91.2019 6.14078 94.9737 7.86188 98.0835 10.2309C100.478 12.0534 102.123 13.8843 103.258 15.9942C104.441 18.1941 105.069 20.273 105.179 22.3434L105.185 22.4729C105.303 24.7405 105.424 27.0841 105.433 29.3968C105.461 37.7995 105.461 46.3458 105.464 54.6105V60.6386C105.464 64.9709 105.464 69.3004 105.458 73.6327V77.8073L105.455 78.1594C105.455 78.6918 105.455 79.2439 105.438 79.7932C105.255 85.2832 101.196 89.517 95.5652 90.0888C94.3343 90.2128 93.0808 90.2128 91.8695 90.2099H91.2977C84.7485 90.2156 78.0923 90.2156 71.6529 90.2156H64.7009C62.5995 90.2156 60.4982 90.2128 58.3968 90.2128H58.0024C51.5546 90.2128 44.2477 90.2099 37.2619 90.224L37.2506 90.2184ZM40.2506 97.5394C41.4984 96.2465 42.7829 94.9338 44.1801 93.5198C44.7491 92.9451 45.4674 92.624 46.2646 92.593C46.8589 92.5676 47.5068 92.5564 48.2505 92.5564C57.7996 92.5564 67.3459 92.5564 76.8951 92.5564H83.0894C83.2133 92.5564 83.3401 92.5564 83.464 92.5564C83.7147 92.5564 83.9598 92.5564 84.2048 92.5564C85.0189 92.5451 85.7316 92.8409 86.3259 93.4324C87.6808 94.7902 89.2808 96.3958 90.8667 98.0267C91.1174 98.2859 91.0526 98.6521 91.0076 98.8971L90.9963 98.9647C90.9343 99.3422 90.5062 99.4802 90.309 99.4859C89.6273 99.5084 89.1034 99.5197 88.6104 99.5197C83.9372 99.5197 79.2641 99.5197 74.5909 99.5197H65.0812V99.4943H60.3742C54.4335 99.4943 48.2927 99.4943 42.2534 99.4887C41.7125 99.4887 41.1435 99.4408 40.5097 99.345C40.0365 99.2746 39.89 98.6464 39.8956 98.3732C39.9013 98.0831 40.0393 97.7591 40.2478 97.5422L40.2506 97.5394ZM64.977 109.094V109.072H60.9573C51.4842 109.072 42.0111 109.072 32.5352 109.072H32.4873C32.1577 109.072 31.7493 109.072 31.3521 109.024C31.0873 108.99 30.7268 108.815 30.5578 108.511C30.4169 108.255 30.3409 107.736 30.6282 107.435C32.0366 105.951 33.4817 104.46 34.8816 103.015L35.3126 102.57C35.7746 102.091 36.3802 101.81 37.1098 101.725C37.5661 101.675 38.0253 101.675 38.4647 101.675H38.5689C44.9068 101.677 51.242 101.68 57.5799 101.683H58.4447C69.4586 101.689 80.4725 101.694 91.4864 101.697H91.7822C94.5793 101.697 94.7033 101.745 96.2244 103.311C96.43 103.522 96.6666 103.765 96.9427 104.044C98.1821 105.28 99.3736 106.536 100.275 107.494C100.534 107.77 100.543 108.263 100.399 108.562C100.247 108.877 99.8271 109.074 99.5257 109.074C91.2667 109.089 82.8697 109.094 74.7486 109.097H74.1909C73.1092 109.097 72.0276 109.097 70.9459 109.097H64.9713L64.977 109.094Z"
+                                            fill="#23E4BA" />
+                                        <path
+                                            d="M40.0903 56.5019C40.4537 56.5019 40.8199 56.5019 41.1832 56.5075H41.2001C41.5804 56.5075 41.9607 56.5131 42.341 56.5131C47.3972 56.5131 52.4535 56.5131 57.5126 56.5131H65.3463V56.5272H70.3321C76.0081 56.5272 81.6869 56.5272 87.3628 56.5272C87.7121 56.5272 88.0642 56.5216 88.4135 56.5159C88.9093 56.5075 89.4079 56.5019 89.9008 56.5075H89.991C94.081 56.5075 97.8641 52.7244 97.9261 48.5668L97.9317 48.1865C97.9373 47.84 97.943 47.502 97.943 47.1668V46.4851C97.943 41.3669 97.9429 36.2486 97.9373 31.1276V30.8825C97.9373 30.2346 97.9373 29.5642 97.8782 28.922C97.543 25.2573 94.5374 21.2122 89.6191 20.9362C88.9853 20.8996 88.3318 20.9024 87.7008 20.9024H87.3966C72.4842 20.9024 57.5689 20.9024 42.6565 20.9024C42.0227 20.9024 41.3663 20.9024 40.7156 20.939C36.4932 21.1756 32.8735 24.4432 32.3017 28.5445C32.1158 29.8741 32.0172 31.1727 32.0059 32.4036C31.9721 36.6177 31.9693 40.9415 32.0059 45.6203C32.0144 46.9133 32.1552 48.2147 32.2763 49.2062C32.4284 50.4456 32.8538 51.609 33.5467 52.6681C35.2312 55.2484 37.3748 56.5019 40.0931 56.5047L40.0903 56.5019ZM34.6369 46.7076C34.6256 41.8176 34.6369 36.8824 34.6453 32.1079V31.2346C34.6453 30.9614 34.6622 30.691 34.6763 30.429C34.6932 30.1248 34.7073 29.8403 34.7016 29.5586C34.6594 26.9023 37.0847 23.77 40.7607 23.3362C41.2987 23.2742 41.8367 23.277 42.3551 23.2826H42.4452C42.5579 23.2826 42.6677 23.2855 42.786 23.2826C57.414 23.2798 72.0419 23.2798 86.6699 23.2798C86.7966 23.2798 86.9206 23.2798 87.0473 23.2798H87.1347C87.7347 23.277 88.3431 23.2742 88.9487 23.3108C92.6839 23.5446 95.1374 25.8882 95.5092 29.5727C95.5881 30.3417 95.5937 31.1276 95.5965 31.8684C95.6021 36.136 95.6078 41.0936 95.5937 45.9358C95.5909 46.8597 95.5683 47.8456 95.4331 48.809C94.9824 51.9752 92.8839 53.8963 89.6755 54.0794C88.7741 54.1301 87.8614 54.1301 86.9797 54.1301H86.5544C81.2756 54.1301 75.994 54.1301 70.7152 54.1301H65.597L65.1772 54.1329H54.6337C50.6451 54.1329 46.6592 54.1329 42.6705 54.1301H42.2424C41.4452 54.1329 40.6227 54.1357 39.8086 54.0484C37.3213 53.7808 35.2228 51.7836 34.82 49.3048C34.6988 48.5668 34.6453 47.764 34.6425 46.7048L34.6369 46.7076Z"
+                                            fill="#23E4BA" />
+                                        <path
+                                            d="M42.4142 65.9219H42.4058C38.3749 65.9275 34.7975 69.4373 34.7496 73.4373C34.7242 75.7048 35.5805 77.7809 37.1693 79.2822C38.603 80.6428 40.4988 81.3864 42.2424 81.2709H42.2762H42.3016C44.4058 81.2709 46.3494 80.4766 47.7775 79.0315C49.1972 77.5949 49.9606 75.6485 49.9296 73.5527C49.8592 68.8401 45.9748 65.9219 42.4142 65.9219ZM42.2959 78.8513H42.279C39.6425 78.8513 37.1862 76.3809 37.1214 73.6711C37.0904 72.3049 37.7523 70.8514 38.8932 69.7866C39.9608 68.7866 41.2903 68.2796 42.541 68.3923C45.4508 68.6542 47.3494 70.688 47.4959 73.6964V73.7189C47.493 76.395 45.0142 78.84 42.2988 78.8513H42.2959Z"
+                                            fill="#23E4BA" />
+                                        <path
+                                            d="M93.8133 68.5281C92.3485 66.8915 90.3767 65.9141 88.5373 65.9141C83.0839 65.9141 80.6248 70.3112 80.6191 73.4323C80.6135 77.7195 83.805 81.173 87.8838 81.2941C90.0331 81.3561 92.1373 80.5082 93.6612 78.9646C95.0612 77.5449 95.7879 75.7224 95.7034 73.8351V73.8013V73.759C95.9006 71.9985 95.2105 70.0915 93.8105 68.5281H93.8133ZM91.6556 77.3815C90.6359 78.3111 89.357 78.8434 88.1402 78.8434C88.0528 78.8434 87.9655 78.8434 87.881 78.835C85.9064 78.7111 83.8642 77.0632 83.3318 75.159C82.6867 72.8604 83.4416 70.6689 85.2979 69.4351C85.4698 69.3196 85.6444 69.2211 85.8162 69.1281C85.8951 69.083 85.9712 69.0408 86.0472 68.9957C87.4979 68.1478 89.2021 68.1873 90.7232 69.1027C92.4274 70.1281 93.526 71.99 93.4584 73.7393C93.419 75.0463 92.7626 76.3759 91.6556 77.3843V77.3815Z"
+                                            fill="#23E4BA" />
+                                        <path
+                                            d="M52.1181 13.5095C52.7153 13.5658 53.3153 13.5799 54.0308 13.5799C56.7547 13.5855 59.4786 13.5855 62.2025 13.5827H68.4165C69.0531 13.5827 69.6869 13.5827 70.3235 13.5827C71.0221 13.5827 71.7206 13.5827 72.4192 13.5884H72.453C73.8699 13.5912 75.3375 13.5968 76.7797 13.5884C77.3882 13.5884 77.9121 13.5489 78.3853 13.4785C78.8417 13.4109 79.2416 12.8757 79.2416 12.3377C79.2416 11.7687 78.8867 11.363 78.3431 11.3067C77.8276 11.2532 77.2783 11.225 76.7121 11.225C68.4672 11.2138 60.9349 11.2109 53.6815 11.2109C53.1237 11.2109 52.5829 11.2476 52.0702 11.3152C51.6139 11.3771 51.1857 11.9236 51.2026 12.4166C51.2224 12.9349 51.6674 13.4644 52.1181 13.5067V13.5095Z"
+                                            fill="#23E4BA" />
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_17721_8027">
+                                            <rect width="130" height="114" fill="white" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                                <p class="small-size text">The hotel is also a short walk from Fenchurch Street railway station</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
