@@ -73,8 +73,8 @@ $agenda_section_items = $elevate_agenda_section_fields['acf_elevate_agenda_secti
 
 // DESCRIPTION: Join us at section fields from $elevate_join_us_at_section_fields group
 $join_us_section_heading = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_section_heading'];
-$join_us_address_card= $elevate_join_us_at_section_fields['acf_elevate_join_us_at_address_card'];
-$join_us_description= $elevate_join_us_at_section_fields['acf_elevate_join_us_at_description'];
+$join_us_address_card = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_address_card'];
+$join_us_description = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_description'];
 $tranpost_info_station = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_transport_info_tube_icon'];
 $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_transport_info_train_icon'];
 ?>
@@ -375,6 +375,10 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                     </div>
                 </div>
 
+                <!-- DESCRIPTION:Spacer b/w banner and Introduction -->
+
+                <div aria-hidden="true" class="spacer-between-banner-introduction wp-block-spacer"></div>
+
                 <!--DESCRIPTION: Introduction section-->
                 <div class="our_expertise_container" id="expertise">
                     <h2 class="large-size font-bold portrait-only-header"><?php echo esc_html($our_expertise_section_main_heading); ?></h2>
@@ -390,6 +394,10 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                         <p class="small-size description"><?php echo esc_html($our_expertise_description_para_2); ?></p>
                     </div>
                 </div>
+
+                <!--DESCRIPTION:Spacer b/w Introduction and Speakers section -->
+
+                <div aria-hidden="true" class="spacer-between-introduction-speakers wp-block-spacer"></div>
 
                 <!-- DESCRIPTION:Speaker section -->
 
@@ -429,6 +437,10 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                         <?php endif; ?>
                     </div>
                 </div>
+
+                <!-- DESCRIPTION:Spacer b/w Speakers and Keynote section -->
+
+                <div aria-hidden="true" class="spacer-between-speakers-keynote wp-block-spacer"></div>
 
 
                 <!--DESCRIPTION: Keynote Section-->
@@ -478,6 +490,9 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                     <?php endif; ?>
                 </div>
 
+                <!-- Spacer between Keynote and Innovation Showcase -->
+                <div aria-hidden="true" class="spacer-between-keynote-innovation wp-block-spacer"></div>
+
                 <!-- DESCRIPTION: Innovation Showcase  -->
                 <div class="innovation-section">
                     <div class="our-innovation-header">
@@ -526,6 +541,9 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                     </div>
                 </div>
 
+
+                <!-- Spacer between Innovation Showcase and Glimpse Section -->
+                <div aria-hidden="true" class="spacer-between-innovation-glimpse wp-block-spacer"></div>
 
                 <!--DESCRIPTION:Glimpse Section-->
                 <div class="glimpse-container">
@@ -599,6 +617,10 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                     </div>
                 </div>
 
+
+                <!-- Spacer between testimonial and agenda section -->
+                <div aria-hidden="true" class="spacer-between-testimonial-agenda wp-block-spacer"></div>
+
                 <!-- DESCRIPTION:Agenda section -->
                 <div class="agenda-section-head">
                     <h2 class="large-size section-head"><?php echo esc_html($agenda_section_heading); ?></h2>
@@ -647,6 +669,9 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                     <div class="only-space-div-bottom"></div>
                 </section>
 
+
+                <!-- Spacer between agenda and Join Us section -->
+                <div aria-hidden="true" class="spacer-between-agenda-join-us wp-block-spacer"></div>
 
                 <!-- DESCRIPTION:Join US at section -->
 
