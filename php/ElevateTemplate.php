@@ -65,6 +65,10 @@ $elevate_glimpse_section_title = $elevate_glimpse_section_fields['acf_elevate_gl
 $elevate_glimpse_section_sub_title = $elevate_glimpse_section_fields['acf_elevate_glimpse_section_sub_heading'];
 $elevate_glimpse_section_video_url = $elevate_glimpse_section_fields['acf_elevate_glimpse_section_vimeo_video_url'];
 
+
+// DESCRIPTION: Agenda section fields from $elevate_agenda_section_fields group
+$agenda_section_heading = $elevate_agenda_section_fields['acf_elevate_agenda_section_heading'];
+$agenda_section_items = $elevate_agenda_section_fields['acf_elevate_agenda_section_items'] ?? [];
 ?>
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -529,15 +533,15 @@ $elevate_glimpse_section_video_url = $elevate_glimpse_section_fields['acf_elevat
                             <p class="content-description small-size"><?php echo esc_html($elevate_glimpse_section_sub_title); ?></p>
                             <div class="video-container">
                                 <?php
-                                    // Ensure the video URL ends with the required Vimeo params
-                                    $glimpse_video_url = trim($elevate_glimpse_section_video_url);
-                                    $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479';
+                                // Ensure the video URL ends with the required Vimeo params
+                                $glimpse_video_url = trim($elevate_glimpse_section_video_url);
+                                $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479';
 
-                                    // Remove any existing query string
-                                    $glimpse_video_url = preg_replace('/\?.*$/', '', $glimpse_video_url);
+                                // Remove any existing query string
+                                $glimpse_video_url = preg_replace('/\?.*$/', '', $glimpse_video_url);
 
-                                    // Append the required params
-                                    $glimpse_video_url .= $vimeo_params;
+                                // Append the required params
+                                $glimpse_video_url .= $vimeo_params;
                                 ?>
                                 <iframe src="<?php echo esc_url($glimpse_video_url); ?>"
                                     class="video-player" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
@@ -589,7 +593,7 @@ $elevate_glimpse_section_video_url = $elevate_glimpse_section_fields['acf_elevat
 
                 <!-- DESCRIPTION:Agenda section -->
                 <div class="agenda-section-head">
-                    <h2 class="large-size section-head">Agenda</h2>
+                    <h2 class="large-size section-head"><?php echo esc_html($agenda_section_heading); ?></h2>
                 </div>
                 <section class="svg-background-section">
                     <div class="only-space-div"></div>
@@ -612,86 +616,24 @@ $elevate_glimpse_section_video_url = $elevate_glimpse_section_fields['acf_elevat
                             </div>
                         </div>
                         <div class="only-space-empty"></div>
-                        <div class="timeline-item">
-                            <div class="svg-connector"></div>
-                            <div class="content">
-                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
-                                <h3 class="smaller-size font-bold">WELCOME.</h3>
-                                <p class="smallest-size">Registration, innovation fair and Networking</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="svg-connector"></div>
-                            <div class="content">
-                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
-                                <h3 class="smaller-size font-bold">WELCOME.</h3>
-                                <p class="smallest-size">Performance Teams OR Psychology of Winning <br>
-                                    Rober Forzoni Performance Psychologist & Sport</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="svg-connector"></div>
-                            <div class="content">
-                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
-                                <h3 class="smaller-size font-bold">WELCOME.</h3>
-                                <p class="smallest-size">Unlocking Innovation:<br>
-                                    The Labrats Journey within Aventum Group</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="svg-connector"></div>
-                            <div class="content">
-                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
-                                <h3 class="smaller-size font-bold">WELCOME.</h3>
-                                <p class="smallest-size">Roundtable Discussion:<br>
-                                    Beyond the Buzz, The Truth about AI and Innovation</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="svg-connector"></div>
-                            <div class="content">
-                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
-                                <h3 class="smaller-size font-bold">WELCOME.</h3>
-                                <p class="smallest-size">AI and Innovation:<br>
-                                    Protection and Risk Mitigation with Haynes Boone</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="svg-connector"></div>
-                            <div class="content">
-                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
-                                <h3 class="smaller-size font-bold">WELCOME.</h3>
-                                <p class="smallest-size">AI-Powered Resilience:<br>
-                                    The Intelligent Self-Healing Automation Framework with Shipowners’Club</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="svg-connector"></div>
-                            <div class="content">
-                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
-                                <h3 class="smaller-size font-bold">WELCOME.</h3>
-                                <p class="smallest-size">Building Peak<br>
-                                    Performance Teams OR Psychology of Winning<br>
-                                    Rober Forzoni Performance Psychologist & Sport</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="svg-connector"></div>
-                            <div class="content">
-                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
-                                <h3 class="smaller-size font-bold">WELCOME.</h3>
-                                <p class="smallest-size">From Insight to Action: Our Vision for the Future </p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="svg-connector"></div>
-                            <div class="content">
-                                <p class="smallest-size font-bold">1:00 PM - 2:00 PM</p>
-                                <h3 class="smaller-size font-bold">WELCOME.</h3>
-                                <p class="smallest-size">Innovate and Connect: A Journey of Discovery, 4 Featured Innovation Booths
-                                    along with Drinks and Networking</p>
-                            </div>
-                        </div>
+
+                        <?php if ($agenda_section_items && is_array($agenda_section_items)): ?>
+                            <?php foreach ($agenda_section_items as $items):
+                                $event_duration = $items['acf_elevate_agenda_section_item_time'] ?? '';
+                                $event_name = $items['acf_elevate_agenda_section_item_title'] ?? '';
+                                $event_brief_description = $items['acf_elevate_agenda_section_item_description'] ?? '';
+                            ?>
+
+                                <div class="timeline-item">
+                                    <div class="svg-connector"></div>
+                                    <div class="content">
+                                        <p class="smallest-size font-bold"><?php echo esc_html($event_duration); ?></p>
+                                        <h3 class="smaller-size font-bold"><?php echo esc_html($event_name); ?></h3>
+                                        <p class="smallest-size"><?php echo esc_html($event_brief_description); ?></p>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         <div class="only-space-empty"></div>
                     </div>
                     <div class="only-space-div-bottom"></div>
