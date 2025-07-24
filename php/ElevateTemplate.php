@@ -69,6 +69,14 @@ $elevate_glimpse_section_video_url = $elevate_glimpse_section_fields['acf_elevat
 // DESCRIPTION: Agenda section fields from $elevate_agenda_section_fields group
 $agenda_section_heading = $elevate_agenda_section_fields['acf_elevate_agenda_section_heading'];
 $agenda_section_items = $elevate_agenda_section_fields['acf_elevate_agenda_section_items'] ?? [];
+
+
+// DESCRIPTION: Join us at section fields from $elevate_join_us_at_section_fields group
+$join_us_section_heading = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_section_heading'];
+$join_us_address_card= $elevate_join_us_at_section_fields['acf_elevate_join_us_at_address_card'];
+$join_us_description= $elevate_join_us_at_section_fields['acf_elevate_join_us_at_description'];
+$tranpost_info_station = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_transport_info_tube_icon'];
+$tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_transport_info_train_icon'];
 ?>
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -645,7 +653,7 @@ $agenda_section_items = $elevate_agenda_section_fields['acf_elevate_agenda_secti
 
                 <div class="join-us-at-wrapper">
                     <div class="section-header-container">
-                        <h2 class="large-size font-bold">Join us At</h2>
+                        <h2 class="large-size font-bold"><?php echo esc_html($join_us_section_heading); ?></h2>
                     </div>
                     <div class="map-content-wrapper">
                         <div class="google-map-container">
@@ -653,14 +661,11 @@ $agenda_section_items = $elevate_agenda_section_fields['acf_elevate_agenda_secti
                                 src="https://www.openstreetmap.org/export/embed.html?bbox=-0.07995270810946493%2C51.5091704563712%2C-0.07595270810946493%2C51.5111704563712&layer=mapnik&marker=51.5101704563712%2C-0.07795270810946493&zoom=19">
                             </iframe>
                             <div class="map-label smaller-size">
-                                The Thames Penthouse, Four Seasons, Ten Trinity Square, London EC3N 4AJ
+                                <?php echo esc_html($join_us_address_card); ?>
                             </div>
                         </div>
                         <p class="shortdesc small-size">
-                            Worem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate
-                            libero et velit interdum, ac aliquet odio mattis. Class aptent taciti
-                            sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-                            Curabitur tempus urna at turpis condimentum lobortis.
+                            <?php echo esc_html($join_us_description); ?>
                         </p>
                         <div class="transport-info">
                             <div class="info">
@@ -674,11 +679,7 @@ $agenda_section_items = $elevate_agenda_section_fields['acf_elevate_agenda_secti
                                         d="M22.9336 59.7812C24.3865 81.6546 42.661 98.9478 64.9999 98.9478C87.3388 98.9478 105.613 81.6546 107.066 59.7812"
                                         stroke="#23E4BA" stroke-width="16.3101" stroke-miterlimit="10" />
                                 </svg>
-                                <p class="small-size text">The closest tube station to the Four Seasons Hotel London at Ten Trinity
-                                    Square
-                                    is Tower
-                                    Hill. It is served by the
-                                    District and Circle lines. It’s a 2min walk via Trinity Square.</p>
+                                <p class="small-size text"><?php echo esc_html($tranpost_info_station); ?></p>
                             </div>
                             <div class="info">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="130" height="114" viewBox="0 0 130 114" fill="none">
@@ -705,7 +706,7 @@ $agenda_section_items = $elevate_agenda_section_fields['acf_elevate_agenda_secti
                                         </clipPath>
                                     </defs>
                                 </svg>
-                                <p class="small-size text">The hotel is also a short walk from Fenchurch Street railway station</p>
+                                <p class="small-size text"><?php echo esc_html($tranpost_info_station); ?></p>
                             </div>
                         </div>
                     </div>
