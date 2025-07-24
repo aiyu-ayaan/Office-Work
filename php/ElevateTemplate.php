@@ -293,10 +293,10 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                             Innovation Blueprints: Turning Vision into Value
                         </div>
 
-                        <div class="text-below-title smaller-size">
+                        <div class="text-below-title small-size">
                             16th September 2025 - Four Seasons - Ten Trinity Square London
                         </div>
-                        <a href="">
+                        <a href="/contact-us/">
                             <button class=" custom-button elevate-get-in-touch">
                                 Get in touch
                             </button>
@@ -309,7 +309,7 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                     <h1 class="medium-size event-start-title">
                         Event starts in
                     </h1>
-                    <div class="counter" endDate="03-05-2026 12:00 AM">
+                    <div class="counter" endDate="16-09-2025 12:00 AM">
                         <div class="counter-day counter-style">
                             <span class="counter-number-day largest-size"></span>
                             <span class="counter-label-day smaller-size">Days</span>
@@ -347,6 +347,73 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                     </div>
                 </div>
 
+                <!-- Keynote Section-->
+                <div class="keynotes">
+                    <div class="section-wrapper">
+                        <div class="background-layout">
+                            <div class="background-left animate-on-scroll"></div>
+                            <div class="background-right"></div>
+                        </div>
+                        <div class="content-overlay">
+                            <div class="content-left animate-on-scroll">
+                                <h2 class="large-size font-bold">Opening Keynote</h2>
+                                <p class="small-size">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
+                                    turpis molestie, dictum est a, mattis tellus. Sed dignissim,
+                                </p>
+                                <p class="small-size">
+                                    Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent
+                                    taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+                                    himenaeos.
+                                </p>
+                            </div>
+                            <div class="content-right animate-on-scroll">
+                                <div class="image-wrapper">
+                                    <img src="/wp-content/uploads/2025/07/Rectangle-3551.png" alt="Overlapping Image" />
+                                    <div class="info-overlay">
+                                        <div class="person-name large-size font-bold">Mayank</div>
+                                        <div class="person-designation small-size font-bold">
+                                            Founder, CEO and MD, ADROSONIC
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Repeat above block as needed -->
+                    <div class="section-wrapper">
+                        <div class="background-layout">
+                            <div class="background-left animate-on-scroll"></div>
+                            <div class="background-right"></div>
+                        </div>
+                        <div class="content-overlay">
+                            <div class="content-left animate-on-scroll">
+                                <h2 class="large-size font-bold">Closing Keynote</h2>
+                                <p class="small-size">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu
+                                    turpis molestie, dictum est a, mattis tellus. Sed dignissim,
+                                </p>
+                                <p class="small-size">
+                                    Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent
+                                    taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+                                    himenaeos.
+                                </p>
+                            </div>
+                            <div class="content-right animate-on-scroll">
+                                <div class="image-wrapper">
+                                    <img src="/wp-content/uploads/2025/07/Rectangle-3551.png" alt="Overlapping Image" />
+                                    <div class="info-overlay">
+                                        <div class="person-name large-size font-bold">XYZ</div>
+                                        <div class="person-designation small-size font-bold">
+                                            Chief Technology Officer
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- our innovation section  -->
                 <div class="innovation-section">
                     <div class="our-innovation-header">
@@ -394,6 +461,34 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
                         </a>
                     </div>
                 </div>
+
+
+                <!--Glimpse Section-->
+                <div class="glimpse-container">
+                    <div class="background-container">
+                        <div class="background-image manual-lazy-load"
+                            data-src="/wp-content/uploads/2025/07/Adrosonic%20Innovation%20main%20frame.svg"
+                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
+                        </div>
+                    </div>
+                    <div class="content-container">
+                        <div class="content">
+                            <h1 class="content-heading large-size">Elevate 2024 Glimpse</h1>
+                            <p class="content-description small-size">Catch a glimpse and the radiance of past events.</p>
+                            <div class="video-container">
+                                <iframe src="https://player.vimeo.com/video/866043708?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+                                    class="video-player" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                                    title="Elevate 2024 Glimpse">
+                                </iframe>
+                                <!-- <img src="/wp-content/uploads/2025/07/image-245.png" alt="Elevate 2024 Glimpse" class="video-player"> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 		Spacer between glimpse and testimonial		 -->
+                <div aria-hidden="true" class="spacer-between-glimpse-testimonial wp-block-spacer"></div>
+
                 <!-- our clients testimonial  -->
                 <div class="testimonial-carousel carousel-container">
                     <div class="testimonial-heading section-header-container">

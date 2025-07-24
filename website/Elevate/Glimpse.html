@@ -1,11 +1,11 @@
 <style>
     .glimpse-container {
         width: 100%;
-        height: 111.58vh;
-        position: relative;
+        height: auto;
+        min-height: 111.58vh;
         /* Added to contain absolutely positioned children */
 
-        .background-container {
+        /* .background-container {
             width: 100%;
             height: 100%;
             position: relative;
@@ -20,10 +20,9 @@
                 top: 0;
                 left: 0;
             }
-        }
+        } */
 
         .content-container {
-            position: absolute;
             z-index: 1;
             width: 100%;
             height: 100%;
@@ -33,6 +32,7 @@
             left: 0;
             padding: 0px 3.34%;
             padding-top: 1.93%;
+            background: url(/wp-content/uploads/2025/07/Adrosonic%20Innovation%20main%20frame.svg) top center;
 
             .content {
                 flex-direction: column;
@@ -67,13 +67,15 @@
 
     @media screen and (max-width: 1024px) {
         .glimpse-container {
-            height: 61.67vh;
+            min-height: 61.67vh;
+            height: auto;
 
             .background-container {
                 display: unset;
             }
 
             .content-container {
+                background: unset;
                 padding: 0px 5.52%;
                 padding-top: 4.8%;
 
@@ -103,15 +105,16 @@
                 }
             }
 
-                @media screen and (orientation: landscape) {
-                    height: 100.75vh;
-                }
+            @media screen and (orientation: landscape) {
+                height: 100.75vh;
+            }
         }
     }
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
         .glimpse-container {
-            height: 47.75vh;
+            min-height: 47.75vh;
+            height: auto;
 
             .background-container {
                 display: unset;
@@ -124,11 +127,11 @@
                 .content {
 
                     .content-heading {
-                       margin-bottom: 9.36%;
+                        margin-bottom: 9.36%;
                     }
 
                     .content-description {
-                       margin-bottom: 9.36%;
+                        margin-bottom: 9.36%;
                     }
 
                     .video-container {
