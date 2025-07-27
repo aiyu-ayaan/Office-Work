@@ -143,63 +143,63 @@
     document.addEventListener("DOMContentLoaded", function () {
         if (typeof window.geoData !== "undefined") {
             const { timezone, localTime } = window.geoData || {};
-            const userTimezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const userTimezone = window.geoData?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+            // Get the endDate from the HTML attribute
             const counterElement = document.querySelector('.counter');
-            if (!counterElement) return;
+            const targetDateString = counterElement.getAttribute('endDate') || "16-09-2025 12:00 AM";
 
-            const targetDateString = counterElement.getAttribute('endDate') || "03-05-2026 12:00 AM";
-
+            // Parse the date string into local time (browser timezone)
             function parseCustomDate(dateString) {
                 const parts = dateString.split(' ');
-                const [day, month, year] = parts[0].split('-');
-                const [hoursStr, minutesStr] = parts[1].split(':');
-                const ampm = parts[2].toUpperCase();
+                const datePart = parts[0]; // "16-09-2025"
+                const timePart = parts[1]; // "12:00"
+                const ampm = parts[2]; // "AM"
 
-                let hours = parseInt(hoursStr);
-                if (ampm === "PM" && hours !== 12) hours += 12;
-                if (ampm === "AM" && hours === 12) hours = 0;
+                const [day, month, year] = datePart.split('-');
+                const [hours, minutes] = timePart.split(':');
 
-                // Parse as UTC so we can convert to user timezone later
-                const utcDate = new Date(Date.UTC(year, month - 1, day, hours, parseInt(minutesStr), 0));
-                return utcDate;
+                let hour24 = parseInt(hours);
+                if (ampm.toUpperCase() === 'PM' && hour24 !== 12) hour24 += 12;
+                if (ampm.toUpperCase() === 'AM' && hour24 === 12) hour24 = 0;
+
+                // This creates a Date in the browser's local timezone
+                return new Date(year, month - 1, day, hour24, minutes, 0);
             }
 
-            const targetUTCDate = parseCustomDate(targetDateString);
+            const targetDate = parseCustomDate(targetDateString);
 
-            // Apply user timezone offset for display
-            const targetDateInUserTZ = new Date(
-                targetUTCDate.toLocaleString("en-US", { timeZone: userTimezone })
-            );
+            // DOM Elements
+            const dayElement = document.querySelector('.counter-number-day');
+            const hourElement = document.querySelector('.counter-number-hours');
+            const minuteElement = document.querySelector('.counter-number-minutes');
+            const secondElement = document.querySelector('.counter-number-seconds');
 
-            // Calculate offset between localTime and client time
-            let localTimeOffset = 0;
+            // Store the initial time offset to maintain consistency
+            let timeOffset = 0;
             if (localTime) {
-                const now = new Date();
-                const [h, m] = localTime.split(':');
-                const serverReportedTime = new Date(now);
-                serverReportedTime.setHours(parseInt(h));
-                serverReportedTime.setMinutes(parseInt(m));
-                serverReportedTime.setSeconds(0);
-                serverReportedTime.setMilliseconds(0);
+                const [hoursStr, minutesStr] = localTime.split(':');
+                const providedTime = new Date();
+                providedTime.setHours(parseInt(hoursStr, 10));
+                providedTime.setMinutes(parseInt(minutesStr, 10));
+                providedTime.setSeconds(0);
+                providedTime.setMilliseconds(0);
 
-                const localNow = new Date(now);
-                localNow.setSeconds(0);
-                localNow.setMilliseconds(0);
+                const actualTime = new Date();
+                actualTime.setSeconds(0);
+                actualTime.setMilliseconds(0);
 
-                localTimeOffset = serverReportedTime.getTime() - localNow.getTime();
+                timeOffset = providedTime.getTime() - actualTime.getTime();
             }
 
-            const dayEl = document.querySelector('.counter-number-day');
-            const hourEl = document.querySelector('.counter-number-hours');
-            const minuteEl = document.querySelector('.counter-number-minutes');
-            const secondEl = document.querySelector('.counter-number-seconds');
-            const eventTitleEl = document.querySelector('.event-start-title');
-
+            // Countdown updater
             function updateCountdown() {
                 const now = new Date();
-                const adjustedNow = new Date(now.getTime() + localTimeOffset);
-                const diff = targetDateInUserTZ.getTime() - adjustedNow.getTime();
+
+                // Apply the time offset to maintain the difference calculation
+                const adjustedNow = new Date(now.getTime() + timeOffset);
+
+                const diff = targetDate.getTime() - adjustedNow.getTime();
 
                 if (diff > 0) {
                     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -207,26 +207,32 @@
                     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-                    dayEl.textContent = String(days).padStart(2, '0');
-                    hourEl.textContent = String(hours).padStart(2, '0');
-                    minuteEl.textContent = String(minutes).padStart(2, '0');
-                    secondEl.textContent = String(seconds).padStart(2, '0');
+                    dayElement.textContent = String(days).padStart(2, '0');
+                    hourElement.textContent = String(hours).padStart(2, '0');
+                    minuteElement.textContent = String(minutes).padStart(2, '0');
+                    secondElement.textContent = String(seconds).padStart(2, '0');
                 } else {
-                    dayEl.textContent = '00';
-                    hourEl.textContent = '00';
-                    minuteEl.textContent = '00';
-                    secondEl.textContent = '00';
-                    if (eventTitleEl) eventTitleEl.textContent = 'Event has started!';
-                    clearInterval(intervalId);
+                    dayElement.textContent = '00';
+                    hourElement.textContent = '00';
+                    minuteElement.textContent = '00';
+                    secondElement.textContent = '00';
+                    document.querySelector('.event-start-title').textContent = 'Event has started!';
                 }
             }
 
+            // Start countdown
             updateCountdown();
             const intervalId = setInterval(updateCountdown, 1000);
 
+            // Refresh when tab becomes active again
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden) updateCountdown();
             });
+
+            // Optional: Log timezone info
+            console.log("Using timezone:", userTimezone);
+            console.log("Target date:", targetDate);
+            console.log("Time offset:", timeOffset);
         } else {
             console.warn("GeoData not available.");
         }

@@ -490,8 +490,137 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                     <?php endif; ?>
                 </div>
 
-                <!-- Spacer between Keynote and Innovation Showcase -->
-                <div aria-hidden="true" class="spacer-between-keynote-innovation wp-block-spacer"></div>
+                <!-- Spacer b/w Keynote and Roundtable section -->
+                <div aria-hidden="true" class="spacer-between-keynote-roundtable wp-block-spacer"></div>
+
+                <!-- DESCRIPTION:Roundtable section -->
+
+                <div class="round-table">
+                    <div class="main-header">
+                        <div class="main-header-inner all-section-header">
+                            <h2 class="round-table-header large-size font-bold">Round Table: Who’s Speaking</h2>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="left-box">
+                            <h3 class="round-table-header large-size font-bold">Agentic AI: Autonomous, Goal-Driven Intelligence</h3>
+                            <p class="round-table-text small-size">Lorem ipsum dolor sit amet consectetur. In mattis turpis venenatis
+                                pharetra nec condimentum massa. Vestibulum egestas elit mauris velit. Vestibulum egestas elit mauris
+                                velit egestas elit.</p>
+                            <div class="sub-header">
+                                <div class="sub-header-inner all-section-header">
+                                    <h3 class="round-table-header large-size font-bold">Round Table: Who’s
+                                        Speaking</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-container">
+                            <div class="carousel">
+                                <div class="panel-slide">
+                                    <div class="speaker">
+                                        <img class=""
+                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Mayank.png"
+                                            alt="James Fairgrieve, Head of Innovation, Aventufdgjghjm" />
+                                        <p class="title small-size font-bold">James Fairgrieve</p>
+                                        <p class="caption small-size font-bold"><span class="name">James Fairgrieve,</span> Head of
+                                            Innovation, Aventugtgm Aventugtgm Aventugtgm</p>
+                                    </div>
+                                </div>
+                                <div class="panel-slide">
+                                    <div class="speaker">
+                                        <img class=""
+                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Ms-Sonal.png"
+                                            alt="Paul Richmond, Head of Customer Success, Novidea" />
+                                        <p class="title small-size font-bold">Paul Richmond</p>
+                                        <p class="caption small-size font-bold"><span class="name">Paul Richmond,</span> Head of
+                                            Customer Success, Novidea
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="panel-slide">
+                                    <div class="speaker">
+                                        <img class=""
+                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Steve-Jolley.png"
+                                            alt="Eugene Goryunov, Partner and Head of AI, Haynes Boone" />
+                                        <p class="title small-size font-bold">Eugene Goryunov</p>
+                                        <p class="caption small-size font-bold"><span class="name">Eugene Goryunov,</span> Partner and
+                                            Head of AI, Haynes and
+                                            Boone</p>
+                                    </div>
+                                </div>
+                                <div class="panel-slide">
+                                    <div class="speaker">
+                                        <img class=""
+                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-SME-Shalini-Lala.png"
+                                            alt="Elliot Arazi, Business Innovation Architect, Inigo" />
+                                        <p class="title small-size font-bold">Elliot Arazi</p>
+                                        <p class="caption small-size font-bold"><span class="name">Elliot Arazi,</span> Business
+                                            Innovation Architect, Inigo
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="panel-slide">
+                                    <div class="speaker">
+                                        <img class=""
+                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Randall-Perry.png"
+                                            alt="Randall Perrey, Chief Software Engineering Officer, Adrosonic" />
+                                        <p class="title small-size font-bold">Randall Perrey</p>
+                                        <p class="caption small-size font-bold"><span class="name">Randall Perrey,</span> Chief Software
+                                            Engineering Officer,
+                                            Adrosonic</p>
+                                    </div>
+                                </div>
+                                <div class="panel-slide">
+                                    <div class="speaker">
+                                        <img class=""
+                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Matt-Pesce.png"
+                                            alt="Matt Pesce, Chief Marketing Officer, Adrosonic" />
+                                        <p class="title small-size font-bold">Matt Pesce</p>
+                                        <p class="caption small-size font-bold"><span class="name">Matt Pesce,</span> Chief Marketing
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="panel-slide">
+                                    <div class="speaker">
+                                        <img class=""
+                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Mayank.png"
+                                            alt="James Fairgrieve, Head of Innovation, Aventufdgjghjm" />
+                                        <p class="title small-size font-bold">James Fairgrieve</p>
+                                        <p class="caption small-size font-bold"><span class="name">James Fairgrieve,</span> Head of
+                                            Innovation, Aventugtgm Aventugtgm Aventugtgm</p>
+                                    </div>
+                                </div>
+                                <div class="panel-slide">
+                                    <div class="speaker">
+                                        <img class=""
+                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Ms-Sonal.png"
+                                            alt="Paul Richmond, Head of Customer Success, Novidea" />
+                                        <p class="title small-size font-bold">Paul Richmond</p>
+                                        <p class="caption small-size font-bold"><span class="name">Paul Richmond,</span> Head of
+                                            Customer Success, Novidea
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="panel-slide">
+                                    <div class="speaker">
+                                        <img class=""
+                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Steve-Jolley.png"
+                                            alt="Eugene Goryunov, Partner and Head of AI, Haynee and Boone" />
+                                        <p class="title small-size font-bold">Eugene Goryunov</p>
+                                        <p class="caption small-size font-bold"><span class="name">Eugene Goryunov,</span> Partner and
+                                            Head of AI, Haynee and
+                                            Boone</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spacer between Roundtable and Innovation Showcase section -->
+                <div aria-hidden="true" class="spacer-between-roundtable-innovation wp-block-spacer"></div>
 
                 <!-- DESCRIPTION: Innovation Showcase  -->
                 <div class="innovation-section">

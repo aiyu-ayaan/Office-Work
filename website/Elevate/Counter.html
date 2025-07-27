@@ -2,7 +2,7 @@
     <h1 class="medium-size event-start-title">
         Event starts in
     </h1>
-    <div class="counter" endDate="03-05-2026 12:00 AM">
+    <div class="counter" endDate="16-09-2025 12:00 AM">
         <div class="counter-day counter-style">
             <span class="counter-number-day largest-size"></span>
             <span class="counter-label-day smaller-size">Days</span>
@@ -132,89 +132,101 @@
     }
 </style>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        if (typeof window.geoData !== "undefined") {
-            const { timezone, localTime } = window.geoData || {};
-            const userTimezone = window.geoData?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+     document.addEventListener("DOMContentLoaded", function () {
+            if (typeof window.geoData !== "undefined") {
+                const { timezone, localTime } = window.geoData || {};
+                const userTimezone = window.geoData?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-            // Get the endDate from the HTML attribute
-            const counterElement = document.querySelector('.counter');
-            const targetDateString = counterElement.getAttribute('endDate') || "03-05-2026 12:00 AM";
+                // Get the endDate from the HTML attribute
+                const counterElement = document.querySelector('.counter');
+                const targetDateString = counterElement.getAttribute('endDate') || "16-09-2025 12:00 AM";
 
-            // Parse the date string into local time (browser timezone)
-            function parseCustomDate(dateString) {
-                const parts = dateString.split(' ');
-                const datePart = parts[0]; // "03-05-2026"
-                const timePart = parts[1]; // "12:00"
-                const ampm = parts[2]; // "AM"
+                // Parse the date string into local time (browser timezone)
+                function parseCustomDate(dateString) {
+                    const parts = dateString.split(' ');
+                    const datePart = parts[0]; // "16-09-2025"
+                    const timePart = parts[1]; // "12:00"
+                    const ampm = parts[2]; // "AM"
 
-                const [day, month, year] = datePart.split('-');
-                const [hours, minutes] = timePart.split(':');
+                    const [day, month, year] = datePart.split('-');
+                    const [hours, minutes] = timePart.split(':');
 
-                let hour24 = parseInt(hours);
-                if (ampm.toUpperCase() === 'PM' && hour24 !== 12) hour24 += 12;
-                if (ampm.toUpperCase() === 'AM' && hour24 === 12) hour24 = 0;
+                    let hour24 = parseInt(hours);
+                    if (ampm.toUpperCase() === 'PM' && hour24 !== 12) hour24 += 12;
+                    if (ampm.toUpperCase() === 'AM' && hour24 === 12) hour24 = 0;
 
-                // This creates a Date in the browser's local timezone
-                return new Date(year, month - 1, day, hour24, minutes, 0);
-            }
+                    // This creates a Date in the browser's local timezone
+                    return new Date(year, month - 1, day, hour24, minutes, 0);
+                }
 
-            const targetDate = parseCustomDate(targetDateString);
+                const targetDate = parseCustomDate(targetDateString);
 
-            // DOM Elements
-            const dayElement = document.querySelector('.counter-number-day');
-            const hourElement = document.querySelector('.counter-number-hours');
-            const minuteElement = document.querySelector('.counter-number-minutes');
-            const secondElement = document.querySelector('.counter-number-seconds');
+                // DOM Elements
+                const dayElement = document.querySelector('.counter-number-day');
+                const hourElement = document.querySelector('.counter-number-hours');
+                const minuteElement = document.querySelector('.counter-number-minutes');
+                const secondElement = document.querySelector('.counter-number-seconds');
 
-            // Countdown updater
-            function updateCountdown() {
-                const now = new Date();
-
-                // Use localTime for hours and minutes, but keep actual seconds
+                // Store the initial time offset to maintain consistency
+                let timeOffset = 0;
                 if (localTime) {
                     const [hoursStr, minutesStr] = localTime.split(':');
-                    now.setHours(parseInt(hoursStr, 10));
-                    now.setMinutes(parseInt(minutesStr, 10));
-                    // Keep the actual seconds from new Date() - don't override them
+                    const providedTime = new Date();
+                    providedTime.setHours(parseInt(hoursStr, 10));
+                    providedTime.setMinutes(parseInt(minutesStr, 10));
+                    providedTime.setSeconds(0);
+                    providedTime.setMilliseconds(0);
+
+                    const actualTime = new Date();
+                    actualTime.setSeconds(0);
+                    actualTime.setMilliseconds(0);
+
+                    timeOffset = providedTime.getTime() - actualTime.getTime();
                 }
 
-                const diff = targetDate.getTime() - now.getTime();
+                // Countdown updater
+                function updateCountdown() {
+                    const now = new Date();
 
-                if (diff > 0) {
-                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    // Apply the time offset to maintain the difference calculation
+                    const adjustedNow = new Date(now.getTime() + timeOffset);
 
-                    dayElement.textContent = String(days).padStart(2, '0');
-                    hourElement.textContent = String(hours).padStart(2, '0');
-                    minuteElement.textContent = String(minutes).padStart(2, '0');
-                    secondElement.textContent = String(seconds).padStart(2, '0');
-                } else {
-                    dayElement.textContent = '00';
-                    hourElement.textContent = '00';
-                    minuteElement.textContent = '00';
-                    secondElement.textContent = '00';
-                    document.querySelector('.event-start-title').textContent = 'Event has started!';
+                    const diff = targetDate.getTime() - adjustedNow.getTime();
+
+                    if (diff > 0) {
+                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                        dayElement.textContent = String(days).padStart(2, '0');
+                        hourElement.textContent = String(hours).padStart(2, '0');
+                        minuteElement.textContent = String(minutes).padStart(2, '0');
+                        secondElement.textContent = String(seconds).padStart(2, '0');
+                    } else {
+                        dayElement.textContent = '00';
+                        hourElement.textContent = '00';
+                        minuteElement.textContent = '00';
+                        secondElement.textContent = '00';
+                        document.querySelector('.event-start-title').textContent = 'Event has started!';
+                    }
                 }
+
+                // Start countdown
+                updateCountdown();
+                const intervalId = setInterval(updateCountdown, 1000);
+
+                // Refresh when tab becomes active again
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) updateCountdown();
+                });
+
+                // Optional: Log timezone info
+                console.log("Using timezone:", userTimezone);
+                console.log("Target date:", targetDate);
+                console.log("Time offset:", timeOffset);
+            } else {
+                console.warn("GeoData not available.");
             }
-
-            // Start countdown
-            updateCountdown();
-            const intervalId = setInterval(updateCountdown, 1000);
-
-            // Refresh when tab becomes active again
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden) updateCountdown();
-            });
-
-            // Optional: Log timezone info
-            console.log("Using timezone:", userTimezone);
-            console.log("Target date:", targetDate);
-            console.log("Current time:", new Date());
-        } else {
-            console.warn("GeoData not available.");
-        }
-    });
+        });
 </script>
