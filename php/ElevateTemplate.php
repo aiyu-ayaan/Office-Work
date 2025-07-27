@@ -38,7 +38,7 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
 
 $banner_section_fields = get_field('acf_elevate_banner_section_fields');
 $elevate_leader_section_fields = get_field('acf_elevate_leader_section_fields');
-$keynote_section_fields = get_field('acf_elevate_keynote_section_fields');
+$keynote_section_fields = get_field('acf_elevate_round_table_section_fields');
 $elevate_glimpse_section_fields = get_field('acf_elevate_glimpse_section_fields');
 $elevate_agenda_section_fields = get_field('acf_elevate_agenda_section_fields');
 $elevate_join_us_at_section_fields = get_field('acf_elevate_join_us_at_section_fields');
@@ -77,6 +77,12 @@ $join_us_address_card = $elevate_join_us_at_section_fields['acf_elevate_join_us_
 $join_us_description = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_description'];
 $tranpost_info_station = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_transport_info_tube_icon'];
 $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join_us_at_transport_info_train_icon'];
+
+
+// DESCRIPTION:Round table section fields from $keynote_section_fields group
+$keynote_section_heading = $keynote_section_fields['acf_elevate_round_table_section_heading'];
+$keynote_section_left_heading = $keynote_section_fields['acf_elevate_round_table_left_heading'];
+$keynote_section_left_description = $keynote_section_fields['acf_elevate_round_table_left_description'];
 ?>
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -498,16 +504,18 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                 <div class="round-table">
                     <div class="main-header">
                         <div class="main-header-inner all-section-header">
-                            <h2 class="round-table-header large-size font-bold">Round Table: Who’s Speaking</h2>
+                            <h2 class="round-table-header large-size font-bold"> <?php echo esc_html($keynote_section_heading); ?></h2>
                         </div>
                     </div>
 
                     <div class="container">
                         <div class="left-box">
-                            <h3 class="round-table-header large-size font-bold">Agentic AI: Autonomous, Goal-Driven Intelligence</h3>
-                            <p class="round-table-text small-size">Lorem ipsum dolor sit amet consectetur. In mattis turpis venenatis
-                                pharetra nec condimentum massa. Vestibulum egestas elit mauris velit. Vestibulum egestas elit mauris
-                                velit egestas elit.</p>
+                            <h3 class="round-table-header large-size font-bold">
+                                <?php echo esc_html($keynote_section_left_heading); ?>
+                            </h3>
+                            <p class="round-table-text small-size">
+                                <?php echo esc_html($keynote_section_left_description); ?>
+                            </p>
                             <div class="sub-header">
                                 <div class="sub-header-inner all-section-header">
                                     <h3 class="round-table-header large-size font-bold">Round Table: Who’s
@@ -517,103 +525,55 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
                         </div>
                         <div class="carousel-container">
                             <div class="carousel">
-                                <div class="panel-slide">
-                                    <div class="speaker">
-                                        <img class=""
-                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Mayank.png"
-                                            alt="James Fairgrieve, Head of Innovation, Aventufdgjghjm" />
-                                        <p class="title small-size font-bold">James Fairgrieve</p>
-                                        <p class="caption small-size font-bold"><span class="name">James Fairgrieve,</span> Head of
-                                            Innovation, Aventugtgm Aventugtgm Aventugtgm</p>
-                                    </div>
-                                </div>
-                                <div class="panel-slide">
-                                    <div class="speaker">
-                                        <img class=""
-                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Ms-Sonal.png"
-                                            alt="Paul Richmond, Head of Customer Success, Novidea" />
-                                        <p class="title small-size font-bold">Paul Richmond</p>
-                                        <p class="caption small-size font-bold"><span class="name">Paul Richmond,</span> Head of
-                                            Customer Success, Novidea
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="panel-slide">
-                                    <div class="speaker">
-                                        <img class=""
-                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Steve-Jolley.png"
-                                            alt="Eugene Goryunov, Partner and Head of AI, Haynes Boone" />
-                                        <p class="title small-size font-bold">Eugene Goryunov</p>
-                                        <p class="caption small-size font-bold"><span class="name">Eugene Goryunov,</span> Partner and
-                                            Head of AI, Haynes and
-                                            Boone</p>
-                                    </div>
-                                </div>
-                                <div class="panel-slide">
-                                    <div class="speaker">
-                                        <img class=""
-                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-SME-Shalini-Lala.png"
-                                            alt="Elliot Arazi, Business Innovation Architect, Inigo" />
-                                        <p class="title small-size font-bold">Elliot Arazi</p>
-                                        <p class="caption small-size font-bold"><span class="name">Elliot Arazi,</span> Business
-                                            Innovation Architect, Inigo
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="panel-slide">
-                                    <div class="speaker">
-                                        <img class=""
-                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Randall-Perry.png"
-                                            alt="Randall Perrey, Chief Software Engineering Officer, Adrosonic" />
-                                        <p class="title small-size font-bold">Randall Perrey</p>
-                                        <p class="caption small-size font-bold"><span class="name">Randall Perrey,</span> Chief Software
-                                            Engineering Officer,
-                                            Adrosonic</p>
-                                    </div>
-                                </div>
-                                <div class="panel-slide">
-                                    <div class="speaker">
-                                        <img class=""
-                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Matt-Pesce.png"
-                                            alt="Matt Pesce, Chief Marketing Officer, Adrosonic" />
-                                        <p class="title small-size font-bold">Matt Pesce</p>
-                                        <p class="caption small-size font-bold"><span class="name">Matt Pesce,</span> Chief Marketing
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="panel-slide">
-                                    <div class="speaker">
-                                        <img class=""
-                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Mayank.png"
-                                            alt="James Fairgrieve, Head of Innovation, Aventufdgjghjm" />
-                                        <p class="title small-size font-bold">James Fairgrieve</p>
-                                        <p class="caption small-size font-bold"><span class="name">James Fairgrieve,</span> Head of
-                                            Innovation, Aventugtgm Aventugtgm Aventugtgm</p>
-                                    </div>
-                                </div>
-                                <div class="panel-slide">
-                                    <div class="speaker">
-                                        <img class=""
-                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Ms-Sonal.png"
-                                            alt="Paul Richmond, Head of Customer Success, Novidea" />
-                                        <p class="title small-size font-bold">Paul Richmond</p>
-                                        <p class="caption small-size font-bold"><span class="name">Paul Richmond,</span> Head of
-                                            Customer Success, Novidea
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="panel-slide">
-                                    <div class="speaker">
-                                        <img class=""
-                                            data-src="/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Steve-Jolley.png"
-                                            alt="Eugene Goryunov, Partner and Head of AI, Haynee and Boone" />
-                                        <p class="title small-size font-bold">Eugene Goryunov</p>
-                                        <p class="caption small-size font-bold"><span class="name">Eugene Goryunov,</span> Partner and
-                                            Head of AI, Haynee and
-                                            Boone</p>
-                                    </div>
-                                </div>
+                                <?php $speakers = $keynote_section_fields['acf_elevate_round_table_speakers'] ?? []; ?>
+                                <?php if ($speakers && is_array($speakers)): ?>
+                                    <?php foreach ($speakers as $speaker): ?>
+                                        <div class="panel-slide">
+                                            <div class="speaker">
+                                                <img class="manual-lazy-load"
+                                                    data-src="<?php echo esc_url($speaker['acf_elevate_round_table_section_person_image']); ?>"
+                                                    alt="<?php echo esc_attr($speaker['acf_elevate_round_table_section_person_name']); ?>" />
+                                                <p class="title small-size font-bold">
+                                                    <?php echo esc_html($speaker['acf_elevate_round_table_section_person_name']); ?>
+                                                </p>
+                                                <p class="caption small-size font-bold">
+                                                    <span class="name"><?php echo esc_html($speaker['acf_elevate_round_table_section_person_name'] . ','); ?></span>
+                                                     <?php echo esc_html($speaker['acf_elevate_round_table_section_person_designation']); ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
 
+                                    <!-- TODO:Remove me  -->
+                                    <?php
+                                    // Show only half the speakers in a second loop
+                                    $total_speakers = count($speakers);
+                                    $half = intval($total_speakers / 2);
+                                    if ($speakers && is_array($speakers)) :
+                                        for ($i = 0; $i < $half; $i++) :
+                                            $speaker = $speakers[$i];
+                                    ?>
+                                            <div class="panel-slide">
+                                                <div class="speaker">
+                                                    <img class="manual-lazy-load"
+                                                        data-src="<?php echo esc_url($speaker['acf_elevate_round_table_section_person_image']); ?>"
+                                                        alt="<?php echo esc_attr($speaker['acf_elevate_round_table_section_person_name']); ?>" />
+                                                    <p class="title small-size font-bold">
+                                                        <?php echo esc_html($speaker['acf_elevate_round_table_section_person_name']); ?>
+                                                    </p>
+                                                    <p class="caption small-size font-bold">
+                                                        <span class="name"><?php echo esc_html($speaker['acf_elevate_round_table_section_person_name'] . ','); ?></span>
+                                                        <?php echo esc_html($speaker['acf_elevate_round_table_section_person_designation']); ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                    <?php
+                                        endfor;
+                                    endif;
+                                    ?>
+                                    <!-- TODO:This end here  -->
+
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
