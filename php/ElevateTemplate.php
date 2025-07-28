@@ -38,7 +38,8 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
 
 $banner_section_fields = get_field('acf_elevate_banner_section_fields');
 $elevate_leader_section_fields = get_field('acf_elevate_leader_section_fields');
-$keynote_section_fields = get_field('acf_elevate_round_table_section_fields');
+$keynote_section_fields = get_field('acf_elevate_keynote_section_fields');
+$round_table_section_fields = get_field('acf_elevate_round_table_section_fields');
 $elevate_glimpse_section_fields = get_field('acf_elevate_glimpse_section_fields');
 $elevate_agenda_section_fields = get_field('acf_elevate_agenda_section_fields');
 $elevate_join_us_at_section_fields = get_field('acf_elevate_join_us_at_section_fields');
@@ -53,6 +54,7 @@ $banner_button_text = $banner_section_fields['acf_elevate_banner_button_text'];
 $banner_button_url = $banner_section_fields['acf_elevate_banner_button_url'];
 $counter_left_size_title = $banner_section_fields['acf_elevate_counter_left_side_title'];
 $counter_date_picker = $banner_section_fields['acf_elevate_counter_date_picker'];
+$counter_end_message = $banner_section_fields['acf_elevate_counter_end_message'];
 
 
 // DESCRIPTION: fetching elevate leader section fields from $elevate_leader_section_fields group
@@ -80,9 +82,9 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
 
 
 // DESCRIPTION:Round table section fields from $keynote_section_fields group
-$keynote_section_heading = $keynote_section_fields['acf_elevate_round_table_section_heading'];
-$keynote_section_left_heading = $keynote_section_fields['acf_elevate_round_table_left_heading'];
-$keynote_section_left_description = $keynote_section_fields['acf_elevate_round_table_left_description'];
+$round_table_section_heading = $round_table_section_fields['acf_elevate_round_table_section_heading'];
+$round_section_left_heading = $round_table_section_fields['acf_elevate_round_table_left_heading'];
+$keynote_section_left_description = $round_table_section_fields['acf_elevate_round_table_left_description'];
 ?>
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -359,7 +361,7 @@ $keynote_section_left_description = $keynote_section_fields['acf_elevate_round_t
                         <?php echo esc_html($counter_left_size_title); ?>
                     </h1>
 
-                    <div class="counter" endDate="<?php echo esc_html($counter_date_picker); ?>">
+                    <div class="counter" endDate="<?php echo esc_html($counter_date_picker); ?>" endCountDownMessage="<?php echo esc_html($counter_end_message); ?>">
                         <div class="counter-day counter-style">
                             <span class="counter-number-day largest-size"></span>
                             <span class="counter-label-day smaller-size">Days</span>
@@ -504,28 +506,27 @@ $keynote_section_left_description = $keynote_section_fields['acf_elevate_round_t
                 <div class="round-table">
                     <div class="main-header">
                         <div class="main-header-inner all-section-header">
-                            <h2 class="round-table-header large-size font-bold"> <?php echo esc_html($keynote_section_heading); ?></h2>
+                            <h2 class="round-table-header large-size font-bold"> <?php echo esc_html($round_table_section_heading); ?></h2>
                         </div>
                     </div>
 
                     <div class="container">
                         <div class="left-box">
                             <h3 class="round-table-header large-size font-bold">
-                                <?php echo esc_html($keynote_section_left_heading); ?>
+                                <?php echo esc_html($round_section_left_heading); ?>
                             </h3>
                             <p class="round-table-text small-size">
                                 <?php echo esc_html($keynote_section_left_description); ?>
                             </p>
                             <div class="sub-header">
                                 <div class="sub-header-inner all-section-header">
-                                    <h3 class="round-table-header large-size font-bold">Round Table: Who’s
-                                        Speaking</h3>
+                                    <h3 class="round-table-header large-size font-bold"><?php echo esc_html($round_section_left_heading); ?></h3>
                                 </div>
                             </div>
                         </div>
                         <div class="carousel-container">
                             <div class="carousel">
-                                <?php $speakers = $keynote_section_fields['acf_elevate_round_table_speakers'] ?? []; ?>
+                                <?php $speakers = $round_table_section_fields['acf_elevate_round_table_speakers'] ?? []; ?>
                                 <?php if ($speakers && is_array($speakers)): ?>
                                     <?php foreach ($speakers as $speaker): ?>
                                         <div class="panel-slide">
@@ -538,39 +539,14 @@ $keynote_section_left_description = $keynote_section_fields['acf_elevate_round_t
                                                 </p>
                                                 <p class="caption small-size font-bold">
                                                     <span class="name"><?php echo esc_html($speaker['acf_elevate_round_table_section_person_name'] . ','); ?></span>
-                                                     <?php echo esc_html($speaker['acf_elevate_round_table_section_person_designation']); ?>
+                                                    <?php echo esc_html($speaker['acf_elevate_round_table_section_person_designation']); ?>
                                                 </p>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
 
                                     <!-- TODO:Remove me  -->
-                                    <?php
-                                    // Show only half the speakers in a second loop
-                                    $total_speakers = count($speakers);
-                                    $half = intval($total_speakers / 2);
-                                    if ($speakers && is_array($speakers)) :
-                                        for ($i = 0; $i < $half; $i++) :
-                                            $speaker = $speakers[$i];
-                                    ?>
-                                            <div class="panel-slide">
-                                                <div class="speaker">
-                                                    <img class="manual-lazy-load"
-                                                        data-src="<?php echo esc_url($speaker['acf_elevate_round_table_section_person_image']); ?>"
-                                                        alt="<?php echo esc_attr($speaker['acf_elevate_round_table_section_person_name']); ?>" />
-                                                    <p class="title small-size font-bold">
-                                                        <?php echo esc_html($speaker['acf_elevate_round_table_section_person_name']); ?>
-                                                    </p>
-                                                    <p class="caption small-size font-bold">
-                                                        <span class="name"><?php echo esc_html($speaker['acf_elevate_round_table_section_person_name'] . ','); ?></span>
-                                                        <?php echo esc_html($speaker['acf_elevate_round_table_section_person_designation']); ?>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                    <?php
-                                        endfor;
-                                    endif;
-                                    ?>
+
                                     <!-- TODO:This end here  -->
 
                                 <?php endif; ?>

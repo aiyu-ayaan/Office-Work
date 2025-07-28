@@ -195,6 +195,7 @@
             // Get the endDate from the HTML attribute
             const counterElement = document.querySelector('.counter');
             const targetDateString = counterElement.getAttribute('endDate') || "16-09-2025 12:00 AM";
+            const endCountDownMessage = counterElement.getAttribute('endCountDownMessage') || "Event starts Today , see you at the Location!";
 
             // Parse the date string into local time (browser timezone)
             function parseCustomDate(dateString) {
@@ -263,7 +264,7 @@
                 } else {
                     // Event has started - hide counter and update title
                     counterSection.classList.add('event-started');
-                    titleElement.textContent = 'Event starts Today, see you at the Location!';
+                    titleElement.textContent = endCountDownMessage;
 
                     dayElement.textContent = '00';
                     hourElement.textContent = '00';
@@ -280,11 +281,6 @@
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden) updateCountdown();
             });
-
-            // Optional: Log timezone info
-            console.log("Using timezone:", userTimezone);
-            console.log("Target date:", targetDate);
-            console.log("Time offset:", timeOffset);
         } else {
             console.warn("GeoData not available.");
         }
