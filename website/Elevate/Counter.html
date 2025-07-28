@@ -2,7 +2,7 @@
     <h1 class="medium-size event-start-title">
         Event starts in
     </h1>
-    <div class="counter" endDate="16-09-2025 12:00 AM">
+    <div class="counter" endDate="28-07-2025 09:35 AM">
         <div class="counter-day counter-style">
             <span class="counter-number-day largest-size"></span>
             <span class="counter-label-day smaller-size">Days</span>
@@ -25,9 +25,10 @@
 </div>
 
 <style>
+    /* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap'); */
     .counter-section {
         width: 100%;
-        height: 20.94vh;
+        height: 15.94vh;
         background-color: var(--adro-electric-green);
         color: var(--adro-deep-blue);
         padding: 1.41% 3.34%;
@@ -65,11 +66,27 @@
                 /* select 1 div */
                 span:nth-child(1) {
                     font-weight: 500;
+                    font-family: Roboto !important;
                 }
 
                 span:nth-child(2) {
                     font-weight: 400;
                 }
+            }
+        }
+
+        /* Event started state - hide counter and make title full width */
+        &.event-started {
+            justify-content: center;
+
+            .event-start-title {
+                width: 100%;
+                text-align: center;
+                margin: 0 !important;
+            }
+
+            .counter {
+                display: none;
             }
         }
     }
@@ -96,6 +113,59 @@
                 .counter-style {
                     text-align: center;
                     min-width: 16.19%;
+                }
+            }
+
+            /* Event started state for tablet */
+            &.event-started {
+                justify-content: center;
+
+                .event-start-title {
+                    margin-bottom: 0;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+
+            @media screen and (orientation: landscape) {
+
+                height: 20.94vh;
+                padding: 1.41% 3.34%;
+                flex-direction: row;
+                align-items: center;
+
+                .event-start-title {
+                    margin-bottom: 0;
+                    text-align: left;
+                }
+
+                .counter {
+                    width: 62.51%;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    margin-left: 9.27% !important;
+                    margin-right: 0 !important;
+                    height: auto;
+                    display: flex;
+                    grid-template-columns: none;
+                    grid-template-rows: none;
+                    gap: 0;
+
+                    .counter-style {
+                        text-align: center;
+                        min-width: 11.08%;
+
+                    }
+                }
+
+                /* Event started state for landscape */
+                &.event-started {
+                    justify-content: center;
+
+                    .event-start-title {
+                        text-align: center;
+                        width: 100%;
+                    }
                 }
             }
         }
@@ -128,105 +198,122 @@
                     min-width: 16.19%;
                 }
             }
+
+            /* Event started state for mobile portrait */
+            &.event-started {
+                height: 15.94vh;
+                justify-content: center;
+
+                .event-start-title {
+                    margin-bottom: 0;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
         }
     }
 </style>
 <script>
-     document.addEventListener("DOMContentLoaded", function () {
-            if (typeof window.geoData !== "undefined") {
-                const { timezone, localTime } = window.geoData || {};
-                const userTimezone = window.geoData?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.addEventListener("DOMContentLoaded", function () {
+        if (typeof window.geoData !== "undefined") {
+            const { timezone, localTime } = window.geoData || {};
+            const userTimezone = window.geoData?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-                // Get the endDate from the HTML attribute
-                const counterElement = document.querySelector('.counter');
-                const targetDateString = counterElement.getAttribute('endDate') || "16-09-2025 12:00 AM";
+            // Get the endDate from the HTML attribute
+            const counterElement = document.querySelector('.counter');
+            const targetDateString = counterElement.getAttribute('endDate') || "16-09-2025 12:00 AM";
 
-                // Parse the date string into local time (browser timezone)
-                function parseCustomDate(dateString) {
-                    const parts = dateString.split(' ');
-                    const datePart = parts[0]; // "16-09-2025"
-                    const timePart = parts[1]; // "12:00"
-                    const ampm = parts[2]; // "AM"
+            // Parse the date string into local time (browser timezone)
+            function parseCustomDate(dateString) {
+                const parts = dateString.split(' ');
+                const datePart = parts[0]; // "16-09-2025"
+                const timePart = parts[1]; // "12:00"
+                const ampm = parts[2]; // "AM"
 
-                    const [day, month, year] = datePart.split('-');
-                    const [hours, minutes] = timePart.split(':');
+                const [day, month, year] = datePart.split('-');
+                const [hours, minutes] = timePart.split(':');
 
-                    let hour24 = parseInt(hours);
-                    if (ampm.toUpperCase() === 'PM' && hour24 !== 12) hour24 += 12;
-                    if (ampm.toUpperCase() === 'AM' && hour24 === 12) hour24 = 0;
+                let hour24 = parseInt(hours);
+                if (ampm.toUpperCase() === 'PM' && hour24 !== 12) hour24 += 12;
+                if (ampm.toUpperCase() === 'AM' && hour24 === 12) hour24 = 0;
 
-                    // This creates a Date in the browser's local timezone
-                    return new Date(year, month - 1, day, hour24, minutes, 0);
-                }
-
-                const targetDate = parseCustomDate(targetDateString);
-
-                // DOM Elements
-                const dayElement = document.querySelector('.counter-number-day');
-                const hourElement = document.querySelector('.counter-number-hours');
-                const minuteElement = document.querySelector('.counter-number-minutes');
-                const secondElement = document.querySelector('.counter-number-seconds');
-
-                // Store the initial time offset to maintain consistency
-                let timeOffset = 0;
-                if (localTime) {
-                    const [hoursStr, minutesStr] = localTime.split(':');
-                    const providedTime = new Date();
-                    providedTime.setHours(parseInt(hoursStr, 10));
-                    providedTime.setMinutes(parseInt(minutesStr, 10));
-                    providedTime.setSeconds(0);
-                    providedTime.setMilliseconds(0);
-
-                    const actualTime = new Date();
-                    actualTime.setSeconds(0);
-                    actualTime.setMilliseconds(0);
-
-                    timeOffset = providedTime.getTime() - actualTime.getTime();
-                }
-
-                // Countdown updater
-                function updateCountdown() {
-                    const now = new Date();
-
-                    // Apply the time offset to maintain the difference calculation
-                    const adjustedNow = new Date(now.getTime() + timeOffset);
-
-                    const diff = targetDate.getTime() - adjustedNow.getTime();
-
-                    if (diff > 0) {
-                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                        dayElement.textContent = String(days).padStart(2, '0');
-                        hourElement.textContent = String(hours).padStart(2, '0');
-                        minuteElement.textContent = String(minutes).padStart(2, '0');
-                        secondElement.textContent = String(seconds).padStart(2, '0');
-                    } else {
-                        dayElement.textContent = '00';
-                        hourElement.textContent = '00';
-                        minuteElement.textContent = '00';
-                        secondElement.textContent = '00';
-                        document.querySelector('.event-start-title').textContent = 'Event has started!';
-                    }
-                }
-
-                // Start countdown
-                updateCountdown();
-                const intervalId = setInterval(updateCountdown, 1000);
-
-                // Refresh when tab becomes active again
-                document.addEventListener('visibilitychange', () => {
-                    if (!document.hidden) updateCountdown();
-                });
-
-                // Optional: Log timezone info
-                console.log("Using timezone:", userTimezone);
-                console.log("Target date:", targetDate);
-                console.log("Time offset:", timeOffset);
-            } else {
-                console.warn("GeoData not available.");
+                // This creates a Date in the browser's local timezone
+                return new Date(year, month - 1, day, hour24, minutes, 0);
             }
-        });
+
+            const targetDate = parseCustomDate(targetDateString);
+
+            // DOM Elements
+            const dayElement = document.querySelector('.counter-number-day');
+            const hourElement = document.querySelector('.counter-number-hours');
+            const minuteElement = document.querySelector('.counter-number-minutes');
+            const secondElement = document.querySelector('.counter-number-seconds');
+            const counterSection = document.querySelector('.counter-section');
+            const titleElement = document.querySelector('.event-start-title');
+
+            // Store the initial time offset to maintain consistency
+            let timeOffset = 0;
+            if (localTime) {
+                const [hoursStr, minutesStr] = localTime.split(':');
+                const providedTime = new Date();
+                providedTime.setHours(parseInt(hoursStr, 10));
+                providedTime.setMinutes(parseInt(minutesStr, 10));
+                providedTime.setSeconds(0);
+                providedTime.setMilliseconds(0);
+
+                const actualTime = new Date();
+                actualTime.setSeconds(0);
+                actualTime.setMilliseconds(0);
+
+                timeOffset = providedTime.getTime() - actualTime.getTime();
+            }
+
+            // Countdown updater
+            function updateCountdown() {
+                const now = new Date();
+
+                // Apply the time offset to maintain the difference calculation
+                const adjustedNow = new Date(now.getTime() + timeOffset);
+
+                const diff = targetDate.getTime() - adjustedNow.getTime();
+
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    dayElement.textContent = String(days).padStart(2, '0');
+                    hourElement.textContent = String(hours).padStart(2, '0');
+                    minuteElement.textContent = String(minutes).padStart(2, '0');
+                    secondElement.textContent = String(seconds).padStart(2, '0');
+                } else {
+                    // Event has started - hide counter and update title
+                    counterSection.classList.add('event-started');
+                    titleElement.textContent = 'Event starts Today, see you at the Location!';
+
+                    dayElement.textContent = '00';
+                    hourElement.textContent = '00';
+                    minuteElement.textContent = '00';
+                    secondElement.textContent = '00';
+                }
+            }
+
+            // Start countdown
+            updateCountdown();
+            const intervalId = setInterval(updateCountdown, 1000);
+
+            // Refresh when tab becomes active again
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) updateCountdown();
+            });
+
+            // Optional: Log timezone info
+            console.log("Using timezone:", userTimezone);
+            console.log("Target date:", targetDate);
+            console.log("Time offset:", timeOffset);
+        } else {
+            console.warn("GeoData not available.");
+        }
+    });
 </script>
