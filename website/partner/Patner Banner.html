@@ -56,21 +56,18 @@
             .right-container {
                 position: relative;
                 width: 43.18%;
-                margin-top: 3.36%;
+                margin-top: 2.24%;
                 display: flex;
                 justify-content: start;
                 align-items: center;
                 aspect-ratio: 773 / 776;
 
                 .right-img {
-                    width: 89.64%;
-                    aspect-ratio: 693 / 690;
+                    width: 100%;
+                    aspect-ratio: 773 / 776;
                     background-position: center;
                     background-repeat: no-repeat;
                     background-size: cover;
-                    position: absolute;
-                    top: 2.71%;
-                    left: 3.76%;
                 }
 
 
@@ -258,18 +255,18 @@
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
         .patner-banner {
-            height: 95.63dvh;
+            height: 89dvh;
             /* Dynamic viewport height */
             min-height: fit-content;
 
             @supports not (height: 1dvh) {
-                height: 95.63vh;
+                height: 89vh;
             }
 
             /* Firefox-specific override */
             @supports (-moz-appearance: none) {
                 height: auto;
-                min-height: 95.63vh;
+                min-height: 89vh;
             }
 
             .patner-hero-banner {
