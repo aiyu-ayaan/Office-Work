@@ -520,7 +520,7 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
                             </p>
                             <div class="sub-header">
                                 <div class="sub-header-inner all-section-header">
-                                    <h3 class="round-table-header large-size font-bold"><?php echo esc_html($round_section_left_heading); ?></h3>
+                                    <h3 class="round-table-header large-size font-bold"><?php echo esc_html($round_table_section_heading); ?></h3>
                                 </div>
                             </div>
                         </div>
@@ -546,7 +546,22 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
                                     <?php endforeach; ?>
 
                                     <!-- TODO:Remove me  -->
-
+                                    <?php foreach ($speakers as $speaker): ?>
+                                        <div class="panel-slide">
+                                            <div class="speaker">
+                                                <img class="manual-lazy-load"
+                                                    data-src="<?php echo esc_url($speaker['acf_elevate_round_table_section_person_image']); ?>"
+                                                    alt="<?php echo esc_attr($speaker['acf_elevate_round_table_section_person_name']); ?>" />
+                                                <p class="title small-size font-bold">
+                                                    <?php echo esc_html($speaker['acf_elevate_round_table_section_person_name']); ?>
+                                                </p>
+                                                <p class="caption small-size font-bold">
+                                                    <span class="name"><?php echo esc_html($speaker['acf_elevate_round_table_section_person_name'] . ','); ?></span>
+                                                    <?php echo esc_html($speaker['acf_elevate_round_table_section_person_designation']); ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
                                     <!-- TODO:This end here  -->
 
                                 <?php endif; ?>
@@ -626,7 +641,7 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
                                 <?php
                                 // Ensure the video URL ends with the required Vimeo params
                                 $glimpse_video_url = trim($elevate_glimpse_section_video_url);
-                                $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479';
+                                $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp';
 
                                 // Remove any existing query string
                                 $glimpse_video_url = preg_replace('/\?.*$/', '', $glimpse_video_url);

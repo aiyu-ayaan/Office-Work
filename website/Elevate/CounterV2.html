@@ -199,20 +199,35 @@
 
             // Parse the date string into local time (browser timezone)
             function parseCustomDate(dateString) {
-                const parts = dateString.split(' ');
-                const datePart = parts[0]; // "16-09-2025"
-                const timePart = parts[1]; // "12:00"
-                const ampm = parts[2]; // "AM"
+                // Check if it's the new format "2025-09-15 17:33:00"
+                if (dateString.includes('-') && dateString.split('-').length === 3 && dateString.includes(':')) {
+                    const parts = dateString.split(' ');
+                    const datePart = parts[0]; // "2025-09-15"
+                    const timePart = parts[1]; // "17:33:00"
 
-                const [day, month, year] = datePart.split('-');
-                const [hours, minutes] = timePart.split(':');
+                    const [year, month, day] = datePart.split('-');
+                    const [hours, minutes, seconds = '0'] = timePart.split(':');
 
-                let hour24 = parseInt(hours);
-                if (ampm.toUpperCase() === 'PM' && hour24 !== 12) hour24 += 12;
-                if (ampm.toUpperCase() === 'AM' && hour24 === 12) hour24 = 0;
+                    // Create Date in browser's local timezone
+                    return new Date(year, month - 1, day, parseInt(hours), parseInt(minutes), parseInt(seconds));
+                }
+                // Handle the old format "16-09-2025 12:00 AM"
+                else {
+                    const parts = dateString.split(' ');
+                    const datePart = parts[0]; // "16-09-2025"
+                    const timePart = parts[1]; // "12:00"
+                    const ampm = parts[2]; // "AM"
 
-                // This creates a Date in the browser's local timezone
-                return new Date(year, month - 1, day, hour24, minutes, 0);
+                    const [day, month, year] = datePart.split('-');
+                    const [hours, minutes] = timePart.split(':');
+
+                    let hour24 = parseInt(hours);
+                    if (ampm.toUpperCase() === 'PM' && hour24 !== 12) hour24 += 12;
+                    if (ampm.toUpperCase() === 'AM' && hour24 === 12) hour24 = 0;
+
+                    // This creates a Date in the browser's local timezone
+                    return new Date(year, month - 1, day, hour24, minutes, 0);
+                }
             }
 
             const targetDate = parseCustomDate(targetDateString);

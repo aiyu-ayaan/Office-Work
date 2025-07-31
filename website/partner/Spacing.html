@@ -4,7 +4,7 @@
     }
 
     .spacer-below-content-frame {
-       height: 4.17vw;
+        height: 4.17vw;
     }
 
     .spacer-above-related-posts {
@@ -15,17 +15,29 @@
         .spacer-below-banner {
             height: 0vw;
         }
-.spacer-below-content-frame {
-        height: 0vw;
-    }
+
+        .spacer-below-content-frame {
+            height: 0vw;
+        }
+
         .spacer-above-related-posts {
             height: 2.3vw;
+        }
+
+        @media screen and (orientation:landscape) {
+            .spacer-below-content-frame {
+               height: 6vw;
+            }
         }
     }
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
         .spacer-above-related-posts {
             height: 6.16vw;
+        }
+
+        .spacer-below-banner {
+            height: 5.2vw;
         }
     }
 </style>

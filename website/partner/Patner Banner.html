@@ -255,22 +255,23 @@
 
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
         .patner-banner {
-            height: 89dvh;
-            /* Dynamic viewport height */
+            height: 89vh;
             min-height: fit-content;
+            
 
             @supports not (height: 1dvh) {
-                height: 89vh;
+                /* height: 89vh; */
+                min-height: 89vh;
             }
 
             /* Firefox-specific override */
             @supports (-moz-appearance: none) {
-                height: auto;
+                /* height: auto; */
                 min-height: 89vh;
             }
 
             .patner-hero-banner {
-                padding: 4.12% 6.17% 18.47%;
+                padding: 4.12% 6.17% 0%;
                 /* gap: 2.5em; */
                 flex-direction: column-reverse;
                 justify-content: unset;
