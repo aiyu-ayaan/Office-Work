@@ -20,6 +20,11 @@ get_header(); ?>
 
 <?php
 // Banner fields
+$banner_section_fields = get_field('acf_roi_calculator_banner_section_fields');
+
+// Getting items form the banner section fields
+$banner_heading = $banner_section_fields['acf_roi_calculator_banner_heading'] ?? '';
+$banner_description = $banner_section_fields['acf_roi_calculator_banner_description'] ?? '';
 
 ?>
 
@@ -30,8 +35,13 @@ get_header(); ?>
                     <div class="ast-post-format- single-layout-1">
                         <div class="entry-content clear" data-ast-blocks-layout="true" itemprop="text">
 
-
-
+                            <!-- DESCRIPTION:Banner section -->
+                            <div class="ROI-banner">
+                                <div class="ROI-banner-content">
+                                    <h1 class="ROI-banner-heading largest-size"><?php echo ($banner_heading); ?></h1>
+                                    <p class="ROI-banner-text small-size"><?php echo esc_html($banner_description); ?></p>
+                                </div>
+                            </div>
 
                             <!-- WordPress content -->
                             <?php the_content(); ?>
