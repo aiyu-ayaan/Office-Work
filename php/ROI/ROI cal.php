@@ -1,3 +1,11 @@
+
+<?php
+$roi_calculator_fields_group = get_field('acf_roi_calculator_field_group'); 
+
+
+$employee_involved_text = $roi_calculator_fields_group['acf_roi_calculator_employees_involved_text'] ?? '';
+?>
+
 <div class="container my-5 smaller-size calculator-wrapper" data-type="roi">
     <div class="row g-4 shadow rounded bg-white overflow-hidden roi-calculator-box">
         <!-- Left Panel -->
@@ -9,7 +17,7 @@
             </div>
             <div class="row two-questions">
                 <div class="mb-3 single-question">
-                    <label for="param1" class="form-label smaller-size">Number of full-time employees involved</label>
+                    <label for="param1" class="form-label smaller-size"><?php echo esc_html($employee_involved_text); ?></label>
                     <input type="number" id="param1" class="form-control bg-secondary text-white border-0" value="2"
                         placeholder="Please enter value greater than 0" />
                     <p class="text-danger small mt-1 d-none" id="errorLineText1">Please enter value greater than 0</p>
