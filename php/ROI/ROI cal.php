@@ -1,6 +1,5 @@
-
 <?php
-$roi_calculator_fields_group = get_field('acf_roi_calculator_field_group'); 
+$roi_calculator_fields_group = get_field('acf_roi_calculator_field_group');
 
 
 $employee_involved_text = $roi_calculator_fields_group['acf_roi_calculator_employees_involved_text'] ?? '';
@@ -55,15 +54,23 @@ $process_complexity_text = $roi_calculator_fields_group['acf_roi_calculator_no_o
                 <!--         <span class="badge bg-info bubble3">1</span> -->
             </div>
 
+            <?php
+            $questions = [];
+            $counter = 1;
+            ?>
             <?php $roi_yes_no_question_repeater = $roi_calculator_fields_group['acf_roi_calculator_yes_no_questions'] ?? []; ?>
-            <?php if($roi_yes_no_question_repeater && is_array($roi_yes_no_question_repeater)): ?>
-            <?php     
-            $questions = [
-                'Does this process require cognitive skills?' => 'btn1',
-                'Is the process documentation required?' => 'btn2',
-                'Is RPA support required post Go-Live?' => 'btn3',
-                'Is the input data unstructured?' => 'btn4'
-            ];
+            <?php if ($roi_yes_no_question_repeater && is_array($roi_yes_no_question_repeater)): ?>
+                <?php
+                foreach ($roi_yes_no_question_repeater as $question):
+                    $question_text = $question['acf_roi_calculator_question_text'] ?? '';
+                    if (!empty($question_text)) {
+                        $questions[$question_text] = 'btn' . $btn_counter;
+                        $btn_counter++;
+                    }
+                ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <?php
             foreach ($questions as $text => $id): ?>
                 <div class="mb-3 yes-no-box">
                     <label class="form-label smaller-size">
