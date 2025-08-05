@@ -84,19 +84,26 @@ $process_complexity_text = $roi_calculator_fields_group['acf_roi_calculator_no_o
             <?php endforeach; ?>
 
             <div class="mb-3">
-                <label class="form-label smaller-size">What all parameters does the process include?</label>
+                <?php
+                $roi_calculator_parameters_group = $roi_calculator_fields_group['acf_roi_calculator_parameters_include_group'] ?? [];
+                $parameters_question_text = $roi_calculator_parameters_group['acf_roi_calculator_parameter_include_question_text'] ?? '';
+                $parameters_options = $roi_calculator_parameters_group['acf_roi_calculator_parameter_include_options'] ?? [];
+                $checkboxes = [];
+                $counter = 1;
+                ?>
+                <label class="form-label smaller-size"><?php echo esc_html($parameters_question_text); ?></label>
                 <div class="row multiselect-options-box">
+                    <?php if ($parameters_options && is_array($parameters_options)): ?>
+                        <?php foreach ($parameters_options as $options):
+                            $option = $options['acf_roi_calculator_parameter_include_option'] ?? '';
+                            if (!empty($option)) {
+                                $checkboxes[$option] = 'chk' . $counter;
+                                $counter++;
+                            }
+                        ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                     <?php
-                    $checkboxes = [
-                        'Data tables' => 'chk1',
-                        'OCR' => 'chk2',
-                        'QR Codes' => 'chk3',
-                        'Rule-based Processing' => 'chk4',
-                        'Bar Codes' => 'chk5',
-                        'NLP' => 'chk6',
-                        'Complex Algorithm' => 'chk7',
-                        'Graphs' => 'chk8'
-                    ];
                     foreach ($checkboxes as $label => $id): ?>
                         <div class="col-6 col-md-4 mb-2 option-item">
                             <div class="form-check">
