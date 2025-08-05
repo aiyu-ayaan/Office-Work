@@ -1,3 +1,25 @@
+<?php
+$roi_use_case_builder_fields_group = get_field('acf_roi_calculator_usecase_builder_fields_group');
+
+
+$use_case_work_time = $roi_use_case_builder_fields_group['acf_roi_calculator_work_time'] ?? '';
+$use_case_number_of_people = $roi_use_case_builder_fields_group['acf_roi_calculator_number_of_people'] ?? '';
+$no_of_steps_text = $roi_use_case_builder_fields_group['acf_roi_calculator_no_of_steps_range_text'] ?? '';
+$no_of_applications_text = $roi_use_case_builder_fields_group['acf_roi_calculator_no_of_steps_application_text'] ?? '';
+$process_complexity_text = $roi_use_case_builder_fields_group['acf_roi_calculator_no_of_steps_complex_process_text'] ?? '';
+
+$right_side_content = $roi_use_case_builder_fields_group['acf_roi_calculator_right_side_content'] ?? [];
+
+// fetching the data from the ride side content group
+$outcome_title = $right_side_content['acf_roi_calculator_right_side_content_outcome_title'] ?? '';
+$interestd_text = $right_side_content['acf_roi_calculator_right_side_content_interested_text'] ?? '';
+$benifits_section_fields = $right_side_content['acf_roi_calculator_right_side_content_benifits_section_fields'] ?? [];
+$button_text = $right_side_content['acf_roi_calculator_right_side_content_button_text'] ?? '';
+$button_url = $right_side_content['acf_roi_calculator_right_side_content_button_url'] ?? '';
+
+?>
+
+
 <div class="container py-4  smaller-size calculator-wrapper" data-type="usecase">
     <div class="row roi-calculator-box">
         <!-- LEFT PANEL -->
@@ -9,20 +31,20 @@
             </div>
             <div class="row two-questions">
                 <div class="col-md-6 question spacing single-question">
-                    <label for="param1" class="form-label label smaller-size">Work time per employee per day (hrs)</label>
+                    <label for="param1" class="form-label label smaller-size"><?php echo esc_html($use_case_work_time); ?></label>
                     <input type="number" value="5" id="param1" class="input form-control" />
                     <p class="error-line text-danger" id="errorLineText1">Please enter a value greater than 0</p>
                 </div>
 
                 <div class="col-md-6 question single-question">
-                    <label for="param2" class="form-label label smaller-size">Number of people involved</label>
+                    <label for="param2" class="form-label label smaller-size"><?php echo esc_html($use_case_number_of_people); ?></label>
                     <input type="number" value="2" id="param2" class="input form-control" />
                     <p class="error-line text-danger" id="errorLineText2">Please enter a value greater than 0</p>
                 </div>
             </div>
 
             <div class="range-wrap range-wrap1">
-                <label class="label smaller-size">Number of steps in the process</label>
+                <label class="label smaller-size"><?php echo esc_html($no_of_steps_text); ?></label>
                 <!--         <output class="bubble1 bubble">1</output> -->
                 <input type="range" class="range1 range form-range" id="param4" min="1" max="80" value="1" />
                 <div class="range-markers">
@@ -31,7 +53,7 @@
             </div>
 
             <div class="range-wrap range-wrap2">
-                <label class="label smaller-size">Number of applications involved</label>
+                <label class="label smaller-size"><?php echo esc_html($no_of_applications_text); ?></label>
                 <!--         <output class="bubble2 bubble">1</output> -->
                 <input type="range" class="range2 range form-range" id="param5" min="1" max="8" value="1" />
                 <div class="range-markers">
@@ -41,7 +63,7 @@
             </div>
 
             <div class="range-wrap range-wrap3">
-                <label class="label smaller-size">How complex is the process?</label>
+                <label class="label smaller-size"><?php echo esc_html($process_complexity_text); ?></label>
                 <output class="bubble3 bubble">1</output>
                 <input type="range" class="range3 range form-range" id="param6" min="1" max="4" value="1" />
                 <div class="range-markers">
@@ -51,12 +73,22 @@
             </div>
 
             <?php
-            $questions = [
-                'Does this process require cognitive skills?' => 'btn1',
-                'Is documentation required?' => 'btn2',
-                'Is RPA support required post Go-Live?' => 'btn3',
-                'Is the input data unstructured?' => 'btn4'
-            ];
+            $questions = [];
+            $counter = 1;
+            ?>
+            <?php $roi_yes_no_question_repeater = $roi_use_case_builder_fields_group['acf_roi_calculator_yes_no_questions'] ?? []; ?>
+            <?php if ($roi_yes_no_question_repeater && is_array($roi_yes_no_question_repeater)): ?>
+                <?php
+                foreach ($roi_yes_no_question_repeater as $question):
+                    $question_text = $question['acf_roi_calculator_question_text'] ?? '';
+                    if (!empty($question_text)) {
+                        $questions[$question_text] = 'btn' . $btn_counter;
+                        $btn_counter++;
+                    }
+                ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <?php
             foreach ($questions as $text => $id): ?>
                 <div class="mb-3 yes-no-box">
                     <label class="question-btn form-label smaller-size">
@@ -71,23 +103,27 @@
                 </div>
             <?php endforeach; ?>
 
-
-
             <div class="mb-3">
-                <label class="form-label question-btn question-chk smaller-size">What all parameters does the process
-                    include?</label>
+                <?php
+                $roi_calculator_parameters_group = $roi_use_case_builder_fields_group['acf_roi_calculator_parameters_include_group'] ?? [];
+                $parameters_question_text = $roi_calculator_parameters_group['acf_roi_calculator_parameter_include_question_text'] ?? '';
+                $parameters_options = $roi_calculator_parameters_group['acf_roi_calculator_parameter_include_options'] ?? [];
+                $checkboxes = [];
+                $counter = 1;
+                ?>
+                <label class="form-label question-btn question-chk smaller-size"><?php echo esc_html($parameters_question_text); ?></label>
                 <div class="row multiselect-options-box">
+                    <?php if ($parameters_options && is_array($parameters_options)): ?>
+                        <?php foreach ($parameters_options as $options):
+                            $option = $options['acf_roi_calculator_parameter_include_option'] ?? '';
+                            if (!empty($option)) {
+                                $checkboxes[$option] = 'chk' . $counter;
+                                $counter++;
+                            }
+                        ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                     <?php
-                    $checkboxes = [
-                        'Data tables' => 'chk1',
-                        'OCR' => 'chk2',
-                        'QR Codes' => 'chk3',
-                        'Rule-based Processing' => 'chk4',
-                        'Bar Codes' => 'chk5',
-                        'NLP' => 'chk6',
-                        'Complex Algorithm' => 'chk7',
-                        'Graphs' => 'chk8'
-                    ];
                     foreach ($checkboxes as $label => $id): ?>
                         <div class="col-6 col-md-4 mb-2 option-item">
                             <div class="form-check col-6 col-md-3">
@@ -104,7 +140,7 @@
 
         <!-- RIGHT PANEL -->
         <div class="col-md-4 right right-panel">
-            <h2 class="title1 medium-size text-primary">YOUR USE CASE</h2>
+            <h2 class="title1 medium-size text-primary"><?php echo esc_html($outcome_title); ?></h2>
             <div class="mb-3 years-dropdown-box">
                 <p class="font1">With ADROSONIC RPA</p>
                 <span class="year">in</span>
@@ -184,14 +220,21 @@
                 <p class="font">Your man-hours will be saved up to</p>
                 <input class="answer small-size" type="text" id="reduced-hours" disabled />
             </div>
-
+            <?php
+            $benifits_title = $benifits_section_fields['acf_roi_calculator_right_side_content_benifits_section_title'] ?? '';
+            $benifits_list = $benifits_section_fields['acf_roi_calculator_right_side_content_benefits_points'] ?? [];
+            ?>
             <div>
-                <h3 class="font small-size font-bolder">And a lot more benefits:</h3>
+                <h3 class="font small-size font-bolder"><?php echo esc_html($benifits_title); ?></h3>
                 <ul class="list-group benefits ps-3">
-                    <li class="list-group-item">Increased quality of services</li>
-                    <li class="list-group-item">Quick turnaround time</li>
-                    <li class="list-group-item">Improved business efficiency</li>
-                    <li class="list-group-item">Insights and analytics of current business processes</li>
+                    <?php if ($benifits_list && is_array($benifits_list)): ?>
+                        <?php foreach ($benifits_list as $items):
+                            $item_text = $items['acf_roi_calculator_right_side_content_benifit_point_item'] ?? '';
+                            if (!empty($item_text)): ?>
+                                <li class="list-group-item"><?php echo esc_html($item_text); ?></li>
+                        <?php endif;
+                        endforeach; ?>
+                    <?php endif; ?>
                 </ul>
             </div>
 

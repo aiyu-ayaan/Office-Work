@@ -8,6 +8,15 @@ $no_of_steps_text = $roi_calculator_fields_group['acf_roi_calculator_no_of_steps
 $no_of_applications_text = $roi_calculator_fields_group['acf_roi_calculator_no_of_steps_application_text'] ?? '';
 $process_complexity_text = $roi_calculator_fields_group['acf_roi_calculator_no_of_steps_complex_process_text'] ?? '';
 
+$right_side_content = $roi_calculator_fields_group['acf_roi_calculator_right_side_content'] ?? [];
+
+// fetching the data from the ride side content group
+$outcome_title = $right_side_content['acf_roi_calculator_right_side_content_outcome_title'] ?? '';
+$interestd_text = $right_side_content['acf_roi_calculator_right_side_content_interested_text'] ?? '';
+$benifits_section_fields = $right_side_content['acf_roi_calculator_right_side_content_benifits_section_fields'] ?? [];
+$button_text = $right_side_content['acf_roi_calculator_right_side_content_button_text'] ?? '';
+$button_url = $right_side_content['acf_roi_calculator_right_side_content_button_url'] ?? '';
+
 ?>
 
 <div class="container my-5 smaller-size calculator-wrapper" data-type="roi">
@@ -120,7 +129,7 @@ $process_complexity_text = $roi_calculator_fields_group['acf_roi_calculator_no_o
 
         <!-- Right Panel -->
         <div class="col-lg-5 bg-light p-4 right-panel">
-            <h4 class="fw-bold text-primary mb-3 medium-size">Your Outcome</h4>
+            <h4 class="fw-bold text-primary mb-3 medium-size"><?php echo esc_html($outcome_title); ?></h4>
             <div class="mb-3 years-dropdown-box">
                 <p class="text-muted smaller-size">With Adrosonic Intelligent Automation</p>
                 <!--         <label for="years" class="form-label smaller-size">Time Frame</label> -->
@@ -198,20 +207,29 @@ $process_complexity_text = $roi_calculator_fields_group['acf_roi_calculator_no_o
                 <label class="form-label smaller-size">Your ROI can be maximised upto</label>
                 <input type="text" id="reduced-hours" class="form-control fw-bold text-center text-success small-size" disabled />
             </div>
+
+            <?php
+            $benifits_title = $benifits_section_fields['acf_roi_calculator_right_side_content_benifits_section_title'] ?? '';
+            $benifits_list = $benifits_section_fields['acf_roi_calculator_right_side_content_benefits_points'] ?? [];
+            ?>
             <div>
-                <h3 class="font-bolder small-size">And a lot more benefits:</h3>
+                <h3 class="font-bolder small-size"><?php echo esc_html($benifits_title); ?></h3>
                 <ul class="list-group mb-4  smaller-size">
-                    <li class="list-group-item">Enhanced cycle time</li>
-                    <li class="list-group-item">Timely reaction to market trends</li>
-                    <li class="list-group-item">Reduced operational risk</li>
-                    <li class="list-group-item">Driving process improvement and diligence</li>
+                    <?php if ($benifits_list && is_array($benifits_list)): ?>
+                        <?php foreach ($benifits_list as $items):
+                            $item_text = $items['acf_roi_calculator_right_side_content_benifit_point_item'] ?? '';
+                            if (!empty($item_text)): ?>
+                                <li class="list-group-item"><?php echo esc_html($item_text); ?></li>
+                        <?php endif;
+                        endforeach; ?>
+                    <?php endif; ?>
                 </ul>
             </div>
 
 
-            <p class="text-muted medium-size font-bold">Interested to know how?<br>Book a free demo with us today!</p>
-            <a href="/contact-us" class="btn btn-primary w-100"><button class="custom-button bottom-button">
-                    Get in touch
+            <p class="text-muted medium-size font-bold"><?php echo esc_html($interestd_text); ?></p>
+            <a href="<?php echo ($button_url) ?>" class="btn btn-primary w-100"><button class="custom-button bottom-button">
+                    <?php echo esc_html($button_text); ?>
                 </button></a>
         </div>
     </div>
