@@ -4,6 +4,11 @@ $roi_calculator_fields_group = get_field('acf_roi_calculator_field_group');
 
 
 $employee_involved_text = $roi_calculator_fields_group['acf_roi_calculator_employees_involved_text'] ?? '';
+$employee_average_salary_text = $roi_calculator_fields_group['acf_roi_calculator_average_salary_text'] ?? '';
+$no_of_steps_text = $roi_calculator_fields_group['acf_roi_calculator_no_of_steps_range_text'] ?? '';
+$no_of_applications_text = $roi_calculator_fields_group['acf_roi_calculator_no_of_steps_application_text'] ?? '';
+$process_complexity_text = $roi_calculator_fields_group['acf_roi_calculator_no_of_steps_complex_process_text'] ?? '';
+
 ?>
 
 <div class="container my-5 smaller-size calculator-wrapper" data-type="roi">
@@ -23,34 +28,36 @@ $employee_involved_text = $roi_calculator_fields_group['acf_roi_calculator_emplo
                     <p class="text-danger small mt-1 d-none" id="errorLineText1">Please enter value greater than 0</p>
                 </div>
                 <div class="mb-3 single-question">
-                    <label for="param2" class="form-label smaller-size">Average salary per employee (USD)</label>
+                    <label for="param2" class="form-label smaller-size"><?php echo esc_html($employee_average_salary_text); ?></label>
                     <input type="number" id="param2" class="form-control bg-secondary text-white border-0" value="30000"
                         placeholder="Min 17400" />
                     <p class="text-danger small mt-1 d-none" id="errorLineText2">Minimum allowed is 17400</p>
                 </div>
             </div>
             <div class="mb-4">
-                <label class="form-label smaller-size">How many steps does the process include?</label>
+                <label class="form-label smaller-size"><?php echo esc_html($no_of_steps_text); ?></label>
                 <input type="range" class="form-range range1" min="1" max="80" value="1" data-step-display="10">
                 <div class="range-markers"><span>1</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span></div>
                 <!--         <span class="badge bg-info bubble1">1</span> -->
             </div>
 
             <div class="mb-4">
-                <label class="form-label smaller-size">How many applications are involved in the process?</label>
+                <label class="form-label smaller-size"><?php echo esc_html($no_of_applications_text); ?></label>
                 <input type="range" class="form-range range2" min="1" max="8" value="1" data-step-display="1">
                 <div class="range-markers"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
                 <!--         <span class="badge bg-info bubble2">1</span> -->
             </div>
 
             <div class="mb-4">
-                <label class="form-label smaller-size">How complex is the process?</label>
+                <label class="form-label smaller-size"><?php echo esc_html($process_complexity_text); ?></label>
                 <input type="range" class="form-range range3" min="1" max="4" value="1" data-step-display="1">
                 <div class="range-markers"><span>Simple</span><span>Average</span><span>Intermediate</span><span>Complex</span></div>
                 <!--         <span class="badge bg-info bubble3">1</span> -->
             </div>
 
-            <?php
+            <?php $roi_yes_no_question_repeater = $roi_calculator_fields_group['acf_roi_calculator_yes_no_questions'] ?? []; ?>
+            <?php if($roi_yes_no_question_repeater && is_array($roi_yes_no_question_repeater)): ?>
+            <?php     
             $questions = [
                 'Does this process require cognitive skills?' => 'btn1',
                 'Is the process documentation required?' => 'btn2',
