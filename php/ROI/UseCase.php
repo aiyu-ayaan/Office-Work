@@ -82,8 +82,8 @@ $button_url = $right_side_content['acf_roi_calculator_right_side_content_button_
                 foreach ($roi_yes_no_question_repeater as $question):
                     $question_text = $question['acf_roi_calculator_question_text'] ?? '';
                     if (!empty($question_text)) {
-                        $questions[$question_text] = 'btn' . $btn_counter;
-                        $btn_counter++;
+                        $questions[$question_text] = 'btn' . $counter;
+                        $counter++;
                     }
                 ?>
                 <?php endforeach; ?>
@@ -222,14 +222,14 @@ $button_url = $right_side_content['acf_roi_calculator_right_side_content_button_
             </div>
             <?php
             $benifits_title = $benifits_section_fields['acf_roi_calculator_right_side_content_benifits_section_title'] ?? '';
-            $benifits_list = $benifits_section_fields['acf_roi_calculator_right_side_content_benefits_points'] ?? [];
+            $benifits_list = $benifits_section_fields['acf_roi_calculator_right_side_content_list_of_benifits'] ?? [];
             ?>
             <div>
                 <h3 class="font small-size font-bolder"><?php echo esc_html($benifits_title); ?></h3>
                 <ul class="list-group benefits ps-3">
                     <?php if ($benifits_list && is_array($benifits_list)): ?>
                         <?php foreach ($benifits_list as $items):
-                            $item_text = $items['acf_roi_calculator_right_side_content_benifit_point_item'] ?? '';
+                            $item_text = $items['acf_roi_calculator_right_side_content_benifit_item'] ?? '';
                             if (!empty($item_text)): ?>
                                 <li class="list-group-item"><?php echo esc_html($item_text); ?></li>
                         <?php endif;

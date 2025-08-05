@@ -73,8 +73,8 @@ $button_url = $right_side_content['acf_roi_calculator_right_side_content_button_
                 foreach ($roi_yes_no_question_repeater as $question):
                     $question_text = $question['acf_roi_calculator_question_text'] ?? '';
                     if (!empty($question_text)) {
-                        $questions[$question_text] = 'btn' . $btn_counter;
-                        $btn_counter++;
+                        $questions[$question_text] = 'btn' . $counter;
+                        $counter++;
                     }
                 ?>
                 <?php endforeach; ?>
