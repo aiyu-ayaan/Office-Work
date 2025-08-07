@@ -14,6 +14,9 @@
  */
 define('CHILD_THEME_ASTRA_CHILD_VERSION', '1.0.0');
 
+// Load Composer Autoloader
+require_once WP_CONTENT_DIR . '/geoip-reader/vendor/autoload.php';
+use GeoIp2\Database\Reader;
 
 // this will buffer output until headers are set.
 //ob_start(); CFPK
@@ -21,6 +24,25 @@ define('CHILD_THEME_ASTRA_CHILD_VERSION', '1.0.0');
 /**
  * Enqueue styles
  */
+add_filter( 'acf/settings/php_to_js_date_formats', 'support_at_symbol_in_date_format', 10, 1 );
+function support_at_symbol_in_date_format( $formats ) {
+    $formats['@'] = "'@'";
+    return $formats;
+}
+
+add_filter('acf/update_value/type=date_time_picker', 'my_update_value_date_time_picker', 10, 3);
+
+function my_update_value_date_time_picker( $value, $post_id, $field ) {
+	if (!$value) return $value;
+
+    try {
+        $date = new DateTime($value, new DateTimeZone('UTC'));
+        $date->setTimezone(new DateTimeZone('Asia/Kolkata'));
+        return $date->format('Y-m-d H:i:s');
+    } catch (Exception $e) {
+        return $value;
+    }
+}
 
 function child_enqueue_styles() {
     wp_enqueue_style('astra-child-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all');
@@ -40,7 +62,7 @@ function child_enqueue_scripts() {
     wp_enqueue_script('header-js', get_stylesheet_directory_uri() . '/js/header.js', array('jquery'), filemtime(get_stylesheet_directory() . '/js/header.js'), true);
     wp_enqueue_script('lazy-load-js', get_stylesheet_directory_uri() . '/js/lazy-load.js', array('jquery'), filemtime(get_stylesheet_directory() . '/js/lazy-load.js'), true);
 	// Enqueue combined custom header scripts
-wp_enqueue_script('custom-header-combined-js', get_stylesheet_directory_uri() . '/js/custom-header-scripts.js', array('jquery'), CHILD_THEME_ASTRA_CHILD_VERSION, true);
+wp_enqueue_script('languageswitcher-combined-js', get_stylesheet_directory_uri() . '/js/languageswitcher.js', array('jquery'), CHILD_THEME_ASTRA_CHILD_VERSION, true);
 }
 add_action('wp_enqueue_scripts', 'child_enqueue_scripts');
 
@@ -83,134 +105,7 @@ function custom_logo_dynamic_url_script() {
 }
 add_action('wp_enqueue_scripts', 'custom_logo_dynamic_url_script');
 
-//GDPR Cookie code
-
-
-
-
-//GDPR cookie code ends here
-
-//header code starts here
-
-//for language switcher
-function custom_click_effect_script()
-{
-?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const languageSwitcher = document.querySelector('.pll-switcher-select');
-            const languageOptions = document.getElementsByTagName('option');
-            languageSwitcher.addEventListener('click', function() {
-                this.classList.add('clicked');
-                for (let i = 0; i < languageOptions.length; i++) {
-                    languageOptions[i].classList.add('language-dropdown');
-                }
-            });
-            // Select all elements with the ID "lang_choice_polylang-4" 
-            const all_languages = document.querySelectorAll('#lang_choice_polylang-4');
-
-            // Add event listener to each element
-            all_languages.forEach(language => {
-                language.addEventListener('change', function(event) {
-                    location.href = event.currentTarget.value;
-                });
-            });
-        });
-    </script>
-<?php
-}
-add_action('wp_footer', 'custom_click_effect_script');
-
-function custom_search_toggle_display_js()
-{
-?>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const searchIcon = document.querySelector(".ast-search-icon");
-            const contactUsButton = document.querySelector(".ast-builder-layout-element.ast-flex.site-header-focus-item.ast-header-button-1");
-            const quadmenuContainer = document.querySelector("#quadmenu .quadmenu-container");
-            let isHeaderItemsHidden = false; // Flag to track if header items are hidden
-            if (searchIcon) {
-                searchIcon.addEventListener("click", function(event) {
-                    event.stopPropagation();
-                    // Add the class to change the background image
-                    searchIcon.classList.add("search-icon-active");
-                    if (isHeaderItemsHidden) {
-
-                        // Show the items
-                        if (contactUsButton) {
-                            contactUsButton.style.display = "block";
-                        }
-                        if (quadmenuContainer) {
-                            quadmenuContainer.style.display = "block";
-                        }
-
-                        // Reset the background image class
-                        searchIcon.classList.remove("search-icon-active");
-                    } else {
-                        // Hide the items
-                        if (contactUsButton) {
-                            contactUsButton.style.display = "none";
-                        }
-                        if (quadmenuContainer) {
-                            quadmenuContainer.style.display = "none";
-                        }
-                        // Add the class to change the background image
-                        searchIcon.classList.add("search-icon-active");
-
-                    }
-                    // Toggle the visibility state
-                    isHeaderItemsHidden = !isHeaderItemsHidden;
-                });
-            } else {
-                console.error("Search Icon not found!");
-            }
-
-            document.addEventListener("click", function(event) {
-                if (isHeaderItemsHidden && !searchIcon.contains(event.target) &&!(document.querySelector('.search-form')).contains(event.target)) {
-                    // Remove the class to reset the background image
-                    searchIcon.classList.remove("search-icon-active");
-
-                    // Reset the display of Contact Us button and Quadmenu container
-                    if (contactUsButton) {
-                        contactUsButton.style.display = "block";
-                    }
-                    if (quadmenuContainer) {
-                        quadmenuContainer.style.display = "block";
-                    }
-
-                    // Reset the visibility state
-                    isHeaderItemsHidden = false;
-                }
-            });
-        });
-    </script>
-<?php
-}
-add_action('wp_footer', 'custom_search_toggle_display_js');
-
-
-
-
-//header code ends here
-
-
-
-// function add_csp_header() {
-//     // Ensure header is sent only in frontend, not admin area (optional)
-//     if (is_admin()) {
-//         return;
-//     }
-	
-// 	 $nonce = get_csp_nonce();
-
-//     // Define Content Security Policy
-//     header("Content-Security-Policy: default-src 'none'; script-src 'self' https://cdnjs.cloudflare.com https://www.googletagmanager.com go.website-dev.adrosonic.com cdn.jsdelivr.net https://www.google-analytics.com https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://websitedev-db0c5dadd1-endpoint.azureedge.net https://player.vimeo.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://default-webapp-endpoint-9a734fc0-evgzcugwe7bgawfn.a03.azurefd.net https://websitedev-db0c5dadd1-endpoint.azureedge.net https://fonts.googleapis.com https://websitedev-db0c5dadd1-endpoint.azureedge.net https://cdnjs.cloudflare.com; connect-src 'self' go.website-dev.adrosonic.com cdn.jsdelivr.net https://api.ipgeolocation.io https://www.google-analytics.com; img-src 'self' https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://websitedev-db0c5dadd1-endpoint.azureedge.net data: https:; frame-src 'self' go.website-dev.adrosonic.com https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://www.adrosonic.com https://go.demo.pardot.com  https://player.vimeo.com; font-src 'self' https://websitedev-db0c5dadd1-endpoint.azureedge.net https://fonts.gstatic.com; media-src 'self' https://wordpressa-02147638b0-b9fmbyckh4cgashk.a01.azurefd.net https://websitedev-db0c5dadd1-endpoint.azureedge.net https://s3-figma-videos-production-sig.figma.com https://vimeo.com https://player.vimeo.com; block-all-mixed-content;");
-// }
-// add_action('send_headers', 'add_csp_header', 1);
-
 //enqueue owl carousel scripts and styles
-// enqueue owl carousel scripts and styles
 function enqueue_owlcarousel_assets() {
     $theme_dir = get_stylesheet_directory_uri(); // Use this for child theme paths
 
@@ -489,40 +384,7 @@ function get_subcategories_by_parent_slug($atts) //for service drop-down menu
     $output .= '</div>';
     $output .= '</nav>';
 
-    $output .= '<script>';
-    $output .= 'document.addEventListener("DOMContentLoaded", function () {
-	const menuContainer = document.querySelector("#dropdown-4717");
-    const menuItems = document.querySelectorAll(".menu-services-drop-down-container .main-menu li");
-    const subMenus = document.querySelectorAll(".menu-services-drop-down-container .sub-menu > div");
-    const spotlightMenu = document.querySelector(".menu-services-drop-down-container .sub-menu > .widget_post"); // Spotlight menu
-
-    menuItems.forEach((menuItem, index) => {
-        menuItem.addEventListener("mouseover", function () {    
-		
-			menuItems.forEach((el) => el.classList.remove("active"));
-			menuItem.classList.add("active");
-			
-			// Hide all sub-menu divs, including Spotlight menu
-            subMenus.forEach(function (subMenu) {
-                subMenu.style.display = "none";
-            });
-
-            // Show the corresponding sub-menu div
-            const correspondingSubMenu = subMenus[index];
-            if (correspondingSubMenu) {
-                correspondingSubMenu.style.display = "block";
-            }
-        });
-    });
-
-    // Reset menu state when mouse leaves the dropdown container
-    menuContainer.addEventListener("mouseleave", function () {
-        menuItems.forEach((el) => el.classList.remove("active"));
-        subMenus.forEach((subMenu) => subMenu.style.display = "none");
-    });
-
-});';
-    $output .= '</script>';
+ 
     return $output;
 }
 
@@ -540,6 +402,63 @@ function getChildCategory($termid)
 
     return $subcategories = get_terms('category', $args);
 }
+//for company drop-down menu
+
+function get_company_dropdown_menu($atts)
+{
+    $atts = shortcode_atts(
+        array(
+            'menu_name' => 'Company drop down', // Default menu name
+            'spotlight_posts' => '', // Optional spotlight post IDs
+        ),
+        $atts,
+        'company'
+    );
+
+    $menu = wp_get_nav_menu_object($atts['menu_name']);
+    if (!$menu) return 'Company menu not found.';
+
+    $menu_items = wp_get_nav_menu_items($menu->term_id);
+    if (empty($menu_items)) return 'No menu items found in Company Dropdown.';
+
+    $output = '<nav class="menu-company-drop-down-container">';
+    $output .= '<div class="menu-container">';
+    $output .= '<div class="main-menu"><ul class="menu">';
+
+    $is_first_item = true;
+    foreach ($menu_items as $item) {
+        $additional_class = !$is_first_item ? 'service-padding-top' : '';
+        $title_class = sanitize_title($item->title);
+
+        $output .= '<li class="services-drop-down menu-item menu-item-type-' . esc_attr($item->type) . ' ' . esc_attr($additional_class) . ' ' . esc_attr($title_class) . '">';
+        $output .= '<a href="' . esc_url($item->url) . '">' . esc_html($item->title) . '</a>';
+        $output .= '</li>';
+
+        $is_first_item = false;
+    }
+
+    $output .= '</ul></div>'; // End main-menu
+    $output .= '<div class="sub-menu">';
+
+    // Optional: Add spotlight posts section
+    if (!empty($atts['spotlight_posts'])) {
+        $spotlight_atts['spotlight_posts'] = $atts['spotlight_posts'];
+        $output .= get_spotlight_posts_by_ids($spotlight_atts);
+    }
+
+    $output .= '</div>'; // End sub-menu
+    $output .= '</div>'; // End menu-container
+    $output .= '</nav>';
+
+    return $output;
+}
+
+// Register shortcode as [company]
+add_shortcode('company', 'get_company_dropdown_menu');
+
+
+
+//company code ends here
 
 
 // enable category taxanomy for pages
@@ -812,122 +731,22 @@ function duplicate_page()
 add_action('admin_action_duplicate_page', 'duplicate_page');
 
 
-
-// function restrict_pods_meta_boxes_by_template($post_type, $post)
-// {
-//     if (!$post || $post_type !== 'page') {
-//         return;
-//     }
-
-//     $template = get_page_template_slug($post->ID);
-
-//     // Define allowed templates and their corresponding Pods meta box field groups
-//     $allowed_templates = array(
-//         'template_homepage.php' => array(
-//             'home-page-banner-section-fields',
-//             'home-page-our-services-section-fields',
-//             'home-page-counter-section-fields',
-//             'home-page-featured-insights-section-fields',
-//             'home-page-our-clients-section-fields',
-//             'home-page-our-industries-section-fields',
-//             'home-page-who-we-are-fields',
-//             'home-page-adro-innovation-fields',
-// 			'some-fields-of-who-we-are'
-//         ),
-//         'service_template.php' => array(
-//             'service-page-banner-section-fields',
-//             'service-page-submenu',
-//             'service-page-our-expertise-section-fields',
-//             'service-page-keywords-section-fields',
-//             'service-page-our-offerings-and-capabilities-section-fields',
-//             'service-page-strategic-partner-section-fields',
-//             'service-page-adrosonic-benefits-section-fields',
-//             'service-page-our-approach-section-fields',
-//             'service-page-our-industries-section-fields',
-//             'service-page-business-impact-section-fields',
-//             'service-page-innovative-solutions-section-fields',
-//             'service-page-our-clients-section-fields',
-//             'service-page-faq-fields'
-//         ),
-//         'industry_template.php' => array(
-//             'industry-page-banner-section-fields',
-//             'industry-page-submenu',
-//             'industry-page-our-capabilities-section-fields',
-//             'industry-page-business-impact-section-fields',
-//             'industry-page-our-offerings-section-fields',
-//             'industry-page-innovative-solutions-section-fields',
-//             'industry-page-our-clients-section-fields',
-//         ),
-//         'sub-service_template.php' => array(
-//             'sub-service-page-banner-section-fields',
-//             'sub-service-page-submenu-fields',
-//             'sub-service-page-our-features-section-fields',
-//             'sub-service-page-adrosonic-benefits-section-fields',
-//             'sub-service-page-our-offerings-section-fields',
-//             'sub-service-page-platform-partners-section-fields',
-//             'sub-service-page-innovative-solutions-section-fields',
-//             'sub-service-page-about-section-fields'
-//         ),
-//         'leadership_template.php' => array(
-//             'leadership-page-banner-section-fields',
-//             'leadership-page-what-we-believe-in-section-fields',
-//             'leadership-page-making-a-difference-section-fields',
-//             'leadership-page-gradients-section-fields'
-//         ),
-
-//         'about_us_template.php' => array(
-//             'about-us-page-banner-section-fields',
-//             'about-us-page-our-commitment-section-fields',
-//             'about-us-page-our-people-section-fields',
-//             'about-us-page-our-difference-section-fields',
-//             'about-us-page-counter-section-fields',
-//             'about-us-page-featured-insights-section-fields',
-//             'about-us-page-innovation-gradient-fields',
-//             'about-us-page-our-approach-section-fields',
-//             'about-us-page-get-to-know-us-better-section-fields'
-
-//         ),
-//         'contact_us_template.php' => array(
-//             'contact-us-page-banner-section-fields',
-//             'contact-us-page-social-media-section-fields',
-//             'contact-us-page-offices-section-fields',
-//             'south-america-office-data'
-//         ),
-// 		'Insight_template.php' => array(
-// 		    'insight-page',
-// 		)
-
-//     );
-
-//     // If the current template is in the allowed list, allow only its meta boxes
-//     if (array_key_exists($template, $allowed_templates)) {
-//         $allowed_meta_boxes = $allowed_templates[$template]; // Get allowed meta boxes for the template
-
-//         add_action('admin_head', function () use ($allowed_meta_boxes, $allowed_templates) {
-//             global $wp_meta_boxes;
-
-//             // Get all possible meta boxes from all templates
-//             $all_meta_boxes = array_merge(...array_values($allowed_templates));
-
-//             // Find the ones that are NOT allowed for this template and remove them
-//             $meta_boxes_to_remove = array_diff($all_meta_boxes, $allowed_meta_boxes);
-
-//             foreach ($meta_boxes_to_remove as $group) {
-//                 $meta_box_id = 'pods-meta-' . $group;
-//                 remove_meta_box($meta_box_id, 'page', 'normal');
-//             }
-//         }, 99);
-//     }
-// }
-// add_action('add_meta_boxes', 'restrict_pods_meta_boxes_by_template', 99, 2);
-
-
 // add functionality to choose template for posts
-function astra_enable_post_templates()
-{
-    add_theme_support('post-templates');
+// function astra_enable_post_templates()
+// {
+//     add_theme_support('post-templates');
+// }
+// add_action('after_setup_theme', 'astra_enable_post_templates');
+
+function enable_template_dropdown_for_cpts() {
+    // Add 'page-attributes' support to default 'post' and your custom post types
+    $post_types = ['post', 'press-release']; 
+
+    foreach ($post_types as $post_type) {
+        add_post_type_support($post_type, 'page-attributes');
+    }
 }
-add_action('after_setup_theme', 'astra_enable_post_templates');
+add_action('init', 'enable_template_dropdown_for_cpts');
 
 // Redirect empty page to homepage
 function redirect_empty_page_shortcode($atts, $content = null)
@@ -1164,6 +983,23 @@ function extractVimeoVideoId($url) {
     return null;
 }
 
+/**
+ * Calculates the estimated reading or viewing time for a post based on its type and content.
+ *
+ * This function determines the appropriate content fields to analyze depending on the post type,
+ * and then delegates to the `get_minutes()` function to calculate the estimated time.
+ *
+ * Supported post types and their logic:
+ * - 'Webinar' or 'Video': Uses the Vimeo video URL field to estimate viewing time.
+ * - 'Use Case' or 'Case Study': Aggregates content from specific ACF fields, including accordion sections.
+ * - 'Blog': Aggregates text from content blocks, dividers, key takeaways, and quote fields.
+ * - Other types: Uses a default content frame section for estimation.
+ *
+ * @param int    $post_id        The ID of the post to analyze.
+ * @param string $post_type_name The post type name (e.g., 'Webinar', 'Blog', etc.).
+ *
+ * @return mixed Estimated minutes as a string (e.g., "5 minutes") or "N/A" if not available.
+ */
 function get_post_read_minutes($post_id, $post_type_name) {
     if ($post_type_name === 'Webinar' || $post_type_name === 'Video') {
          $videoId = get_field('acf_pardot_vimeo_video_url', $post_id);
@@ -1316,12 +1152,12 @@ function fetch_posts() {
         'post_type'      => 'post',
         'post_status'    => 'publish',
         'posts_per_page' => -1,
-        'post__not_in'   => $featured_ids,
+        //'post__not_in'   => $featured_ids,
         'fields'         => 'ids', // optimization
     ]);
     $totalPosts = count($total_query->posts);
     $totalPages = ceil($totalPosts / $postsPerPage);
-
+    
     // Handle Page 1 logic overrides
     if ($currentPage === 1) {
         if ($postsPerPage === 3) {
@@ -1364,71 +1200,6 @@ function get_post_data_for_output($post_id, $default_image) {
 		'read_minutes' => $read_minutes_display
     ];
 }
-
-
-// 1. Add Meta Box to Post Editor
-function add_adrosonic_oldurl_meta_box()
-{
-    add_meta_box(
-        'adrosonic_oldurl_box',                // ID
-        'Old URL (Adrosonic)',                 // Title
-        'render_adrosonic_oldurl_field',       // Callback
-        'post',                                // Post type
-        'normal',                              // Context
-        'default'                              // Priority
-    );
-}
-add_action('add_meta_boxes', 'add_adrosonic_oldurl_meta_box');
-
-// 2. Render Input Field
-function render_adrosonic_oldurl_field($post)
-{
-    $value = get_post_meta($post->ID, 'adrosonic_oldurl', true);
-    wp_nonce_field('adrosonic_oldurl_save_nonce_action', 'adrosonic_oldurl_nonce');
-    ?>
-    <label for="adrosonic_oldurl"><strong>Old URL:</strong></label><br>
-    <input type="url" name="adrosonic_oldurl" id="adrosonic_oldurl" value="<?php echo esc_attr($value); ?>" style="width:100%; padding: 8px;" placeholder="https://example.com/old-url" />
-<?php
-}
-
-// 3. Save the Field When the Post is Saved
-function save_adrosonic_oldurl_meta($post_id)
-{
-    if (
-        !isset($_POST['adrosonic_oldurl_nonce']) ||
-        !wp_verify_nonce($_POST['adrosonic_oldurl_nonce'], 'adrosonic_oldurl_save_nonce_action')
-    ) {
-        return;
-    }
-
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
-    if (!current_user_can('edit_post', $post_id)) return;
-
-    if (isset($_POST['adrosonic_oldurl'])) {
-        update_post_meta($post_id, 'adrosonic_oldurl', esc_url_raw($_POST['adrosonic_oldurl']));
-    }
-}
-add_action('save_post', 'save_adrosonic_oldurl_meta');
-
-function adrosonic_redirect_to_old_url()
-{
-    if (is_singular('post')) {
-        global $post;
-        $old_url = get_post_meta($post->ID, 'adrosonic_oldurl', true);
-
-        if (!empty($old_url) && filter_var($old_url, FILTER_VALIDATE_URL)) {
-            // Optional: prevent redirect in admin or preview
-            if (is_admin() || isset($_GET['preview'])) {
-                return;
-            }
-
-            // Perform the redirect
-            wp_redirect($old_url, 301);
-            exit;
-        }
-    }
-}
-add_action('template_redirect', 'adrosonic_redirect_to_old_url');
 
 
 function get_user_country()
@@ -1679,7 +1450,7 @@ function custom_subscribe_modal_code() {
 
 <div id="subscribeModal" class="custom-modal">
   <div class="custom-modal-content">
-    <h1 class="contact-subscribe-heading large-size font-bold">Subscribe to our newsletter</h1>
+    <h3 class="contact-subscribe-heading large-size font-bold">Subscribe to our newsletter</h3>
     <button id="closeSubscribeModal" class="close-modal-btn" aria-label="Close modal">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
         <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
@@ -1688,7 +1459,7 @@ function custom_subscribe_modal_code() {
       </svg>
     </button>
 	  <div id="iframeLoader" class="loader">Loading...</div>
-    <iframe id="subscribeModalIframe" src="/subscribeIframe.html"></iframe>
+    <iframe id="subscribeModalIframe" data-src="/subscribeIframe.php"></iframe>
     <p class="consent-txt smaller-size">
       By clicking the “Subscribe Now” button, you are agreeing to the
       <a class="font-bold" href="/wp-content/uploads/2025/04/data-protection-policy-pdf.pdf" target="_blank" rel="noreferrer noopener" >Personal Data Protection Policy</a> and
@@ -1718,7 +1489,8 @@ const iframe = document.getElementById("subscribeModalIframe");
     iframe.style.pointerEvents = "none";
 
     // Reset iframe to fresh state
-    iframe.src = iframe.src;
+    iframe.setAttribute("src", iframe.getAttribute("data-src")); // force reload each time
+   // iframe.src = iframe.src;
 
     iframe.onload = () => {
         // Hide loader and show iframe
@@ -1796,8 +1568,6 @@ const iframe = document.getElementById("subscribeModalIframe");
     <?php
 }
 add_action('wp_footer', 'custom_subscribe_modal_code');
-
-
 
 
 
@@ -1965,9 +1735,10 @@ function add_pardot_download_script()
       <script>
         window.addEventListener('message', function(event) {
           try {
-            const trustedOriginIs = 'https://go.website-dev.adrosonic.com';
+			  const trustedDomainPattern = /^https:\/\/([a-z0-9-]+\.)*adrosonic\.com$/i;
 
-            if (event.origin !== trustedOriginIs) {
+         
+             if (!trustedDomainPattern.test(event.origin)){
               console.warn('Blocked message from untrusted origin:', event.origin);
               return;
             }
@@ -2042,7 +1813,7 @@ function inject_pardot_iframe_with_Product_Interest()
     } else {
       // It's a grandchild; check its parent
       $parent_cat = get_category($cat->parent);
-      if ($parent_cat && $parent_cat->parent == $service_parent_id) {
+      if ($parent_cat && !is_wp_error($parent_cat) && $parent_cat->parent == $service_parent_id) {
         // Include the parent (which is a direct child of "Service")
         $included_names[] = $parent_cat->name;
       }
@@ -2085,6 +1856,9 @@ function inject_pardot_iframe_with_Product_Interest()
       </div>
     </div>
   </div>
+<?php
+$download_url = getenv('DOWNLOAD_URL');
+?>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const popupOverlay = document.querySelector('.download-pardot-popup-overlay');
@@ -2131,22 +1905,20 @@ function inject_pardot_iframe_with_Product_Interest()
           unlockBodyScrollForPardotPopup();
         }
       });
-      const productInterest = "<?php echo $Product_Interest_encoded; ?>";
+    	const productInterest = "<?php echo $Product_Interest_encoded; ?>";		
+		const iframe = document.querySelector('.download-iframe');
+		const baseUrl = <?php echo json_encode($download_url); ?>;
+		if (iframe && window.geoData) {
+ 		const country = encodeURIComponent(window.geoData.country || 'Unknown');
+  		const continent = encodeURIComponent(window.geoData.continent || 'Unknown');
+  		const productInterest = "<?php echo $Product_Interest_encoded; ?>";
+  		iframe.src = `${baseUrl}?country=${country}&territory=${continent}&Product_Interest=${productInterest}`;
+  		console.log('Iframe URL set with window.geoData:', iframe.src);
+		} else {
+  		console.warn('window.geoData or iframe is missing.');
+		}
 
-      fetch('https://api.ipgeolocation.io/ipgeo?apiKey=31bc120625344a6389c602f3bec22805')
-        .then(response => response.json())
-        .then(data => {
-          const country = encodeURIComponent(data.country_name || '');
-          const region = encodeURIComponent(data.state_prov || '');
-          const iframe = document.querySelector('.download-iframe');
-          const baseUrl = 'https://go.website-dev.adrosonic.com/l/791983/2025-05-28/2w63';
-
-          iframe.src = `${baseUrl}?country=${country}&territory=${region}&Product_Interest=${productInterest}`;
-        })
-        .catch(error => {
-          console.error('IPGeolocation failed:', error);
-        });
-    });
+     });    
   </script>
 <?php
 }
@@ -2166,13 +1938,14 @@ if ($video) {
 ?>
 <script>
     window.addEventListener('message', function (event) {
-        try {
-			const trustedOriginVideoSub = 'https://go.website-dev.adrosonic.com';
-
-            if (event.origin !== trustedOriginVideoSub) {
-                console.warn('Blocked message from untrusted origin:', event.origin);
-                return;
+        try {	
+			 const trustedOriginPardotPatten = /^https:\/\/([a-z0-9-]+\.)*adrosonic\.com$/i;   
+             if (! trustedOriginPardotPatten.test(event.origin)){
+              console.warn('Blocked message from untrusted origin:', event.origin);
+              return;
             }
+
+          
 			
             if (event.data === 'pardotvid') {
                 //jQuery('.play-popup-overlay').hide();
@@ -2201,7 +1974,7 @@ if ($video) {
             }
             const baseSrc = video.dataset.originalSrc;
             if (video && !video.src.includes("autoplay=1")) {
-                video.src = baseSrc;
+                video.src = baseSrc + "?autoplay=1&muted=1&playsinline=1";
             }
             document.querySelector(".play-popup-overlay").classList.add("video-mode");
             const postHead = document.querySelector(".post-head");
@@ -2304,7 +2077,11 @@ function inject_pardot_video_iframe_with_Product_Interest() {
             </div>
         </div>
     </div>
+<?php
+$play_url = getenv('PLAY_URL');
+?>
 <script>
+
 	var isFormSubmitted = window.isFormSubmitted || false;
     document.addEventListener('DOMContentLoaded', function () {
      
@@ -2374,22 +2151,23 @@ window.scrollTo(0, scrollPosition);
 });
 		
         const productInterest = "<?php echo $Product_Interest_encoded; ?>";
+		const iframe = document.getElementById("pardotIframe");
+		const baseUrl = <?php echo json_encode($play_url); ?>;
 
-        fetch('https://api.ipgeolocation.io/ipgeo?apiKey=31bc120625344a6389c602f3bec22805')
-            .then(response => response.json())
-            .then(data => {
-                const country = encodeURIComponent(data.country_name || '');
-                const region = encodeURIComponent(data.state_prov || '');
-                const iframe = document.getElementById("pardotIframe");
-                const baseUrl = 'https://go.website-dev.adrosonic.com/l/791983/2025-05-28/2w66';
+		if (iframe && window.geoData) {
+ 		const country = encodeURIComponent(window.geoData.country || 'Unknown');
+ 		const continent = encodeURIComponent(window.geoData.continent || 'Unknown');
+  		const productInterest = "<?php echo $Product_Interest_encoded; ?>";
 
-                iframe.src = `${baseUrl}?country=${country}&territory=${region}&Product_Interest=${productInterest}`;
-            })
-            .catch(error => {
-                console.error('IPGeolocation failed:', error);
-            });
-    });
-</script>
+  		iframe.src = `${baseUrl}?country=${country}&territory=${continent}&Product_Interest=${productInterest}`;
+  		console.log('Iframe URL set with window.geoData:', iframe.src);
+		} else {
+  		console.warn('window.geoData or iframe is missing.');
+		}
+
+     });    
+  </script>
+
 <?php
 }
 // vimeo video popup for podcast client story coffee with adrosonic without pardot form
@@ -2403,18 +2181,7 @@ function is_video_popup_no_pardot_post_type() {
 
     return !empty(array_intersect($allowed_categories, $terms));
 }
-// function enqueue_video_popup_no_pardot_script() {
-//     if (!is_video_popup_no_pardot_post_type()) return;
 
-//     wp_enqueue_script(
-//         'video-popup-script',
-//         get_template_directory_uri() . '/js/video-popup-no-pardot.js',
-//         [],
-//         null,
-//         true
-//     );
-// }
-// add_action('wp_enqueue_scripts', 'enqueue_video_popup_no_pardot_script');
 function inject_vimeo_video_popup_no_pardot() {
 	 if (!is_video_popup_no_pardot_post_type()) return;
     $post_id = get_the_ID();
@@ -2496,22 +2263,26 @@ function inject_vimeo_video_popup_no_pardot() {
 add_action('wp_footer', 'inject_vimeo_video_popup_no_pardot');
 
 
-
-//New relic RUM integration 
-
-//New relic RUM integration  --ending 
-
-//for listing purpose 
-//
-//
-
-//new
-
-
 //custom search
 // Register AJAX handlers
 add_action('wp_ajax_acf_live_search', 'acf_live_search');
 add_action('wp_ajax_nopriv_acf_live_search', 'acf_live_search');
+
+// Utility function to check if a post is valid and published
+function is_valid_published_post($post) {
+    if (!($post instanceof WP_Post)) return false;
+    if ($post->post_status !== 'publish') return false;
+    if (!in_array($post->post_type, ['post', 'page'])) return false;
+
+    // Exclude the "thankyou-lets-connect" page
+    $thank_you_page = get_page_by_path('thankyou-lets-connect');
+    if ($thank_you_page && $post->ID === $thank_you_page->ID) return false;
+	 // Exclude the "insight" page
+    $insight = get_page_by_path('insight');
+    if ($insight && $post->ID === $insight->ID) return false;
+
+    return true;
+}
 
 // Function to rank post IDs based on keyword relevance
 function get_ranked_post_ids_by_keyword($keyword) {
@@ -2522,7 +2293,7 @@ function get_ranked_post_ids_by_keyword($keyword) {
     $thank_you_page = get_page_by_path('thank-you');
     $exclude_id = $thank_you_page ? $thank_you_page->ID : null;
 
-    // Title match (exact and partial)
+    // Title match
     $title_matches = $wpdb->get_results($wpdb->prepare(
         "SELECT ID, post_title, post_type, post_date FROM $wpdb->posts
          WHERE post_status = 'publish' AND post_type IN ('post', 'page')
@@ -2546,17 +2317,17 @@ function get_ranked_post_ids_by_keyword($keyword) {
         $posts[$post->ID]['date'] = $post->post_date;
     }
 
-    // Meta value match
+    // ACF/meta field match (merged)
     $meta_matches = $wpdb->get_results($wpdb->prepare(
-        "SELECT post_id FROM $wpdb->postmeta WHERE meta_value LIKE %s", $keyword_like));
+        "SELECT DISTINCT post_id FROM $wpdb->postmeta
+         WHERE meta_value LIKE %s", $keyword_like));
     foreach ($meta_matches as $meta) {
-        if ($exclude_id && $meta->post_id == $exclude_id) continue;
         $post_data = get_post($meta->post_id);
-        if ($post_data && $post_data->post_status === 'publish' && in_array($post_data->post_type, ['post', 'page'])) {
-            $posts[$meta->post_id]['score'] = max($posts[$meta->post_id]['score'] ?? 700, 700);
-            $posts[$meta->post_id]['type'] = $post_data->post_type;
-            $posts[$meta->post_id]['date'] = $post_data->post_date;
-        }
+        if ($exclude_id && $meta->post_id == $exclude_id) continue;
+        if (!is_valid_published_post($post_data)) continue;
+        $posts[$meta->post_id]['score'] = max($posts[$meta->post_id]['score'] ?? 700, 700);
+        $posts[$meta->post_id]['type'] = $post_data->post_type;
+        $posts[$meta->post_id]['date'] = $post_data->post_date;
     }
 
     // Content match
@@ -2569,19 +2340,6 @@ function get_ranked_post_ids_by_keyword($keyword) {
         $posts[$post->ID]['score'] = max($posts[$post->ID]['score'] ?? 600, 600);
         $posts[$post->ID]['type'] = $post->post_type;
         $posts[$post->ID]['date'] = $post->post_date;
-    }
-
-    // ACF field match
-    $acf_matches = $wpdb->get_results($wpdb->prepare(
-        "SELECT post_id FROM $wpdb->postmeta WHERE meta_value LIKE %s", $keyword_like));
-    foreach ($acf_matches as $meta) {
-        if ($exclude_id && $meta->post_id == $exclude_id) continue;
-        $post_data = get_post($meta->post_id);
-        if ($post_data && $post_data->post_status === 'publish' && in_array($post_data->post_type, ['post', 'page'])) {
-            $posts[$meta->post_id]['score'] = max($posts[$meta->post_id]['score'] ?? 500, 500);
-            $posts[$meta->post_id]['type'] = $post_data->post_type;
-            $posts[$meta->post_id]['date'] = $post_data->post_date;
-        }
     }
 
     // Taxonomy match
@@ -2603,16 +2361,17 @@ function get_ranked_post_ids_by_keyword($keyword) {
         ]);
         foreach ($term_posts as $post) {
             if ($exclude_id && $post->ID == $exclude_id) continue;
+            if (!is_valid_published_post($post)) continue;
             $posts[$post->ID]['score'] = max($posts[$post->ID]['score'] ?? 450, 450);
             $posts[$post->ID]['type'] = $post->post_type;
             $posts[$post->ID]['date'] = $post->post_date;
         }
     }
 
-    // Final sorting: score desc → page before post → recent first
+    // Final sorting
     uasort($posts, function ($a, $b) {
         return $b['score'] <=> $a['score']
-            ?: strcmp($a['type'], $b['type']) // 'page' before 'post'
+            ?: strcmp($a['type'], $b['type'])
             ?: strtotime($b['date']) <=> strtotime($a['date']);
     });
 
@@ -2676,6 +2435,8 @@ function acf_live_search() {
     if (!empty($matched_posts)) {
         foreach ($matched_posts as $post) {
             if ($exclude_id && $post->ID == $exclude_id) continue;
+            if (!is_valid_published_post($post)) continue;
+
             $image_url = get_the_post_thumbnail_url($post->ID, 'medium') ?: $fallback_image_url;
             $results[] = [
                 'title'     => $post->post_title,
@@ -2705,22 +2466,22 @@ function acf_live_search() {
         }
     }
 
-	 if (empty($results)) {
+    if (empty($results)) {
         $results[] = [
             'title'     => 'No matching found. Try anything else.',
             'url'       => '#',
             'image_url' => $fallback_image_url,
         ];
     }
+
     echo json_encode($results);
     wp_die();
 }
 
-
-// Exclude Thank You page from regular WordPress search
+// Exclude Thank You page from WP search
 add_action('pre_get_posts', function ($query) {
     if ($query->is_main_query() && $query->is_search() && !is_admin()) {
-        $thank_you_page = get_page_by_path('thank-you');
+        $thank_you_page = get_page_by_path('thankyou-lets-connect');
         if ($thank_you_page) {
             $existing_exclusions = (array) $query->get('post__not_in');
             $existing_exclusions[] = $thank_you_page->ID;
@@ -2743,8 +2504,6 @@ add_action('wp_head', function () {
     <?php
 });
 
-
-// custom color picker option in admin panel
 // custom color picker option in admin panel
 function add_theme_color_column($columns) {
     $columns['theme_color'] = 'Theme Color';
@@ -2905,6 +2664,18 @@ function enqueue_custom_template_assets() {
     $template = basename(get_page_template());
  
     switch ($template) {
+		case 'template_homepage.php':
+            $css = 'homepage.css';
+            $js  = 'homepage.js';
+            break;
+		case 'pressRelease_template.php':
+            $css = 'pressrelease.css';
+            $js  = 'pressrelease.js';
+            break;
+		case 'template_policy.php':
+            $css = 'policy.css';
+            $js  = 'policy.js';
+            break;
         case 'whitepaper_template.php':
             $css = 'whitepaper.css';
             $js  = 'whitepaper.js';
@@ -2932,6 +2703,14 @@ function enqueue_custom_template_assets() {
 		case 'flexible.php':
             $css = 'blog.css';
             $js  = 'blog.js';
+            break;
+		case 'about_us_template.php':
+			$css = 'about-us.css';
+			$js = 'about-us.js';
+			break;
+        case 'career.php':
+            $css = 'careers.css';
+            $js  = 'careers.js';
             break;
         default:
             return;
@@ -3038,3 +2817,266 @@ add_action('send_headers', function() {
 });
 
 require_once get_stylesheet_directory() . '/cookie.php';
+
+function get_ip_location_data($ip = null) {
+    if (!$ip && isset($_GET['ip']) && filter_var($_GET['ip'], FILTER_VALIDATE_IP)) {
+        $ip = $_GET['ip'];
+    }
+
+    // Step 1: Detect the real IP address
+    if (!$ip) {
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $ip = trim($ipList[0]);
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+    }
+
+    // Step 1.1: Handle cases like "14.194.0.251:50972"
+    if (strpos($ip, ':') !== false) {
+        // Extract IP without port
+        $ipParts = explode(':', $ip);
+        $ip = $ipParts[0];
+    }
+
+    // Step 2: Set database file path
+    $dbPath = WP_CONTENT_DIR . '/geoip-reader/GeoLite2-City.mmdb';
+
+    if (!file_exists($dbPath)) {
+        return ['success' => false, 'message' => 'GeoLite2-City.mmdb database file not found.'];
+    }
+
+    try {
+        // Step 3: Initialize MaxMind reader and fetch record
+        $reader = new Reader($dbPath);
+        $record = $reader->city($ip);
+
+        // Step 4: Return formatted response
+        return [
+            'success' => true,
+            'data' => [
+                'ip' => $ip,
+                'continent_code' => $record->continent->code,
+                'continent_name' => $record->continent->name,
+                'country_code2' => $record->country->isoCode,
+                'country_code3' => $record->country->isoCode,
+                'country_name' => $record->country->name,
+                'country_name_official' => $record->country->name,
+                'state_prov' => $record->subdivisions[0]->name ?? '',
+                'state_code' => $record->subdivisions[0]->isoCode ?? '',
+                'city' => $record->city->name ?? '',
+                'zipcode' => $record->postal->code ?? '',
+                'latitude' => $record->location->latitude,
+                'longitude' => $record->location->longitude,
+                'time_zone' => $record->location->timeZone,
+            ]
+        ];
+    } catch (Exception $e) {
+        return ['success' => false, 'message' => $e->getMessage()];
+    }
+}
+
+add_action('wp_ajax_get_user_location', 'ajax_get_user_location');
+add_action('wp_ajax_nopriv_get_user_location', 'ajax_get_user_location');
+
+function ajax_get_user_location() {
+    $response = get_ip_location_data(); // Your existing helper function
+    wp_send_json($response);
+}
+
+add_action('wp_footer', 'inject_complete_geolocation_data');
+
+function inject_complete_geolocation_data() {
+    if (is_admin()) return;
+
+    $geoData = get_ip_location_data();
+    $data = $geoData['data'] ?? [];
+
+    // Inject timezone
+    $timezone = $data['time_zone'] ?? 'UTC';
+
+    // Optional: get current time in that timezone
+    try {
+        $dt = new DateTime('now', new DateTimeZone($timezone));
+        $localTime = $dt->format('H:i'); // e.g. "14:05"
+    } catch (Exception $e) {
+        $localTime = '';
+    }
+
+    $jsData = [
+        'continent' => $data['continent_name'] ?? 'Europe',
+        'country'   => $data['country_name'] ?? '',
+        'region'    => $data['state_prov'] ?? '',
+        'timezone'  => $timezone,
+        'localTime' => $localTime,
+    ];
+
+    echo "<script>window.geoData = " . json_encode($jsData) . ";</script>";
+}
+
+add_action('wp_footer', function () {
+    if (!is_admin()) {
+        $template = basename(get_page_template());
+        if ($template === 'Elevate.php') {
+            echo '<script src="' . get_stylesheet_directory_uri() . '/js/geo-data.js.php"></script>';
+        }
+    }
+}, 99);
+
+// custom permalink for posts
+function customize_post_permalink_with_taxonomy() {
+    // 1. Filter post permalink to include post_type_category
+    add_filter('post_link', function ($permalink, $post) {
+        if ($post->post_type !== 'post') return $permalink;
+
+        $terms = get_the_terms($post->ID, 'post_type_category');
+        if (!empty($terms) && !is_wp_error($terms)) {
+            $term_slug = $terms[0]->slug;
+            return home_url(user_trailingslashit($term_slug . '/' . $post->post_name));
+        }
+
+        return $permalink;
+    }, 10, 2);
+
+    // 2. Add rewrite rules ONLY for known post_type_category terms
+    add_action('init', function () {
+        $terms = get_terms([
+            'taxonomy' => 'post_type_category',
+            'hide_empty' => false,
+        ]);
+
+        if (!is_wp_error($terms)) {
+            foreach ($terms as $term) {
+                add_rewrite_rule(
+                    '^' . $term->slug . '/([^/]+)/?$',
+                    'index.php?name=$matches[1]',
+                    'top'
+                );
+            }
+        }
+    });
+
+    // 3. Redirect logic for posts and taxonomy-only URLs
+    add_action('template_redirect', function () {
+        // Redirect old post URLs to the new structure
+        if (is_single() && get_post_type() === 'post') {
+            global $post;
+            $terms = get_the_terms($post->ID, 'post_type_category');
+            if (!empty($terms) && !is_wp_error($terms)) {
+                $correct_url = home_url($terms[0]->slug . '/' . $post->post_name . '/');
+                if (trailingslashit($_SERVER['REQUEST_URI']) !== trailingslashit(parse_url($correct_url, PHP_URL_PATH))) {
+                    wp_redirect($correct_url, 301);
+                    exit;
+                }
+            }
+        }
+
+        // Redirect taxonomy archive URLs like /whitepaper/ to /insights/
+//         $request_uri = trim($_SERVER['REQUEST_URI'], '/');
+
+//         $taxonomy_terms = get_terms([
+//             'taxonomy' => 'post_type_category',
+//             'hide_empty' => false,
+//             'fields' => 'slugs',
+//         ]);
+
+//         if (in_array($request_uri, $taxonomy_terms)) {
+//             wp_redirect(home_url('/insights/'), 301);
+//             exit;
+//         }
+    });
+}
+customize_post_permalink_with_taxonomy();
+
+add_action('init', function () {
+    header_remove('X-Powered-By');
+});
+// adding sticky event notification to all pages
+function maybe_show_event_notification() {
+    if (!is_singular()) return;
+
+    if (!empty(get_field('acf_minimized_text'))) {
+        add_action('wp_footer', function () {
+			require_once get_stylesheet_directory() . '/events_notification.php';
+        });
+    }
+}
+add_action('template_redirect', 'maybe_show_event_notification');
+//post filter logic
+function custom_post_type_category_rewrite() {
+    $terms = get_terms([
+        'taxonomy' => 'post_type_category',
+        'hide_empty' => false,
+    ]);
+
+    if (!is_wp_error($terms)) {
+        foreach ($terms as $term) {
+            add_rewrite_rule(
+                '^' . $term->slug . '/?$',
+                'index.php?post_type_category=' . $term->slug,
+                'top'
+            );
+        }
+    }
+}
+add_action('init', 'custom_post_type_category_rewrite');
+add_filter('template_include', function ($template) {
+    if (is_tax('post_type_category')) {
+        $search_template = locate_template('taxonomy-post_type_category.php');
+        if ($search_template) {
+            return $search_template;
+        }
+    }
+    return $template;
+});
+add_action('template_redirect', function () {
+    // Check if on /insights-filter page without query parameters
+    if (is_page('insight') && empty($_GET)) {
+        wp_redirect(home_url('/insights'), 301);
+        exit;
+    }
+});
+
+//News Hug PR Posts Section Endpoint
+add_action('wp_ajax_get_press_releases', 'get_press_releases_callback');
+add_action('wp_ajax_nopriv_get_press_releases', 'get_press_releases_callback');
+
+function get_press_releases_callback() {
+    $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+    $per_page = isset($_GET['per_page']) ? intval($_GET['per_page']) : 6;
+
+    $args = array(
+        'post_type' => 'press-release',
+        'post_status' => 'publish',
+        'posts_per_page' => $per_page,
+        'paged' => $page,
+        'orderby' => 'date',
+        'order' => 'DESC'
+    );
+
+    $query = new WP_Query($args);
+    $posts = array();
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $posts[] = array(
+                'title' => get_the_title(),
+                'link' => get_permalink(),
+                'image' => get_the_post_thumbnail_url(get_the_ID(), 'medium') ?: 'https://via.placeholder.com/300x200?text=No+Image',
+                'type' => 'Press Release',
+                'read_time' => '1 minute read' // Optional: calculate based on content length
+            );
+        }
+    }
+
+    wp_reset_postdata();
+
+    $response = array(
+        'posts' => $posts,
+        'total' => $query->found_posts
+    );
+
+    wp_send_json($response);
+}

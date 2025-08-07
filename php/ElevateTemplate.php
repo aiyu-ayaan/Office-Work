@@ -47,6 +47,7 @@ $elevate_join_us_at_section_fields = get_field('acf_elevate_join_us_at_section_f
 
 // DESCRIPTION: fetching banner section fields from $banner_seaction_fields group
 $banner_text_above_logo = $banner_section_fields['acf_elevate_banner_text_above_logo'];
+$banner_logo_svg_link = $banner_section_fields['acf_elevate_banner_logo_svg_link'];
 $banner_logo = $banner_section_fields['acf_elevate_banner_logo'];
 $banner_title = $banner_section_fields['acf_elevate_banner_title'];
 $banner_text_below_title = $banner_section_fields['acf_elevate_banner_text_below_title'];
@@ -334,14 +335,18 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
                             <?php echo esc_html($banner_text_above_logo); ?>
                         </div>
 
-                        <div class="elevate-logo manual-lazy-load" data-src="<?php echo esc_url($banner_logo); ?>"
+                        <?php
+                        $banner_logo_url = !empty($banner_logo_svg_link) ? $banner_logo_svg_link : $banner_logo;
+                        ?>
+
+                        <div class="elevate-logo manual-lazy-load" data-src="<?php echo esc_url($banner_logo_url); ?>"
                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
                         </div>
 
 
-                        <div class="elevate-title largest-size">
+                        <h1 class="elevate-title largest-size">
                             <?php echo esc_html($banner_title); ?>
-                        </div>
+                        </h1>
 
                         <div class="text-below-title small-size">
                             <?php echo esc_html($banner_text_below_title); ?>
@@ -357,9 +362,9 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
 
                 <!--DESCRIPTION: ECL Counter section -->
                 <div class="counter-section">
-                    <h1 class="medium-size event-start-title">
+                    <h2 class="medium-size event-start-title">
                         <?php echo esc_html($counter_left_size_title); ?>
-                    </h1>
+                    </h2>
 
                     <div class="counter" endDate="<?php echo esc_html($counter_date_picker); ?>" endCountDownMessage="<?php echo esc_html($counter_end_message); ?>">
                         <div class="counter-day counter-style">
@@ -635,7 +640,7 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
                     </div>
                     <div class="content-container">
                         <div class="content">
-                            <h1 class="content-heading large-size"><?php echo esc_html($elevate_glimpse_section_title); ?></h1>
+                            <h2 class="content-heading large-size"><?php echo esc_html($elevate_glimpse_section_title); ?></h2>
                             <p class="content-description small-size"><?php echo esc_html($elevate_glimpse_section_sub_title); ?></p>
                             <div class="video-container">
                                 <?php
