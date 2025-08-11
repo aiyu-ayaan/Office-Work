@@ -646,7 +646,7 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
                                 <?php
                                 // Ensure the video URL ends with the required Vimeo params
                                 $glimpse_video_url = trim($elevate_glimpse_section_video_url);
-                                $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp';
+                                $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;suggest=0';
 
                                 // Remove any existing query string
                                 $glimpse_video_url = preg_replace('/\?.*$/', '', $glimpse_video_url);

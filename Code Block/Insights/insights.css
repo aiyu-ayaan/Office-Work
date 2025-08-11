@@ -1,0 +1,2117 @@
+/* DESCRIPTION:banner-section */
+
+.insights-container {
+
+    /* Main container */
+    .main-container {
+        position: relative;
+        width: 100%;
+        height: 120vh;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: hidden;
+    }
+
+    /* Image container */
+    .image-container {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 74.3%;
+        height: 100vh;
+        background-position: right !important;
+        z-index: -1;
+    }
+
+    /* Content container */
+    .content-container {
+        position: relative;
+        z-index: 2;
+        padding: 2rem;
+        max-width: 80%;
+    }
+
+    .post-title {
+        margin-top: 1.5rem;
+        margin-bottom: 1.125rem;
+
+    }
+
+    .content-container span {
+        color: #F2CC05;
+        margin-top: 1.5rem;
+    }
+
+    .insight-banner-btn {
+        color: white;
+        font-weight: 500;
+        text-decoration: none;
+        margin-top: 1.5rem;
+        display: inline-block;
+    }
+}
+
+@media (min-width: 1920.5px) {
+    .insights-container {
+        .content-container {
+            padding: 0 0 0 3.334%;
+            background: linear-gradient(to right, rgba(26, 44, 71, 0.89), rgba(26, 44, 71, 1), transparent);
+            color: white;
+            height: 100.74vh;
+            width: 60%;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            right: 0%;
+            bottom: 22%;
+        }
+
+        .image-container {
+            height: 100.74vh;
+            background-position: center !important;
+            background-size: cover !important;
+
+        }
+
+        .image-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to left, rgba(26, 44, 71, 0), rgba(26, 44, 71, 0.1), transparent);
+            z-index: 1;
+            /* Ensures the gradient appears above the image */
+        }
+
+        .main-container {
+            height: 100.74vh;
+        }
+
+        .must-read {
+            margin: 176px 0 0 0;
+            /* 264px */
+            width: 18.75rem;
+            /* 300px */
+            height: 2.5rem;
+            /* 40px */
+        }
+
+        .post-title {
+            margin-top: 1.5rem;
+            /* 24px */
+            width: 68rem;
+            /* 1088px */
+        }
+
+        .content-container span {
+            line-height: normal;
+            margin-top: 1.125rem;
+            /* 24px */
+        }
+
+        .insight-banner-btn {
+            font-weight: 500;
+            margin-top: 1.5rem;
+            /* 24px */
+            display: flex;
+            gap: 0.5rem;
+            /* 8px */
+            border: none;
+            background: transparent !important;
+            cursor: pointer;
+        }
+
+        svg {
+            margin-top: -0.2rem;
+            /* -4px */
+        }
+
+    }
+}
+
+/* Desktop */
+@media (min-width: 1025px)and (max-width: 1920px) {
+    .insights-container {
+        .content-container {
+            padding: 0 0 0 3.334%;
+            background: linear-gradient(to right, rgba(26, 44, 71, 0.89), rgba(26, 44, 71, 1), transparent);
+            color: white;
+            height: 100.74vh;
+            width: 60%;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            right: 3%;
+            bottom: 30%;
+        }
+
+        .image-container {
+            height: 100.74vh;
+            background-position: right !important;
+            background-size: cover !important;
+
+        }
+
+        .image-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to left, rgba(26, 44, 71, 0), rgba(26, 44, 71, 0.1), transparent);
+            z-index: 1;
+            /* Ensures the gradient appears above the image */
+        }
+
+        .main-container {
+            height: 100.74vh;
+        }
+
+        .must-read {
+            margin: 176px 0 0 0;
+            /* 264px */
+            width: 18.75rem;
+            /* 300px */
+            height: 2.5rem;
+            /* 40px */
+        }
+
+        .post-title {
+            margin-top: 1.5rem;
+            /* 24px */
+            width: 68rem;
+            /* 1088px */
+        }
+
+        .content-container span {
+            line-height: normal;
+            margin-top: 1.125rem;
+            /* 24px */
+        }
+
+        .insight-banner-btn {
+            font-weight: 500;
+            margin-top: 1.5rem;
+            /* 24px */
+            display: flex;
+            gap: 0.5rem;
+            /* 8px */
+            border: none;
+            background: transparent !important;
+            cursor: pointer;
+        }
+
+        svg {
+            margin-top: -0.2rem;
+            /* -4px */
+        }
+
+    }
+}
+
+/* Tablet Landscape & Portrait*/
+@media screen and (min-width:768px) and (max-width:1024.9px) {
+    @media (orientation: landscape) {
+        .insights-container {
+            .content-container {
+                padding: 0 0 0 0;
+                background: linear-gradient(to right, rgba(26, 44, 71, 0.99), rgba(26, 44, 71, 1), transparent);
+                color: white;
+                height: 706px;
+                width: 72.8%;
+            }
+
+            .image-container {
+                height: 706px;
+                background-size: cover !important;
+            }
+
+            .image-container::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to left, rgba(26, 44, 71, 0), rgba(26, 44, 71, 0.1), transparent);
+                z-index: 1;
+                /* Ensures the gradient appears above the image */
+            }
+
+            .main-container {
+                height: 706px;
+                margin-bottom: 2rem;
+            }
+
+            .must-read {
+                margin: 160px 0 0 40px;
+                /* 164px */
+                width: 17rem;
+                /* 272px */
+                line-height: normal;
+            }
+
+            .post-title {
+                margin: 1.5rem 0 24px 40px;
+                width: 95.5%;
+
+            }
+
+            .content-container span {
+                line-height: normal;
+                width: 23.5625rem;
+                margin: 0 0 0 40px;
+
+            }
+
+            .insight-banner-btn {
+                color: #1A2C47;
+                font-weight: 500;
+                height: 3rem;
+                /* 48px */
+                margin: 24px 0 0 40px;
+                min-width: 12.5rem;
+                font-size: 1.125rem !important;
+                margin-top: 1.5rem;
+                display: flex;
+                background-color: #0CF;
+                border-radius: 3.125rem;
+                /* 50px */
+                padding: 0.625rem 1rem;
+                /* 10px 16px */
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+                /* 8px */
+            }
+
+            .insight-banner-btn:hover {
+                border-radius: 50px;
+                color: #0CF;
+                border: 2px solid #0CF;
+                background: #1A2C47;
+                transition: stroke 0.3s ease-in-out;
+            }
+
+            svg {
+                width: 3.5rem;
+                /* 56px */
+                height: 1.75rem;
+                /* 28px */
+                flex-shrink: 0;
+
+            }
+
+            .insight-banner-btn svg path {
+                stroke: #1A2C47 !important;
+                /* Force default stroke */
+                transition: stroke 0.3s ease-in-out;
+            }
+
+            /* Change stroke color on hover */
+            .insight-banner-btn:hover svg path {
+                stroke: #0CF !important;
+            }
+        }
+    }
+
+    @media(orientation:portrait) {
+        .insights-container {
+            .main-container {
+                flex-direction: column;
+                height: auto;
+                margin-bottom: 10px;
+            }
+
+            .image-container {
+                position: relative;
+                height: 33.5rem;
+                width: 100%;
+                background-size: cover !important;
+                background-position: center !important;
+            }
+
+            .content-container {
+                width: 100%;
+
+                max-width: 100%;
+                text-align: left;
+                background: none;
+                height: 26.25rem;
+                padding: 0 0 0 2.5rem;
+            }
+
+            .must-read {
+                margin-top: 2.1875rem;
+                line-height: normal;
+                margin-top: 1.5rem;
+            }
+
+            .post-title {
+                margin-top: 1.5rem;
+                width: 90.49%;
+                font-size: 2rem !important;
+            }
+
+            .content-container span {
+                line-height: normal;
+            }
+
+            .insight-banner-btn {
+                color: #1A2C47;
+                height: 3rem;
+                /* 48px */
+                min-width: 12.5rem;
+                font-weight: 500;
+                font-size: 1.125rem !important;
+                margin-top: 1.5rem;
+                display: flex;
+                background-color: #0CF;
+                border-radius: 3.125rem;
+                /* 50px */
+                padding: 0.725rem 1rem;
+                /* 10px 16px */
+                gap: 0.5rem;
+                /* 8px */
+            }
+
+            .insight-banner-btn:hover {
+                border-radius: 50px;
+                border: 2px solid #0CF;
+                color: #0CF;
+                background: #1A2C47;
+                transition: stroke 0.3s ease-in-out;
+            }
+
+            svg {
+                width: 3.5rem;
+                /* 56px */
+                height: 1.75rem;
+                /* 28px */
+                flex-shrink: 0;
+                padding-bottom: 5px;
+            }
+
+            .insight-banner-btn svg path {
+                stroke: #1A2C47 !important;
+                /* Force default stroke */
+                transition: stroke 0.3s ease-in-out;
+            }
+
+            /* Change stroke color on hover */
+            .insight-banner-btn:hover svg path {
+                stroke: #0CF !important;
+            }
+        }
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 767.5px) {
+    .insights-container {
+        height: 792px;
+
+        .main-container {
+            flex-direction: column;
+            height: auto;
+        }
+
+        .image-container {
+            position: relative;
+            height: 19rem;
+            width: 100%;
+            background-size: cover !important;
+            background-position: center !important;
+        }
+
+        .content-container {
+            width: 100%;
+            max-width: 100%;
+            text-align: left;
+            background: none;
+            padding: 0;
+            height: auto;
+
+        }
+
+        .must-read {
+            margin-top: 1rem;
+            margin-left: 1.5rem;
+            display: flex;
+            width: 16.3125rem;
+            /* 261px */
+
+            /* 32px */
+            flex-direction: column;
+            justify-content: center;
+            flex-shrink: 0;
+            line-height: normal;
+        }
+
+        .post-title {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            width: 87.7%;
+            margin-left: 1.5rem;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .content-container span {
+            line-height: normal;
+            width: 21.375rem;
+            margin-left: 1.5rem;
+            height: 1.5rem;
+            /* 24px */
+        }
+
+        .insight-banner-btn {
+            color: var(--ADROSONIC-Dark-blue-Primary, #1A2C47);
+            font-weight: 500;
+            line-height: normal;
+            display: flex;
+            height: 3rem;
+            margin-top: 1rem;
+            margin-left: 1.5rem;
+            min-width: 12.5rem;
+            padding: 0.625rem 1rem;
+            /* 10px 16px */
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            /* 8px */
+            flex-shrink: 0;
+            border-radius: 3.125rem;
+            /* 50px */
+            background: var(--adro-electric-blue);
+        }
+
+        .owl-dots {
+            margin-top: 20px;
+        }
+
+        .insight-banner-btn:hover {
+            border-radius: 50px;
+            border: 2px solid #0CF;
+            color: #0CF;
+            background: #1A2C47;
+            transition: stroke 0.3s ease-in-out;
+        }
+
+        svg {
+            width: 3.5rem;
+            /* 56px */
+            height: 1.75rem;
+            /* 28px */
+            flex-shrink: 0;
+        }
+
+        .insight-banner-btn svg path {
+            stroke: #1A2C47 !important;
+            /* Force default stroke */
+            transition: stroke 0.3s ease-in-out;
+        }
+
+        /* Change stroke color on hover */
+        .insight-banner-btn:hover svg path {
+            stroke: #0CF !important;
+        }
+    }
+}
+
+/* DESCRIPTION:statement-section */
+
+.below-banner {
+    .below-banner {
+        width: 100%;
+        background-color: #1A2C47;
+    }
+
+    .container {
+        display: flex;
+        align-items: center;
+        /* Vertically center the content */
+        justify-content: space-between;
+        /* Push items to left and right */
+        gap: 8.0625rem;
+        height: 24.6875rem;
+        /* Set the container height */
+        margin: 56px auto;
+        /* Center the container */
+        padding: 0 1.25rem;
+        /* Adjust padding as needed */
+        background-color: #1A2C47;
+    }
+
+    .statement {
+        display: flex;
+        margin-left: 13.125rem;
+        width: 60%;
+        height: auto;
+        flex-direction: column;
+        justify-content: center;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    .statement-img {
+        width: 20%;
+        height: auto;
+        margin-right: 15.3125rem;
+    }
+}
+
+@media screen and (min-width:768px) and (max-width:1024.9px) {
+    @media (orientation:landscape) {
+        .below-banner {
+            .container {
+                display: flex;
+                align-items: center;
+                /* Vertically center the content */
+                justify-content: space-between;
+                /* Push items to left and right */
+                width: 100%;
+                height: 25rem;
+                margin: 24px auto;
+                /* Center the container */
+                padding: 0 1.25rem;
+                /* Adjust padding as needed */
+                background-color: #1A2C47;
+            }
+
+            .statement {
+                display: flex;
+                width: 60%;
+                margin-left: 1rem;
+                flex-direction: column;
+                justify-content: center;
+                flex-shrink: 0;
+                font-weight: 500;
+            }
+
+            .statement-img {
+                /* height: 18rem; */
+                flex-shrink: 0;
+                margin-right: 5rem;
+            }
+        }
+    }
+
+    @media (orientation: portrait) {
+        .below-banner {
+            .container {
+                display: flex;
+                flex-direction: column;
+                /* Stack elements vertically */
+                align-items: center;
+                /* Center items horizontally */
+                justify-content: center;
+                gap: 4.5rem;
+                width: 100%;
+                height: auto;
+                margin: 20px auto;
+                padding: 0 1.25rem;
+                background-color: #1A2C47;
+            }
+
+            .statement {
+                display: flex;
+                width: 100%;
+                height: 20rem;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                /* Center text */
+                text-align: center;
+                font-weight: 500;
+                margin-right: 13.13rem;
+            }
+
+            .statement-img {
+                width: 50%;
+                height: auto;
+                flex-shrink: 0;
+                margin-bottom: 4rem;
+                margin-left: 15rem;
+
+            }
+        }
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 767.5px) {
+    .below-banner {
+        .container {
+            display: flex;
+            flex-direction: column;
+            /* Stack elements vertically */
+            align-items: center;
+            /* Center items horizontally */
+            justify-content: center;
+            gap: 2.5rem;
+            width: 100%;
+            height: auto;
+            margin: 20px auto;
+            padding: 2.5rem 1.5rem 3.5rem 1.5rem;
+
+        }
+
+        .statement {
+            display: flex;
+            width: 100%;
+            height: 10rem;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Center text */
+            color: var(--ADROSONIC-White-Base, #FFF);
+            text-align: center;
+            font-weight: 500;
+            margin-left: 0.0rem;
+
+        }
+
+        .statement-img {
+            width: 50%;
+            height: auto;
+            flex-shrink: 0;
+            margin-left: 15rem;
+
+
+        }
+    }
+}
+
+/* DESCRIPTION:filter-section */
+
+.resources-section {
+    width: 100%;
+    padding: 2rem;
+    margin: auto;
+    text-align: center;
+    padding: 40px 0;
+}
+
+.resources-section h1 {
+    height: 100px;
+}
+
+@media screen and (min-width:1025px) {
+    .filters-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 0 30px 0 20px;
+        width: 98%;
+    }
+
+    .dropdown {
+        position: relative;
+        height: 56px;
+    }
+
+    .dropdown-btn {
+        width: 100%;
+        font-size: 2rem;
+        border: none;
+        background: none !important;
+        color: white;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px;
+        gap: 20px;
+    }
+
+    .dropdown-btn:hover {
+        color: white !important;
+
+    }
+
+    .dropdown-btn svg {
+        width: 15.747px;
+        height: 20.742px;
+        flex-shrink: 0;
+        stroke-width: 2px;
+        stroke: white;
+        margin-top: 2px;
+    }
+
+    .rotate {
+        transform: rotate(180deg);
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown-content {
+        display: none;
+        width: 326px;
+        height: auto;
+        padding: 15px;
+        border-radius: 0px 20px 20px 20px;
+        background: var(--ADROSONIC-Blue-Primary, #2D79A6);
+        box-shadow: -0.5px 4px 24px 1px #1A2C47;
+        position: absolute;
+        z-index: 1000;
+        text-align: left;
+    }
+
+    /* Align text to the left and checkbox to the right */
+    .dropdown-content label {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+        align-items: center;
+        width: 100%;
+        height: 3rem;
+        padding: 5px 2px;
+        font-size: 1.125rem;
+        color: white;
+        cursor: pointer;
+    }
+
+    .dropdown-content input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 1.5rem;
+        height: 1.5rem;
+        border: 2px solid white;
+        /* White border */
+        border-radius: 20%;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+        margin-left: 10px;
+        /* Ensures spacing between text and checkbox */
+    }
+
+    /* Create inner gap effect */
+    .dropdown-content input[type="checkbox"]::before {
+        content: "";
+        width: 12px;
+        /* Adjust for inner gap */
+        height: 12px;
+        background-color: transparent !important;
+        border-color: white !important;
+        /* Ensures border stays white */
+        /* Keep it transparent initially */
+        border-radius: 20%;
+        transition: background 0.3s ease;
+    }
+
+    input[type="checkbox"]:hover,
+    .dropdown-content input[type="checkbox"]:checked {
+        background: #2D79A6 !important;
+        border: 2px solid white !important;
+    }
+
+    /* Checkmark styling */
+    .dropdown-content input[type="checkbox"]:checked::before {
+        content: "\2714";
+        /* Unicode checkmark */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .dropdown-content button {
+        background: none;
+        border: none;
+        color: white;
+        width: 100%;
+        text-align: left;
+        padding: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        display: block;
+    }
+
+    .dropdown-content button:hover {
+        background: #ddd;
+    }
+
+    .search-box {
+        position: relative;
+        width: 30%;
+        height: 48px;
+
+    }
+
+    .search-box input {
+        width: 100%;
+        height: 48px;
+        border-radius: 50px;
+        border: 2px solid #0CF;
+        background: rgba(53, 74, 96, 0.60);
+    }
+
+    .search-box input:hover {
+        background: #354A60;
+        border: 2px solid #0CF;
+        color: white;
+    }
+
+    .search-box svg {
+        position: absolute;
+        width: 2rem;
+        height: 2rem;
+        right: 1.2rem;
+        top: 52%;
+        transform: translateY(-50%);
+    }
+
+    .filter-btn {
+        display: none;
+    }
+
+    .modal-content {
+        display: none;
+    }
+
+    .suggestions {
+        position: absolute;
+        width: 100%;
+        margin-top: 2px;
+        border-radius: 20px;
+        border: 2px solid #0CF !important;
+        background: #354A60;
+        border-top: none;
+        display: none;
+        max-height: 300px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        /* Prevent horizontal scroll */
+        z-index: 1;
+        padding-right: 5px;
+        /* Prevent content from touching the scrollbar */
+    }
+
+    /* Scrollbar Styling */
+    .suggestions::-webkit-scrollbar {
+        width: 2px;
+        /* Width of the scrollbar */
+        border-radius: 20px !important;
+        /* Match the box's border-radius */
+
+    }
+
+    .suggestions::-webkit-scrollbar-track {
+        background: #354A60 !important;
+        /* Background of the scrollbar track */
+        border-radius: 50px !important;
+        /* Ensure it follows the curve */
+    }
+
+    .suggestions::-webkit-scrollbar-thumb {
+        background: white;
+        /* Color of the scrollbar */
+        border-radius: 20px !important;
+        /* Rounded scrollbar to match the box */
+    }
+
+    /* Firefox scrollbar styling */
+    .suggestions {
+        scrollbar-width: thin;
+        scrollbar-color: white #354A60;
+    }
+
+    .suggestions ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        padding-right: 5px;
+        /* Avoid content overlap with scrollbar */
+    }
+
+    .suggestions li {
+        padding: 10px;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .suggestions li a {
+        text-decoration: none !important;
+        color: white;
+        font-size: 1.125rem;
+        /* Ensuring the text is visible */
+    }
+
+    .clear-all-btn {
+        display: flex !important;
+        /* Flexbox for alignment */
+        align-items: center;
+        /* Center vertically */
+        justify-content: space-between;
+        /* Space between text and icon */
+        width: calc(100% - 30px);
+        /* Adjust width to fit modal */
+        padding: 10px;
+        /* Padding for button */
+        margin: auto;
+        /* Space above button */
+        background-color: transparent !important;
+        /* Transparent background */
+        border: none !important;
+        /* No border */
+        cursor: pointer;
+        /* Pointer cursor on hover */
+    }
+
+    .clear-all-btn svg {
+        width: 14px;
+        /* Icon size matching image */
+        height: 14px;
+    }
+
+    .clear-all-btn:hover {
+        opacity: 0.8;
+        /* Slight dimming effect on hover */
+    }
+}
+
+@media screen and (min-width:768px) and (max-width:1024.9px) {
+    @media (orientation:landscape) {
+
+        .filters-container {
+            display: none;
+        }
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            height: 3rem;
+            gap: 1.25rem;
+            background-color: rgba(217, 217, 217, 0.25);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.125rem;
+            justify-content: center;
+        }
+
+        .filter-btn:hover svg path {
+            stroke: #1A2C47;
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+
+        .filter-modal {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .modal-content {
+            background: #2D79A6;
+            border-radius: 20px;
+            width: 80%;
+            height: auto;
+            max-width: 834px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
+
+        .modal-heading {
+            text-align: center;
+            font-size: 1.5em !important;
+            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0px 0px 0px 0px;
+            margin-top: 1rem;
+
+        }
+
+        .modal-heading svg {
+            width: 1.547875rem;
+            height: 1.25rem;
+            margin-left: 0.5rem;
+            position: absolute;
+            margin-top: 5px;
+        }
+
+        .filter-option {
+            border-bottom: 2px solid #D0D0D0;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: left;
+            justify-content: space-between;
+            width: 80%;
+            /* Restrict underline width */
+            margin: 32px auto;
+            /* Center the filter option */
+            height: auto;
+        }
+
+        .filter-option h4 {
+            display: flex;
+            justify-content: space-between;
+            /* Push text left and icon right */
+            align-items: center;
+            /* Align text and icon vertically */
+        }
+
+        .rotate {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+        }
+
+        .filter-content {
+            display: none;
+            max-height: 180px;
+            overflow-y: auto;
+            width: 100%;
+            margin-top: 2rem;
+            padding-right: 15px;
+        }
+
+        .filter-content.active {
+            display: block;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            background: none !important;
+        }
+
+        /* Align text left, checkbox right */
+        .filter-content label {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            align-items: center;
+            text-align: left;
+            font-size: 1em;
+            color: white;
+            margin-bottom: 10px;
+            padding: 5px;
+            font-weight: 400;
+        }
+
+        .filter-content input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 20%;
+            /* Make it circular */
+            border: 2px solid white;
+            /* White border */
+            background-color: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Create inner gap effect */
+        .filter-content input[type="checkbox"]::before {
+            content: " ";
+            width: 12px;
+            /* Adjust for inner gap */
+            height: 12px;
+            background-color: transparent !important;
+            border-color: white !important;
+            /* Ensures border stays white */
+            /* Keep it transparent initially */
+            border-radius: 20%;
+            transition: background 0.3s ease;
+        }
+
+        /* Fill checkbox when checked */
+        input[type="checkbox"]:hover,
+        .filter-content input[type="checkbox"]:checked {
+            background: #2D79A6 !important;
+            border: 2px solid white !important;
+        }
+
+        /* Checkmark styling */
+        .filter-content input[type="checkbox"]:checked::before {
+            content: "\2714";
+            /* Unicode checkmark */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+
+        /* Scrollbar Styling */
+        .filter-content::-webkit-scrollbar {
+            width: 3px;
+            /* Slightly wider scrollbar for better visibility */
+        }
+
+        /* Scrollbar track (background) */
+        .filter-content::-webkit-scrollbar-track {
+            background-color: #144074;
+            /* Dark blue background */
+            border-radius: 3px;
+        }
+
+        /* Scrollbar scroller (thumb) */
+        .filter-content::-webkit-scrollbar-thumb {
+            background: white;
+            /* White scrollbar scroller */
+            border-radius: 3px;
+        }
+
+        .filter-now-btn {
+            display: block;
+            width: 11rem;
+            /* Adjust width */
+            margin: 3.875rem auto 0;
+            /* Centers button */
+            font-size: 1.125rem;
+            color: white;
+            border-radius: 50px;
+            /* Rounded corners */
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+            background: rgba(53, 74, 96, 0.60);
+
+        }
+
+        #clearAllBtn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: calc(83.5% - 30px);
+            padding: 10px;
+            margin: auto 10%;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+
+
+            cursor: pointer;
+            /* Pointer cursor on hover */
+        }
+
+        #clearAllBtn svg {
+            width: 14px;
+            /* Icon size matching image */
+            height: 14px;
+        }
+
+        #clearAllBtn:hover {
+            opacity: 0.8;
+            /* Slight dimming effect on hover */
+        }
+    }
+
+    @media (orientation:portrait) {
+
+        .filters-container {
+            display: none;
+        }
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            height: 3rem;
+            gap: 8px;
+            background-color: rgba(217, 217, 217, 0.25);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.125rem;
+            justify-content: center;
+        }
+
+        .filter-btn:hover svg path {
+            stroke: #1A2C47;
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+
+        .filter-modal {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 1rem;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .modal-content {
+            background: #2D79A6;
+            border-radius: 20px;
+            width: 80%;
+            height: auto;
+            max-width: 35.375rem;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding-bottom: 2rem;
+        }
+
+        .modal-heading {
+            text-align: center;
+            font-size: 1.5em !important;
+            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0px 0px 0px 0px;
+            margin-top: 1rem;
+
+        }
+
+        .modal-heading svg {
+            width: 1.547875rem;
+            height: 1.25rem;
+            margin-left: 0.5rem;
+            position: absolute;
+            margin-top: 5px;
+        }
+
+        .filter-option {
+            border-bottom: 2px solid #D0D0D0;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: left;
+            justify-content: space-between;
+            width: 80%;
+            /* Restrict underline width */
+            margin: 32px auto;
+            /* Center the filter option */
+        }
+
+        .filter-option h4 {
+            display: flex;
+            justify-content: space-between;
+            /* Push text left and icon right */
+            align-items: center;
+            /* Align text and icon vertically */
+            height: 2.5rem;
+            font-size: 1.5rem;
+        }
+
+        .rotate {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease;
+        }
+
+        .filter-content {
+            display: none;
+            max-height: 190px;
+            overflow-y: auto;
+            width: 100%;
+            margin-top: 2rem;
+            padding-right: 15px;
+        }
+
+        .filter-content.active {
+            display: block;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            background: none !important;
+        }
+
+        /* Align text left, checkbox right */
+        .filter-content label {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            align-items: center;
+            text-align: left;
+            font-size: 1.125rem;
+            padding: 5px;
+            margin-bottom: 10px;
+            color: white;
+            font-weight: 400;
+            height: 1.5rem;
+        }
+
+        .filter-content input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 20%;
+            /* Make it circular */
+            border: 2px solid white;
+            /* White border */
+            background-color: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Create inner gap effect */
+        .filter-content input[type="checkbox"]::before {
+            content: " ";
+            width: 12px;
+            /* Adjust for inner gap */
+            height: 12px;
+            background-color: transparent !important;
+            border-color: white !important;
+            /* Ensures border stays white */
+            /* Keep it transparent initially */
+            border-radius: 20%;
+            transition: background 0.3s ease;
+        }
+
+        /* Fill checkbox when checked */
+        input[type="checkbox"]:hover,
+        .filter-content input[type="checkbox"]:checked {
+            background: #2D79A6 !important;
+            border: 2px solid white !important;
+        }
+
+        /* Checkmark styling */
+        .filter-content input[type="checkbox"]:checked::before {
+            content: "\2714";
+            /* Unicode checkmark */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Scrollbar Styling */
+        .filter-content::-webkit-scrollbar {
+            width: 3px;
+            /* Slightly wider scrollbar for better visibility */
+        }
+
+        /* Scrollbar track (background) */
+        .filter-content::-webkit-scrollbar-track {
+            background-color: #144074;
+            /* Dark blue background */
+            border-radius: 3px;
+        }
+
+        /* Scrollbar scroller (thumb) */
+        .filter-content::-webkit-scrollbar-thumb {
+            background: white;
+            /* White scrollbar scroller */
+            border-radius: 3px;
+        }
+
+        .filter-now-btn {
+            display: block;
+            width: 11rem;
+            /* Adjust width */
+
+            margin: 2.8125rem auto 0;
+            /* Centers button */
+            font-size: 1.125rem;
+            color: white;
+            border-radius: 50px;
+            /* Rounded corners */
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s ease;
+            background: rgba(53, 74, 96, 0.60);
+
+        }
+
+        #clearAllBtn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: calc(85.2% - 30px);
+            padding: 10px;
+            margin: auto 10%;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        #clearAllBtn svg {
+            width: 14px;
+            /* Icon size matching image */
+            height: 14px;
+        }
+
+        #clearAllBtn:hover {
+            opacity: 0.8;
+            /* Slight dimming effect on hover */
+        }
+    }
+}
+
+@media screen and (max-width: 767.5px) {
+
+    .filters-container {
+        display: none;
+    }
+
+    .filter-btn {
+        display: flex;
+        align-items: center;
+        height: 3rem;
+        gap: 8px;
+        background-color: rgba(217, 217, 217, 0.25);
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1.125rem;
+        justify-content: center;
+    }
+
+    .filter-btn:hover svg path {
+        stroke: #1A2C47;
+    }
+
+    .modal-open {
+        overflow: hidden;
+    }
+
+    .filter-modal {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .modal-content {
+        background: #2D79A6;
+        border-radius: 20px;
+        width: 90%;
+        height: auto;
+        max-width: 400px;
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding-bottom: 2rem;
+    }
+
+    .modal-heading {
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: bold;
+        padding-bottom: 10px;
+        border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0px 0px 0px 0px;
+        margin-top: 1rem;
+
+    }
+
+    .modal-heading svg {
+        position: absolute;
+        margin-top: 2px;
+        margin-left: 5px;
+    }
+
+    .filter-option {
+        border-bottom: 2px solid #D0D0D0;
+        padding: 10px;
+        cursor: pointer;
+        font-size: 1.1em;
+        font-weight: bold;
+        text-align: left;
+        justify-content: space-between;
+        width: 90%;
+        /* Restrict underline width */
+        margin: 32px auto;
+        /* Center the filter option */
+    }
+
+    .filter-option h4 {
+        display: flex;
+        justify-content: space-between;
+        /* Push text left and icon right */
+        align-items: center;
+        /* Align text and icon vertically */
+    }
+
+    .rotate {
+        transform: rotate(180deg);
+        transition: transform 0.3s ease;
+    }
+
+    .filter-content {
+        display: none;
+        max-height: 190px;
+        overflow-y: auto;
+        width: 100%;
+        margin-top: 2rem;
+        padding-right: 15px;
+    }
+
+    .filter-content.active {
+        display: block;
+    }
+
+    .close-btn {
+        position: absolute;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .close-btn:hover {
+        background: none !important;
+    }
+
+    /* Align text left, checkbox right */
+    .filter-content label {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+        align-items: center;
+        text-align: left;
+        font-size: 1em;
+        padding: 5px;
+        color: white;
+        margin-right: 5px;
+    }
+
+    .filter-content input[type="checkbox"] {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 20%;
+        /* Make it circular */
+        border: 2px solid white;
+        /* White border */
+        background-color: transparent;
+        cursor: pointer;
+        position: relative;
+        transition: background 0.3s ease, border-color 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Create inner gap effect */
+    .filter-content input[type="checkbox"]::before {
+        content: " ";
+        width: 12px;
+        /* Adjust for inner gap */
+        height: 12px;
+        background-color: transparent !important;
+        border-color: white !important;
+        /* Ensures border stays white */
+        /* Keep it transparent initially */
+        border-radius: 20%;
+        transition: background 0.3s ease;
+    }
+
+    /* Fill checkbox when checked */
+    input[type="checkbox"]:hover,
+    .filter-content input[type="checkbox"]:checked {
+        background: #2D79A6 !important;
+        border: 2px solid white !important;
+    }
+
+    /* Checkmark styling */
+    .filter-content input[type="checkbox"]:checked::before {
+        content: "\2714";
+        /* Unicode checkmark */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    /* Scrollbar Styling */
+    .filter-content::-webkit-scrollbar {
+        width: 3px;
+        /* Slightly wider scrollbar for better visibility */
+    }
+
+    /* Scrollbar track (background) */
+    .filter-content::-webkit-scrollbar-track {
+        background-color: #144074;
+        /* Dark blue background */
+        border-radius: 3px;
+    }
+
+    /* Scrollbar scroller (thumb) */
+    .filter-content::-webkit-scrollbar-thumb {
+        background: white;
+        /* White scrollbar scroller */
+        border-radius: 3px;
+    }
+
+    .filter-now-btn {
+        display: block;
+        width: 50%;
+        /* Adjust width */
+        margin: 2.875rem auto 0;
+        /* Centers button */
+        font-size: 1.125rem;
+        color: white;
+        border-radius: 50px;
+        /* Rounded corners */
+        cursor: pointer;
+        text-align: center;
+        transition: background 0.3s ease;
+        background: rgba(53, 74, 96, 0.60);
+    }
+
+    #clearAllBtn {
+        display: flex;
+        /* Flexbox for alignment */
+        align-items: center;
+        /* Center vertically */
+        justify-content: space-between;
+        /* Space between text and icon */
+        width: calc(100% - 30px);
+        /* Adjust width to fit modal */
+        padding: 10px;
+        /* Padding for button */
+        margin: auto;
+        /* Space above button */
+        background-color: transparent;
+        /* Transparent background */
+        border: none;
+        /* No border */
+        cursor: pointer;
+        /* Pointer cursor on hover */
+    }
+
+    #clearAllBtn svg {
+        width: 14px;
+        /* Icon size matching image */
+        height: 14px;
+    }
+
+    #clearAllBtn:hover {
+        opacity: 0.8;
+        /* Slight dimming effect on hover */
+    }
+}
+
+/* DESCRIPTION:post-display-section */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 3rem 4rem 4rem;
+    width: 100%;
+    min-height: 600px;
+    /* Ensures the grid height remains constant */
+}
+
+.grid-item {
+    padding: 0 0 5px 0;
+    text-align: left;
+    overflow: hidden;
+    min-height: 260px;
+    /* Fixed item height to keep the layout uniform */
+    position: relative;
+}
+
+#loading-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--adro-electric-blue);
+    border-top-color: #000;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#postGrid {
+    position: relative;
+}
+
+.no-posts {
+    position: absolute;
+    top: 50%;
+    left: 39%;
+}
+
+.post {
+    min-height: 100%;
+    /* Ensures consistent height for all posts */
+}
+
+.post img {
+    width: 36rem;
+    aspect-ratio: 288 / 167;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.read-time {
+    margin-top: 1.2em !important;
+    color: #F2CC05 !important;
+    font-family: Montserrat;
+    font-size: 18px;
+    line-height: normal;
+}
+
+.tag {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    padding: 5px 8px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-radius: 5px;
+    font-family: Montserrat;
+}
+
+.title {
+    margin: 10px 0;
+    height: auto;
+    width: 90%;
+
+}
+
+.title a {
+    color: white;
+    text-decoration: none !important;
+}
+
+.title a:hover {
+    color: #0CF;
+}
+
+.title a:hover svg path {
+    stroke: #0CF;
+}
+
+.title a svg {
+    /* margin-left: 10px;
+position: absolute; */
+    padding-top: 5px;
+    vertical-align: middle;
+}
+
+
+@keyframes underlineSlide {
+    0% {
+        transform: translateX(-100%);
+        /* Start from outside left */
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100%);
+        /* Move completely to the right */
+        opacity: 0;
+        /* Disappear smoothly */
+    }
+}
+
+#search-pagination,
+#default-pagination,
+#filtered-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* Ensure it spans the width */
+    margin: 1.25rem auto 2.875rem;
+    /* Center it with auto margins */
+}
+
+.page-btn {
+    border: none !important;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Apply fade effect only to number buttons, not next/prev */
+.page-btn:not(.prev-btn):not(.next-btn) {
+    opacity: 0.6;
+    /* Makes inactive buttons slightly faded */
+}
+
+.page-btn:hover {
+    background: none;
+    transform: scale(1.1);
+    /* Makes it 10% larger */
+    transition: transform 0.2s ease-in-out;
+    /* Smooth effect */
+}
+
+.page-btn.active {
+    font-weight: bold;
+    color: white !important;
+    /* Highlights the active button */
+    opacity: 1 !important;
+    /* Fully visible active button */
+    transform: scale(1.1);
+    /* Slightly enlarges the active button */
+}
+
+.page-btn:focus {
+    outline: none;
+    box-shadow: none;
+    background: none;
+    /* Ensure no background appears */
+}
+
+.circle-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (min-width: 768px) and (max-width: 1024.9px) and (orientation: landscape) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+    }
+
+    .post img {
+        width: 22.5rem;
+        aspect-ratio: 334 / 208;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+
+    .read-time {
+        margin-top: 1.2em !important;
+        color: #F2CC05 !important;
+        font-family: Montserrat;
+        font-size: 18px;
+        line-height: normal;
+    }
+
+    .tag {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        color: white;
+        padding: 5px 8px;
+        font-size: 1.125rem;
+        font-weight: 500;
+        height: 1.5rem;
+        border-radius: 5px;
+        font-family: Montserrat;
+    }
+
+    .title {
+        font-size: 1.125rem !important;
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .title a svg {
+        /* margin-left: 10px;
+position: absolute; */
+        padding-top: 2px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024.9px) and (orientation: portrait) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, auto);
+    }
+
+    .post img {
+        width: 36rem;
+        aspect-ratio: 337 / 216;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+
+    .read-time {
+        margin-top: 1.2em !important;
+        color: #F2CC05 !important;
+        font-family: Montserrat;
+        font-size: 18px;
+        line-height: normal;
+    }
+
+    .tag {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        color: white;
+        padding: 5px 8px;
+        font-size: 1.125rem;
+
+        height: 1.5rem;
+        font-weight: 500;
+        border-radius: 5px;
+        font-family: Montserrat;
+    }
+
+    .title {
+        font-size: 18px !important;
+        margin: 10px 0;
+    }
+
+    .title a svg {
+        /* margin-left: 10px;
+position: absolute; */
+        padding-top: 5px;
+    }
+}
+
+@media (max-width: 767.5px) {
+    .grid-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Center items horizontally */
+        justify-content: center;
+        padding: 1.5rem;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .grid-item {
+        padding: 0 0 5px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Center image */
+        text-align: left;
+        /* Align text left */
+    }
+
+    .post img {
+        width: 36rem;
+        aspect-ratio: 171 / 110;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+
+    .text-content {
+        /* Wrap text elements */
+        width: 36rem;
+        /* Same width as the image */
+        text-align: left;
+        /* Align text left */
+    }
+
+    .read-time {
+        margin-top: 1.2em !important;
+        color: #F2CC05 !important;
+        font-family: Montserrat;
+        font-size: 18px;
+        line-height: normal;
+    }
+
+    .tag {
+        position: absolute;
+        top: 20px;
+        left: 25px;
+        color: white;
+        padding: 5px 8px;
+        font-size: 1.125rem;
+
+        height: 1.5rem;
+        font-weight: 500;
+        border-radius: 5px;
+        font-family: Montserrat;
+    }
+
+    .title {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    .title a {
+        font-size: 16px;
+        padding-right: 5px;
+    }
+
+    .title a svg {
+        width: 50px;
+        height: 24px;
+        padding-top: 5px;
+        margin-left: 0;
+        vertical-align: middle;
+    }
+
+    .page-btn {
+        border: none !important;
+        padding: 10px 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+}

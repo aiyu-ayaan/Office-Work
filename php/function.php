@@ -16,6 +16,7 @@ define('CHILD_THEME_ASTRA_CHILD_VERSION', '1.0.0');
 
 // Load Composer Autoloader
 require_once WP_CONTENT_DIR . '/geoip-reader/vendor/autoload.php';
+
 use GeoIp2\Database\Reader;
 
 // this will buffer output until headers are set.
@@ -24,16 +25,18 @@ use GeoIp2\Database\Reader;
 /**
  * Enqueue styles
  */
-add_filter( 'acf/settings/php_to_js_date_formats', 'support_at_symbol_in_date_format', 10, 1 );
-function support_at_symbol_in_date_format( $formats ) {
+add_filter('acf/settings/php_to_js_date_formats', 'support_at_symbol_in_date_format', 10, 1);
+function support_at_symbol_in_date_format($formats)
+{
     $formats['@'] = "'@'";
     return $formats;
 }
 
 add_filter('acf/update_value/type=date_time_picker', 'my_update_value_date_time_picker', 10, 3);
 
-function my_update_value_date_time_picker( $value, $post_id, $field ) {
-	if (!$value) return $value;
+function my_update_value_date_time_picker($value, $post_id, $field)
+{
+    if (!$value) return $value;
 
     try {
         $date = new DateTime($value, new DateTimeZone('UTC'));
@@ -44,7 +47,8 @@ function my_update_value_date_time_picker( $value, $post_id, $field ) {
     }
 }
 
-function child_enqueue_styles() {
+function child_enqueue_styles()
+{
     wp_enqueue_style('astra-child-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all');
 
     // Your custom CSS files, identified by the glob() function output
@@ -56,13 +60,14 @@ function child_enqueue_styles() {
 add_action('wp_enqueue_scripts', 'child_enqueue_styles', 15);
 
 
-function child_enqueue_scripts() {
+function child_enqueue_scripts()
+{
     // Your custom JS files, identified by the glob() function output
     wp_enqueue_script('custom-navigation-js', get_stylesheet_directory_uri() . '/js/custom_navigation.js', array('jquery'), filemtime(get_stylesheet_directory() . '/js/custom_navigation.js'), true);
     wp_enqueue_script('header-js', get_stylesheet_directory_uri() . '/js/header.js', array('jquery'), filemtime(get_stylesheet_directory() . '/js/header.js'), true);
     wp_enqueue_script('lazy-load-js', get_stylesheet_directory_uri() . '/js/lazy-load.js', array('jquery'), filemtime(get_stylesheet_directory() . '/js/lazy-load.js'), true);
-	// Enqueue combined custom header scripts
-wp_enqueue_script('languageswitcher-combined-js', get_stylesheet_directory_uri() . '/js/languageswitcher.js', array('jquery'), CHILD_THEME_ASTRA_CHILD_VERSION, true);
+    // Enqueue combined custom header scripts
+    wp_enqueue_script('languageswitcher-combined-js', get_stylesheet_directory_uri() . '/js/languageswitcher.js', array('jquery'), CHILD_THEME_ASTRA_CHILD_VERSION, true);
 }
 add_action('wp_enqueue_scripts', 'child_enqueue_scripts');
 
@@ -70,7 +75,8 @@ add_action('wp_enqueue_scripts', 'child_enqueue_scripts');
  * Enqueue Google Fonts with preconnect.
  * Preconnect is still best placed directly in <head> for earliest effect.
  */
-function enqueue_google_fonts() {
+function enqueue_google_fonts()
+{
     echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
     echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap', array(), null);
@@ -90,7 +96,8 @@ function custom_logo_link_script()
 }
 add_action('wp_enqueue_scripts', 'custom_logo_link_script');
 
-function custom_logo_dynamic_url_script() {
+function custom_logo_dynamic_url_script()
+{
     // Add inline script to modify the logo link based on domain
     wp_add_inline_script('jquery', "
         jQuery(document).ready(function($) {
@@ -106,7 +113,8 @@ function custom_logo_dynamic_url_script() {
 add_action('wp_enqueue_scripts', 'custom_logo_dynamic_url_script');
 
 //enqueue owl carousel scripts and styles
-function enqueue_owlcarousel_assets() {
+function enqueue_owlcarousel_assets()
+{
     $theme_dir = get_stylesheet_directory_uri(); // Use this for child theme paths
 
     // CSS
@@ -384,7 +392,7 @@ function get_subcategories_by_parent_slug($atts) //for service drop-down menu
     $output .= '</div>';
     $output .= '</nav>';
 
- 
+
     return $output;
 }
 
@@ -525,7 +533,7 @@ function add_radio_buttons_to_quick_edit($column_name, $post_type)
             'hide_empty' => false,
         ]);
 
-    ?>
+?>
         <fieldset class="inline-edit-col-right">
             <div class="inline-edit-col">
                 <label class="inline-edit-group">
@@ -738,9 +746,10 @@ add_action('admin_action_duplicate_page', 'duplicate_page');
 // }
 // add_action('after_setup_theme', 'astra_enable_post_templates');
 
-function enable_template_dropdown_for_cpts() {
+function enable_template_dropdown_for_cpts()
+{
     // Add 'page-attributes' support to default 'post' and your custom post types
-    $post_types = ['post', 'press-release']; 
+    $post_types = ['post', 'press-release'];
 
     foreach ($post_types as $post_type) {
         add_post_type_support($post_type, 'page-attributes');
@@ -763,14 +772,15 @@ add_shortcode('redirect_empty', 'redirect_empty_page_shortcode');
 // TODO:My Code 
 
 
-function get_minutes($post_id, $field_names = null, $videoId = null, $direct_content = null) {
+function get_minutes($post_id, $field_names = null, $videoId = null, $direct_content = null)
+{
     // Validate required post_id parameter
     if (empty($post_id)) {
         return "N/A";
     }
-    
+
     $results = [];
-    
+
     // Check if field_names is provided and get reading time
     if (!empty($field_names)) {
         $reading_time = get_acf_reading_time($post_id, $field_names);
@@ -778,7 +788,7 @@ function get_minutes($post_id, $field_names = null, $videoId = null, $direct_con
             $results[] = $reading_time;
         }
     }
-    
+
     // Check if direct_content is provided and calculate reading time
     if (!empty($direct_content)) {
         $direct_reading_time = calculate_direct_content_reading_time($direct_content);
@@ -786,7 +796,7 @@ function get_minutes($post_id, $field_names = null, $videoId = null, $direct_con
             $results[] = $direct_reading_time;
         }
     }
-    
+
     // Check if videoId is provided and get video duration
     if (!empty($videoId)) {
         $video_duration = getVimeoVideoDuration($videoId);
@@ -795,43 +805,44 @@ function get_minutes($post_id, $field_names = null, $videoId = null, $direct_con
             $results[] = $video_duration;
         }
     }
-    
+
     // Return combined results or N/A if nothing found
     if (empty($results)) {
         return "N/A";
     }
-    
+
     return implode(' + ', $results);
 }
-function calculate_direct_content_reading_time($content) {
+function calculate_direct_content_reading_time($content)
+{
     // Handle array of content
     if (is_array($content)) {
         $total_content = '';
-       foreach ($content as $item) {
-    if (is_array($item)) {
-        // If nested array, flatten it
-        $total_content .= ' ' . implode(' ', array_map(function($subitem) {
-            // Handle null values and ensure we have a string
-            if ($subitem === null) {
-                return '';
+        foreach ($content as $item) {
+            if (is_array($item)) {
+                // If nested array, flatten it
+                $total_content .= ' ' . implode(' ', array_map(function ($subitem) {
+                    // Handle null values and ensure we have a string
+                    if ($subitem === null) {
+                        return '';
+                    }
+
+                    $subitem = is_array($subitem) ? implode(' ', $subitem) : (string)$subitem;
+                    return html_entity_decode($subitem, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                }, $item));
+            } else {
+                // Handle null values before passing to html_entity_decode
+                if ($item !== null) {
+                    $total_content .= ' ' . html_entity_decode((string)$item, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                }
             }
-            
-            $subitem = is_array($subitem) ? implode(' ', $subitem) : (string)$subitem;
-            return html_entity_decode($subitem, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        }, $item));
-    } else {
-        // Handle null values before passing to html_entity_decode
-        if ($item !== null) {
-            $total_content .= ' ' . html_entity_decode((string)$item, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         }
+        $content = $total_content;
     }
-}
-$content = $total_content;
-    }
-    
+
     // Convert to string if not already
     $content = (string)$content;
-    
+
     if (empty(trim($content))) {
         return '0 minute read';
     }
@@ -840,11 +851,11 @@ $content = $total_content;
     // First strip shortcodes, then HTML tags for better cleaning
     $text_content = strip_shortcodes($content);
     $text_content = wp_strip_all_tags($text_content);
-    
+
     // Additional HTML cleaning in case wp_strip_all_tags doesn't catch everything
     $text_content = html_entity_decode($text_content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $text_content = strip_tags($text_content);
-    
+
     // Remove extra whitespaces and normalize
     $text_content = preg_replace('/\s+/', ' ', trim($text_content));
 
@@ -858,28 +869,29 @@ $content = $total_content;
     return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' read';
 }
 
-function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
+function get_acf_reading_time($post_id, $field_names = ['acf_posts_content'])
+{
     $total_content = '';
-    
+
     // Handle both string and array inputs for field names
     if (is_string($field_names)) {
         $field_names = [$field_names];
     }
-    
+
     // Loop through each field and concatenate content
     foreach ($field_names as $field_name) {
         $content = get_field($field_name, $post_id);
-        
+
         // Check if content exists and is not false/null/empty
         if ($content && !empty($content)) {
             // Handle different field types
             if (is_array($content)) {
                 // If it's an array (like repeater fields), extract text from each item
-                $content = implode(' ', array_map(function($item) {
+                $content = implode(' ', array_map(function ($item) {
                     return is_array($item) ? implode(' ', $item) : $item;
                 }, $content));
             }
-            
+
             $total_content .= ' ' . $content;
         }
     }
@@ -901,18 +913,19 @@ function get_acf_reading_time($post_id, $field_names = ['acf_posts_content']) {
     return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' read';
 }
 
-function getVimeoVideoDuration($videoUrl) {
+function getVimeoVideoDuration($videoUrl)
+{
     // Extract video ID from URL
     $videoId = extractVimeoVideoId($videoUrl);
-    
+
     // Validate video ID
     if (empty($videoId) || !is_numeric($videoId)) {
         return 'N/A';
     }
-    
+
     // Vimeo oEmbed API endpoint
     $url = "https://vimeo.com/api/oembed.json?url=https://vimeo.com/" . $videoId;
-    
+
     // Create context for file_get_contents
     $context = stream_context_create([
         'http' => [
@@ -924,27 +937,27 @@ function getVimeoVideoDuration($videoUrl) {
             'timeout' => 30
         ]
     ]);
-    
+
     // Get response using file_get_contents
     $response = @file_get_contents($url, false, $context);
-    
+
     // Check for HTTP or network errors
     if ($response === false) {
         return 'N/A';
     }
-    
+
     // Decode JSON
     $data = json_decode($response, true);
-    
+
     if (json_last_error() !== JSON_ERROR_NONE || !isset($data['duration']) || !is_numeric($data['duration'])) {
         return 'N/A';
     }
-    
+
     // Format duration
     $seconds = (int)$data['duration'];
     $hours = floor($seconds / 3600);
     $minutes = floor(($seconds % 3600) / 60);
-    
+
     $formatted = '';
     if ($hours > 0) {
         $formatted .= $hours . ' hour' . ($hours > 1 ? 's' : '') . ' watch';
@@ -955,11 +968,12 @@ function getVimeoVideoDuration($videoUrl) {
     if ($hours == 0 && $minutes == 0) {
         $formatted = 'Less than 1 minute';
     }
-    
+
     return trim($formatted);
 }
 
-function extractVimeoVideoId($url) {
+function extractVimeoVideoId($url)
+{
     if (is_numeric($url)) {
         return $url;
     }
@@ -1000,66 +1014,67 @@ function extractVimeoVideoId($url) {
  *
  * @return mixed Estimated minutes as a string (e.g., "5 minutes") or "N/A" if not available.
  */
-function get_post_read_minutes($post_id, $post_type_name) {
+function get_post_read_minutes($post_id, $post_type_name)
+{
     if ($post_type_name === 'Webinar' || $post_type_name === 'Video') {
-         $videoId = get_field('acf_pardot_vimeo_video_url', $post_id);
-         $minutes = get_minutes($post_id, null, $videoId);
-     }elseif($post_type_name === 'Use Case' || $post_type_name ==='Case Study'){
-        $post_content_frame_section = get_field('acf_usecase_content_frame',$post_id)?? '';
-		$content_frame_left_container = '';
+        $videoId = get_field('acf_pardot_vimeo_video_url', $post_id);
+        $minutes = get_minutes($post_id, null, $videoId);
+    } elseif ($post_type_name === 'Use Case' || $post_type_name === 'Case Study') {
+        $post_content_frame_section = get_field('acf_usecase_content_frame', $post_id) ?? '';
+        $content_frame_left_container = '';
         $content_frame_button_text = '';
         $content_frame_benefits = '';
         $content_frame_accordion = '';
 
         if (!empty($post_content_frame_section)) {
-            $content_frame_left_container = $post_content_frame_section['acf_usecase_content_frame_left_container']?? '';
-            $content_frame_button_text = $post_content_frame_section['acf_content_frame_usecase_button_text']?? '';
-            $content_frame_benefits = $post_content_frame_section['acf_usecase_content_frame_benefits']?? '';
-            $content_frame_accordion = $post_content_frame_section['acf_usecase_content_frame_accordion']?? '';
+            $content_frame_left_container = $post_content_frame_section['acf_usecase_content_frame_left_container'] ?? '';
+            $content_frame_button_text = $post_content_frame_section['acf_content_frame_usecase_button_text'] ?? '';
+            $content_frame_benefits = $post_content_frame_section['acf_usecase_content_frame_benefits'] ?? '';
+            $content_frame_accordion = $post_content_frame_section['acf_usecase_content_frame_accordion'] ?? '';
         }
-           $accordion_text = '';
-        if (!empty($content_frame_accordion)&& is_array($content_frame_accordion)) {
+        $accordion_text = '';
+        if (!empty($content_frame_accordion) && is_array($content_frame_accordion)) {
             foreach ($content_frame_accordion as $row) {
-             $accordion_title = isset($row['acf_usecase_accordion_title']) ? strip_tags($row['acf_usecase_accordion_title']) : '';
-            $accordion_content = isset($row['acf_usecase_accordion_content']) ? strip_tags($row['acf_usecase_accordion_content']) : '';
-            $accordion_text .= $accordion_title . ' ' . $accordion_content . ' ';
+                $accordion_title = isset($row['acf_usecase_accordion_title']) ? strip_tags($row['acf_usecase_accordion_title']) : '';
+                $accordion_content = isset($row['acf_usecase_accordion_content']) ? strip_tags($row['acf_usecase_accordion_content']) : '';
+                $accordion_text .= $accordion_title . ' ' . $accordion_content . ' ';
             }
         }
-        $minutes = get_minutes($post_id, null, null, [$content_frame_left_container, $content_frame_benefits,$accordion_text]);
-     }elseif($post_type_name === 'Blog'){
+        $minutes = get_minutes($post_id, null, null, [$content_frame_left_container, $content_frame_benefits, $accordion_text]);
+    } elseif ($post_type_name === 'Blog') {
         $all_text_content = '';
         $all_divider_content = '';
         $all_takeaways_heading = '';
         $all_takeaways_content = '';
 
-        if (have_rows('acf_blog_content_blocks',$post_id)) {
-            while (have_rows('acf_blog_content_blocks',$post_id)) {
+        if (have_rows('acf_blog_content_blocks', $post_id)) {
+            while (have_rows('acf_blog_content_blocks', $post_id)) {
                 the_row();
                 if (get_row_layout() === 'acf_blog_text_block') {
-                    $text_content = get_sub_field('acf_blog_text_content',$post_id);
+                    $text_content = get_sub_field('acf_blog_text_content', $post_id);
                     $all_text_content .= strip_tags($text_content) . ' ';
                 } elseif (get_row_layout() === 'acf_blog_blue_divider') {
-                    $divider_content = get_sub_field('acf_blog_divider_content',$post_id);
+                    $divider_content = get_sub_field('acf_blog_divider_content', $post_id);
                     $all_divider_content .= strip_tags($divider_content) . ' ';
                 }
             }
         }
-        
+
         // Collect key takeaways content (removing HTML tags)
-        $acf_blog_key_takeaways_section = get_field('acf_blog_key_takeaways_section',$post_id);
+        $acf_blog_key_takeaways_section = get_field('acf_blog_key_takeaways_section', $post_id);
         if ($acf_blog_key_takeaways_section) {
             if (!empty($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading'])) {
                 $all_takeaways_heading = strip_tags($acf_blog_key_takeaways_section['acf_key_takeaways_section_heading']);
             }
-            
+
             if (!empty($acf_blog_key_takeaways_section['acf_key_takeaways_list_items'])) {
                 $all_takeaways_content = strip_tags($acf_blog_key_takeaways_section['acf_key_takeaways_list_items']);
             }
         }
 
-        
-        $quote_text = get_field('acf_quote_text',$post_id);
-        $quote_author = get_field('acf_quote_author',$post_id);
+
+        $quote_text = get_field('acf_quote_text', $post_id);
+        $quote_author = get_field('acf_quote_author', $post_id);
 
         $minutes = get_minutes($post_id, null, null, [
             $all_text_content,
@@ -1069,22 +1084,22 @@ function get_post_read_minutes($post_id, $post_type_name) {
             $quote_text,
             $quote_author
         ]);
-// 		var_dump($minutes);
+        // 		var_dump($minutes);
         // END:
+    } else {
+        $minutes = get_minutes($post_id, ['acf_post_content_frame_section']);
+        if (is_numeric($minutes)) {
+            $minutes = $minutes . ' minute' . ($minutes == 1 ? '' : 's');
+        }
     }
-      else {
-         $minutes = get_minutes($post_id, ['acf_post_content_frame_section']);
-         if (is_numeric($minutes)) {
-             $minutes = $minutes . ' minute' . ($minutes == 1 ? '' : 's');
-         } 
-     }
- 
-     return $minutes !== null ? $minutes : "N/A";
+
+    return $minutes !== null ? $minutes : "N/A";
 }
 
 // DESCRIPTION: Fetch posts with pagination and featured posts logic
 
-function fetch_posts() {
+function fetch_posts()
+{
     if (!function_exists('get_field')) {
         wp_send_json_error(['message' => 'ACF not initialized']);
         return;
@@ -1157,7 +1172,7 @@ function fetch_posts() {
     ]);
     $totalPosts = count($total_query->posts);
     $totalPages = ceil($totalPosts / $postsPerPage);
-    
+
     // Handle Page 1 logic overrides
     if ($currentPage === 1) {
         if ($postsPerPage === 3) {
@@ -1180,13 +1195,14 @@ function fetch_posts() {
 }
 add_action('wp_ajax_fetch_posts', 'fetch_posts');
 add_action('wp_ajax_nopriv_fetch_posts', 'fetch_posts');
-function get_post_data_for_output($post_id, $default_image) {
+function get_post_data_for_output($post_id, $default_image)
+{
     $image = get_the_post_thumbnail_url($post_id, 'full') ?: $default_image;
 
     $terms = get_the_terms($post_id, 'post_type_category');
     $post_type_name = (!empty($terms) && !is_wp_error($terms)) ? $terms[0]->name : 'Uncategorized';
 
-   
+
     $cal_read_minutes = get_post_read_minutes($post_id, $post_type_name);
     // check cal_read_minutes is N/A or not
     $read_minutes = $cal_read_minutes !== 'N/A' ? $cal_read_minutes : get_field('acf_read_minutes', $post_id);
@@ -1197,7 +1213,7 @@ function get_post_data_for_output($post_id, $default_image) {
         'image'        => $image,
         'post_type'    => $post_type_name,
         'permalink'    => get_permalink($post_id),
-		'read_minutes' => $read_minutes_display
+        'read_minutes' => $read_minutes_display
     ];
 }
 
@@ -1222,7 +1238,8 @@ function get_user_country()
 }
 //Lazy
 
-function lazy_load_enqueue_script() {
+function lazy_load_enqueue_script()
+{
     $js = <<<JS
 document.addEventListener("DOMContentLoaded", function () {
     function loadLazy(el) {
@@ -1300,7 +1317,7 @@ add_action('wp_enqueue_scripts', 'lazy_load_enqueue_script', 20);
 
 
 //leadership page adding option to customize the ordering
-add_filter('manage_leaders_posts_columns', function($columns) {
+add_filter('manage_leaders_posts_columns', function ($columns) {
     // Add columns dynamically based on terms in leader_category
     $terms = get_terms([
         'taxonomy' => 'leader_category',
@@ -1314,10 +1331,11 @@ add_filter('manage_leaders_posts_columns', function($columns) {
     return $columns;
 });
 
- 
+
 
 // Add 'order' field to the term edit screen for 'leader_categories'
-function add_order_field_to_leader_categories($term) {
+function add_order_field_to_leader_categories($term)
+{
     // Get the current order value for the term
     $order = get_term_meta($term->term_id, '_order', true);
     ?>
@@ -1330,254 +1348,267 @@ function add_order_field_to_leader_categories($term) {
             <p class="description"><?php _e('Order for posts within this category.', 'textdomain'); ?></p>
         </td>
     </tr>
-    <?php
+<?php
 }
 add_action('leader_categories_edit_form_fields', 'add_order_field_to_leader_categories');
 add_action('leader_categories_add_form_fields', 'add_order_field_to_leader_categories');
 
-function custom_subscribe_modal_code() {
-    ?>
-   <style>
-  .custom-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none; /* hidden initially */
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-
-  .custom-modal-content {
-    position: relative;
-    background-color: #144074;
-    width: 71.1%;
-    min-height: 57.7%;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    border-radius: 12px;
-    overflow: hidden;
-    padding: 2.1% 3.36%;
-  }
-
-  .custom-modal-content iframe {
-    width: 100%;
-    height: 400px;
-    border: none;
-    display: block;
-  }
-
-  .close-modal-btn {
-    position: absolute;
-    top: 40px;
-    right: 40px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 10001;
-  }
-
-  .close-modal-btn svg {
-    width: 32px;
-    height: 32px;
-  }
-
-  .contact-subscribe-heading {
-    color: #0cf !important;
-    margin: 0 0 0.84em 0 !important;
-	width:90% !important;
-  }
-
-  .consent-txt a {
-    text-decoration: none !important;
-    color: #0cf;
-  }
-#subscribeModalIframe {
-
-  transition: opacity 0.3s ease-in-out;
-}
-
-.loader {
-	margin:auto;
-  text-align: center;
-  font-size: 1rem;
-  padding: 20px;
-  color: #fff;
-}
-  /* Tablet landscape */
-  @media (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
-    .custom-modal-content iframe {
-      height: 340px !important;
-    }
-	  .close-modal-btn {
-   top:15px !important;
-   right: 10px !important;
-  }
-  }
-
-  /* Tablet portrait */
-  @media (min-width: 768px) and (max-width: 1280px) and (orientation: portrait) {
-    .custom-modal-content iframe {
-      height: 310px !important;
-    }
-	  .close-modal-btn {
-   top:15px !important;
-   right: 10px !important;
-  }
-  }
-
-  /* Mobile */
-  @media screen and (max-width: 767.5px) {
-    .custom-modal-content {
-      width: 90%;
-    }
-    .close-modal-btn {
-   top:15px !important;
-   right: 10px !important;
-  }
-    .custom-modal-content iframe {
-      height: 320px;
-    }
-  }
-
-  /* Lock scroll when modal is open */
-  .no-scroll {
-    overflow: hidden !important;
-  }
-</style>
-
-<div id="subscribeModal" class="custom-modal">
-  <div class="custom-modal-content">
-    <h3 class="contact-subscribe-heading large-size font-bold">Subscribe to our newsletter</h3>
-    <button id="closeSubscribeModal" class="close-modal-btn" aria-label="Close modal">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-        <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
-        <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
-        <circle cx="16" cy="16" r="15.5" stroke="white" />
-      </svg>
-    </button>
-	  <div id="iframeLoader" class="loader">Loading...</div>
-    <iframe id="subscribeModalIframe" data-src="/subscribeIframe.php"></iframe>
-    <p class="consent-txt smaller-size">
-      By clicking the “Subscribe Now” button, you are agreeing to the
-      <a class="font-bold" href="/wp-content/uploads/2025/04/data-protection-policy-pdf.pdf" target="_blank" rel="noreferrer noopener" >Personal Data Protection Policy</a> and
-      <a class="font-bold" href="/wp-content/uploads/2025/04/ADROSONIC-GDPR-Policy.pdf" target="_blank"  rel="noreferrer noopener" >Privacy Policy</a>. Your Privacy is important to us.
-    </p>
-  </div>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const modal = document.getElementById("subscribeModal");
-        const closeBtn = document.getElementById("closeSubscribeModal");
-        const footerBtn = document.querySelector('a.wp-block-button__link.wp-element-button[rel="/contact-us"]');
-		const opensubscribebtn = document.querySelector('.open-subscribe-btn');
-        let scrollPosition = 0;
-
-        function openSubscribeModal() {
-
-            scrollPosition = window.scrollY;
-const iframe = document.getElementById("subscribeModalIframe");
-    const loader = document.getElementById("iframeLoader");
-
-    // Show loader
-    loader.style.display = "block";
-			loader.style.position="absolute";
-    iframe.style.opacity = "0";
-    iframe.style.pointerEvents = "none";
-
-    // Reset iframe to fresh state
-    iframe.setAttribute("src", iframe.getAttribute("data-src")); // force reload each time
-   // iframe.src = iframe.src;
-
-    iframe.onload = () => {
-        // Hide loader and show iframe
-        loader.style.display = "none";
-        iframe.style.opacity = "1";
-        iframe.style.pointerEvents = "auto";
-    };
-
-            // Lock scroll
-            document.body.style.position = "fixed";
-            document.body.style.top = `-${scrollPosition}px`;
-            document.body.style.left = "0";
-            document.body.style.right = "0";
-            document.body.classList.add("no-scroll");
-
-            // Show modal
-            modal.style.display = "flex";
-            modal.style.position = "fixed";
-            modal.style.left = "50%";
-            modal.style.transform = "translateX(-50%)";
+function custom_subscribe_modal_code()
+{
+?>
+    <style>
+        .custom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            /* hidden initially */
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
-        function closeSubscribeModal() {
-            // Hide modal
-            modal.style.display = "none";
+        .custom-modal-content {
+            position: relative;
+            background-color: #144074;
+            width: 71.1%;
+            min-height: 57.7%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 2.1% 3.36%;
+        }
 
-            // Unlock scroll: must be done before scrollTo
-            document.body.classList.remove("no-scroll");
-            document.body.style.position = "";
-            document.body.style.top = "";
-            document.body.style.left = "";
-            document.body.style.right = "";
+        .custom-modal-content iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            display: block;
+        }
 
-            // Restore scroll after layout resets (using timeout)
-            setTimeout(() => {
-                window.scrollTo({
-                    top: scrollPosition,
-                    behavior: "instant" // or "auto"
-                });
+        .close-modal-btn {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 10001;
+        }
 
-                // Focus on the subscribe button without scrolling
-                if (footerBtn || opensubscribebtn) {
-                    footerBtn.focus({ preventScroll: true });
-					opensubscribebtn.focus({ preventScroll: true });
+        .close-modal-btn svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .contact-subscribe-heading {
+            color: #0cf !important;
+            margin: 0 0 0.84em 0 !important;
+            width: 90% !important;
+        }
+
+        .consent-txt a {
+            text-decoration: none !important;
+            color: #0cf;
+        }
+
+        #subscribeModalIframe {
+
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .loader {
+            margin: auto;
+            text-align: center;
+            font-size: 1rem;
+            padding: 20px;
+            color: #fff;
+        }
+
+        /* Tablet landscape */
+        @media (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
+            .custom-modal-content iframe {
+                height: 340px !important;
+            }
+
+            .close-modal-btn {
+                top: 15px !important;
+                right: 10px !important;
+            }
+        }
+
+        /* Tablet portrait */
+        @media (min-width: 768px) and (max-width: 1280px) and (orientation: portrait) {
+            .custom-modal-content iframe {
+                height: 310px !important;
+            }
+
+            .close-modal-btn {
+                top: 15px !important;
+                right: 10px !important;
+            }
+        }
+
+        /* Mobile */
+        @media screen and (max-width: 767.5px) {
+            .custom-modal-content {
+                width: 90%;
+            }
+
+            .close-modal-btn {
+                top: 15px !important;
+                right: 10px !important;
+            }
+
+            .custom-modal-content iframe {
+                height: 320px;
+            }
+        }
+
+        /* Lock scroll when modal is open */
+        .no-scroll {
+            overflow: hidden !important;
+        }
+    </style>
+
+    <div id="subscribeModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <h3 class="contact-subscribe-heading large-size font-bold">Subscribe to our newsletter</h3>
+            <button id="closeSubscribeModal" class="close-modal-btn" aria-label="Close modal">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+                    <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <circle cx="16" cy="16" r="15.5" stroke="white" />
+                </svg>
+            </button>
+            <div id="iframeLoader" class="loader">Loading...</div>
+            <iframe id="subscribeModalIframe" data-src="/subscribeIframe.php"></iframe>
+            <p class="consent-txt smaller-size">
+                By clicking the “Subscribe Now” button, you are agreeing to the
+                <a class="font-bold" href="/protection-policy" target="_blank" rel="noreferrer noopener">Personal Data Protection Policy</a> and
+                <a class="font-bold" href="/privacy-policy" target="_blank" rel="noreferrer noopener">Privacy Policy</a>. Your Privacy is important to us.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modal = document.getElementById("subscribeModal");
+            const closeBtn = document.getElementById("closeSubscribeModal");
+            const footerBtn = document.querySelector('a.wp-block-button__link.wp-element-button[rel="/contact-us"]');
+            const opensubscribebtn = document.querySelector('.open-subscribe-btn');
+            let scrollPosition = 0;
+
+            function openSubscribeModal() {
+
+                scrollPosition = window.scrollY;
+                const iframe = document.getElementById("subscribeModalIframe");
+                const loader = document.getElementById("iframeLoader");
+
+                // Show loader
+                loader.style.display = "block";
+                loader.style.position = "absolute";
+                iframe.style.opacity = "0";
+                iframe.style.pointerEvents = "none";
+
+                // Reset iframe to fresh state
+                iframe.setAttribute("src", iframe.getAttribute("data-src")); // force reload each time
+                // iframe.src = iframe.src;
+
+                iframe.onload = () => {
+                    // Hide loader and show iframe
+                    loader.style.display = "none";
+                    iframe.style.opacity = "1";
+                    iframe.style.pointerEvents = "auto";
+                };
+
+                // Lock scroll
+                document.body.style.position = "fixed";
+                document.body.style.top = `-${scrollPosition}px`;
+                document.body.style.left = "0";
+                document.body.style.right = "0";
+                document.body.classList.add("no-scroll");
+
+                // Show modal
+                modal.style.display = "flex";
+                modal.style.position = "fixed";
+                modal.style.left = "50%";
+                modal.style.transform = "translateX(-50%)";
+            }
+
+            function closeSubscribeModal() {
+                // Hide modal
+                modal.style.display = "none";
+
+                // Unlock scroll: must be done before scrollTo
+                document.body.classList.remove("no-scroll");
+                document.body.style.position = "";
+                document.body.style.top = "";
+                document.body.style.left = "";
+                document.body.style.right = "";
+
+                // Restore scroll after layout resets (using timeout)
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: scrollPosition,
+                        behavior: "instant" // or "auto"
+                    });
+
+                    // Focus on the subscribe button without scrolling
+                    if (footerBtn || opensubscribebtn) {
+                        footerBtn.focus({
+                            preventScroll: true
+                        });
+                        opensubscribebtn.focus({
+                            preventScroll: true
+                        });
+                    }
+                }, 0);
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener("click", closeSubscribeModal);
+            }
+
+            modal.addEventListener("click", function(e) {
+                if (e.target === modal) {
+                    closeSubscribeModal();
                 }
-            }, 0);
-        }
+            });
 
-        if (closeBtn) {
-            closeBtn.addEventListener("click", closeSubscribeModal);
-        }
-
-        modal.addEventListener("click", function (e) {
-            if (e.target === modal) {
-                closeSubscribeModal();
+            if (footerBtn || opensubscribebtn) {
+                footerBtn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    openSubscribeModal();
+                });
+                opensubscribebtn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    openSubscribeModal();
+                });
+            } else {
+                console.warn("Subscribe footer button not found.");
             }
         });
-
-        if (footerBtn || opensubscribebtn) {
-            footerBtn.addEventListener("click", function (e) {
-                e.preventDefault();
-                openSubscribeModal();
-            });
-			opensubscribebtn.addEventListener("click", function (e) {
-                e.preventDefault();
-                openSubscribeModal();
-            });
-        } else {
-            console.warn("Subscribe footer button not found.");
-        }
-    });
-</script>
+    </script>
 
 
-    <?php
+<?php
 }
 add_action('wp_footer', 'custom_subscribe_modal_code');
 
 
 
-add_action('wp_head', function() {
+add_action('wp_head', function () {
     echo '<meta name="robots" content="noindex, nofollow">' . "\n";
 });
- 
+
 add_filter('wpseo_robots', 'force_noindex_nofollow_all_pages');
- 
-function force_noindex_nofollow_all_pages($robots) {
+
+function force_noindex_nofollow_all_pages($robots)
+{
     return 'noindex, nofollow';
 }
 
@@ -1595,21 +1626,23 @@ add_action('template_redirect', function () {
 //From UAT instance
 
 
-function enforce_admin_cache_headers() {
-	if (is_admin() || strpos($_SERVER['REQUEST_URI'], 'wp-login.php') !== false) {
-    	nocache_headers(); // WordPress native function
+function enforce_admin_cache_headers()
+{
+    if (is_admin() || strpos($_SERVER['REQUEST_URI'], 'wp-login.php') !== false) {
+        nocache_headers(); // WordPress native function
 
-    	// Override more strictly
-    	header('Cache-Control: no-store, no-cache, must-revalidate, private', true);
-    	header('Pragma: no-cache', true);
-    	header('Expires: 0', true);
-	}
+        // Override more strictly
+        header('Cache-Control: no-store, no-cache, must-revalidate, private', true);
+        header('Pragma: no-cache', true);
+        header('Expires: 0', true);
+    }
 }
 add_action('admin_init', 'enforce_admin_cache_headers');
 add_action('login_init', 'enforce_admin_cache_headers');
 
 
-function get_csp_nonce() {
+function get_csp_nonce()
+{
     static $nonce = null;
     if ($nonce === null) {
         $nonce = base64_encode(random_bytes(16));
@@ -1620,13 +1653,13 @@ function get_csp_nonce() {
 
 add_filter('xmlrpc_enabled', '__return_false');
 
-add_filter( 'rest_pre_dispatch', function( $result, $server, $request ) {
+add_filter('rest_pre_dispatch', function ($result, $server, $request) {
     // Check if user is NOT logged in
-    if ( ! is_user_logged_in() ) {
+    if (! is_user_logged_in()) {
         $method = $request->get_method();
         $allowed_methods = ['GET', 'POST']; // Allowed for logged-out users
 
-        if ( ! in_array( $method, $allowed_methods ) ) {
+        if (! in_array($method, $allowed_methods)) {
             // Log the blocked attempt
             $ip      = $_SERVER['REMOTE_ADDR'] ?? 'unknown IP';
             $uri     = $_SERVER['REQUEST_URI'] ?? 'unknown URI';
@@ -1635,35 +1668,36 @@ add_filter( 'rest_pre_dispatch', function( $result, $server, $request ) {
             error_log("Blocked REST API request from logged-out user: Method=$method, URI=$uri, IP=$ip, Agent=$agent");
 
             // Block the request for logged-out user
-            return new WP_Error( 'rest_forbidden_method', 'HTTP method not allowed for unauthenticated users.', array( 'status' => 403 ) );
+            return new WP_Error('rest_forbidden_method', 'HTTP method not allowed for unauthenticated users.', array('status' => 403));
         }
     }
 
     // For logged-in users or allowed methods, continue as normal
     return $result;
-}, 10, 3 );
+}, 10, 3);
 
 
 
 //search code
 
-function disable_special_chars_in_search() {
-    ?>
+function disable_special_chars_in_search()
+{
+?>
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Select all search input fields by type or class
-      const searchInputs = document.querySelectorAll('input[type="search"], input.search-field');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select all search input fields by type or class
+            const searchInputs = document.querySelectorAll('input[type="search"], input.search-field');
 
-      // Define forbidden characters regex: < > ( ) [ ] { } / \
-      const forbiddenChars = /[<>()[\]{}\/\\]/g;
+            // Define forbidden characters regex: < > ( ) [ ] { } / \
+            const forbiddenChars = /[<>()[\]{}\/\\]/g;
 
-      searchInputs.forEach(input => {
-        input.addEventListener('input', function () {
-          // Remove forbidden characters as user types
-          this.value = this.value.replace(forbiddenChars, '');
+            searchInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    // Remove forbidden characters as user types
+                    this.value = this.value.replace(forbiddenChars, '');
+                });
+            });
         });
-      });
-    });
     </script>
     <?php
 }
@@ -1671,12 +1705,13 @@ add_action('wp_footer', 'disable_special_chars_in_search');
 
 
 
-function sanitize_search_query_param() {
+function sanitize_search_query_param()
+{
     if (isset($_GET['s'])) {
         // Sanitize the search query by removing dangerous characters
         $_GET['s'] = preg_replace('/[<>()[\]{}\/\\\\]/', '', $_GET['s']);
         // Update the global $wp_query search value
-        add_filter('get_search_query', function($query) {
+        add_filter('get_search_query', function ($query) {
             return preg_replace('/[<>()[\]{}\/\\\\]/', '', $query);
         });
     }
@@ -1684,38 +1719,38 @@ function sanitize_search_query_param() {
 add_action('template_redirect', 'sanitize_search_query_param');
 
 add_action('init', function () {
-	$attachments = [
-            14216 => '2025/04/Data-engineering-and-analytics.webp',
-    	14217 => '2025/04/Digital-Engineering.webp',
-    	14219 => '2025/04/Quality-Engineering.webp',
-    	14765 => '2025/05/Our-Service-Image-Circle-Intelligent-Automation-1.webp',
-	];
+    $attachments = [
+        14216 => '2025/04/Data-engineering-and-analytics.webp',
+        14217 => '2025/04/Digital-Engineering.webp',
+        14219 => '2025/04/Quality-Engineering.webp',
+        14765 => '2025/05/Our-Service-Image-Circle-Intelligent-Automation-1.webp',
+    ];
 
-	global $wpdb;
+    global $wpdb;
 
-	foreach ($attachments as $post_id => $filename) {
-    	$cdn_url = "https://websitedev-db0c5dadd1-endpoint.azureedge.net/wp-content/uploads/$filename";
-    	$relative_path = "/$filename";
+    foreach ($attachments as $post_id => $filename) {
+        $cdn_url = "https://websitedev-db0c5dadd1-endpoint.azureedge.net/wp-content/uploads/$filename";
+        $relative_path = "/$filename";
 
-    	// 1. Update guid
-    	$wpdb->update(
-        	$wpdb->posts,
-        	['guid' => $cdn_url],
-        	['ID' => $post_id]
-    	);
+        // 1. Update guid
+        $wpdb->update(
+            $wpdb->posts,
+            ['guid' => $cdn_url],
+            ['ID' => $post_id]
+        );
 
-    	// 2. Update _wp_attached_file
-    	update_post_meta($post_id, '_wp_attached_file', $relative_path);
+        // 2. Update _wp_attached_file
+        update_post_meta($post_id, '_wp_attached_file', $relative_path);
 
-    	// 3.Refresh metadata
-    	$metadata = wp_get_attachment_metadata($post_id);
-    	if ($metadata) {
-        	wp_update_attachment_metadata($post_id, $metadata);
-    	}
-	}
+        // 3.Refresh metadata
+        $metadata = wp_get_attachment_metadata($post_id);
+        if ($metadata) {
+            wp_update_attachment_metadata($post_id, $metadata);
+        }
+    }
 
-	// Run only once, then remove this hook
-	remove_action('init', __FUNCTION__);
+    // Run only once, then remove this hook
+    remove_action('init', __FUNCTION__);
 });
 
 //ACF custom field for pdf attachment
@@ -1723,61 +1758,61 @@ add_action('init', function () {
 
 function add_pardot_download_script()
 {
-  if (!function_exists('get_field')) {
-    wp_send_json_error(['message' => 'ACF not initialized']);
-    return;
-  }
-  //$pdf = get_field('acf_posts_pdf_download'); // Returns an array if file exists
-  if (is_single()) {
-    $pdf = get_field('acf_posts_pdf_download');
-    if ($pdf && isset($pdf['url'])) {
-?>
-      <script>
-        window.addEventListener('message', function(event) {
-          try {
-			  const trustedDomainPattern = /^https:\/\/([a-z0-9-]+\.)*adrosonic\.com$/i;
-
-         
-             if (!trustedDomainPattern.test(event.origin)){
-              console.warn('Blocked message from untrusted origin:', event.origin);
-              return;
-            }
-
-            if (event.data === 'pardot') {
-              jQuery('.download-pardot-popup-overlay').hide();
-              handlePardotFormSuccess();
-              console.log("Handled pardot message from trusted origin");
-            }
-
-          } catch (e) {
-            console.log("Error while handling postMessage securely:", e);
-          }
-        });
-
-
-        function handlePardotFormSuccess() {
-          triggerPDFDownload();
-
-          function triggerPDFDownload() {
-            const pdfUrl = '<?php echo esc_url($pdf['url']); ?>';
-
-            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            const isIOS = /iP(ad|hone|od)/i.test(navigator.userAgent);
-
-            if (isSafari && isIOS) {
-              // For iOS Safari — open in same tab
-              window.location.href = pdfUrl;
-            } else {
-              // For all other browsers — open in new tab
-              window.open(pdfUrl, '_blank');
-              location.reload(); // Reload only for non-Safari
-            }
-          }
-        }
-      </script>
-  <?php
+    if (!function_exists('get_field')) {
+        wp_send_json_error(['message' => 'ACF not initialized']);
+        return;
     }
-  }
+    //$pdf = get_field('acf_posts_pdf_download'); // Returns an array if file exists
+    if (is_single()) {
+        $pdf = get_field('acf_posts_pdf_download');
+        if ($pdf && isset($pdf['url'])) {
+    ?>
+            <script>
+                window.addEventListener('message', function(event) {
+                    try {
+                        const trustedDomainPattern = /^https:\/\/([a-z0-9-]+\.)*adrosonic\.com$/i;
+
+
+                        if (!trustedDomainPattern.test(event.origin)) {
+                            console.warn('Blocked message from untrusted origin:', event.origin);
+                            return;
+                        }
+
+                        if (event.data === 'pardot') {
+                            jQuery('.download-pardot-popup-overlay').hide();
+                            handlePardotFormSuccess();
+                            console.log("Handled pardot message from trusted origin");
+                        }
+
+                    } catch (e) {
+                        console.log("Error while handling postMessage securely:", e);
+                    }
+                });
+
+
+                function handlePardotFormSuccess() {
+                    triggerPDFDownload();
+
+                    function triggerPDFDownload() {
+                        const pdfUrl = '<?php echo esc_url($pdf['url']); ?>';
+
+                        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                        const isIOS = /iP(ad|hone|od)/i.test(navigator.userAgent);
+
+                        if (isSafari && isIOS) {
+                            // For iOS Safari — open in same tab
+                            window.location.href = pdfUrl;
+                        } else {
+                            // For all other browsers — open in new tab
+                            window.open(pdfUrl, '_blank');
+                            location.reload(); // Reload only for non-Safari
+                        }
+                    }
+                }
+            </script>
+    <?php
+        }
+    }
 }
 add_action('wp_footer', 'add_pardot_download_script');
 
@@ -1786,206 +1821,208 @@ add_action('wp_footer', 'inject_pardot_iframe_with_Product_Interest');
 
 function inject_pardot_iframe_with_Product_Interest()
 {
-  if (!is_single()) return;
+    if (!is_single()) return;
 
-  global $post;
-  if (!$post) return;
-  if (empty($GLOBALS['should_show_download_popup_form']) && strpos($post->post_content, 'open-download-popup') === false) return;
+    global $post;
+    if (!$post) return;
+    if (empty($GLOBALS['should_show_download_popup_form']) && strpos($post->post_content, 'open-download-popup') === false) return;
 
-  // Get all categories assigned to the post
-  $post_categories = get_the_category($post->ID);
+    // Get all categories assigned to the post
+    $post_categories = get_the_category($post->ID);
 
-  // Get the "Service" category ID
-  $service_parent = get_term_by('name', 'Service', 'category');
-  $service_parent_id = $service_parent ? $service_parent->term_id : 0;
+    // Get the "Service" category ID
+    $service_parent = get_term_by('name', 'Service', 'category');
+    $service_parent_id = $service_parent ? $service_parent->term_id : 0;
 
-  $included_names = [];
+    $included_names = [];
 
-  foreach ($post_categories as $cat) {
-    if ($cat->term_id == $service_parent_id) {
-      // Skip the top-level "Service" category
-      continue;
-    }
-
-    if ($cat->parent == $service_parent_id) {
-      // It's a direct child of "Service"
-      $included_names[] = $cat->name;
-    } else {
-      // It's a grandchild; check its parent
-      $parent_cat = get_category($cat->parent);
-      if ($parent_cat && !is_wp_error($parent_cat) && $parent_cat->parent == $service_parent_id) {
-        // Include the parent (which is a direct child of "Service")
-        $included_names[] = $parent_cat->name;
-      }
-    }
-  }
-
-  // Fallback if nothing relevant was found
-  if (empty($included_names)) {
-    $included_names[] = 'General';
-  }
-
-  // Remove duplicates and URL encode
-  $Product_Interest_values = array_unique($included_names);
-  $Product_Interest_encoded = urlencode(implode(',', $Product_Interest_values));
-
-  $terms = get_the_terms($post->ID, 'post_type_category');
-  if (!empty($terms) && !is_wp_error($terms)) {
-    $post_label = $terms[0]->name;
-  } else {
-    // Fallback
-    $post_label = 'Resource';
-  }
-  ?>
-  <!-- The Popup -->
-  <div class="download-pardot-popup-overlay">
-    <div class="download-pardot-popup-content">
-      <span class="close-popup">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-          <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
-          <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
-          <circle cx="16" cy="16" r="15.5" stroke="white" />
-        </svg></span>
-      <h2 class="popup-heading font-bold large-size">Download Our
-        <?php echo esc_html($post_label); ?>
-      </h2>
-      <!-- Pardot Form Embed -->
-      <div class="pardot-form-container">
-        <iframe src="" width="100%" class="download-iframe" type="text/html" frameborder="0" allowTransparency="true"
-          style="border: 0"></iframe>
-      </div>
-    </div>
-  </div>
-<?php
-$download_url = getenv('DOWNLOAD_URL');
-?>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const popupOverlay = document.querySelector('.download-pardot-popup-overlay');
-      const closeButton = document.querySelector('.download-pardot-popup-overlay .close-popup');
-      const openButtons = document.querySelectorAll('.open-download-popup');
-      let pardotPopupScrollY = 0;
-
-      function lockBodyScrollForPardotPopup() {
-        pardotPopupScrollY = window.scrollY || window.pageYOffset;
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${pardotPopupScrollY}px`;
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-      }
-
-      function unlockBodyScrollForPardotPopup() {
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        window.scrollTo(0, pardotPopupScrollY);
-      }
-
-      // Handle all "Download" buttons
-      openButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          popupOverlay.style.display = 'flex';
-          lockBodyScrollForPardotPopup();
-        });
-      });
-
-      // Close popup on close button click
-      closeButton.addEventListener('click', function() {
-        popupOverlay.style.display = 'none';
-        unlockBodyScrollForPardotPopup();
-      });
-
-      // Close popup on background click
-      window.addEventListener('click', function(e) {
-        if (e.target === popupOverlay) {
-          popupOverlay.style.display = 'none';
-          unlockBodyScrollForPardotPopup();
+    foreach ($post_categories as $cat) {
+        if ($cat->term_id == $service_parent_id) {
+            // Skip the top-level "Service" category
+            continue;
         }
-      });
-    	const productInterest = "<?php echo $Product_Interest_encoded; ?>";		
-		const iframe = document.querySelector('.download-iframe');
-		const baseUrl = <?php echo json_encode($download_url); ?>;
-		if (iframe && window.geoData) {
- 		const country = encodeURIComponent(window.geoData.country || 'Unknown');
-  		const continent = encodeURIComponent(window.geoData.continent || 'Unknown');
-  		const productInterest = "<?php echo $Product_Interest_encoded; ?>";
-  		iframe.src = `${baseUrl}?country=${country}&territory=${continent}&Product_Interest=${productInterest}`;
-  		console.log('Iframe URL set with window.geoData:', iframe.src);
-		} else {
-  		console.warn('window.geoData or iframe is missing.');
-		}
 
-     });    
-  </script>
-<?php
+        if ($cat->parent == $service_parent_id) {
+            // It's a direct child of "Service"
+            $included_names[] = $cat->name;
+        } else {
+            // It's a grandchild; check its parent
+            $parent_cat = get_category($cat->parent);
+            if ($parent_cat && !is_wp_error($parent_cat) && $parent_cat->parent == $service_parent_id) {
+                // Include the parent (which is a direct child of "Service")
+                $included_names[] = $parent_cat->name;
+            }
+        }
+    }
+
+    // Fallback if nothing relevant was found
+    if (empty($included_names)) {
+        $included_names[] = 'General';
+    }
+
+    // Remove duplicates and URL encode
+    $Product_Interest_values = array_unique($included_names);
+    $Product_Interest_encoded = urlencode(implode(',', $Product_Interest_values));
+
+    $terms = get_the_terms($post->ID, 'post_type_category');
+    if (!empty($terms) && !is_wp_error($terms)) {
+        $post_label = $terms[0]->name;
+    } else {
+        // Fallback
+        $post_label = 'Resource';
+    }
+    ?>
+    <!-- The Popup -->
+    <div class="download-pardot-popup-overlay">
+        <div class="download-pardot-popup-content">
+            <span class="close-popup">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <circle cx="16" cy="16" r="15.5" stroke="white" />
+                </svg></span>
+            <h2 class="popup-heading font-bold large-size">Download Our
+                <?php echo esc_html($post_label); ?>
+            </h2>
+            <!-- Pardot Form Embed -->
+            <div class="pardot-form-container">
+                <iframe src="" width="100%" class="download-iframe" type="text/html" frameborder="0" allowTransparency="true"
+                    style="border: 0"></iframe>
+            </div>
+        </div>
+    </div>
+    <?php
+    $download_url = getenv('DOWNLOAD_URL');
+    ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const popupOverlay = document.querySelector('.download-pardot-popup-overlay');
+            const closeButton = document.querySelector('.download-pardot-popup-overlay .close-popup');
+            const openButtons = document.querySelectorAll('.open-download-popup');
+            let pardotPopupScrollY = 0;
+
+            function lockBodyScrollForPardotPopup() {
+                pardotPopupScrollY = window.scrollY || window.pageYOffset;
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${pardotPopupScrollY}px`;
+                document.body.style.left = '0';
+                document.body.style.right = '0';
+                document.body.style.width = '100%';
+            }
+
+            function unlockBodyScrollForPardotPopup() {
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.left = '';
+                document.body.style.right = '';
+                document.body.style.width = '';
+                window.scrollTo(0, pardotPopupScrollY);
+            }
+
+            // Handle all "Download" buttons
+            openButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    popupOverlay.style.display = 'flex';
+                    lockBodyScrollForPardotPopup();
+                });
+            });
+
+            // Close popup on close button click
+            closeButton.addEventListener('click', function() {
+                popupOverlay.style.display = 'none';
+                unlockBodyScrollForPardotPopup();
+            });
+
+            // Close popup on background click
+            window.addEventListener('click', function(e) {
+                if (e.target === popupOverlay) {
+                    popupOverlay.style.display = 'none';
+                    unlockBodyScrollForPardotPopup();
+                }
+            });
+            const productInterest = "<?php echo $Product_Interest_encoded; ?>";
+            const iframe = document.querySelector('.download-iframe');
+            const baseUrl = <?php echo json_encode($download_url); ?>;
+            if (iframe && window.geoData) {
+                const country = encodeURIComponent(window.geoData.country || 'Unknown');
+                const continent = encodeURIComponent(window.geoData.continent || 'Unknown');
+                const productInterest = "<?php echo $Product_Interest_encoded; ?>";
+                iframe.src = `${baseUrl}?country=${country}&territory=${continent}&Product_Interest=${productInterest}`;
+                console.log('Iframe URL set with window.geoData:', iframe.src);
+            } else {
+                console.warn('window.geoData or iframe is missing.');
+            }
+
+        });
+    </script>
+    <?php
 }
 
 
 // play pardot code
- 
-function add_pardot_video_play_script() {
-	if (!function_exists('get_field')) {
+
+function add_pardot_video_play_script()
+{
+    if (!function_exists('get_field')) {
         wp_send_json_error(['message' => 'ACF not initialized']);
         return;
     }
-//$video = get_field('acf_pardot_vimeo_video_url');
-if (is_single()) {
-$video = get_field('acf_pardot_vimeo_video_url');
-if ($video) {
-?>
-<script>
-    window.addEventListener('message', function (event) {
-        try {	
-			 const trustedOriginPardotPatten = /^https:\/\/([a-z0-9-]+\.)*adrosonic\.com$/i;   
-             if (! trustedOriginPardotPatten.test(event.origin)){
-              console.warn('Blocked message from untrusted origin:', event.origin);
-              return;
-            }
+    //$video = get_field('acf_pardot_vimeo_video_url');
+    if (is_single()) {
+        $video = get_field('acf_pardot_vimeo_video_url');
+        if ($video) {
+    ?>
+            <script>
+                window.addEventListener('message', function(event) {
+                    try {
+                        const trustedOriginPardotPatten = /^https:\/\/([a-z0-9-]+\.)*adrosonic\.com$/i;
+                        if (!trustedOriginPardotPatten.test(event.origin)) {
+                            console.warn('Blocked message from untrusted origin:', event.origin);
+                            return;
+                        }
 
-          
-			
-            if (event.data === 'pardotvid') {
-                //jQuery('.play-popup-overlay').hide();
-                handleVideoPardotFormSuccess();
-                console.log("here");
-				isFormSubmitted = true;
-            }
-        } catch (e) {
-            console.log("Error while handling postMessage");
-        }
-    });
 
-    function handleVideoPardotFormSuccess() {
-        triggerVideoPlay();
-        function triggerVideoPlay() {
-            
 
-            document.getElementById("formContainer").style.display = "none";
-            document.getElementById("videoContainer").style.display = "block";
-            document.querySelector(".play-popup-content").style.padding = '0';
-            document.querySelector(".form-header").style.display = "none";
-            // Autoplay video
-            const video = document.getElementById("videoIframe");
-            if (!video.dataset.originalSrc) {
-             video.dataset.originalSrc = '<?php echo esc_url($video); ?>';
-            }
-            const baseSrc = video.dataset.originalSrc;
-            if (video && !video.src.includes("autoplay=1")) {
-                video.src = baseSrc + "?autoplay=1&muted=1&playsinline=1";
-            }
-            document.querySelector(".play-popup-overlay").classList.add("video-mode");
-            const postHead = document.querySelector(".post-head");
-            if(postHead) {
-                postHead.style.opacity = "1";
-                postHead.style.transform = "scale(1)";
-            }
-        }
-    }
-</script>
-<?php
+                        if (event.data === 'pardotvid') {
+                            //jQuery('.play-popup-overlay').hide();
+                            handleVideoPardotFormSuccess();
+                            console.log("here");
+                            isFormSubmitted = true;
+                        }
+                    } catch (e) {
+                        console.log("Error while handling postMessage");
+                    }
+                });
+
+                function handleVideoPardotFormSuccess() {
+                    triggerVideoPlay();
+
+                    function triggerVideoPlay() {
+
+
+                        document.getElementById("formContainer").style.display = "none";
+                        document.getElementById("videoContainer").style.display = "block";
+                        document.querySelector(".play-popup-content").style.padding = '0';
+                        document.querySelector(".form-header").style.display = "none";
+                        // Autoplay video
+                        const video = document.getElementById("videoIframe");
+                        if (!video.dataset.originalSrc) {
+                            video.dataset.originalSrc = '<?php echo esc_url($video); ?>';
+                        }
+                        const baseSrc = video.dataset.originalSrc;
+                        if (video && !video.src.includes("autoplay=1")) {
+                            video.src = baseSrc + "?autoplay=1&muted=1&playsinline=1";
+                        }
+                        document.querySelector(".play-popup-overlay").classList.add("video-mode");
+                        const postHead = document.querySelector(".post-head");
+                        if (postHead) {
+                            postHead.style.opacity = "1";
+                            postHead.style.transform = "scale(1)";
+                        }
+                    }
+                }
+            </script>
+    <?php
         }
     }
 }
@@ -1994,72 +2031,73 @@ add_action('wp_footer', 'add_pardot_video_play_script');
 // Passes product interest on the basis of services assgined to the post
 add_action('wp_footer', 'inject_pardot_video_iframe_with_Product_Interest');
 
-function inject_pardot_video_iframe_with_Product_Interest() {
+function inject_pardot_video_iframe_with_Product_Interest()
+{
     if (!is_single()) return;
 
     global $post;
     if (!$post) return;
-//     if (strpos($post->post_content, 'open-pardot-play-popup') === false) return;
+    //     if (strpos($post->post_content, 'open-pardot-play-popup') === false) return;
     if (empty($GLOBALS['should_show_play_popup_form']) && strpos($post->post_content, 'open-pardot-play-popup') === false) return;
 
-  // Get all categories assigned to the post
-  $post_categories = get_the_category($post->ID);
+    // Get all categories assigned to the post
+    $post_categories = get_the_category($post->ID);
 
-  // Get the "Service" category ID
-  $service_parent = get_term_by('name', 'Service', 'category');
-  $service_parent_id = $service_parent ? $service_parent->term_id : 0;
+    // Get the "Service" category ID
+    $service_parent = get_term_by('name', 'Service', 'category');
+    $service_parent_id = $service_parent ? $service_parent->term_id : 0;
 
-  $included_names = [];
+    $included_names = [];
 
-  foreach ($post_categories as $cat) {
-    if ($cat->term_id == $service_parent_id) {
-      // Skip the top-level "Service" category
-      continue;
+    foreach ($post_categories as $cat) {
+        if ($cat->term_id == $service_parent_id) {
+            // Skip the top-level "Service" category
+            continue;
+        }
+
+        if ($cat->parent == $service_parent_id) {
+            // It's a direct child of "Service"
+            $included_names[] = $cat->name;
+        } else {
+            // It's a grandchild; check its parent
+            $parent_cat = get_category($cat->parent);
+            if ($parent_cat && $parent_cat->parent == $service_parent_id) {
+                // Include the parent (which is a direct child of "Service")
+                $included_names[] = $parent_cat->name;
+            }
+        }
     }
 
-    if ($cat->parent == $service_parent_id) {
-      // It's a direct child of "Service"
-      $included_names[] = $cat->name;
-    } else {
-      // It's a grandchild; check its parent
-      $parent_cat = get_category($cat->parent);
-      if ($parent_cat && $parent_cat->parent == $service_parent_id) {
-        // Include the parent (which is a direct child of "Service")
-        $included_names[] = $parent_cat->name;
-      }
+    // Fallback if nothing relevant was found
+    if (empty($included_names)) {
+        $included_names[] = 'General';
     }
-  }
 
-  // Fallback if nothing relevant was found
-  if (empty($included_names)) {
-    $included_names[] = 'General';
-  }
+    // Remove duplicates and URL encode
+    $Product_Interest_values = array_unique($included_names);
+    $Product_Interest_encoded = urlencode(implode(',', $Product_Interest_values));
 
-  // Remove duplicates and URL encode
-  $Product_Interest_values = array_unique($included_names);
-  $Product_Interest_encoded = urlencode(implode(',', $Product_Interest_values));
-	
-	$terms = get_the_terms($post->ID, 'post_type_category');
+    $terms = get_the_terms($post->ID, 'post_type_category');
     if (!empty($terms) && !is_wp_error($terms)) {
-    $post_label = $terms[0]->name;
+        $post_label = $terms[0]->name;
     } else {
-    // Fallback
-    $post_label = 'Resource';
-	}
+        // Fallback
+        $post_label = 'Resource';
+    }
     ?>
     <!-- The Popup -->
     <div class="play-popup-overlay" id="popup">
-		<div class="head-container">
-    <div class="empty-div"></div>
-        <p class="post-head medium-size font-bold"><?php echo get_the_title(); ?></p>
-        <span class="play-close-btn video-close">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
-                <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
-                <circle cx="16" cy="16" r="15.5" stroke="white" />
-            </svg>
-        </span>
-		</div>
+        <div class="head-container">
+            <div class="empty-div"></div>
+            <p class="post-head medium-size font-bold"><?php echo get_the_title(); ?></p>
+            <span class="play-close-btn video-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <circle cx="16" cy="16" r="15.5" stroke="white" />
+                </svg>
+            </span>
+        </div>
         <div class="play-popup-content">
             <span class="play-close-btn pardot-close">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -2068,110 +2106,111 @@ function inject_pardot_video_iframe_with_Product_Interest() {
                     <circle cx="16" cy="16" r="15.5" stroke="white" />
                 </svg>
             </span>
-            <h3 class="large-size font-bold form-header">Watch Now our <?php echo esc_html($post_label);?></h3>
+            <h3 class="large-size font-bold form-header">Watch Now our <?php echo esc_html($post_label); ?></h3>
             <div id="formContainer" class="form-wrapper">
-                <iframe id="pardotIframe"  width="100%" height="100%" type="text/html" frameborder="0" allowTransparency="true" style="border: 0"></iframe>
+                <iframe id="pardotIframe" width="100%" height="100%" type="text/html" frameborder="0" allowTransparency="true" style="border: 0"></iframe>
             </div>
             <div id="videoContainer" class="video-wrapper" style="display: none;">
                 <iframe id="videoIframe" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
             </div>
         </div>
     </div>
-<?php
-$play_url = getenv('PLAY_URL');
-?>
-<script>
+    <?php
+    $play_url = getenv('PLAY_URL');
+    ?>
+    <script>
+        var isFormSubmitted = window.isFormSubmitted || false;
+        document.addEventListener('DOMContentLoaded', function() {
 
-	var isFormSubmitted = window.isFormSubmitted || false;
-    document.addEventListener('DOMContentLoaded', function () {
-     
-        const popup = document.getElementById("popup");
-        const openButtons = document.querySelectorAll(".open-pardot-play-popup");
-        const closeBtns = document.querySelectorAll(".play-close-btn");
-        let scrollPosition = 0;
+            const popup = document.getElementById("popup");
+            const openButtons = document.querySelectorAll(".open-pardot-play-popup");
+            const closeBtns = document.querySelectorAll(".play-close-btn");
+            let scrollPosition = 0;
 
-        function openPopup() {
+            function openPopup() {
 
-scrollPosition = window.scrollY;
-popup.classList.add("active");
-document.body.style.position = "fixed";
-document.body.style.top = `-${scrollPosition}px`;
-document.body.style.left = "0";
-document.body.style.right = "0";
-document.body.classList.add("no-scroll");
-		popup.classList.remove("video-mode", "form-mode");
+                scrollPosition = window.scrollY;
+                popup.classList.add("active");
+                document.body.style.position = "fixed";
+                document.body.style.top = `-${scrollPosition}px`;
+                document.body.style.left = "0";
+                document.body.style.right = "0";
+                document.body.classList.add("no-scroll");
+                popup.classList.remove("video-mode", "form-mode");
 
-    if (!isFormSubmitted) {
-        popup.classList.add("form-mode");
-    } else {
-        popup.classList.add("video-mode");
+                if (!isFormSubmitted) {
+                    popup.classList.add("form-mode");
+                } else {
+                    popup.classList.add("video-mode");
 
-        const video = document.getElementById("videoIframe");
-        if (video && video.dataset.originalSrc) {
-            video.src = video.dataset.originalSrc + "?autoplay=1&muted=1&playsinline=1";
-        }
-    }
-}
-function closePopup() {
-popup.classList.remove("active","video-mode");
-document.body.classList.remove("no-scroll");
-document.body.style.position = "";
-document.body.style.top = "";
-document.body.style.left = "";
-document.body.style.right = "";
-window.scrollTo(0, scrollPosition);
-	
-	const video = document.getElementById("videoIframe");
-    if (video && video.contentWindow) {
-        video.contentWindow.postMessage('{"method":"pause"}', '*');
-    }
+                    const video = document.getElementById("videoIframe");
+                    if (video && video.dataset.originalSrc) {
+                        video.src = video.dataset.originalSrc + "?autoplay=1&muted=1&playsinline=1";
+                    }
+                }
+            }
 
-}
-		
-        // Handle all "Play" buttons
-        openButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                openPopup();
+            function closePopup() {
+                popup.classList.remove("active", "video-mode");
+                document.body.classList.remove("no-scroll");
+                document.body.style.position = "";
+                document.body.style.top = "";
+                document.body.style.left = "";
+                document.body.style.right = "";
+                window.scrollTo(0, scrollPosition);
+
+                const video = document.getElementById("videoIframe");
+                if (video && video.contentWindow) {
+                    video.contentWindow.postMessage('{"method":"pause"}', '*');
+                }
+
+            }
+
+            // Handle all "Play" buttons
+            openButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    openPopup();
+                });
             });
+
+            // Close popup on close button click
+            closeBtns.forEach(button => {
+                button.addEventListener("click", () => {
+                    closePopup();
+
+                });
+            });
+
+            // Close popup on background click
+            popup.addEventListener("click", (e) => {
+                if (e.target === popup) {
+                    closePopup();
+                }
+            });
+
+            const productInterest = "<?php echo $Product_Interest_encoded; ?>";
+            const iframe = document.getElementById("pardotIframe");
+            const baseUrl = <?php echo json_encode($play_url); ?>;
+
+            if (iframe && window.geoData) {
+                const country = encodeURIComponent(window.geoData.country || 'Unknown');
+                const continent = encodeURIComponent(window.geoData.continent || 'Unknown');
+                const productInterest = "<?php echo $Product_Interest_encoded; ?>";
+
+                iframe.src = `${baseUrl}?country=${country}&territory=${continent}&Product_Interest=${productInterest}`;
+                console.log('Iframe URL set with window.geoData:', iframe.src);
+            } else {
+                console.warn('window.geoData or iframe is missing.');
+            }
+
         });
-
-        // Close popup on close button click
-        closeBtns.forEach(button => {
-  button.addEventListener("click", () => {
-    closePopup();
-
-});
-});
-
-        // Close popup on background click
-        popup.addEventListener("click", (e) => {
-  if (e.target === popup) {
-    closePopup();
-  }
-});
-		
-        const productInterest = "<?php echo $Product_Interest_encoded; ?>";
-		const iframe = document.getElementById("pardotIframe");
-		const baseUrl = <?php echo json_encode($play_url); ?>;
-
-		if (iframe && window.geoData) {
- 		const country = encodeURIComponent(window.geoData.country || 'Unknown');
- 		const continent = encodeURIComponent(window.geoData.continent || 'Unknown');
-  		const productInterest = "<?php echo $Product_Interest_encoded; ?>";
-
-  		iframe.src = `${baseUrl}?country=${country}&territory=${continent}&Product_Interest=${productInterest}`;
-  		console.log('Iframe URL set with window.geoData:', iframe.src);
-		} else {
-  		console.warn('window.geoData or iframe is missing.');
-		}
-
-     });    
-  </script>
+    </script>
 
 <?php
 }
 // vimeo video popup for podcast client story coffee with adrosonic without pardot form
-function is_video_popup_no_pardot_post_type() {
+function is_video_popup_no_pardot_post_type()
+{
     if (!function_exists('get_field')) return false;
     if (!is_singular('post')) return false;
 
@@ -2182,83 +2221,84 @@ function is_video_popup_no_pardot_post_type() {
     return !empty(array_intersect($allowed_categories, $terms));
 }
 
-function inject_vimeo_video_popup_no_pardot() {
-	 if (!is_video_popup_no_pardot_post_type()) return;
+function inject_vimeo_video_popup_no_pardot()
+{
+    if (!is_video_popup_no_pardot_post_type()) return;
     $post_id = get_the_ID();
-    $video_url = get_field('acf_pardot_vimeo_video_url', $post_id); 
+    $video_url = get_field('acf_pardot_vimeo_video_url', $post_id);
     $post_title = get_the_title($post_id);
-    if (!$video_url) return; 
-    ?>
+    if (!$video_url) return;
+?>
     <div class="play-popup-overlay-no-pardot" id="video-popup-no-pardot"
-         data-video-src="<?php echo esc_url($video_url); ?>"
-         data-post-title="<?php echo esc_attr($post_title); ?>">
-      <div class="head-container">
-        <div class="empty-div"></div>
-        <p class="post-head medium-size font-bold"><?php echo esc_html($post_title); ?></p>
-        <span class="play-close-btn video-close">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
-            <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
-            <circle cx="16" cy="16" r="15.5" stroke="white" />
-          </svg>
-        </span>
-      </div>
-      <div class="play-popup-content">
-        <div class="video-wrapper">
-          <iframe class="video-iframe-no-pardot" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        data-video-src="<?php echo esc_url($video_url); ?>"
+        data-post-title="<?php echo esc_attr($post_title); ?>">
+        <div class="head-container">
+            <div class="empty-div"></div>
+            <p class="post-head medium-size font-bold"><?php echo esc_html($post_title); ?></p>
+            <span class="play-close-btn video-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <path d="M9 9L23 23" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <path d="M9 23L23 9" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <circle cx="16" cy="16" r="15.5" stroke="white" />
+                </svg>
+            </span>
         </div>
-      </div>
+        <div class="play-popup-content">
+            <div class="video-wrapper">
+                <iframe class="video-iframe-no-pardot" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+        </div>
     </div>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const popup = document.querySelector("#video-popup-no-pardot");
-        const openButtons = document.querySelectorAll(".open-play-popup-no-pardot");
-        const video = popup.querySelector(".video-iframe-no-pardot");
-        const closeBtn = popup.querySelector(".video-close");
-        let scrollPosition = 0;
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.querySelector("#video-popup-no-pardot");
+            const openButtons = document.querySelectorAll(".open-play-popup-no-pardot");
+            const video = popup.querySelector(".video-iframe-no-pardot");
+            const closeBtn = popup.querySelector(".video-close");
+            let scrollPosition = 0;
 
-        const videoSrc = popup.dataset.videoSrc;
-        const postTitle = popup.dataset.postTitle;
+            const videoSrc = popup.dataset.videoSrc;
+            const postTitle = popup.dataset.postTitle;
 
-        function openPopup() {
-          scrollPosition = window.scrollY;
-          popup.classList.add("active");
-          document.body.style.position = "fixed";
-          document.body.style.top = `-${scrollPosition}px`;
-          document.body.classList.add("no-scroll");
+            function openPopup() {
+                scrollPosition = window.scrollY;
+                popup.classList.add("active");
+                document.body.style.position = "fixed";
+                document.body.style.top = `-${scrollPosition}px`;
+                document.body.classList.add("no-scroll");
 
-          if (videoSrc) {
-            video.src = videoSrc + "?autoplay=1&muted=1&playsinline=1";
-          }
-        }
+                if (videoSrc) {
+                    video.src = videoSrc + "?autoplay=1&muted=1&playsinline=1";
+                }
+            }
 
-        function closePopup() {
-          popup.classList.remove("active");
-          document.body.classList.remove("no-scroll");
-          document.body.style.position = "";
-          document.body.style.top = "";
-          window.scrollTo(0, scrollPosition);
-          if (video) {
-            video.contentWindow?.postMessage('{"method":"pause"}', '*');
-            video.src = "";
-          }
-        }
+            function closePopup() {
+                popup.classList.remove("active");
+                document.body.classList.remove("no-scroll");
+                document.body.style.position = "";
+                document.body.style.top = "";
+                window.scrollTo(0, scrollPosition);
+                if (video) {
+                    video.contentWindow?.postMessage('{"method":"pause"}', '*');
+                    video.src = "";
+                }
+            }
 
-        openButtons.forEach(button => {
-          button.addEventListener("click", function (e) {
-            e.preventDefault();
-            openPopup();
-          });
+            openButtons.forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    openPopup();
+                });
+            });
+
+            closeBtn.addEventListener("click", closePopup);
+            popup.addEventListener("click", (e) => {
+                if (e.target === popup) closePopup();
+            });
         });
-
-        closeBtn.addEventListener("click", closePopup);
-        popup.addEventListener("click", (e) => {
-          if (e.target === popup) closePopup();
-        });
-      });
     </script>
 
-    <?php
+<?php
 }
 add_action('wp_footer', 'inject_vimeo_video_popup_no_pardot');
 
@@ -2269,7 +2309,8 @@ add_action('wp_ajax_acf_live_search', 'acf_live_search');
 add_action('wp_ajax_nopriv_acf_live_search', 'acf_live_search');
 
 // Utility function to check if a post is valid and published
-function is_valid_published_post($post) {
+function is_valid_published_post($post)
+{
     if (!($post instanceof WP_Post)) return false;
     if ($post->post_status !== 'publish') return false;
     if (!in_array($post->post_type, ['post', 'page'])) return false;
@@ -2277,7 +2318,7 @@ function is_valid_published_post($post) {
     // Exclude the "thankyou-lets-connect" page
     $thank_you_page = get_page_by_path('thankyou-lets-connect');
     if ($thank_you_page && $post->ID === $thank_you_page->ID) return false;
-	 // Exclude the "insight" page
+    // Exclude the "insight" page
     $insight = get_page_by_path('insight');
     if ($insight && $post->ID === $insight->ID) return false;
 
@@ -2285,7 +2326,8 @@ function is_valid_published_post($post) {
 }
 
 // Function to rank post IDs based on keyword relevance
-function get_ranked_post_ids_by_keyword($keyword) {
+function get_ranked_post_ids_by_keyword($keyword)
+{
     global $wpdb;
     $keyword_like = '%' . $wpdb->esc_like($keyword) . '%';
     $posts = [];
@@ -2297,7 +2339,9 @@ function get_ranked_post_ids_by_keyword($keyword) {
     $title_matches = $wpdb->get_results($wpdb->prepare(
         "SELECT ID, post_title, post_type, post_date FROM $wpdb->posts
          WHERE post_status = 'publish' AND post_type IN ('post', 'page')
-         AND post_title LIKE %s", $keyword_like));
+         AND post_title LIKE %s",
+        $keyword_like
+    ));
 
     foreach ($title_matches as $post) {
         if ($exclude_id && $post->ID == $exclude_id) continue;
@@ -2309,7 +2353,9 @@ function get_ranked_post_ids_by_keyword($keyword) {
     $slug_matches = $wpdb->get_results($wpdb->prepare(
         "SELECT ID, post_type, post_date FROM $wpdb->posts
          WHERE post_status = 'publish' AND post_type IN ('post', 'page')
-         AND post_name LIKE %s", $keyword_like));
+         AND post_name LIKE %s",
+        $keyword_like
+    ));
     foreach ($slug_matches as $post) {
         if ($exclude_id && $post->ID == $exclude_id) continue;
         $posts[$post->ID]['score'] = max($posts[$post->ID]['score'] ?? 800, 800);
@@ -2320,7 +2366,9 @@ function get_ranked_post_ids_by_keyword($keyword) {
     // ACF/meta field match (merged)
     $meta_matches = $wpdb->get_results($wpdb->prepare(
         "SELECT DISTINCT post_id FROM $wpdb->postmeta
-         WHERE meta_value LIKE %s", $keyword_like));
+         WHERE meta_value LIKE %s",
+        $keyword_like
+    ));
     foreach ($meta_matches as $meta) {
         $post_data = get_post($meta->post_id);
         if ($exclude_id && $meta->post_id == $exclude_id) continue;
@@ -2334,7 +2382,9 @@ function get_ranked_post_ids_by_keyword($keyword) {
     $content_matches = $wpdb->get_results($wpdb->prepare(
         "SELECT ID, post_type, post_date FROM $wpdb->posts
          WHERE post_status = 'publish' AND post_type IN ('post', 'page')
-         AND post_content LIKE %s", $keyword_like));
+         AND post_content LIKE %s",
+        $keyword_like
+    ));
     foreach ($content_matches as $post) {
         if ($exclude_id && $post->ID == $exclude_id) continue;
         $posts[$post->ID]['score'] = max($posts[$post->ID]['score'] ?? 600, 600);
@@ -2380,7 +2430,8 @@ function get_ranked_post_ids_by_keyword($keyword) {
 
 
 // AJAX Search Handler
-function acf_live_search() {
+function acf_live_search()
+{
     global $wpdb;
 
     $keyword = isset($_POST['keyword']) ? trim(wp_unslash($_POST['keyword'])) : '';
@@ -2454,7 +2505,9 @@ function acf_live_search() {
          WHERE p.post_status = 'publish'
          AND p.post_type = 'leader'
          AND pm.meta_key = 'acf_leader_name'
-         AND pm.meta_value LIKE %s", $keyword_like));
+         AND pm.meta_value LIKE %s",
+        $keyword_like
+    ));
     if ($acf_leader_match > 0) {
         $leadership_page = get_page_by_path('leadership');
         if ($leadership_page && $leadership_page->ID !== $exclude_id) {
@@ -2495,22 +2548,24 @@ add_action('pre_get_posts', function ($query) {
 
 // Inject AJAX URL into frontend
 add_action('wp_head', function () {
-    ?>
+?>
     <script type="text/javascript">
         var search_ajax_obj = {
             ajaxurl: "<?php echo esc_js(admin_url('admin-ajax.php')); ?>"
         };
     </script>
-    <?php
+<?php
 });
 
 // custom color picker option in admin panel
-function add_theme_color_column($columns) {
+function add_theme_color_column($columns)
+{
     $columns['theme_color'] = 'Theme Color';
     return $columns;
 }
-add_filter('manage_posts_columns', 'add_theme_color_column'); 
-function show_theme_color_column_content($column, $post_id) {
+add_filter('manage_posts_columns', 'add_theme_color_column');
+function show_theme_color_column_content($column, $post_id)
+{
     if ($column === 'theme_color') {
         echo esc_html(get_post_meta($post_id, 'theme_color', true) ?: 'generic');
     }
@@ -2519,7 +2574,8 @@ add_action('manage_posts_custom_column', 'show_theme_color_column_content', 10, 
 add_action('admin_head', function () {
     echo '<style>.column-theme_color { display: none; }</style>';
 });
-function register_theme_color_meta() {
+function register_theme_color_meta()
+{
     register_post_meta('post', 'theme_color', [
         'type' => 'string',
         'single' => true,
@@ -2529,7 +2585,8 @@ function register_theme_color_meta() {
 }
 add_action('init', 'register_theme_color_meta');
 
-function add_theme_color_dropdown_meta_box() {
+function add_theme_color_dropdown_meta_box()
+{
     add_meta_box(
         'theme_color_meta_box',
         'Theme Color',
@@ -2541,9 +2598,10 @@ function add_theme_color_dropdown_meta_box() {
 }
 add_action('add_meta_boxes', 'add_theme_color_dropdown_meta_box');
 
-function render_theme_color_dropdown($post) {
+function render_theme_color_dropdown($post)
+{
     $value = get_post_meta($post->ID, 'theme_color', true) ?: 'generic';
-    ?>
+?>
     <label for="theme_color">Choose a Theme:</label>
     <select name="theme_color" id="theme_color">
         <option value="generic" <?php selected($value, 'generic'); ?>>Electric Green (default)</option>
@@ -2552,10 +2610,11 @@ function render_theme_color_dropdown($post) {
         <option value="qe" <?php selected($value, 'qe'); ?>>Quality Engineering</option>
         <option value="dea" <?php selected($value, 'dea'); ?>>Data Engineering & Analytics</option>
     </select>
-    <?php
+<?php
 }
 
-function save_theme_color_meta($post_id) {
+function save_theme_color_meta($post_id)
+{
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (array_key_exists('theme_color', $_POST)) {
         update_post_meta($post_id, 'theme_color', sanitize_text_field($_POST['theme_color']));
@@ -2563,9 +2622,10 @@ function save_theme_color_meta($post_id) {
 }
 add_action('save_post', 'save_theme_color_meta');
 
-function add_theme_color_quick_edit_field($column_name, $post_type) {
+function add_theme_color_quick_edit_field($column_name, $post_type)
+{
     if ($column_name !== 'theme_color' || $post_type !== 'post') return;
-    ?>
+?>
     <fieldset class="inline-edit-col-left">
         <div class="inline-edit-col">
             <span class="title">Theme Color</span>
@@ -2578,19 +2638,21 @@ function add_theme_color_quick_edit_field($column_name, $post_type) {
             </select>
         </div>
     </fieldset>
-    <?php
+<?php
 }
 add_action('quick_edit_custom_box', 'add_theme_color_quick_edit_field', 10, 2);
 
-function save_quick_edit_theme_color($post_id) {
+function save_quick_edit_theme_color($post_id)
+{
     if (isset($_POST['theme_color'])) {
         update_post_meta($post_id, 'theme_color', sanitize_text_field($_POST['theme_color']));
     }
 }
 add_action('save_post', 'save_quick_edit_theme_color');
 
-function enqueue_quick_edit_script() {
-    ?>
+function enqueue_quick_edit_script()
+{
+?>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const $ = jQuery;
@@ -2602,18 +2664,19 @@ function enqueue_quick_edit_script() {
 
             const inlineEditPost = inlineEditPost || {};
             const original = inlineEditPost.edit;
-            inlineEditPost.edit = function (id) {
+            inlineEditPost.edit = function(id) {
                 original.apply(this, arguments);
                 if (typeof id === 'object') id = this.getId(id);
                 setThemeColorInQuickEdit(id);
             };
         });
     </script>
-    <?php
+<?php
 }
 add_action('admin_footer-edit.php', 'enqueue_quick_edit_script');
 
-function add_theme_color_data_attribute($column_name, $post_id) {
+function add_theme_color_data_attribute($column_name, $post_id)
+{
     if ($column_name === 'theme_color') {
         $theme = get_post_meta($post_id, 'theme_color', true) ?: 'generic';
         echo "<script>
@@ -2625,7 +2688,8 @@ function add_theme_color_data_attribute($column_name, $post_id) {
 }
 add_action('manage_posts_custom_column', 'add_theme_color_data_attribute', 10, 2);
 
-function add_theme_color_body_class($classes) {
+function add_theme_color_body_class($classes)
+{
     if (is_singular('post')) {
         $theme_color = get_post_meta(get_the_ID(), 'theme_color', true) ?: 'generic';
         $classes[] = 'theme-' . sanitize_html_class($theme_color);
@@ -2636,11 +2700,13 @@ add_filter('body_class', 'add_theme_color_body_class');
 
 // global search barr suggestion injection
 
-function disable_astra_live_search() {
-    wp_dequeue_script( 'astra-live-search' );
-    wp_deregister_script( 'astra-live-search' );
+function disable_astra_live_search()
+{
+    wp_dequeue_script('astra-live-search');
+    wp_deregister_script('astra-live-search');
 }
-function enqueue_custom_live_search_script() {
+function enqueue_custom_live_search_script()
+{
     wp_enqueue_script(
         'custom-live-search',
         '/wp-content/themes/astra-child/js/custom-live-search.js',
@@ -2659,20 +2725,21 @@ function enqueue_custom_live_search_script() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_live_search_script');
 
-function enqueue_custom_template_assets() {
+function enqueue_custom_template_assets()
+{
     // Get current template file name
     $template = basename(get_page_template());
- 
+
     switch ($template) {
-		case 'template_homepage.php':
+        case 'template_homepage.php':
             $css = 'homepage.css';
             $js  = 'homepage.js';
             break;
-		case 'pressRelease_template.php':
+        case 'pressRelease_template.php':
             $css = 'pressrelease.css';
             $js  = 'pressrelease.js';
             break;
-		case 'template_policy.php':
+        case 'template_policy.php':
             $css = 'policy.css';
             $js  = 'policy.js';
             break;
@@ -2680,46 +2747,66 @@ function enqueue_custom_template_assets() {
             $css = 'whitepaper.css';
             $js  = 'whitepaper.js';
             break;
- 		case 'ebook_template.php':
+        case 'ebook_template.php':
             $css = 'ebook.css';
             $js  = 'ebook.js';
             break;
-		case 'webinar.php':
+        case 'webinar.php':
             $css = 'webinar.css';
             $js  = 'webinar.js';
             break;
-		case 'cwa.php':
+        case 'cwa.php':
             $css = 'video-cwa.css';
             $js  = 'video-cwa.js';
             break;
-		case 'case_study_template.php':
+        case 'case_study_template.php':
             $css = 'case-study.css';
             $js  = 'case-study.js';
             break;
-		case 'use_case.php':
+        case 'use_case.php':
             $css = 'use-case.css';
             $js  = 'use-case.js';
             break;
-		case 'flexible.php':
+        case 'flexible.php':
             $css = 'blog.css';
             $js  = 'blog.js';
             break;
-		case 'about_us_template.php':
-			$css = 'about-us.css';
-			$js = 'about-us.js';
-			break;
+        case 'about_us_template.php':
+            $css = 'about-us.css';
+            $js = 'about-us.js';
+            break;
         case 'career.php':
             $css = 'careers.css';
             $js  = 'careers.js';
             break;
+        case 'contact_us_template.php':
+            $css = 'contact-us.css';
+            $js  = 'contact-us.js';
+            break;
+        case 'innovation_template.php':
+            $css = 'innovation.css';
+            $js  = 'innovation.js';
+            break;
+        case 'insights_template.php':
+            $css = 'insights.css';
+            $js  = 'insights.js';
+            break;
+        case 'leadership_template.php':
+            $css = 'leadership.css';
+            $js  = 'leadership.js';
+            break;
+        case 'partner_template.php':
+            $css = 'partner.css';
+            $js  = 'partner.js';
+            break;
         default:
             return;
     }
- 
+
     // Enqueue the matched CSS and JS
     $css_path = get_stylesheet_directory_uri() . '/css/' . $css;
     $js_path  = get_stylesheet_directory_uri() . '/js/' . $js;
- 
+
     wp_enqueue_style("template-style-{$template}", $css_path, [], filemtime(get_stylesheet_directory() . '/css/' . $css));
     wp_enqueue_script("template-script-{$template}", $js_path, ['jquery'], filemtime(get_stylesheet_directory() . '/js/' . $js), true);
 }
@@ -2729,7 +2816,8 @@ add_filter('wp_die_handler', function () {
     return 'my_custom_fatal_error_handler';
 });
 
-function my_custom_fatal_error_handler($message, $title = '', $args = []) {
+function my_custom_fatal_error_handler($message, $title = '', $args = [])
+{
     status_header(500);
 
     $error_file_path = get_theme_file_path('critical-error.html');
@@ -2752,7 +2840,8 @@ if (isset($_GET['test_fatal']) && $_GET['test_fatal'] === '1') {
 
 //visual editor 
 add_filter('acf/update_value/type=wysiwyg', 'acf_clean_tinymce_bookmarks_before_save', 10, 3);
-function acf_clean_tinymce_bookmarks_before_save($value, $post_id, $field) {
+function acf_clean_tinymce_bookmarks_before_save($value, $post_id, $field)
+{
     // Remove TinyMCE bookmark spans
     $value = preg_replace('/<span[^>]*data-mce-type="bookmark"[^>]*>.*?<\/span>/i', '', $value);
     return $value;
@@ -2776,24 +2865,26 @@ add_action('send_headers', function () {
 // ----------------------------
 // 2. Enable bfcache-safe events
 // ----------------------------
-function add_bfcache_script() {
-    ?>
+function add_bfcache_script()
+{
+?>
     <script>
-    window.addEventListener('pageshow', function (event) {
-        if (event.persisted) {
-            // You came back via back/forward nav (from bfcache)
-           // console.log('Restored from bfcache');
-        }
-    });
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                // You came back via back/forward nav (from bfcache)
+                // console.log('Restored from bfcache');
+            }
+        });
     </script>
-    <?php
+<?php
 }
 add_action('wp_footer', 'add_bfcache_script');
 
 // ----------------------------
 // 3. Instant Navigation
 // ----------------------------
-function load_instant_page() {
+function load_instant_page()
+{
     echo '<script src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js" type="module" defer></script>';
 }
 add_action('wp_footer', 'load_instant_page');
@@ -2801,24 +2892,26 @@ add_action('wp_footer', 'load_instant_page');
 // ----------------------------
 // 4. Preload/prefetch critical internal links
 // ----------------------------
-function add_prefetch_links() {
-    ?>
+function add_prefetch_links()
+{
+?>
     <link rel="prerender" href="/about-us">
     <link rel="prerender" href="/contact">
     <link rel="prerender" href="/insights">
-	<link rel="prerender" href="/">
-    <?php
+    <link rel="prerender" href="/">
+<?php
 }
 add_action('wp_head', 'add_prefetch_links');
 
-add_action('send_headers', function() {
+add_action('send_headers', function () {
     header_remove('Server'); // Remove existing Server header
     header('Server: adroserver'); // Set your own custom server name
 });
 
 require_once get_stylesheet_directory() . '/cookie.php';
 
-function get_ip_location_data($ip = null) {
+function get_ip_location_data($ip = null)
+{
     if (!$ip && isset($_GET['ip']) && filter_var($_GET['ip'], FILTER_VALIDATE_IP)) {
         $ip = $_GET['ip'];
     }
@@ -2880,14 +2973,16 @@ function get_ip_location_data($ip = null) {
 add_action('wp_ajax_get_user_location', 'ajax_get_user_location');
 add_action('wp_ajax_nopriv_get_user_location', 'ajax_get_user_location');
 
-function ajax_get_user_location() {
+function ajax_get_user_location()
+{
     $response = get_ip_location_data(); // Your existing helper function
     wp_send_json($response);
 }
 
 add_action('wp_footer', 'inject_complete_geolocation_data');
 
-function inject_complete_geolocation_data() {
+function inject_complete_geolocation_data()
+{
     if (is_admin()) return;
 
     $geoData = get_ip_location_data();
@@ -2925,7 +3020,8 @@ add_action('wp_footer', function () {
 }, 99);
 
 // custom permalink for posts
-function customize_post_permalink_with_taxonomy() {
+function customize_post_permalink_with_taxonomy()
+{
     // 1. Filter post permalink to include post_type_category
     add_filter('post_link', function ($permalink, $post) {
         if ($post->post_type !== 'post') return $permalink;
@@ -2973,18 +3069,18 @@ function customize_post_permalink_with_taxonomy() {
         }
 
         // Redirect taxonomy archive URLs like /whitepaper/ to /insights/
-//         $request_uri = trim($_SERVER['REQUEST_URI'], '/');
+        //         $request_uri = trim($_SERVER['REQUEST_URI'], '/');
 
-//         $taxonomy_terms = get_terms([
-//             'taxonomy' => 'post_type_category',
-//             'hide_empty' => false,
-//             'fields' => 'slugs',
-//         ]);
+        //         $taxonomy_terms = get_terms([
+        //             'taxonomy' => 'post_type_category',
+        //             'hide_empty' => false,
+        //             'fields' => 'slugs',
+        //         ]);
 
-//         if (in_array($request_uri, $taxonomy_terms)) {
-//             wp_redirect(home_url('/insights/'), 301);
-//             exit;
-//         }
+        //         if (in_array($request_uri, $taxonomy_terms)) {
+        //             wp_redirect(home_url('/insights/'), 301);
+        //             exit;
+        //         }
     });
 }
 customize_post_permalink_with_taxonomy();
@@ -2993,18 +3089,20 @@ add_action('init', function () {
     header_remove('X-Powered-By');
 });
 // adding sticky event notification to all pages
-function maybe_show_event_notification() {
+function maybe_show_event_notification()
+{
     if (!is_singular()) return;
 
     if (!empty(get_field('acf_minimized_text'))) {
         add_action('wp_footer', function () {
-			require_once get_stylesheet_directory() . '/events_notification.php';
+            require_once get_stylesheet_directory() . '/events_notification.php';
         });
     }
 }
 add_action('template_redirect', 'maybe_show_event_notification');
 //post filter logic
-function custom_post_type_category_rewrite() {
+function custom_post_type_category_rewrite()
+{
     $terms = get_terms([
         'taxonomy' => 'post_type_category',
         'hide_empty' => false,
@@ -3042,7 +3140,8 @@ add_action('template_redirect', function () {
 add_action('wp_ajax_get_press_releases', 'get_press_releases_callback');
 add_action('wp_ajax_nopriv_get_press_releases', 'get_press_releases_callback');
 
-function get_press_releases_callback() {
+function get_press_releases_callback()
+{
     $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
     $per_page = isset($_GET['per_page']) ? intval($_GET['per_page']) : 6;
 
