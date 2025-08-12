@@ -150,79 +150,95 @@ margin-top: 1.125em;
         }
     }
 </style>
-
 <script>
-    function createAnimatedText() {
-        const paragraph = document.getElementById('animatedParagraph');
-
-        // Get the original text from the paragraph element
-        const originalText = paragraph.innerHTML;
-
-        // Parse HTML while preserving structure
+    // Utility: build animated spans from original HTML
+    function buildAnimatedTextFromHTML(html, targetEl) {
         const parser = new DOMParser();
-        const doc = parser.parseFromString(`<div>${originalText}</div>`, 'text/html');
+        const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html');
         const container = doc.querySelector('div');
 
         let wordIndex = 0;
 
         function processNode(node) {
             if (node.nodeType === Node.TEXT_NODE) {
-                // Split text into words and punctuation, keeping both
                 const text = node.textContent;
-                const parts = text.split(/(\s+)/); // Split on whitespace but keep the separators
+                const parts = text.split(/(\s+)/);
 
                 const fragment = document.createDocumentFragment();
 
                 parts.forEach(part => {
-                    if (part.trim()) { // If it's not just whitespace
-                        // Further split to separate words from punctuation
+                    if (part.trim()) {
                         const subParts = part.split(/([^\w\s'-])/);
-
                         subParts.forEach(subPart => {
                             if (subPart) {
-                                if (/[\w'-]/.test(subPart)) {
-                                    // It's a word (contains letters, numbers, apostrophes, or hyphens)
-                                    const wordSpan = document.createElement('span');
-                                    wordSpan.className = 'word';
-                                    wordSpan.style.setProperty('--n', wordIndex);
-                                    wordSpan.textContent = subPart;
-                                    fragment.appendChild(wordSpan);
-                                    wordIndex++;
-                                } else {
-                                    // It's punctuation - wrap it in a span too for consistency
-                                    const punctSpan = document.createElement('span');
-                                    punctSpan.className = 'word';
-                                    punctSpan.style.setProperty('--n', wordIndex);
-                                    punctSpan.textContent = subPart;
-                                    fragment.appendChild(punctSpan);
-                                    wordIndex++;
-                                }
+                                const span = document.createElement('span');
+                                span.className = 'word';
+                                span.style.setProperty('--n', wordIndex);
+                                span.textContent = subPart;
+                                fragment.appendChild(span);
+                                wordIndex++;
                             }
                         });
                     } else {
-                        // It's whitespace, add it as text
                         fragment.appendChild(document.createTextNode(part));
                     }
                 });
 
                 node.parentNode.replaceChild(fragment, node);
             } else if (node.nodeType === Node.ELEMENT_NODE) {
-                // Process child nodes
-                const children = Array.from(node.childNodes);
-                children.forEach(child => processNode(child));
+                Array.from(node.childNodes).forEach(child => processNode(child));
             }
         }
 
-        // Process all nodes in the container
-        const children = Array.from(container.childNodes);
-        children.forEach(child => processNode(child));
-
-        // Set the processed content
-        paragraph.innerHTML = container.innerHTML;
+        Array.from(container.childNodes).forEach(child => processNode(child));
+        targetEl.innerHTML = container.innerHTML;
     }
 
-    // Initialize the animation when page loads
     document.addEventListener('DOMContentLoaded', function () {
-        createAnimatedText();
+        const paragraph = document.getElementById('animatedParagraph');
+        if (!paragraph) return;
+
+        // Save the pristine HTML so we can rebuild animations fresh each time
+        const originalHTML = paragraph.innerHTML.trim();
+
+        // First build on load so initial view animates
+        buildAnimatedTextFromHTML(originalHTML, paragraph);
+
+        // Replay control to avoid excessive retriggers
+        let lastReplayAt = 0;
+        const REPLAY_COOLDOWN_MS = 600; // slightly less than total stagger ensures smoothness
+
+        // Observer to trigger when paragraph is at least 30% visible
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+                        const now = Date.now();
+                        if (now - lastReplayAt < REPLAY_COOLDOWN_MS) return;
+
+                        // Reset HTML to original (removes previous spans and animations)
+                        paragraph.classList.remove('animated-text-transition');
+                        paragraph.innerHTML = originalHTML;
+
+                        // Force reflow so CSS animations can restart reliably
+                        void paragraph.offsetWidth;
+
+                        // Re-apply animated structure and class
+                        buildAnimatedTextFromHTML(originalHTML, paragraph);
+                        paragraph.classList.add('animated-text-transition');
+
+                        lastReplayAt = now;
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: [0, 0.3, 0.6, 1],
+            }
+        );
+
+        // Ensure the class is present for the container animation
+        paragraph.classList.add('animated-text-transition');
+        observer.observe(paragraph);
     });
 </script>
