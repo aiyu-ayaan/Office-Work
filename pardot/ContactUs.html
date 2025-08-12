@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base href="">
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="%%description%%" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+        .select {
+            width: 45vw !important;
+            box-sizing: border-box;
+
+        }
+
+        .select {
+            option {
+                border-radius: 20px;
+                border: 2px solid var(--ADROSONIC-Electric-blue-Secondary, #0CF);
+                background-color: #354A60 !important;
+            }
+        }
+
+        #pardot-form input.text {
+            width: 45vw !important;
+            box-sizing: border-box;
+        }
+    </style>
+    <title>%%title%%</title>
+    <style>
+        /*@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');*/
+        /* Text input fields */
+        body {
+            overflow: hidden;
+        }
+
+        #pardot-form input.text:-webkit-autofill,
+        #pardot-form textarea.standard:-webkit-autofill,
+        .select:-webkit-autofill {
+            background: rgba(53, 74, 96, 0.60) !important;
+            /* Same background */
+            color: #ffff !important;
+            /* Same text color */
+            font-family: Montserrat !important;
+            /* Ensure font-family is retained */
+            font-size: 18px !important;
+            resize: none;
+            font-weight: 400 !important;
+            border: 2px solid #0cf !important;
+            -webkit-text-fill-color: #ffff !important;
+            /* Ensures text color applies */
+            transition: background-color 5000s ease-in-out 0s;
+            /* Prevents autofill override */
+        }
+
+        #pardot-form::before {
+            content: "Required Fields*";
+            /* Change this to your desired heading */
+            display: block;
+            font-size: clamp(1rem, 0.777rem + 0.915vw, 1.875rem);
+            /*width: 517px;*/
+            /*height: 36px;*/
+            margin-bottom: clamp(0.5rem, 0.038rem + 1.895vw, 2.313rem);
+            margin-left: clamp(1rem, 0.538rem + 1.895vw, 2.813rem);
+            text-align: left;
+            font-family: Montserrat;
+            font-weight: 400;
+            color: white;
+            /* Set heading color */
+
+        }
+
+        ::placeholder {
+            color: white !important;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-submit-note {
+            font-size: clamp(1rem, 0.777rem + 0.915vw, 1.875rem);
+            color: white;
+            font-family: Montserrat;
+            position: relative;
+            top: 0;
+        }
+
+        .custom-submit-note a {
+            text-decoration: underline;
+            color: white;
+            font-weight: 700;
+        }
+
+        input.text:focus::placeholder,
+        textarea.standard:focus::placeholder {
+            opacity: 0.5;
+        }
+
+        :-ms-input-placeholder {
+            /* For Internet Explorer 10-11 */
+            color: white !important;
+        }
+
+        ::-ms-input-placeholder {
+            /* For Microsoft Edge */
+            color: white !important;
+        }
+
+        #pardot-form input.text {
+            border-radius: 50px;
+            height: clamp(3rem, 2.522rem + 1.961vw, 4.875rem);
+            width: 90%;
+            border: 2px solid #0cf;
+            background: rgba(53, 74, 96, 0.60) !important;
+            outline: none !important;
+            padding: 0 0 0 20px !important;
+            color: #ffff !important;
+            font-family: Montserrat;
+            font-size: clamp(1rem, 0.777rem + 0.915vw, 1.875rem);
+            font-weight: 400 !important;
+        }
+
+        #pardot-form textarea.standard {
+            border: 2px solid #0cf !important;
+            border-radius: clamp(1.563rem, 0.846rem + 2.941vw, 4.375rem);
+            background: rgba(53, 74, 96, 0.60) !important;
+            outline: none !important;
+            height: clamp(10.625rem, 7.598rem + 12.418vw, 22.5rem);
+            padding: 20px 0 0 20px !important;
+            /*margin-top: 10px !important;*/
+            color: #ffff !important;
+            resize: none;
+            font-family: Montserrat;
+            font-size: clamp(1rem, 0.777rem + 0.915vw, 1.875rem);
+            font-weight: 400 !important;
+            width: 93% !important;
+        }
+
+        #pardot-form .company input.text {
+            /*width: 45% !important;*/
+            padding: 0 0 0 20px !important;
+            /* Ensures text does not touch left border */
+        }
+
+        /*p.company {*/
+        /*width: 100%;*/
+        /*border-top-style: none !important;*/
+        /*border-right-style: none !important;*/
+        /*border-bottom: 1px solid black !important;*/
+        /*border-left-style: none !important;*/
+        /*background: none !important;*/
+        /*outline: none !important;*/
+        /*padding: 0 !important*/
+        /*margin-top: 24px !important;*/
+        /*color: #000000 !important;*/
+        /*font-family: 'Open Sans', sans-serif;*/
+        /*font-size: 18px;*/
+        /*font-weight: 600;*/
+        /*}*/
+
+        #pardot-form p.required label,
+        #pardot-form span.required label,
+        #pardot-form p label {
+            display: none;
+            /*margin-top: 20px !important;*/
+            font-family: Montserrat;
+            font-size: 15px;
+            font-weight: 400 !important;
+            color: #303030 !important;
+            /*margin: 22px auto;*/
+        }
+
+        /*.error{*/
+        /*    position: absolute;*/
+        /*    top: 2.5%;*/
+        /*    left: 43%;*/
+        /*    color: white;*/
+        /*    background: red;*/
+        /*    font-weight: bold;*/
+        /*}*/
+
+        p.width1 {
+            display: inline-block !important;
+            width: 50%;
+            margin-top: clamp(0.5rem, 0.277rem + 0.915vw, 1.375rem);
+            margin-bottom: clamp(0.5rem, 0.277rem + 0.915vw, 1.375rem);
+        }
+
+        p.width2 {
+            display: inline-block;
+            width: 48%;
+            margin-top: clamp(0.5rem, 0.277rem + 0.915vw, 1.375rem);
+            margin-bottom: clamp(0.5rem, 0.277rem + 0.915vw, 1.375rem);
+        }
+
+        #pardot-form p.submit input {
+            background: #1A2C47;
+            margin-top: 10px !important;
+            border: 2px solid #0cf !important;
+            min-width: clamp(11rem, 8.945rem + 8.431vw, 19.063rem);
+            max-width: 280px;
+            height: 44px;
+            font-size: 24px;
+            font-weight: 500;
+            font-family: Montserrat;
+            border-radius: 50px !important;
+            color: #ffff !important;
+            padding: 0 8px;
+        }
+
+        #pardot-form p.submit input:hover {
+            color: #1A2C47 !important;
+            border-color: #0cf !important;
+            background: #0cf !important;
+            font-weight: 500;
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pd-select {
+            /*width: 45%;*/
+            /*padding: 0 0 0 10px !important;*/
+            /*margin-left: 49.5%;*/
+            /*position: relative;*/
+            /*bottom: 85px; */
+
+        }
+
+        .select {
+            height: clamp(3.25rem, 2.772rem + 1.961vw, 5.125rem);
+            width: 97%;
+            padding: 0 0 0 20px !important;
+            /* Padding for text */
+            padding-right: 40px !important;
+            /* Adjust space for the dropdown icon */
+            color: white;
+            /* Text color */
+            border: 2px solid #0cf;
+            border-radius: 50px;
+            font-weight: 500;
+            font-family: Montserrat;
+            font-size: clamp(1rem, 0.777rem + 0.915vw, 1.875rem);
+            background: rgba(53, 74, 96, 0.60);
+            appearance: none;
+            /* Remove default browser styling */
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            /* Move the icon slightly left */
+            background-size: 20px;
+
+            option {
+                background-color: rgba(53, 74, 96, 0.60);
+            }
+        }
+
+        .pd-textarea {
+            position: relative;
+            top: 22px;
+            margin: 0;
+        }
+
+        .submit {
+            top: 0;
+            position: relative;
+        }
+
+        .g-recaptcha {
+            top: 0;
+            position: relative;
+        }
+
+        @media screen and (max-width: 767.5px) {
+            .form-error-message {
+                width: 100% !important;
+            }
+
+            #pardot-form input.text {
+                width: 90%;
+
+            }
+
+            .pd-textarea {
+                top: 10px !important;
+            }
+
+            #pardot-form .company input.text {
+                /*width: 45% !important;*/
+            }
+
+            .pd-select {
+                /*width: 49%;*/
+                /*padding: 0 0 0 12px !important;*/
+                /*margin-left: 48%;*/
+                /*position: relative;*/
+                /*bottom: 70px;*/
+                margin-top: clamp(0.5rem, 0.277rem + 0.915vw, 1.375rem);
+                margin-bottom: clamp(0.5rem, 0.277rem + 0.915vw, 1.375rem);
+            }
+
+            .select {
+                width: 104%;
+            }
+
+            #pardot-form textarea.standard {
+                /*height: 170px;*/
+            }
+
+            p.width2 {
+                display: inline-block;
+                width: 47%;
+                margin-left: 12px;
+            }
+
+            p.width1 {
+                display: inline-block;
+                width: 47%;
+            }
+
+            #pardot-form .company input.text {
+                /*width: 42% !important;*/
+                padding: 0 0 0 20px !important;
+            }
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1280px) and (orientation:landscape) {
+            .select {
+                width: 94.5% !important;
+            }
+
+            .pd-textarea {
+                top: 10px !important;
+            }
+
+            .form-error-message {
+                width: 97%;
+            }
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1280px) and (orientation:landscape) {
+            .pd-textarea {
+                top: 10px !important;
+            }
+
+            .form-error-message {
+                width: 95%;
+            }
+        }
+
+        .form-error-message {
+            width: 96%;
+        }
+    </style>
+</head>
+
+<body>
+    %%content%%
+</body>
+
+</html>

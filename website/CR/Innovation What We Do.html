@@ -1,0 +1,228 @@
+<div class="below-innovation-banner">
+    <h2 class="text-below-innovation-heading has-text-align-center large-size">
+        What We Do
+    </h2>
+    <p class="has-text-align-center medium-size text-below-innovation-banner animated-text-transition"
+        id="animatedParagraph">
+        We rethink the obvious to <span class="color-ia">unlock the extraordinary</span>—turning ideas into <span
+            class="color-ia">real world impact</span>. <br />At ADROSONIC, <span class="color-ia">innovation </span>
+        isn't just
+        talk; it's something we <span class="color-ia">deliver</span>, time and again.
+    </p>
+    <a href="/contact-us/"><button class="custom-button">
+            Discover Bold Solutions
+        </button></a>
+</div>
+
+
+<style>
+    .below-innovation-banner {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        text-align: center;
+        position: relative;
+        margin-bottom: 2.05%;
+    }
+
+    .text-below-innovation-banner {
+        width: 45.84%;
+        margin-bottom: 2.52% !important;
+    }
+
+    .text-below-innovation-heading {
+        color: #fff;
+        font-style: normal;
+        font-weight: 500 !important;
+        margin-bottom: 2.52% !important;
+    }
+
+    @media (max-height: 650px) {
+        .below-innovation-banner {
+            margin-bottom: 6.16%;
+        }
+    }
+
+    /* Landscape Tablet */
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+        .below-innovation-banner {
+            margin-bottom: 3.96%;
+        }
+
+        .text-below-innovation-banner {
+            width: 69.69%;
+            margin-bottom: 3.96% !important;
+        }
+
+        /* .button-innovation {
+margin-top: 3.96%;
+} */
+        .text-below-innovation-heading {
+            margin-bottom: 5.76% !important;
+        }
+    }
+
+    /* Portrait Tablet */
+    @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+        .below-innovation-banner {
+            margin-bottom: 3.96%;
+        }
+
+        .text-below-innovation-banner {
+            width: 71.23%;
+            margin-bottom: 1.125em !important;
+        }
+
+        /* .button-innovation {
+margin-top: 1.125em;
+} */
+        .text-below-innovation-heading {
+            margin-bottom: 4.8% !important;
+        }
+    }
+
+    /* Mobile */
+    @media screen and (max-width: 767.5px) {
+        .below-innovation-banner {
+            padding: 6.2%;
+            margin-bottom: 0;
+        }
+
+        .text-below-innovation-banner {
+            width: 100%;
+            margin-bottom: 9.6% !important;
+        }
+
+        .text-below-innovation-heading {
+            margin-bottom: 7% !important;
+        }
+    }
+
+    /* Mobile landscape with height constraints */
+    @media (max-width: 767.5px) and (max-height: 650px) and (orientation: landscape) {
+        .below-innovation-banner {
+            margin-bottom: 6.16% !important;
+        }
+
+        .text-below-innovation-heading {
+            margin-bottom: 7.03% !important;
+        }
+    }
+
+    /* Color transition animation styles */
+    .animated-text-transition {
+        animation: containerFadeIn 0.5s ease-out 0.5s forwards;
+        color: #FFFFFF5C;
+    }
+
+    .animated-text-transition .word {
+        display: inline-block;
+        color: #FFFFFF5C;
+        animation: wordColorTransition 0.8s ease-out calc(var(--n) * 0.12s + 1s) forwards;
+    }
+
+    .animated-text-transition .word:last-child {
+        margin-right: 0;
+    }
+
+    .animated-text-transition .color-ia .word {
+        animation-name: colorIaTransition;
+    }
+
+
+    @keyframes containerFadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes wordColorTransition {
+        to {
+            color: white;
+        }
+    }
+
+    @keyframes colorIaTransition {
+        to {
+            color: #00bcd4;
+        }
+    }
+</style>
+
+<script>
+    function createAnimatedText() {
+        const paragraph = document.getElementById('animatedParagraph');
+
+        // Get the original text from the paragraph element
+        const originalText = paragraph.innerHTML;
+
+        // Parse HTML while preserving structure
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(`<div>${originalText}</div>`, 'text/html');
+        const container = doc.querySelector('div');
+
+        let wordIndex = 0;
+
+        function processNode(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                // Split text into words and punctuation, keeping both
+                const text = node.textContent;
+                const parts = text.split(/(\s+)/); // Split on whitespace but keep the separators
+
+                const fragment = document.createDocumentFragment();
+
+                parts.forEach(part => {
+                    if (part.trim()) { // If it's not just whitespace
+                        // Further split to separate words from punctuation
+                        const subParts = part.split(/([^\w\s'-])/);
+
+                        subParts.forEach(subPart => {
+                            if (subPart) {
+                                if (/[\w'-]/.test(subPart)) {
+                                    // It's a word (contains letters, numbers, apostrophes, or hyphens)
+                                    const wordSpan = document.createElement('span');
+                                    wordSpan.className = 'word';
+                                    wordSpan.style.setProperty('--n', wordIndex);
+                                    wordSpan.textContent = subPart;
+                                    fragment.appendChild(wordSpan);
+                                    wordIndex++;
+                                } else {
+                                    // It's punctuation - wrap it in a span too for consistency
+                                    const punctSpan = document.createElement('span');
+                                    punctSpan.className = 'word';
+                                    punctSpan.style.setProperty('--n', wordIndex);
+                                    punctSpan.textContent = subPart;
+                                    fragment.appendChild(punctSpan);
+                                    wordIndex++;
+                                }
+                            }
+                        });
+                    } else {
+                        // It's whitespace, add it as text
+                        fragment.appendChild(document.createTextNode(part));
+                    }
+                });
+
+                node.parentNode.replaceChild(fragment, node);
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                // Process child nodes
+                const children = Array.from(node.childNodes);
+                children.forEach(child => processNode(child));
+            }
+        }
+
+        // Process all nodes in the container
+        const children = Array.from(container.childNodes);
+        children.forEach(child => processNode(child));
+
+        // Set the processed content
+        paragraph.innerHTML = container.innerHTML;
+    }
+
+    // Initialize the animation when page loads
+    document.addEventListener('DOMContentLoaded', function () {
+        createAnimatedText();
+    });
+</script>

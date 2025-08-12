@@ -39,7 +39,7 @@ $our_clients_section_heading = get_field('acf_our_clients_section_heading');
 $banner_section_fields = get_field('acf_elevate_banner_section_fields');
 $elevate_leader_section_fields = get_field('acf_elevate_leader_section_fields');
 $keynote_section_fields = get_field('acf_elevate_keynote_section_fields');
-$round_table_section_fields = get_field('acf_elevate_round_table_section_fields');
+$round_table_section_fields = get_field('acf_new_round_table_Section_fields');
 $elevate_glimpse_section_fields = get_field('acf_elevate_glimpse_section_fields');
 $elevate_agenda_section_fields = get_field('acf_elevate_agenda_section_fields');
 $elevate_join_us_at_section_fields = get_field('acf_elevate_join_us_at_section_fields');
@@ -83,9 +83,13 @@ $tranpost_info_overground = $elevate_join_us_at_section_fields['acf_elevate_join
 
 
 // DESCRIPTION:Round table section fields from $keynote_section_fields group
-$round_table_section_heading = $round_table_section_fields['acf_elevate_round_table_section_heading'];
-$round_section_left_heading = $round_table_section_fields['acf_elevate_round_table_left_heading'];
-$keynote_section_left_description = $round_table_section_fields['acf_elevate_round_table_left_description'];
+$round_table_section_heading_1 = $round_table_section_fields['acf_elevate_new_round_table_section_heading_type_1'];
+$round_table_left_heading_1 = $round_table_section_fields['acf_elevate_new_round_table_left_heading_type_1'];
+$round_table_left_description_1 = $round_table_section_fields['acf_elevate_new_round_table_left_description_type_1'];
+$round_table_section_heading_2 = $round_table_section_fields['acf_elevate_new_round_table_section_heading_type_2'];
+$round_table_left_heading_2 = $round_table_section_fields['acf_elevate_new_round_table_left_heading_type_2'];
+$round_table_left_description_2 = $round_table_section_fields['acf_elevate_new_round_table_left_description_type_2'];
+$round_table_partition_point = $round_table_section_fields['acf_elevate_new_round_table_partition_point'];
 ?>
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -345,7 +349,7 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
 
 
                         <h1 class="elevate-title largest-size">
-                            <?php echo esc_html($banner_title); ?>
+                            <?php echo $banner_title; ?>
                         </h1>
 
                         <div class="text-below-title small-size">
@@ -511,58 +515,59 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
                 <div class="round-table">
                     <div class="main-header">
                         <div class="main-header-inner all-section-header">
-                            <h2 class="round-table-header large-size font-bold"> <?php echo esc_html($round_table_section_heading); ?></h2>
+                            <h2 class="round-table-header large-size font-bold type-1"> <?php echo esc_html($round_table_section_heading_1); ?></h2>
+                            <h2 class="round-table-header large-size font-bold type-2"> <?php echo esc_html($round_table_section_heading_2); ?></h2>
                         </div>
                     </div>
 
                     <div class="container">
                         <div class="left-box">
-                            <h3 class="round-table-header large-size font-bold">
-                                <?php echo esc_html($round_section_left_heading); ?>
-                            </h3>
-                            <p class="round-table-text small-size">
-                                <?php echo esc_html($keynote_section_left_description); ?>
-                            </p>
+                            <h3 class="round-table-header large-size font-bold type-1"><?php echo esc_html($round_table_left_heading_1); ?></h3>
+                            <h3 class="round-table-header large-size font-bold type-2"><?php echo esc_html($round_table_left_heading_2); ?></h3>
+                            <p class="round-table-text small-size type-1"><?php echo esc_html($round_table_left_description_1); ?></p>
+                            <p class="round-table-text small-size type-2"><?php echo esc_html($round_table_left_description_2); ?></p>
                             <div class="sub-header">
                                 <div class="sub-header-inner all-section-header">
-                                    <h3 class="round-table-header large-size font-bold"><?php echo esc_html($round_table_section_heading); ?></h3>
+                                    <h3 class="round-table-header large-size font-bold type-1"><?php echo esc_html($round_table_section_heading_1); ?></h3>
+                                    <h3 class="round-table-header large-size font-bold type-2"><?php echo esc_html($round_table_section_heading_2); ?></h3>
                                 </div>
                             </div>
                         </div>
                         <div class="carousel-container">
-                            <div class="carousel">
-                                <?php $speakers = $round_table_section_fields['acf_elevate_round_table_speakers'] ?? []; ?>
-                                <?php if ($speakers && is_array($speakers)): ?>
-                                    <?php foreach ($speakers as $speaker): ?>
-                                        <div class="panel-slide">
+                            <div class="carousel" data-partition-point="<?php echo esc_html($round_table_partition_point); ?>">
+                                <?php $speakers = $round_table_section_fields['acf_elevate_new_round_table_speakers'] ?? []; ?>
+                                <?php if ($speakers && is_array($speakers)): $index = -1; ?>
+                                    <?php foreach ($speakers as $speaker): $index++; ?>
+                                        <div class="panel-slide" data-slide-number="<?php echo esc_html($index); ?>">
                                             <div class="speaker">
                                                 <img class="manual-lazy-load"
-                                                    data-src="<?php echo esc_url($speaker['acf_elevate_round_table_section_person_image']); ?>"
-                                                    alt="<?php echo esc_attr($speaker['acf_elevate_round_table_section_person_name']); ?>" />
+                                                    data-src="<?php echo esc_url($speaker['acf_elevate_new_round_table_person_image']); ?>"
+                                                    alt="<?php echo esc_attr($speaker['acf_elevate_new_round_table_person_name']); ?>" />
                                                 <p class="title small-size font-bold">
-                                                    <?php echo esc_html($speaker['acf_elevate_round_table_section_person_name']); ?>
+                                                    <?php echo esc_html($speaker['acf_elevate_new_round_table_person_name']); ?>
                                                 </p>
                                                 <p class="caption small-size font-bold">
-                                                    <span class="name"><?php echo esc_html($speaker['acf_elevate_round_table_section_person_name'] . ','); ?></span>
-                                                    <?php echo esc_html($speaker['acf_elevate_round_table_section_person_designation']); ?>
+                                                    <span class="name"><?php echo esc_html($speaker['acf_elevate_new_round_table_person_name'] . ','); ?></span>
+                                                    <?php echo esc_html($speaker['acf_elevate_new_round_table_person_designation']); ?>
                                                 </p>
                                             </div>
                                         </div>
-                                    <?php endforeach; ?>
+                                    <?php endforeach;
+                                    $index = -1; ?>
 
-                                    <!-- TODO:Remove me  -->
-                                    <?php foreach ($speakers as $speaker): ?>
-                                        <div class="panel-slide">
+                                    <!-- TODO:Copy of above loop me  -->
+                                    <?php foreach ($speakers as $speaker): $index++; ?>
+                                        <div class="panel-slide" data-slide-number="<?php echo esc_html($index); ?>">
                                             <div class="speaker">
                                                 <img class="manual-lazy-load"
-                                                    data-src="<?php echo esc_url($speaker['acf_elevate_round_table_section_person_image']); ?>"
-                                                    alt="<?php echo esc_attr($speaker['acf_elevate_round_table_section_person_name']); ?>" />
+                                                    data-src="<?php echo esc_url($speaker['acf_elevate_new_round_table_person_image']); ?>"
+                                                    alt="<?php echo esc_attr($speaker['acf_elevate_new_round_table_person_name']); ?>" />
                                                 <p class="title small-size font-bold">
-                                                    <?php echo esc_html($speaker['acf_elevate_round_table_section_person_name']); ?>
+                                                    <?php echo esc_html($speaker['acf_elevate_new_round_table_person_name']); ?>
                                                 </p>
                                                 <p class="caption small-size font-bold">
-                                                    <span class="name"><?php echo esc_html($speaker['acf_elevate_round_table_section_person_name'] . ','); ?></span>
-                                                    <?php echo esc_html($speaker['acf_elevate_round_table_section_person_designation']); ?>
+                                                    <span class="name"><?php echo esc_html($speaker['acf_elevate_new_round_table_person_name'] . ','); ?></span>
+                                                    <?php echo esc_html($speaker['acf_elevate_new_round_table_person_designation']); ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -646,7 +651,7 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
                                 <?php
                                 // Ensure the video URL ends with the required Vimeo params
                                 $glimpse_video_url = trim($elevate_glimpse_section_video_url);
-                                $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1&amp;suggest=0';
+                                $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp';
 
                                 // Remove any existing query string
                                 $glimpse_video_url = preg_replace('/\?.*$/', '', $glimpse_video_url);
@@ -816,7 +821,7 @@ $keynote_section_left_description = $round_table_section_fields['acf_elevate_rou
                                         </clipPath>
                                     </defs>
                                 </svg>
-                                <p class="small-size text"><?php echo esc_html($tranpost_info_station); ?></p>
+                                <p class="small-size text"><?php echo esc_html($tranpost_info_overground); ?></p>
                             </div>
                         </div>
                     </div>
