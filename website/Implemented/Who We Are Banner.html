@@ -1,36 +1,36 @@
 <style>
     .who-we-are-banner-container {
         width: 100%;
-        height: 127.5vh;
-        overflow: hidden;
+        max-height: 115vh;
+        height: auto;
+        padding-bottom: 12.35%;
         position: relative;
-        /* background: linear-gradient(180deg, #000 66.64%, rgba(0, 0, 0, 0.00) 77.67%); */
 
         .who-we-are-bg-container {
             position: relative;
             height: 93.7vh;
 
             .who-we-are-banner-bg-img {
-                           /* aspect-ratio: 1920 / 1272; */
-            background-repeat: no-repeat;
-            background-size: cover;
-            /* background-size: 114%; */
-            background-position: center center;
-            background-attachment: fixed;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;  
+                /* aspect-ratio: 1920 / 1272; */
+                background-repeat: no-repeat;
+                background-size: cover;
+                /* background-size: 114%; */
+                background-position: center center;
+                background-attachment: fixed;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
             }
 
             .overlay {
                 position: absolute;
-            top: 0;
-            left: 0;
-            width: 100.8%;
-            height: 101%;
-            /* aspect-ratio: 1920 / 1272; */
-            background: linear-gradient(180deg, rgba(67, 102, 143, 0.68) 0%, rgba(55, 82, 114, 0.45) 45%, rgba(26, 44, 71, 0.55) 65.5%, rgba(26, 44, 71, 0.80) 84.5%, rgba(26, 44, 71, 0.98) 100%);
-            z-index: 1;
+                top: 0;
+                left: 0;
+                width: 100.8%;
+                height: 101%;
+                /* aspect-ratio: 1920 / 1272; */
+                background: linear-gradient(180deg, rgba(67, 102, 143, 0.68) 0%, rgba(55, 82, 114, 0.45) 45%, rgba(26, 44, 71, 0.55) 65.5%, rgba(26, 44, 71, 0.80) 84.5%, rgba(26, 44, 71, 0.98) 100%);
+                z-index: 1;
             }
         }
 
@@ -38,7 +38,7 @@
             width: 100%;
             position: absolute;
             z-index: 2;
-            top: 35.2%;
+            top: 38.8%;
 
             .top-section {
                 margin-left: 25.53% !important;
@@ -74,7 +74,7 @@
                             animation: typewriter 6s infinite;
                             white-space: nowrap;
                             overflow: hidden;
-                            /* border-right: 2px solid var(--adro-yellow) */
+                            letter-spacing: 4px;
                             animation-delay: var(--delay, 0s);
                             width: 0;
                         }
@@ -82,7 +82,7 @@
                 }
 
                 .who-we-are-banner-button {
-                    margin-top: 1.67%;
+                    margin-top: 2.24% !important;
                     border-radius: 50px;
                     border: 2px solid var(--adro-electric-blue);
                     background: var(--adro-deep-blue);
@@ -94,10 +94,11 @@
             }
 
             .who-we-are-banner-quote {
-                margin-top: 16.8%;
+                margin-top: 16.7%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                text-align: center;
                 justify-content: center;
                 width: 100%;
 
@@ -112,7 +113,7 @@
                 }
 
                 .who-we-are-banner-learn-more-button {
-                    margin-top: 1.67%;
+                    margin-top: 12.91% !important;
                     border-radius: 50px;
                     border: 2px solid var(--adro-electric-blue);
                     background: var(--adro-deep-blue);
@@ -157,12 +158,13 @@
                         .animated-text {
                             div {
                                 font-size: clamp(2.313rem, 0.25rem + 4.297vw, 3rem);
+                                letter-spacing: 2.4px;
                             }
                         }
                     }
 
                     .who-we-are-banner-button {
-                        margin-top: 3.3%;
+                        margin-top: 3.3% !important;
                     }
                 }
 
@@ -177,7 +179,7 @@
                     }
 
                     .who-we-are-banner-learn-more-button {
-                        margin-top: 3.84%;
+                        margin-top: 18.19% !important;
                     }
                 }
             }
@@ -223,7 +225,8 @@
     @media screen and (max-width: 767.5px) and (orientation: portrait) {
         .who-we-are-banner-container {
             width: 100%;
-            height: 114vh;
+            height: 115vh;
+            padding-bottom: 0px;
             overflow: hidden;
 
             .who-we-are-bg-container {
@@ -236,13 +239,13 @@
                 .overlay {
                     width: 100%;
                     aspect-ratio: 390/704;
-                    
+
                 }
             }
 
             .who-we-are-banner-content {
                 width: 100%;
-                top: 36.74%;
+                top: 36.42%;
                 padding-left: 6.16%;
                 padding-right: 6.16%;
 
@@ -259,14 +262,18 @@
                         justify-content: center;
                         text-align: center;
 
+                        span {
+                            margin-right: 0;
+
+                        }
+
                         .animated-text {
+                            margin-top: 2.34%;
                             position: relative;
                             display: flex;
                             justify-content: center;
                             align-items: center;
                             width: auto;
-                            height: 1.2em;
-                            margin-top: 0.5em;
 
                             div {
                                 position: absolute;
@@ -280,17 +287,17 @@
                                 animation-delay: var(--delay, 0s);
                                 width: 0;
                                 color: var(--adro-yellow);
-                                letter-spacing: 4px;
                                 text-transform: uppercase;
                                 font-weight: 600;
                                 transform-origin: left center;
                                 font-size: clamp(2.25rem, 2.25rem + 0vw, 2.25rem);
+                                letter-spacing: 1.8px;
                             }
                         }
                     }
 
                     .who-we-are-banner-button {
-                        margin-top: 4.68%;
+                        margin-top: 9.1% !important;
                     }
                 }
 
@@ -305,7 +312,7 @@
                     }
 
                     .who-we-are-banner-learn-more-button {
-                        margin-top: 7.02%;
+                        margin-top: 13.67% !important;
                     }
                 }
             }
