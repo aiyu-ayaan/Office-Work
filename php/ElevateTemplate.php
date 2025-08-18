@@ -400,10 +400,10 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                 <div class="our_expertise_container" id="expertise">
                     <h2 class="large-size font-bold portrait-only-header"><?php echo esc_html($our_expertise_section_main_heading); ?></h2>
                     <div class="video-container">
-                        <video class="manual-lazy-load" data-src="<?php echo esc_html($our_expertise_video_url) ?>" autoplay muted loop playsinline poster="<?php echo esc_html($our_expertise_video_thumbnail) ?>">
+                        <iframe class="manual-lazy-load" data-src="<?php echo esc_html($our_expertise_video_url) ?>" autoplay muted loop playsinline poster="<?php echo esc_html($our_expertise_video_thumbnail) ?>">
                             <!--                 <source class="manual-lazy-load"  type="video/mp4"> -->
                             Your browser does not support the video tag.
-                        </video>
+                        </iframe>
                     </div>
                     <div class="content">
                         <h2 class="large-size font-bold main-header"><?php echo esc_html($our_expertise_section_main_heading); ?></h2>
@@ -420,8 +420,8 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
 
                 <div class="speakers-page-carousel-wrapper">
                     <div class="section-central-heading">
-                        <h2 class="large-size font-bold"><?php echo esc_html($elevate_leader_title); ?></h2>
-                        <h3 class="sub-heading small-size"><?php echo esc_html($elevate_leader_section_sub_title); ?></h3>
+                        <h2 class="large-size font-bold"><?php echo ($elevate_leader_title); ?></h2>
+                        <h3 class="sub-heading small-size"><?php echo ($elevate_leader_section_sub_title); ?></h3>
                     </div>
 
                     <div class="owl-carousel speakers-page-carousel">
@@ -442,11 +442,11 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                                             <img decoding="async" src="<?php echo esc_url($image); ?>"
                                                 alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
                                             <div class="speaker-name smaller-size">
-                                                <?php echo esc_html($name_and_designation); ?>
+                                                <?php echo ($name_and_designation); ?>
                                             </div>
                                         </div>
                                         <div class="description-text smaller-size">
-                                            <?php echo esc_html($description); ?>
+                                            <?php echo ($description); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -540,8 +540,8 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                                     <?php foreach ($speakers as $speaker): $index++; ?>
                                         <div class="panel-slide" data-slide-number="<?php echo esc_html($index); ?>">
                                             <div class="speaker">
-                                                <img class="manual-lazy-load"
-                                                    data-src="<?php echo esc_url($speaker['acf_elevate_new_round_table_person_image']); ?>"
+                                                <img class=""
+                                                    src="<?php echo esc_url($speaker['acf_elevate_new_round_table_person_image']); ?>"
                                                     alt="<?php echo esc_attr($speaker['acf_elevate_new_round_table_person_name']); ?>" />
                                                 <p class="title small-size font-bold">
                                                     <?php echo esc_html($speaker['acf_elevate_new_round_table_person_name']); ?>
@@ -651,7 +651,7 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                                 <?php
                                 // Ensure the video URL ends with the required Vimeo params
                                 $glimpse_video_url = trim($elevate_glimpse_section_video_url);
-                                $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp';
+                                $vimeo_params = '?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=0&amp;muted=1&amp';
 
                                 // Remove any existing query string
                                 $glimpse_video_url = preg_replace('/\?.*$/', '', $glimpse_video_url);
