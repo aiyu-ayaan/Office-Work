@@ -47,6 +47,8 @@
                     white-space: nowrap;
                     width: 100%;
                     display: flex;
+                    align-items: baseline;
+                    white-space: nowrap;
                     align-items: center;
 
                     span {
@@ -60,6 +62,10 @@
                         width: auto;
                         height: 1.2em;
                         display: inline-block;
+                        line-height: 1.2;
+                        /* match span's line height */
+                        vertical-align: baseline;
+                        /* ✅ align with span */
 
                         div {
                             color: var(--adro-yellow);
@@ -67,7 +73,10 @@
                             text-transform: uppercase;
                             font-weight: 600;
                             position: absolute;
-                            top: 0;
+                            top: 50%;
+                            /* center vertically */
+                            transform: translateY(-50%);
+                            /* ✅ perfect vertical alignment */
                             left: 0;
                             font-size: clamp(3rem, 0.709rem + 3.575vw, 5rem);
                             opacity: 0;
@@ -227,7 +236,7 @@
             width: 100%;
             height: 115vh;
             padding-bottom: 0px;
-            overflow: hidden;
+            overflow: unset;
 
             .who-we-are-bg-container {
                 .who-we-are-banner-bg-img {
@@ -352,44 +361,6 @@
         }
     }
 </style>
-
-<div class="who-we-are-banner-container">
-    <div class="who-we-are-bg-container">
-        <div class="who-we-are-banner-bg-img manual-lazy-load"
-            data-src="/wp-content/uploads/2025/07/Who-We-Are-Banner-Image.webp"
-            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
-        </div>
-        <div class="overlay"></div>
-    </div>
-    <div class="who-we-are-banner-content">
-        <div class="top-section">
-            <h1 class="banner-heading largest-size">
-                <span>We are </span>
-                <div class="animated-text">
-                    <div>Collaborative</div>
-                    <div>Innovative</div>
-                    <div>Passionate</div>
-                </div>
-            </h1>
-            <button class="custom-button who-we-are-banner-button">
-                Get in touch
-            </button>
-        </div>
-        <div class="who-we-are-banner-quote">
-            <p class="who-we-are-banner-quote-text medium-size">
-                Lorem ipsum dolor sit amet, consetetur
-                sadipscing elitr, sed diam nonumy eirmod
-                tempor invidunt ut <span>labore et dolore magna</span>
-                aliquyam erat, sed diam
-            </p>
-            <button class="custom-button who-we-are-banner-learn-more-button">
-                Learn about us
-            </button>
-        </div>
-    </div>
-</div>
-</div>
-
 <script>
     let resizeTimeout;
 

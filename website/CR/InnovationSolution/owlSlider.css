@@ -181,7 +181,7 @@
         .post-item:first-child {
             grid-column: span 2;
             aspect-ratio: 2.167;
-            border-radius: 20px;
+            border-radius: clamp(1.875rem, 1.1607rem + 1.1161vw, 2.5rem);
 
             .animate-in & {
                 animation-delay: 0.7s;
@@ -194,6 +194,7 @@
                 .post-title {
                     margin-bottom: 0.75em;
                 }
+
                 .post-title:after {
                     content: "";
                     display: inline-block;
@@ -211,7 +212,7 @@
         }
 
         .post-item:nth-child(2) {
-            border-radius: 20px;
+            border-radius: clamp(1.875rem, 1.1607rem + 1.1161vw, 2.5rem);
 
             .animate-in & {
                 animation-delay: 0.8s;
@@ -219,7 +220,7 @@
         }
 
         .post-item:nth-child(3) {
-            border-radius: 20px;
+            border-radius: clamp(1.875rem, 1.1607rem + 1.1161vw, 2.5rem);
 
             .animate-in & {
                 animation-delay: 0.9s;
@@ -295,7 +296,7 @@
         height: 100%;
         object-fit: cover;
         position: absolute;
-        object-position: center 17%;
+        object-position: bottom left;
     }
 
     .text-container {
@@ -335,11 +336,17 @@
 
     @media screen and (min-width:768px) and (max-width:1024.9px) and (orientation:landscape) {
         .content {
-            /* .post-item:first-child {
-                .text-container {
-                    width: 50%;
-                }
-            } */
+            .post-item:first-child {
+                border-radius: clamp(1.125rem, -0.0044rem + 2.3529vw, 1.5rem);
+            }
+
+            .post-item:nth-child(2) {
+                border-radius: clamp(1.125rem, -0.0044rem + 2.3529vw, 1.5rem);
+            }
+
+            .post-item:nth-child(3) {
+                border-radius: clamp(1.125rem, -0.0044rem + 2.3529vw, 1.5rem);
+            }
 
             .post-item:nth-child(2) {
                 .text-container {
@@ -787,7 +794,31 @@
 }
 
 /* Reduced motion accessibility */
+@media screen and (max-width: 767.5px),
+screen and (min-width: 768px) and (max-width: 1024.9px) and (orientation: portrait) {
+
+    .insights-container,
+    .insights-container *,
+    .insights-container .container,
+    .insights-container .left-box,
+    .insights-container .right-box,
+    .insights-container .post-item,
+    .insights-container .main-header,
+    .insights-container .menu li,
+    .insights-container .li-item,
+    .insights-container .nav-button,
+    .insights-container .owl-dots,
+    .insights-container .landscape-only {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* Keep existing reduced motion accessibility rule */
 @media (prefers-reduced-motion: reduce) {
+
     .insights-container,
     .insights-container *,
     .insights-container .container,
