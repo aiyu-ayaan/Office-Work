@@ -169,13 +169,13 @@
                 text-decoration: none;
             }
 
-            @media screen and (min-width:768px) and (max-width:1024) and (orientation:landscape),
+            /* @media screen and (min-width:768px) and (max-width:1024) and (orientation:landscape),
             screen and (min-width:1024px) {
                 .only-portrait-anchor {
                     pointer-events: none;
                     cursor: default;
                 }
-            }
+            } */
         }
 
         .post-item:first-child {
