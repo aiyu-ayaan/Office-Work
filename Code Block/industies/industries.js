@@ -1,4 +1,4 @@
-// banner
+// DESCRIPTION:banner section + submenu
 document.addEventListener("DOMContentLoaded", () => {
     const nav = document.querySelector(".service-scroll-menu");
     const heroBanner = document.querySelector(".service-banner-sub-menu-together");
@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const dropdownContainer = document.querySelector(".service-menu-dropdown-container");
     const menuItems = document.querySelectorAll(".service-scroll-list li");
     const navHeight = nav.getBoundingClientRect().height;
-
     let isScrolling = false;
     document.addEventListener("click", (event) => {
         if (window.matchMedia("(max-width:1024px)").matches) {
@@ -17,43 +16,27 @@ document.addEventListener("DOMContentLoaded", () => {
             ) {
                 dropdownContainer.classList.remove("open");
             }
+            updateJumpBarColor();
         }
     });
 
-    let isFirstClick = true;
-
-    nav.querySelectorAll(".submenu a").forEach(function (anchor, index) {
+    nav.querySelectorAll(".submenu a").forEach(function (anchor) {
         anchor.addEventListener("click", function (event) {
             event.preventDefault();
             if (isScrolling) return;
             isScrolling = true;
-
             const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - nav.offsetHeight;
 
-            const delay = isFirstClick ? 500 : 0;
-            setTimeout(() => {
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const header = document.querySelector("nav.service-scroll-menu");
-
-                    const headerHeight = header ? header.offsetHeight : 0;
-                    const targetPosition =
-                        targetElement.getBoundingClientRect().top +
-                        window.scrollY -
-                        headerHeight +
-                        1;
-
-                    smoothScrollTo(targetPosition, 800, () => {
-                        isScrolling = false;
-                    });
-                } else {
+                smoothScrollTo(targetPosition, 800, () => {
                     isScrolling = false;
-                }
-
-                isFirstClick = false;
-            }, delay);
+                });
+            }
         });
     });
+
     function smoothScrollTo(targetPosition, duration, callback) {
         let startPosition = window.scrollY;
         let distance = targetPosition - startPosition;
@@ -84,22 +67,39 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", () => {
         const navTop = nav.getBoundingClientRect().y;
         const heroBannerBottom = heroBanner.getBoundingClientRect().bottom;
-
         if (navTop < 0) {
             nav.classList.add('sticky-service-menu');
             nav.classList.remove('non-sticky-service-menu');
+            nav.parentElement.style.paddingTop = `${nav.offsetHeight}px`;
         } else if (heroBannerBottom >= navHeight) {
             nav.classList.add('non-sticky-service-menu');
             nav.classList.remove('sticky-service-menu');
+            nav.parentElement.style.paddingTop = "0";
         }
+        updateJumpBarColor();
     });
-
+    const updateJumpBarColor = () => {
+        if (window.innerWidth <= 1024) {
+            if (dropdownContainer.classList.contains("open") || nav.classList.contains("sticky-service-menu")) {
+                nav.style.background = "var(--adro-blue)";
+            } else {
+                nav.style.background = "linear-gradient(0deg, #1B4466 0%, #1B4466 100%)";
+            }
+        } else {
+            if (nav.classList.contains("sticky-service-menu")) {
+                nav.style.background = "#1B476A";
+            } else {
+                nav.style.background = "rgb(0,0,0,0)";
+            }
+        }
+    }
     const updateDropdownState = () => {
         if (window.matchMedia("(max-width:1024px)").matches) {
             dropdownContainer.classList.remove("open");
         } else {
             dropdownContainer.classList.add("open");
         }
+        updateJumpBarColor();
     };
 
     updateDropdownState();
@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dropdownToggle.addEventListener("click", () => {
         if (window.matchMedia("(max-width:1024px)").matches) {
             dropdownContainer.classList.toggle("open");
+            updateJumpBarColor();
         }
     });
 
@@ -116,59 +117,35 @@ document.addEventListener("DOMContentLoaded", () => {
             if (window.matchMedia("(max-width:1024px)").matches) {
                 dropdownContainer.classList.remove("open");
             }
+            updateJumpBarColor();
         });
     });
 });
-// our features
-jQuery(window).ready(function () {
-    function initFeaturesCarousel() {
-        const isPortrait = window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches;
-        const isBelow767 = window.matchMedia("(max-width: 767.5px)").matches;
-        let featuresContainer = jQuery(".our-features-container .items");
-
-        if (isPortrait || isBelow767) {
-            featuresContainer.addClass("owl-carousel").owlCarousel({
-                items: 1,
-                loop: true,
-                autoplay: true,
-                mouseDrag: false,
-                touchDrag: true,
-                autoplayTimeout: 5000,
-                dotsEach: 1,
-                margin: 16,
-                nav: false,
-                dots: true,
-
-            });
-        } else {
-            featuresContainer.removeClass("owl-carousel owl-loaded").trigger("destroy.owl.carousel");
-        }
-    }
-
-    jQuery(window).resize(() => initFeaturesCarousel());
-
-    initFeaturesCarousel();
-});
-// adrosonic benefits
+// DESCRIPTION:Our Capabilities
 document.addEventListener("DOMContentLoaded", function () {
     const benefitsData = {};
 
     wpDataService.left_images.forEach((image, index) => {
         benefitsData[`benefit-${index + 1}`] = {
             overlayText: wpDataService.left_image_overlay_texts[index] || "",
+            // imageSrc: image.guid.replace(/\\/g, ""), // Ensuring proper URL format
             imageSrc: image,
         };
     });
+
+    // Function to update the left box with the content dynamically (For Desktop sand Tablet Landscape)
     function updateBenefitsLeftBox(category) {
         const data = benefitsData[category];
         const leftBoxContent = document.querySelector(
             ".adro-benefits .left-box .content"
         );
         leftBoxContent.innerHTML = `
-                <img class="leftBoxImage manual-lazy-load" data-src="${data.imageSrc}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 5'%3E%3C/svg%3E" alt="Image" />
-                <div class="medium-size leftBoxDescription">${data.overlayText}</div>
-            `;
+              <img class="leftBoxImage" src="${data.imageSrc}" alt="Image" />
+              <div class="medium-size leftBoxDescription">${data.overlayText}</div>
+          `;
     }
+
+    // Function to initialize or reset carousel on resize
     function initLeftBoxCarousel() {
         const isPortrait = window.matchMedia(
             "(max-width: 1024px) and (orientation: portrait)"
@@ -177,24 +154,27 @@ document.addEventListener("DOMContentLoaded", function () {
         let carouselContainer = jQuery(".adro-benefits .content");
 
         if (isPortrait || isBelow767) {
+            // Populating carousel items dynamically
             let carouselItems = "";
             Object.keys(benefitsData).forEach((category) => {
                 const data = benefitsData[category];
                 carouselItems += `
-                        <div class="carousel-item">
-                            <img data-src="${data.imageSrc
-                    }" class="manual-lazy-load leftBoxImage" alt="Image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 5'%3E%3C/svg%3E" />
-                            <div class="medium-size leftBoxDescription">${data.overlayText
+                      <div class="carousel-item">
+                          <img src="${data.imageSrc
+                    }" class="leftBoxImage" alt="Image" />
+                          <div class="medium-size leftBoxDescription">${data.overlayText
                     }</div>
-                           <div class="benefit small-size">${getbyAttribute(
+                         <div class="benefit small-size">${getbyAttribute(
                         category
                     )}</div> 
-                        </div>
-                    `;
+                      </div>
+                  `;
             });
 
-            carouselContainer.addClass("owl-carousel").owlCarousel("destroy");
+            carouselContainer.addClass("owl-carousel").owlCarousel("destroy"); // Reset carousel before adding new items
             carouselContainer.html(carouselItems);
+
+            // Initialize the carousel
             carouselContainer.owlCarousel({
                 items: 1,
                 loop: true,
@@ -214,9 +194,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
             });
         } else {
+            // Destroy carousel and revert to original layout for Tablet Landscape and Desktop
             carouselContainer
                 .removeClass("owl-carousel owl-loaded")
                 .trigger("destroy.owl.carousel");
+            // Reset to original layout
             const firstItem = document.querySelector(
                 ".adro-benefits .benefits-menu .li-item"
             );
@@ -240,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function getbyAttribute(category) {
         const element = document.querySelector(`li[data-category="${category}"]`);
-        return element ? element.innerHTML : "";
+        return element ? element.innerHTML : ""; // Returns the content of the li if found
     }
     function adjustMenuOverflow() {
         const benefitsMenu = document.querySelector(
@@ -254,6 +236,8 @@ document.addEventListener("DOMContentLoaded", function () {
             benefitsMenu.style.overflowY = "hidden";
         }
     }
+
+    // Add event listeners to menu items
     document
         .querySelectorAll(".adro-benefits .benefits-menu .li-item")
         .forEach((item) => {
@@ -263,18 +247,70 @@ document.addEventListener("DOMContentLoaded", function () {
                 updateBenefitsLeftBox(category);
             });
         });
+
+    // Initial load: Set the first menu item as active and load its content
     const firstItem = document.querySelector(
         ".adro-benefits .benefits-menu .li-item"
     );
     activateRightBoxMenuItem(firstItem);
     updateBenefitsLeftBox(firstItem.getAttribute("data-category"));
+
+    // Reinitialize carousel on window resize
     jQuery(window).resize(() => initLeftBoxCarousel());
+
+    // Initialize the carousel on load for mobile/portrait screens
     initLeftBoxCarousel();
+
+    //Checks if menu items are more than 4 and display a scrollbar
     adjustMenuOverflow();
 });
-// DESCRIPTION:our offerings
+
+// DESCRIPTION:Business Impact
+document.addEventListener("DOMContentLoaded", function () {
+    const circles = document.querySelectorAll(".svg-circle-wrapper"); // Get all circle wrappers
+
+    let observedCircles = 0; // how many circles have entered the viewport
+
+    const observer = new IntersectionObserver(
+        (entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    observedCircles++;
+
+                    const circle = entry.target;
+                    const percentage = circle.getAttribute("data-percentage"); // Get the percentage for this circle
+                    const circleFg = circle.querySelector(".circle-fg");
+                    const percentageValue = circle.querySelector(".percentage-value");
+
+                    // Ensure both the elements exist before proceeding
+                    if (circleFg && percentageValue) {
+                        const offset = 728 - (percentage / 100) * 728; // Circumference of circle is 728
+
+                        circleFg.style.transition = "stroke-dashoffset 5s ease";
+                        circleFg.style.strokeDashoffset = offset;
+
+                        // Update the percentage text in the center of the circle
+                        percentageValue.textContent = `${percentage}%`;
+                    }
+
+                    // If both circles are in view, stop observing and trigger animation for both
+                    if (observedCircles === circles.length) {
+                        observer.disconnect(); // Disconnect the observer once both circles have entered the viewport
+                    }
+                }
+            });
+        },
+        { threshold: 0.5 }
+    ); // Trigger when at least 50% of each circle is in the viewport
+
+    // Start observing both circles
+    circles.forEach((circle) => {
+        observer.observe(circle);
+    });
+});
+
+// DESCRIPTION:Our Offerings
 jQuery(document).ready(function () {
-    console.log("our offerings js loaded");
     var currentActiveItemId = 0;
     var our_offerings_owl = jQuery(".our-offerings-container .owl-carousel");
     var numItems = 0;
@@ -477,7 +513,6 @@ jQuery(document).ready(function () {
         }
     });
 
-
     our_offerings_owl.on("changed.owl.carousel", function () {
         setTimeout(updateActiveItem, 100);
     });
@@ -514,255 +549,46 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// END: our offerings
-
-// technology prowess
+// DESCRIPTION:our clients testimonial
+const service_our_clients_owl = jQuery(".service-our-clients-section .owl-carousel");
 jQuery(document).ready(function () {
-    var currentActiveItemId = 0;
-    var technology_prowess_owl = jQuery(".technology-prowess-container .owl-carousel");
-    var numItems = 0;
-    function initializeProwessCarousel() {
-        technology_prowess_owl.owlCarousel({
-            loop: false,
-            nav: true,
-            dots: false,
-            items: 4,
-            responsive: {
-                0: {
-                    items: 1.5,
-                    margin: 32,
-                    stagePadding: 24,
-                    nav: false,
-                    dots: true,
-                    loop: true,
-                    dotsEach: 1,
-                },
-                768: {
-                    items: window.matchMedia("(orientation: portrait)").matches ? 2.19 : 4,
-                    margin: 40,
-                    stagePadding: 40,
-                    nav: false,
-                    dots: window.matchMedia("(orientation: portrait)").matches || numItems >= 4,
-                    loop: window.matchMedia("(orientation: portrait)").matches ? true : false,
-                    dotsEach: 1,
-                },
-                800: {
-                    items: window.matchMedia("(orientation: portrait)").matches ? 2.19 : 4,
-                    margin: 40,
-                    stagePadding: 24,
-                    nav: false,
-                    dots: window.matchMedia("(orientation: portrait)").matches || numItems >= 4,
-                    dotsEach: 1,
-                    loop: window.matchMedia("(orientation: portrait)").matches ? true : false,
-                },
-                834: {
-                    items: window.matchMedia("(orientation: portrait)").matches ? 2.19 : 4,
-                    margin: 40,
-                    stagePadding: 40,
-                    nav: false,
-                    dots: window.matchMedia("(orientation: portrait)").matches || numItems >= 4,
-                    dotsEach: 1,
-                    loop: window.matchMedia("(orientation: portrait)").matches ? true : false,
-                },
-                1025: {
-                    mouseDrag: false,
-                    touchDrag: false,
-                    margin: 76,
-                    stagePadding: 40,
-                },
-                1600: {
-                    margin: 100,
-                    stagePadding: 55.38,
-                },
-                1650: {
-                    margin: 120,
-                    stagePadding: 64,
-                },
-            }
-        });
-        updateActiveItem();
-    }
 
-    function updateActiveItem() {
-        numItems = jQuery(".technology-prowess-container .owl-carousel .owl-item:not(.cloned)").length;
-        jQuery(".technology-prowess-container .owl-carousel .owl-item .item").removeClass("current small-size font-bold").addClass("smaller-size");
-        var newActiveItem = jQuery(".technology-prowess-container .owl-carousel .owl-item.active").first().find(".item");
-        newActiveItem.addClass("current small-size font-bold").removeClass("smaller-size");
-        let newItemId = newActiveItem.attr("data-id");
-        if (newItemId !== currentActiveItemId) {
-            currentActiveItemId = newItemId;
-            updateContent(newActiveItem);
-        }
-    }
-
-    function updateContent(activeItem) {
-        let heading = activeItem.attr("data-heading");
-        let text = activeItem.attr("data-text");
-        let rightIllustration = activeItem.attr("data-image");
-
-        jQuery(".technology-prowess-container #content-text").html(text);
-        jQuery(".technology-prowess-container #content-image").attr("data-src", rightIllustration);
-
-        jQuery(".technology-prowess-container .content-box").removeClass("fade-up");
-        setTimeout(function () {
-            jQuery(".technology-prowess-container .content-box").addClass("fade-up");
-        }, 300);
-    }
-
-    function updateResponsiveSettings() {
-        const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-
-        const newResponsive = {
-            0: {
-                items: 1.5,
-                margin: 32,
-                stagePadding: 24,
-                nav: false,
-                loop: true,
-                dots: true,
-                dotsEach: 1,
-            },
-            768: {
-                items: isPortrait ? 2.19 : 4,
-                margin: 40,
-                stagePadding: 40,
-                nav: false,
-                dots: window.matchMedia("(orientation: portrait)").matches || numItems >= 4,
-                dotsEach: 1,
-                loop: window.matchMedia("(orientation: portrait)").matches ? true : false,
-            },
-            800: {
-                items: window.matchMedia("(orientation: portrait)").matches ? 2.19 : 4,
-                margin: 40,
-                stagePadding: 24,
-                nav: false,
-                dots: window.matchMedia("(orientation: portrait)").matches || numItems >= 4,
-                dotsEach: 1,
-                loop: window.matchMedia("(orientation: portrait)").matches ? true : false,
-            },
-            834: {
-                items: window.matchMedia("(orientation: portrait)").matches ? 2.19 : 4,
-                margin: 40,
-                stagePadding: 40,
-                nav: false,
-                dots: window.matchMedia("(orientation: portrait)").matches || numItems >= 4,
-                dotsEach: 1,
-                loop: window.matchMedia("(orientation: portrait)").matches ? true : false,
-            },
-            1025: {
-                mouseDrag: false,
-                touchDrag: false,
-                margin: 76,
-                stagePadding: 40,
-            },
-            1600: {
-                margin: 100,
-                stagePadding: 55.38,
-            },
-            1650: {
-                margin: 120,
-                stagePadding: 64,
-            },
-        };
-
-        jQuery(technology_prowess_owl).trigger("refresh.owl.carousel");
-        jQuery(technology_prowess_owl).data("owl.carousel").options.responsive = newResponsive;
-    }
-
-    initializeProwessCarousel();
-
-    jQuery(".technology-prowess-container .owl-carousel").on("click", ".item", function () {
-        if (jQuery(this).hasClass("current")) return;
-
-        jQuery(".technology-prowess-container .owl-carousel .item")
-            .removeClass("current small-size font-bold")
-            .addClass("smaller-size");
-
-        jQuery(this).addClass("current small-size font-bold").removeClass("smaller-size");
-
-        let newItemId = jQuery(this).attr("data-id");
-        if (newItemId !== currentActiveItemId) {
-            currentActiveItemId = newItemId;
-            updateContent(jQuery(this));
-        }
-
-        var dataId = parseInt(jQuery(this).attr("data-id"), 10); // convert to number
-        jQuery(".technology-prowess-container .owl-dots .owl-dot").removeClass("active");
-        jQuery(".technology-prowess-container .owl-dots .owl-dot").eq(dataId).addClass("active");
-
-        var $carousel = jQuery(".technology-prowess-container .owl-carousel");
-        var $clickedItem = jQuery(this);
-        var $nonClonedItems = $carousel.find(".owl-item:not(.cloned) .item");
-        var index = $nonClonedItems.index($clickedItem);
-
-        if (index === -1) {
-            var clonedIndex = $carousel.find(".owl-item .item").index($clickedItem);
-            if ($clickedItem.attr("data-id") === "0" || clonedIndex >= $nonClonedItems.length) {
-                $carousel.trigger("to.owl.carousel", [0, 300, true]);
-            }
-        } else {
-            $carousel.trigger("to.owl.carousel", [index, 300, true]);
-        }
-    });
-
-
-    technology_prowess_owl.on("changed.owl.carousel", function () {
-        setTimeout(updateActiveItem, 100);
-    });
-
-    let resizeTimeout;
-    jQuery(window).on("resize", function () {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(updateResponsiveSettings, 300);
+    service_our_clients_owl.owlCarousel({
+        items: 1,
+        loop: true,
+        autoplay: true,
+        mouseDrag: false,
+        touchDrag: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: true,
+        nav: true,
+        smartSpeed: 800,
+        dots: true,
+        margin: 20
     });
 });
-document.addEventListener("DOMContentLoaded", function () {
-    window.addEventListener("resize", moveNavButtons);
-    setTimeout(function () {
-        var technology_prowess_carousel_controls = document.querySelector('.technology-prowess-container .owl-carousel .carousel-controls');
-        let playPauseBtn = technology_prowess_carousel_controls.querySelector("#playPauseBtn");
-        if (playPauseBtn) {
-            playPauseBtn.remove();
-        }
-        moveNavButtons();
+let service_our_clients_autoplayTimeout;
+// Pause autoplay on swipe
+service_our_clients_owl.on("dragged.owl.carousel", function () {
+    service_our_clients_owl.trigger("stop.owl.autoplay");
+    clearTimeout(service_our_clients_autoplayTimeout);
+    service_our_clients_autoplayTimeout = setTimeout(() => {
+        owl.trigger("play.owl.autoplay", [5000]);
     }, 100);
-    function moveNavButtons() {
-        const contentBox = document.querySelector(".technology-prowess-container .content-box");
-        const owlNav = document.querySelector(".technology-prowess-container .carousel-controls");
-
-        if (window.innerWidth < 1025) {
-            contentBox.after(owlNav);
-        }
-        else {
-            setTimeout(function () {
-                const carouselWrapper = document.querySelector(".technology-prowess-container .owl-carousel");
-                carouselWrapper.appendChild(owlNav);
-            }, 100)
-        }
-    }
 });
+function updateClassForPortraitView() {
+    const left_desc = document.querySelectorAll(".service-our-clients-section .left-box .left-desc,.service-our-clients-section .left-box .author-line");
+    left_desc.forEach(item => {
+        if (window.matchMedia("(orientation:portrait)").matches) {
+            item.classList.add("small-size");
+            item.classList.remove("smaller-size");
+        } else {
+            item.classList.remove("small-size");
+            item.classList.add("smaller-size");
+        }
+    })
 
-// about RPA
-function rearrangeHeader() {
-    const sectionHeader = document.querySelector(
-        ".about-sub-service .section-header-container"
-    );
-    const leftContainer = document.querySelector(
-        ".about-sub-service .left-container"
-    );
-    const aboutSubService = document.getElementById("about-sub-service");
-    let istabLandscsape = window.matchMedia(
-        "(min-width:768px) and (max-width:1024px) and (orientation:landscape)"
-    ).matches;
-    if (window.innerWidth > 1024 || istabLandscsape) {
-        if (sectionHeader.parentNode !== leftContainer) {
-            leftContainer.insertBefore(sectionHeader, leftContainer.firstChild);
-        }
-    } else {
-        if (sectionHeader.parentNode === leftContainer) {
-            aboutSubService.insertBefore(sectionHeader, aboutSubService.firstChild);
-        }
-    }
 }
-rearrangeHeader();
-window.addEventListener("resize", rearrangeHeader);
+
+window.addEventListener("load", updateClassForPortraitView);
+window.addEventListener("resize", updateClassForPortraitView);

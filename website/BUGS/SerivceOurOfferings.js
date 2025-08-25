@@ -354,9 +354,13 @@ jQuery(document).ready(function () {
 
     initializeOfferingsCarousel();
 
-    jQuery(".our-offerings-container .owl-carousel .item").on("click", function () {
+    jQuery(".our-offerings-container .owl-carousel").on("click", ".item", function () {
         if (jQuery(this).hasClass("current")) return;
-        jQuery(".our-offerings-container .owl-carousel .item").removeClass("current small-size font-bold").addClass("smaller-size");
+
+        jQuery(".our-offerings-container .owl-carousel .item")
+            .removeClass("current small-size font-bold")
+            .addClass("smaller-size");
+
         jQuery(this).addClass("current small-size font-bold").removeClass("smaller-size");
 
         let newItemId = jQuery(this).attr("data-id");
@@ -364,7 +368,8 @@ jQuery(document).ready(function () {
             currentActiveItemId = newItemId;
             updateContent(jQuery(this));
         }
-        var dataId = parseInt(jQuery(this).attr("data-id"), 10); // convert to number
+
+        var dataId = parseInt(jQuery(this).attr("data-id"), 10);
         jQuery(".our-offerings-container .owl-dots .owl-dot").removeClass("active");
         jQuery(".our-offerings-container .owl-dots .owl-dot").eq(dataId).addClass("active");
 
@@ -374,19 +379,13 @@ jQuery(document).ready(function () {
         var index = $nonClonedItems.index($clickedItem);
 
         if (index === -1) {
-            // Handle cloned first item clicked (appears at the end due to loop)
             var clonedIndex = $carousel.find(".owl-item .item").index($clickedItem);
-
-            // If it's the cloned version of the first slide
             if ($clickedItem.attr("data-id") === "0" || clonedIndex >= $nonClonedItems.length) {
                 $carousel.trigger("to.owl.carousel", [0, 300, true]);
             }
         } else {
-            // Regular case
             $carousel.trigger("to.owl.carousel", [index, 300, true]);
         }
-
-
     });
 
     our_offerings_owl.on("changed.owl.carousel", function () {
