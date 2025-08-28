@@ -1,0 +1,467 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        let resizeTimeout;
+        let isCarouselInitialized = false;
+        initCarouselIfNeeded();
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                initCarouselIfNeeded();
+            }, 150);
+        });
+
+        const mainCard = document.querySelector(".innovation-section .main-card");
+        const mainTitle = document.querySelector(".innovation-section .main-card-title");
+        const mainContent = document.querySelector(".innovation-section .main-card-content");
+
+        document.querySelectorAll(".innovation-section .card").forEach(card => {
+            const title = card.dataset.title;
+            const desc = card.dataset.desc;
+            const bg = card.dataset.bg;
+            if (!card.dataset.originalTitle) {
+                card.dataset.originalTitle = title;
+                card.dataset.originalDesc = desc;
+                card.dataset.originalBg = bg;
+            }
+            card.style.backgroundImage = `url(${bg})`;
+            card.querySelector('.card-title').textContent = title;
+            card.querySelector('.card-description').innerHTML = desc;
+            card.querySelector('.card-description').style.display = 'none';
+            let isClickLocked = false;
+            card.addEventListener("click", () => {
+                if (isClickLocked) return; // prevent rapid double clicks
+
+                isClickLocked = true;
+                setTimeout(() => isClickLocked = false, 500); // adjust duration as needed
+
+                const mainBg = mainCard.style.backgroundImage;
+                const mainTitleText = mainTitle.textContent;
+                const mainDescText = mainContent.innerHTML;
+                const cardBg = card.dataset.bg;
+                const cardTitle = card.dataset.title;
+                const cardDesc = card.dataset.desc;
+
+                card.classList.add("clicked");
+                mainCard.classList.add("clicked");
+                setTimeout(() => {
+                    card.classList.remove("clicked");
+                    mainCard.classList.remove("clicked");
+                    card.classList.add("clicked-back");
+                    mainCard.classList.add("clicked-back");
+                    setTimeout(() => {
+                        card.classList.remove("clicked-back");
+                        mainCard.classList.remove("clicked-back");
+                    }, 300);
+                }, 200);
+
+                if (!isMobileOrTabletPortrait()) {
+                    mainCard.classList.remove("fade-in");
+                    mainCard.classList.add("fade-out");
+
+                    setTimeout(() => {
+                        mainCard.style.backgroundImage = `url(${cardBg})`;
+                        mainTitle.textContent = cardTitle;
+                        mainContent.innerHTML = cardDesc;
+                        mainCard.classList.remove("fade-out");
+                        mainCard.classList.add("fade-in");
+                    }, 200);
+                    //  card.dataset.bg = mainBg.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+                    //  card.dataset.title = mainTitleText;
+                    //  card.dataset.desc = mainDescText;
+                    //  card.style.backgroundImage = mainBg;
+                    //  card.querySelector('.card-title').textContent = mainTitleText;
+                    //  card.querySelector('.card-description').innerHTML = mainDescText;
+                }
+            });
+        });
+        const cards = Array.from(document.querySelectorAll(".innovation-section .card"));
+        const lastCard = cards.at(-1);
+        if (lastCard) {
+            mainCard.style.backgroundImage = `url(${lastCard.dataset.bg})`;
+            mainTitle.textContent = lastCard.dataset.title;
+            mainContent.innerHTML = lastCard.dataset.desc;
+        }
+        function initCarouselIfNeeded() {
+            let carousel = jQuery('.small-cards');
+            if (isMobileOrTabletPortrait() && !isCarouselInitialized) {
+                isCarouselInitialized = true;
+                carousel.addClass("owl-carousel").owlCarousel({
+                    center: true,
+                    loop: true,
+                    nav: true,
+                    autoplay: false,
+                    dots: true,
+                    responsive: {
+                        0: {
+                            items: 1.43,
+                            margin: 20,
+                        },
+                        768: {
+                            items: 2.25,
+                            margin: 24,
+                        }
+                    }
+                });
+
+                carousel.on('click', '.owl-item', function (event) {
+                    const clickedItem = event.currentTarget;
+                    const owlItems = carousel.find('.owl-item').toArray();
+                    const centerItem = carousel.find('.owl-item.center')[0];
+
+                    const clickedIndex = owlItems.indexOf(clickedItem);
+                    const centerIndex = owlItems.indexOf(centerItem);
+
+                    if (clickedIndex > centerIndex) {
+                        carousel.trigger('next.owl.carousel');
+                    } else if (clickedIndex < centerIndex) {
+                        carousel.trigger('prev.owl.carousel');
+                    }
+                });
+                carousel.on('changed.owl.carousel', function (event) {
+                    setTimeout(() => {
+                        const centerCard = document.querySelector('.innovation-section .owl-item.center .card');
+                        if (centerCard) {
+                            const title = centerCard.dataset.title;
+                            const desc = centerCard.dataset.desc;
+                            const bg = centerCard.dataset.bg;
+
+                            mainCard.classList.remove("fade-in");
+                            mainCard.classList.add("fade-out");
+
+                            setTimeout(() => {
+                                mainCard.style.backgroundImage = `url(${bg})`;
+                                mainTitle.textContent = title;
+                                mainContent.innerHTML = desc;
+
+                                mainCard.classList.remove("fade-out");
+                                mainCard.classList.add("fade-in");
+                            }, 200);
+                        }
+                    }, 50);
+                });
+
+                setTimeout(() => {
+
+                    const centerCard = document.querySelector('.innovation-section .owl-item.center .card');
+                    if (centerCard) {
+                        const title = centerCard.dataset.title;
+                        const desc = centerCard.dataset.desc;
+                        const bg = centerCard.dataset.bg;
+
+                        mainCard.style.backgroundImage = `url(${bg})`;
+                        mainTitle.textContent = title;
+                        mainContent.innerHTML = desc;
+                    }
+                }, 100);
+            }
+            else if (!isMobileOrTabletPortrait() && isCarouselInitialized) {
+                isCarouselInitialized = false;
+                carousel.removeClass("owl-carousel owl-loaded").trigger("destroy.owl.carousel");
+                const extraDiv = document.querySelector(".innovation-section .carousel-controls");
+                if (extraDiv) {
+                    extraDiv.remove();
+                }
+            }
+        }
+        function isMobileOrTabletPortrait() {
+            return window.innerWidth <= 767 || window.matchMedia(
+                "(min-width: 768px) and (max-width: 1024px) and (orientation: portrait)"
+            ).matches;
+        }
+    });
+</script>
+<style>
+    .innovation-section {
+        button {
+            border-color: var(--adro-electric-green);
+        }
+
+        button:hover,
+        button:focus {
+            background-color: var(--adro-electric-green);
+            color: var(--adro-deep-blue);
+        }
+
+        .our-innovation-header {
+            padding: 4.22% 3.34% 0;
+
+            .main-header {
+                margin-bottom: 1em;
+            }
+        }
+
+        .card-section {
+            display: grid;
+            grid-template-columns: 2.02fr 0.98fr;
+            gap: 1.67vw;
+            padding: 2.45% 3.34% 2.82%;
+
+            .main-card {
+                border-radius: 20px;
+                grid-row: 1 / 2;
+                grid-column: 2 / 3;
+                position: relative;
+                overflow: hidden;
+                padding: 7.66%;
+                background-size: cover;
+                background-position: center;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                .main-card-title,
+                .main-card-content {
+                    color: var(--adro-deep-blue);
+                    transition: opacity 0.3s ease, transform 0.3s ease;
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                .main-card-title {
+                    text-transform: uppercase !important;
+                    margin-bottom: 1.07em;
+                }
+
+                .main-card-scrollable {
+                    overflow: auto;
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                }
+            }
+
+            .main-card.clicked {
+                transform: scale(0);
+                opacity: 0;
+                filter: blur(1px);
+                /* slight blur during exit */
+                transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1),
+                    opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                    filter 0.5s ease;
+            }
+
+            .main-card.clicked-back {
+                transform: scale(1);
+                opacity: 1;
+                filter: blur(0px);
+                /* clear on return */
+                transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                    opacity 0.9s cubic-bezier(0.25, 0.1, 0.25, 1),
+                    filter 0.8s ease;
+            }
+
+            .main-card.fade-out .main-card-title,
+            .main-card.fade-out .main-card-content {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            .main-card.fade-in .main-card-title,
+            .main-card.fade-in .main-card-content {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .main-card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(0deg, rgba(35, 228, 186, 0.90) 0%, rgba(35, 228, 186, 0.90) 100%), lightgray 50% / cover no-repeat;
+                z-index: 1;
+            }
+
+            .main-card * {
+                position: relative;
+                z-index: 2;
+
+            }
+
+            .small-cards {
+                width: 100%;
+                display: grid;
+                grid-row: 1 / 2;
+                grid-column: 1 / 2;
+                grid-template-rows: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.67vw;
+
+                .card:nth-child(5) {
+                    display: none;
+                }
+
+                .card {
+                    background-size: cover;
+                    background-position: center;
+                    aspect-ratio: 576 / 320;
+
+                    position: relative;
+                    cursor: pointer;
+                    border-radius: 20px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .card-content {
+                        z-index: 2;
+                        width: 100%;
+                        text-align: center;
+
+                        .card-title {
+                            padding: 8.33%;
+                            margin: 0;
+                            text-transform: uppercase !important;
+                            transition: opacity 0.3s ease;
+                        }
+                    }
+
+                }
+
+                .card::before {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    border-radius: 20px;
+                    /* background: linear-gradient(0deg,
+                            rgba(67, 102, 143, 0.14) -0.03%,
+                            rgba(5, 8, 14, 0.56) 43.48%,
+                            rgba(5, 8, 14, 0.56) 67.04%,
+                            rgba(67, 102, 143, 0.14) 100%); */
+                    z-index: 1;
+                }
+
+                .card.clicked {
+                    transform: scale(0);
+                    opacity: 0;
+                    filter: blur(1px);
+                    /* slight blur during exit */
+                    transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1),
+                        opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+                        filter 0.5s ease;
+
+                    .card-title {
+                        opacity: 0.75;
+                    }
+                }
+
+                .card.clicked-back {
+                    transform: scale(1);
+                    opacity: 1;
+                    filter: blur(0px);
+                    /* clear on return */
+                    transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        opacity 0.9s cubic-bezier(0.25, 0.1, 0.25, 1),
+                        filter 0.8s ease;
+                }
+            }
+        }
+
+        .button-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 3.49%;
+        }
+
+        @media screen and (max-width: 767.5px),
+        screen and (max-width:1024px) and (orientation:portrait) {
+            .our-innovation-header {
+                padding: 12.31% 6.16% 0;
+
+                .main-header {
+                    margin-bottom: 1.34em;
+                }
+            }
+
+            .card-section {
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+                gap: 0;
+
+                .owl-stage-outer {
+                    margin-bottom: 8.72%;
+
+                }
+
+                .owl-dot.active {
+                    background-color: var(--adro-electric-green) !important;
+                }
+
+                .owl-dots .owl-dot {
+                    border: 2px solid var(--adro-electric-green) !important;
+                }
+
+                .main-card {
+                    margin: 8.21% 6.16% !important;
+                    padding: 8.21% 6.67%;
+                    aspect-ratio: 342 / 344;
+
+                    .main-card-title {
+                        margin-bottom: 2.23em;
+                    }
+                }
+
+                .small-cards {
+                    margin-bottom: 15.39%;
+                    display: block;
+                }
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
+            .card-section .small-cards .card {
+                aspect-ratio: 510/320;
+            }
+        }
+
+        @media screen and (max-width: 767.5px) {
+            .button-box {
+                margin-bottom: 18.49%;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+            .our-innovation-header {
+                padding: 9.6% 4.8% 0;
+
+                .main-header {
+                    margin-bottom: 1em;
+                }
+            }
+
+            .card-section {
+
+                .owl-stage-outer {
+                    margin-bottom: 3.84%
+                }
+
+                .owl-dot.active {
+                    background-color: var(--adro-electric-green) !important;
+                }
+
+                .owl-dots .owl-dot {
+                    border: 2px solid var(--adro-electric-green) !important;
+                }
+
+                .main-card {
+                    margin: 4.8% !important;
+                    padding: 3.84% 5.28%;
+                    aspect-ratio: 754/352;
+
+                    .main-card-title {
+                        margin-bottom: 0.67em;
+                    }
+                }
+
+                .small-cards {
+                    margin-bottom: 5.76%;
+                }
+            }
+
+            .button-box {
+                margin-bottom: 2.88%;
+            }
+        }
+    }
+</style>

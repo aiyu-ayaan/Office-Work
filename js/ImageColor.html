@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dominant Color Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-preview {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .color-display {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 20px auto;
+            border: 3px solid #ddd;
+        }
+
+        .result {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+        }
+
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .warning {
+            color: #856404;
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Dominant Color Extractor</h1>
+        <p>Extract the dominant color from any image URL</p>
+
+        <div class="warning">
+            <strong>Note:</strong> This version works with most images but may have limitations when trying to export
+            canvas data due to CORS restrictions.
+        </div>
+
+        <input type="url" id="imageUrl" placeholder="Enter image URL..."
+            value="https://adrosonic.com/elevate-connect-london/wp-content/uploads/2025/08/Automatrix.webp">
+
+        <button onclick="extractColor()">Extract Dominant Color</button>
+
+        <div id="loading" class="loading" style="display: none;">
+            Processing image...
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="result" class="result" style="display: none;">
+            <h3>Dominant Color:</h3>
+            <div id="colorDisplay" class="color-display"></div>
+            <p id="colorValue"></p>
+            <p id="rgbValue"></p>
+            <p id="hexValue"></p>
+        </div>
+
+        <img id="imagePreview" class="image-preview" style="display: none;">
+    </div>
+
+    <script>
+        async function getDominantColorFromImageUrl(imageUrl, useCors = true) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+
+                    if (useCors) {
+                        img.crossOrigin = 'Anonymous';
+                    }
+
+                    img.src = imageUrl;
+
+                    img.onload = () => {
+                        try {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+
+                            const width = 50;
+                            const height = 50;
+                            canvas.width = width;
+                            canvas.height = height;
+
+                            ctx.drawImage(img, 0, 0, width, height);
+                            const imageData = ctx.getImageData(0, 0, width, height);
+
+                            const data = imageData.data;
+                            const colorCount = {};
+
+                            for (let i = 0; i < data.length; i += 4) {
+                                const r = data[i];
+                                const g = data[i + 1];
+                                const b = data[i + 2];
+
+                                const key = `${Math.floor(r / 10) * 10},${Math.floor(g / 10) * 10},${Math.floor(b / 10) * 10}`;
+                                colorCount[key] = (colorCount[key] || 0) + 1;
+                            }
+
+                            let dominantColor = null;
+                            let maxCount = 0;
+                            for (const color in colorCount) {
+                                if (colorCount[color] > maxCount) {
+                                    maxCount = colorCount[color];
+                                    dominantColor = color;
+                                }
+                            }
+
+                            resolve(dominantColor);
+                        } catch (error) {
+                            if (useCors && error.name === 'SecurityError') {
+                                // Try again without CORS
+                                getDominantColorFromImageUrl(imageUrl, false)
+                                    .then(resolve)
+                                    .catch(reject);
+                            } else {
+                                reject(error);
+                            }
+                        }
+                    };
+
+                    img.onerror = (error) => {
+                        if (useCors) {
+                            // Try again without CORS
+                            getDominantColorFromImageUrl(imageUrl, false)
+                                .then(resolve)
+                                .catch(reject);
+                        } else {
+                            reject(error);
+                        }
+                    };
+                });
+            }
+
+        async function extractColor() {
+            const imageUrl = document.getElementById('imageUrl').value;
+            const loadingDiv = document.getElementById('loading');
+            const errorDiv = document.getElementById('error');
+            const resultDiv = document.getElementById('result');
+            const imagePreview = document.getElementById('imagePreview');
+            const button = document.querySelector('button');
+
+            if (!imageUrl) {
+                showError('Please enter an image URL');
+                return;
+            }
+
+            hideError();
+            hideResult();
+            showLoading();
+            button.disabled = true;
+
+            try {
+                imagePreview.src = imageUrl;
+                imagePreview.style.display = 'block';
+
+                const dominantColor = await getDominantColorFromImageUrl(imageUrl);
+
+                const [r, g, b] = dominantColor.split(',').map(Number);
+                const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+                const rgb = `rgb(${r}, ${g}, ${b})`;
+
+                showResult(dominantColor, rgb, hex);
+
+            } catch (error) {
+                console.error('Error extracting color:', error);
+                showError('Failed to extract color. The image may not be accessible or the URL is invalid.');
+                imagePreview.style.display = 'none';
+            } finally {
+                hideLoading();
+                button.disabled = false;
+            }
+        }
+
+        function showResult(colorValue, rgbValue, hexValue) {
+            document.getElementById('colorDisplay').style.backgroundColor = rgbValue;
+            document.getElementById('colorValue').textContent = `Raw Color: ${colorValue}`;
+            document.getElementById('rgbValue').textContent = `RGB: ${rgbValue}`;
+            document.getElementById('hexValue').textContent = `HEX: ${hexValue}`;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function hideResult() {
+            document.getElementById('result').style.display = 'none';
+        }
+
+        function showError(message) {
+            document.getElementById('error').textContent = message;
+            document.getElementById('error').style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        document.getElementById('imageUrl').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                extractColor();
+            }
+        });
+
+        window.addEventListener('load', function () {
+            setTimeout(extractColor, 500);
+        });
+    </script>
+</body>
+
+</html>
