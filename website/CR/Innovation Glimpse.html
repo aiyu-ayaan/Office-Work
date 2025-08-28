@@ -50,7 +50,9 @@
                     try {
                         const dominantColor = await getDominantColorFromImage(imageUrl);
                         const colorData = formatDominantColor(dominantColor);
+                        console.log('Dominant Color on Click:', colorData);
                         updateOverlayColorWithCSS('.innovation-section .card-section .main-card', colorData.raw);
+                        setTextColor(colorData.isDark);
                     } catch (error) {
                         console.error('Error getting dominant color:', error);
                     }
@@ -146,6 +148,7 @@
                                 const colorData = formatDominantColor(dominantColor);
 
                                 updateOverlayColorWithCSS('.innovation-section .card-section .main-card', colorData.raw);
+                                setTextColor(colorData.isDark);
                             } catch (error) {
                                 console.error('Error getting dominant color in carousel:', error);
                             }
@@ -178,6 +181,7 @@
 
                             // Update overlay color
                             updateOverlayColorWithCSS('.innovation-section .card-section .main-card', colorData.raw);
+                            setTextColor(colorData.isDark);
                         } catch (error) {
                             console.error('Error getting dominant color on initial mobile load:', error);
                         }
@@ -330,17 +334,17 @@
      */
     function formatDominantColor(dominantColor) {
         const [r, g, b] = dominantColor.split(',').map(Number);
-        const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-        const rgb = `rgb(${r}, ${g}, ${b})`;
+
+        // Calculate luminance to determine if color is dark
+        // Using relative luminance formula: 0.299*R + 0.587*G + 0.114*B
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        const isDark = luminance < 0.5;
 
         return {
             raw: dominantColor,
-            rgb: rgb,
-            hex: hex,
-            values: { r, g, b }
+            isDark: isDark
         };
     }
-
     function updateOverlayColorWithCSS(elementSelector, color) {
         // Remove existing dynamic style if it exists
         const existingStyle = document.getElementById('dynamic-overlay-style');
@@ -375,6 +379,19 @@
     `;
         document.head.appendChild(style);
     }
+
+    
+        function setTextColor(isDark) {
+            const mainTitle = document.querySelector(".innovation-section .main-card-title");
+            const mainContent = document.querySelector(".innovation-section .main-card-content");
+            if (isDark) {
+                mainTitle.style.color = 'white';
+                mainContent.style.color = 'white';
+            } else {
+                mainTitle.style.color = 'var(--adro-deep-blue)';
+                mainContent.style.color = 'var(--adro-deep-blue)';
+            }
+        }
 
 
 </script>
