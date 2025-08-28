@@ -14,7 +14,7 @@
         const mainCard = document.querySelector(".innovation-section .main-card");
         const mainTitle = document.querySelector(".innovation-section .main-card-title");
         const mainContent = document.querySelector(".innovation-section .main-card-content");
-
+        const element = document.querySelector('.card');
         document.querySelectorAll(".innovation-section .card").forEach(card => {
             const title = card.dataset.title;
             const desc = card.dataset.desc;
@@ -29,7 +29,7 @@
             card.querySelector('.card-description').innerHTML = desc;
             card.querySelector('.card-description').style.display = 'none';
             let isClickLocked = false;
-            card.addEventListener("click", () => {
+            card.addEventListener("click", async () => {
                 if (isClickLocked) return; // prevent rapid double clicks
 
                 isClickLocked = true;
@@ -41,6 +41,20 @@
                 const cardBg = card.dataset.bg;
                 const cardTitle = card.dataset.title;
                 const cardDesc = card.dataset.desc;
+
+                // CREAIYU: fetch the image path on click
+                if (event.target.closest('.item.card.card-wrapper.manual-lazy-load')) {
+                    const card = event.target.closest('.item.card.card-wrapper.manual-lazy-load');
+                    const imageUrl = card.getAttribute('data-bg');
+
+                    try {
+                        const dominantColor = await getDominantColorFromImage(imageUrl);
+                        const colorData = formatDominantColor(dominantColor);
+                        updateOverlayColorWithCSS('.innovation-section .card-section .main-card', colorData.raw);
+                    } catch (error) {
+                        console.error('Error getting dominant color:', error);
+                    }
+                }
 
                 card.classList.add("clicked");
                 mainCard.classList.add("clicked");
@@ -109,6 +123,7 @@
                     const owlItems = carousel.find('.owl-item').toArray();
                     const centerItem = carousel.find('.owl-item.center')[0];
 
+
                     const clickedIndex = owlItems.indexOf(clickedItem);
                     const centerIndex = owlItems.indexOf(centerItem);
 
@@ -119,13 +134,21 @@
                     }
                 });
                 carousel.on('changed.owl.carousel', function (event) {
-                    setTimeout(() => {
+                    setTimeout(async () => {
                         const centerCard = document.querySelector('.innovation-section .owl-item.center .card');
                         if (centerCard) {
                             const title = centerCard.dataset.title;
                             const desc = centerCard.dataset.desc;
                             const bg = centerCard.dataset.bg;
 
+                            try {
+                                const dominantColor = await getDominantColorFromImage(bg);
+                                const colorData = formatDominantColor(dominantColor);
+
+                                updateOverlayColorWithCSS('.innovation-section .card-section .main-card', colorData.raw);
+                            } catch (error) {
+                                console.error('Error getting dominant color in carousel:', error);
+                            }
                             mainCard.classList.remove("fade-in");
                             mainCard.classList.add("fade-out");
 
@@ -141,13 +164,23 @@
                     }, 50);
                 });
 
-                setTimeout(() => {
+                setTimeout(async () => {
 
                     const centerCard = document.querySelector('.innovation-section .owl-item.center .card');
                     if (centerCard) {
                         const title = centerCard.dataset.title;
                         const desc = centerCard.dataset.desc;
                         const bg = centerCard.dataset.bg;
+
+                        try {
+                            const dominantColor = await getDominantColorFromImage(bg);
+                            const colorData = formatDominantColor(dominantColor);
+
+                            // Update overlay color
+                            updateOverlayColorWithCSS('.innovation-section .card-section .main-card', colorData.raw);
+                        } catch (error) {
+                            console.error('Error getting dominant color on initial mobile load:', error);
+                        }
 
                         mainCard.style.backgroundImage = `url(${bg})`;
                         mainTitle.textContent = title;
@@ -170,6 +203,180 @@
             ).matches;
         }
     });
+
+
+    // DESCRIPTION:Script to getDominant Color from Image
+    /**
+     * Extracts the dominant color from an image (local file or URL)
+     * @param {string|File} imageSrc - The URL, file path, or File object of the image to analyze
+     * @param {boolean} useCors - Whether to use CORS for URLs (defaults to true)
+     * @returns {Promise<string>} - Promise that resolves to dominant color in "r,g,b" format
+     */
+    async function getDominantColorFromImage(imageSrc, useCors = true) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+
+            // Handle different input types
+            if (imageSrc instanceof File) {
+                // Handle File object (from file input)
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    img.src = e.target.result;
+                };
+                reader.onerror = () => reject(new Error('Failed to read file'));
+                reader.readAsDataURL(imageSrc);
+            } else if (typeof imageSrc === 'string') {
+                // Handle URL or local file path
+                if (imageSrc.startsWith('http') || imageSrc.startsWith('https')) {
+                    // External URL - use CORS if needed
+                    if (useCors) {
+                        img.crossOrigin = 'Anonymous';
+                    }
+                }
+                // For local paths, no CORS needed
+                img.src = imageSrc;
+            } else {
+                reject(new Error('Invalid image source type'));
+                return;
+            }
+
+            img.onload = () => {
+                try {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    // Resize image to 50x50 for faster processing
+                    const width = 50;
+                    const height = 50;
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    // Draw and analyze the image
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const imageData = ctx.getImageData(0, 0, width, height);
+
+                    const data = imageData.data;
+                    const colorCount = {};
+
+                    // Count colors by grouping similar colors (reducing by 10)
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+
+                        // Group similar colors together by rounding to nearest 10
+                        const key = `${Math.floor(r / 10) * 10},${Math.floor(g / 10) * 10},${Math.floor(b / 10) * 10}`;
+                        colorCount[key] = (colorCount[key] || 0) + 1;
+                    }
+
+                    // Find the most frequent color
+                    let dominantColor = null;
+                    let maxCount = 0;
+                    for (const color in colorCount) {
+                        if (colorCount[color] > maxCount) {
+                            maxCount = colorCount[color];
+                            dominantColor = color;
+                        }
+                    }
+
+                    resolve(dominantColor);
+                } catch (error) {
+                    if (useCors && error.name === 'SecurityError' && typeof imageSrc === 'string' && imageSrc.startsWith('http')) {
+                        // Retry without CORS for external URLs
+                        getDominantColorFromImage(imageSrc, false)
+                            .then(resolve)
+                            .catch(reject);
+                    } else {
+                        reject(error);
+                    }
+                }
+            };
+
+            img.onerror = (error) => {
+                if (useCors && typeof imageSrc === 'string' && imageSrc.startsWith('http')) {
+                    // Retry without CORS for external URLs
+                    getDominantColorFromImage(imageSrc, false)
+                        .then(resolve)
+                        .catch(reject);
+                } else {
+                    reject(new Error('Failed to load image: ' + imageSrc));
+                }
+            };
+        });
+    }
+
+    /**
+     * Helper function specifically for file input elements
+     * @param {HTMLInputElement} fileInput - File input element
+     * @returns {Promise<string>} - Promise that resolves to dominant color
+     */
+    async function getDominantColorFromFileInput(fileInput) {
+        if (!fileInput.files || fileInput.files.length === 0) {
+            throw new Error('No file selected');
+        }
+
+        const file = fileInput.files[0];
+        if (!file.type.startsWith('image/')) {
+            throw new Error('Selected file is not an image');
+        }
+
+        return getDominantColorFromImage(file);
+    }
+
+    /**
+     * Helper function to convert the result to different color formats
+     * @param {string} dominantColor - The dominant color in "r,g,b" format
+     * @returns {Object} - Object containing rgb, hex, and raw values
+     */
+    function formatDominantColor(dominantColor) {
+        const [r, g, b] = dominantColor.split(',').map(Number);
+        const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        const rgb = `rgb(${r}, ${g}, ${b})`;
+
+        return {
+            raw: dominantColor,
+            rgb: rgb,
+            hex: hex,
+            values: { r, g, b }
+        };
+    }
+
+    function updateOverlayColorWithCSS(elementSelector, color) {
+        // Remove existing dynamic style if it exists
+        const existingStyle = document.getElementById('dynamic-overlay-style');
+        if (existingStyle) {
+            existingStyle.remove();
+        }
+
+        // Convert color to rgba format
+        let overlayColor;
+        if (color.startsWith('#')) {
+            const hex = color.slice(1);
+            const r = parseInt(hex.slice(0, 2), 16);
+            const g = parseInt(hex.slice(2, 4), 16);
+            const b = parseInt(hex.slice(4, 6), 16);
+            overlayColor = `rgba(${r}, ${g}, ${b}, 0.90)`;
+        } else {
+            const [r, g, b] = color.split(',').map(Number);
+            overlayColor = `rgba(${r}, ${g}, ${b}, 0.90)`;
+        }
+
+        // Create and inject new style
+        const style = document.createElement('style');
+        style.id = 'dynamic-overlay-style';
+        style.textContent = `
+        ${elementSelector}::before {
+            background: linear-gradient(
+                0deg, 
+                ${overlayColor} 0%, 
+                ${overlayColor} 100%
+            ), lightgray 50% / cover no-repeat !important;
+        }
+    `;
+        document.head.appendChild(style);
+    }
+
+
 </script>
 <style>
     .innovation-section {
