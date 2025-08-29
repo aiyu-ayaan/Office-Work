@@ -157,35 +157,73 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Viewport animation trigger
+// Viewport animation trigger - Maintains animation on viewport entry
 function initViewportAnimations() {
-    // Create intersection observer
+    // Create intersection observer that doesn't interfere with scroll
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Add animation class when element enters viewport
-                entry.target.classList.add('animate-in');
-                // Stop observing this element since animation only needs to run once
-                observer.unobserve(entry.target);
+                // Use requestAnimationFrame to prevent scroll blocking
+                requestAnimationFrame(() => {
+                    // Add animation class when element enters viewport
+                    entry.target.classList.add('animate-in');
+                });
+                // Keep observing in case element goes out and comes back into view
+                // Remove this line if you want one-time animation only:
+                // observer.unobserve(entry.target);
+            } else {
+                // Optional: Remove animation class when element leaves viewport
+                // Uncomment if you want animation to replay each time:
+                // entry.target.classList.remove('animate-in');
             }
         });
     }, {
         // Trigger when 20% of the element is visible
         threshold: 0.2,
-        // Add some margin to trigger slightly before element fully enters viewport
-        rootMargin: '50px 0px -50px 0px'
+        // Reduced root margin to be less aggressive
+        rootMargin: '20px 0px -20px 0px'
     });
 
-    // Find all .insights-container elements and observe them
-    const insightsContainers = document.querySelectorAll('.insights-container');
-    insightsContainers.forEach(container => {
-        observer.observe(container);
+    // Find all elements you want to animate (not just .insights-container)
+    const animateElements = document.querySelectorAll('.insights-container, .post-item, .menu li');
+    animateElements.forEach(element => {
+        observer.observe(element);
     });
+
+    // Return observer for cleanup if needed
+    return observer;
 }
 
-// Initialize when DOM is loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initViewportAnimations);
-} else {
-    // DOM already loaded
-    initViewportAnimations();
+// Initialize with scroll-friendly approach
+function initViewportAnimationsWithCleanup() {
+    let observer = null;
+
+    const init = () => {
+        // Clean up existing observer if any
+        if (observer) {
+            observer.disconnect();
+        }
+        observer = initViewportAnimations();
+    };
+
+    // Use passive event listeners to not interfere with scroll
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init, { passive: true });
+    } else {
+        // DOM already loaded - use minimal delay to prevent blocking
+        requestAnimationFrame(init);
+    }
+
+    // Return cleanup function
+    return () => {
+        if (observer) {
+            observer.disconnect();
+        }
+    };
 }
+
+// Call the initialization
+const cleanupAnimations = initViewportAnimationsWithCleanup();
+
+// Optional: If you need to stop animations later
+// cleanupAnimations();
