@@ -51,6 +51,7 @@
             }
         }
 
+        // UPDATED: Enhanced desktop hover functionality
         function attachDesktopHover() {
             const cardsDesktop = document.querySelectorAll(".innovation-section .card");
 
@@ -61,6 +62,16 @@
                         card.classList.add("active");
                     }
                 });
+
+                // Optional: Clear active state when mouse leaves
+                // Uncomment the below if you want pure hover behavior (no persistent active state)
+                /*
+                card.addEventListener("mouseleave", () => {
+                    if (currentMode === 'desktop') {
+                        card.classList.remove("active");
+                    }
+                });
+                */
             });
         }
 
@@ -425,6 +436,8 @@
     }
 </script>
 
+<!-- DESCRIPTION:CSS -->
+
 <style>
     .innovation-section {
         button {
@@ -452,7 +465,7 @@
             margin-bottom: 3.49%;
         }
 
-        /* DEFAULT DESKTOP LAYOUT - 3 Column Grid */
+        /* UPDATED DESKTOP LAYOUT - 3 Column Grid with Hover Support */
         @media screen and (min-width: 1025px) {
             .card-section {
                 display: grid;
@@ -481,6 +494,8 @@
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        transition: all 0.3s ease;
+                        /* Smooth transitions */
                     }
 
                     .item:first-child {
@@ -526,8 +541,9 @@
                 z-index: 1;
             }
 
-            /* Desktop active state overlay */
-            .card-section .item.active::before {
+            /* Desktop active and hover state overlay */
+            .card-section .item.active::before,
+            .card-section .item:hover::before {
                 background: linear-gradient(0deg,
                         rgba(0, 204, 255, 0.78) 0%,
                         rgba(0, 204, 255, 0.78) 100%),
@@ -537,15 +553,16 @@
                 opacity: 1;
             }
 
-            /* Desktop active state content positioning */
-            .card-section .item.active .card-content {
+            /* Desktop active and hover state content positioning */
+            .card-section .item.active .card-content,
+            .card-section .item:hover .card-content {
                 top: 50%;
                 bottom: auto;
                 transform: translate(-50%, -50%);
                 color: var(--adro-deep-blue);
             }
 
-            /* Desktop description visibility */
+            /* Desktop description visibility - shown on both active and hover */
             .card-section .item .card-description {
                 display: none;
                 margin-top: 24px !important;
@@ -554,12 +571,14 @@
                 margin-right: auto;
             }
 
-            .card-section .item.active .card-description {
+            .card-section .item.active .card-description,
+            .card-section .item:hover .card-description {
                 display: block;
                 color: var(--adro-deep-blue);
             }
 
-            .card-section .item.active .card-title {
+            .card-section .item.active .card-title,
+            .card-section .item:hover .card-title {
                 color: var(--adro-deep-blue);
             }
 
@@ -839,6 +858,7 @@
 </style>
 
 
+<!-- DESCRIPTION:HTML -->
 <div class="innovation-section">
     <div class="our-innovation-header">
         <h2 class="main-header large-size font-bold">Innovation Showcase</h2>
