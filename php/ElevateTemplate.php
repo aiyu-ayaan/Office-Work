@@ -109,9 +109,6 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                 <!-- ECL Banner section -->
 
                 <div class="elevate-banner">
-                    <!-- <div class="banner-bg manual-lazy-load" data-src="/wp-content/uploads/2025/07/Isolation_Mode.png"
-        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
-    </div> -->
                     <div class="animated-svg">
                         <svg viewBox="0 0 1920 1074" fill="none" xmlns="http://www.w3.org/2000/svg"
                             preserveAspectRatio="xMidYMid slice">
