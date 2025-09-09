@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (totalSlides > maxVisibleDots) {
             dots.classList.add('scrollable-dots');
 
-            // Hide all dots initially
+            // Hide all dots initially - no animation
             allDots.forEach(dot => {
                 dot.style.display = 'none';
             });
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     endIndex = activeIndex + 2;
                 }
 
-                // Show/hide dots based on calculated range
+                // Show/hide dots instantly - no fade animations
                 allDots.forEach((dot, index) => {
                     if (index >= startIndex && index <= endIndex) {
                         dot.style.display = 'block';
@@ -55,56 +55,72 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
 
-                // Apply size classes to visible dots
+                // Apply size classes immediately to visible dots
                 const visibleDots = Array.from(allDots).slice(startIndex, endIndex + 1);
                 const activeIndexInVisible = activeIndex - startIndex;
 
                 visibleDots.forEach((dot, index) => {
-                    // Remove all size classes
+                    // Remove all size classes first
                     dot.classList.remove('adjacent', 'near', 'far');
 
                     const distance = Math.abs(index - activeIndexInVisible);
 
-                    // Apply gradient sizing based on distance from active dot
+                    // Apply gradient sizing immediately
                     if (distance === 1) {
-                        dot.classList.add('adjacent'); // Medium-large
+                        dot.classList.add('adjacent');
                     } else if (distance === 2) {
-                        dot.classList.add('near'); // Medium
+                        dot.classList.add('near');
                     } else if (distance > 2) {
-                        dot.classList.add('far'); // Smallest
+                        dot.classList.add('far');
                     }
                 });
+
             } else {
                 // Less than or equal to 5 dots - show all with gradient sizing
                 allDots.forEach((dot, index) => {
                     dot.style.display = 'block';
-                    // Remove all size classes
+                    // Remove all size classes first
                     dot.classList.remove('adjacent', 'near', 'far');
 
                     const distance = Math.abs(index - activeIndex);
 
-                    // Apply gradient sizing
+                    // Apply gradient sizing immediately
                     if (distance === 1) {
-                        dot.classList.add('adjacent'); // Medium-large
+                        dot.classList.add('adjacent');
                     } else if (distance === 2) {
-                        dot.classList.add('near'); // Medium  
+                        dot.classList.add('near');
                     } else if (distance > 2) {
-                        dot.classList.add('far'); // Smallest
+                        dot.classList.add('far');
                     }
                 });
             }
         }
 
         // Initial setup
-        updateDotsAppearance();
+        setTimeout(updateDotsAppearance, 50);
 
-        // Update on carousel change
-        jQuery(carousel).on('changed.owl.carousel', function () {
-            setTimeout(updateDotsAppearance, 50);
+        // Update on carousel events - reduced delays
+        const $carousel = jQuery(carousel);
+
+        $carousel.on('changed.owl.carousel', function () {
+            updateDotsAppearance(); // Immediate update, no delay
+        });
+
+        $carousel.on('translated.owl.carousel', function () {
+            updateDotsAppearance(); // Immediate update
+        });
+
+        $carousel.on('resized.owl.carousel', function () {
+            setTimeout(updateDotsAppearance, 50); // Minimal delay only for resize
+        });
+
+        // Handle dot clicks immediately
+        dots.addEventListener('click', function (e) {
+            if (e.target.classList.contains('owl-dot')) {
+                setTimeout(updateDotsAppearance, 50); // Minimal delay
+            }
         });
     }
-
-
 
     function addCustomControls(carousel) {
         let isPlaying = true;
@@ -151,16 +167,53 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     function observeCarouselChanges(carousel) {
-        const observer = new MutationObserver(() => {
-            addCustomControls(carousel);
-            setupInstagramDots(carousel);
-            observer.disconnect();
+        const observer = new MutationObserver((mutations) => {
+            let shouldUpdate = false;
+
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList') {
+                    // Check if dots were added
+                    if (mutation.addedNodes.length > 0) {
+                        for (let node of mutation.addedNodes) {
+                            if (node.classList && node.classList.contains('owl-dots')) {
+                                shouldUpdate = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (shouldUpdate) {
+                setTimeout(() => {
+                    addCustomControls(carousel);
+                    setupInstagramDots(carousel);
+                }, 150);
+                observer.disconnect();
+            }
         });
-        observer.observe(carousel, { childList: true, subtree: true });
+
+        observer.observe(carousel, {
+            childList: true,
+            subtree: true
+        });
     }
     jQuery('.owl-carousel').on('initialized.owl.carousel', function (event) {
         const carousel = event.target;
+
+        // Add a small delay to ensure everything is rendered
+        setTimeout(() => {
+            addCustomControls(carousel);
+            setupInstagramDots(carousel);
+        }, 200);
+
+        // Also set up the observer as backup
         observeCarouselChanges(carousel);
+    });
+
+    jQuery('.owl-carousel').on('changed.owl.carousel', function (event) {
+        const carousel = event.target;
+        setupInstagramDots(carousel);
     });
 });
 
