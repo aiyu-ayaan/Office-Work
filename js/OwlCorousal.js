@@ -6,6 +6,106 @@ document.addEventListener('DOMContentLoaded', function () {
     const svg_pause = `<svg class="ic-pause" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none"><circle cx="16" cy="16" r="16" transform="matrix(-1 0 0 1 33 1)" stroke="#00CCFF" stroke-width="2"/><path d="M25 17.0745L13 9L13 25L25 17.0745Z" stroke-width="2" stroke-miterlimit="10" stroke-linejoin="round"/></svg>`
     const svg_play = `<svg class="ic-play" xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none"><circle cx="16" cy="16" r="16" transform="matrix(-1 0 0 1 33 1)" stroke="#00CCFF" stroke-width="2"/><line x1="13" y1="9" x2="13" y2="25" stroke-width="2" stroke-linecap="round"/><line x1="21" y1="9" x2="21" y2="25" stroke-width="2" stroke-linecap="round"/>`
 
+
+    function setupInstagramDots(carousel) {
+        const dots = carousel.querySelector('.owl-dots');
+        if (!dots) return;
+
+        const allDots = dots.querySelectorAll('.owl-dot');
+        const totalSlides = allDots.length;
+        const maxVisibleDots = 5;
+
+        // Add scrollable class if more than 5 slides
+        if (totalSlides > maxVisibleDots) {
+            dots.classList.add('scrollable-dots');
+
+            // Hide all dots initially
+            allDots.forEach(dot => {
+                dot.style.display = 'none';
+            });
+        }
+
+        function updateDotsAppearance() {
+            const activeDot = dots.querySelector('.owl-dot.active');
+            if (!activeDot) return;
+
+            const activeIndex = Array.from(allDots).indexOf(activeDot);
+
+            if (totalSlides > maxVisibleDots) {
+                // Calculate which dots to show (max 5)
+                let startIndex, endIndex;
+
+                if (activeIndex <= 2) {
+                    startIndex = 0;
+                    endIndex = maxVisibleDots - 1;
+                } else if (activeIndex >= totalSlides - 3) {
+                    startIndex = totalSlides - maxVisibleDots;
+                    endIndex = totalSlides - 1;
+                } else {
+                    startIndex = activeIndex - 2;
+                    endIndex = activeIndex + 2;
+                }
+
+                // Show/hide dots based on calculated range
+                allDots.forEach((dot, index) => {
+                    if (index >= startIndex && index <= endIndex) {
+                        dot.style.display = 'block';
+                    } else {
+                        dot.style.display = 'none';
+                    }
+                });
+
+                // Apply size classes to visible dots
+                const visibleDots = Array.from(allDots).slice(startIndex, endIndex + 1);
+                const activeIndexInVisible = activeIndex - startIndex;
+
+                visibleDots.forEach((dot, index) => {
+                    // Remove all size classes
+                    dot.classList.remove('adjacent', 'near', 'far');
+
+                    const distance = Math.abs(index - activeIndexInVisible);
+
+                    // Apply gradient sizing based on distance from active dot
+                    if (distance === 1) {
+                        dot.classList.add('adjacent'); // Medium-large
+                    } else if (distance === 2) {
+                        dot.classList.add('near'); // Medium
+                    } else if (distance > 2) {
+                        dot.classList.add('far'); // Smallest
+                    }
+                });
+            } else {
+                // Less than or equal to 5 dots - show all with gradient sizing
+                allDots.forEach((dot, index) => {
+                    dot.style.display = 'block';
+                    // Remove all size classes
+                    dot.classList.remove('adjacent', 'near', 'far');
+
+                    const distance = Math.abs(index - activeIndex);
+
+                    // Apply gradient sizing
+                    if (distance === 1) {
+                        dot.classList.add('adjacent'); // Medium-large
+                    } else if (distance === 2) {
+                        dot.classList.add('near'); // Medium  
+                    } else if (distance > 2) {
+                        dot.classList.add('far'); // Smallest
+                    }
+                });
+            }
+        }
+
+        // Initial setup
+        updateDotsAppearance();
+
+        // Update on carousel change
+        jQuery(carousel).on('changed.owl.carousel', function () {
+            setTimeout(updateDotsAppearance, 50);
+        });
+    }
+
+
+
     function addCustomControls(carousel) {
         let isPlaying = true;
 
@@ -53,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function observeCarouselChanges(carousel) {
         const observer = new MutationObserver(() => {
             addCustomControls(carousel);
+            setupInstagramDots(carousel);
             observer.disconnect();
         });
         observer.observe(carousel, { childList: true, subtree: true });

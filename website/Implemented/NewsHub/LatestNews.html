@@ -1,931 +1,474 @@
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let resizeTimeout;
-        let isCarouselInitialized = false;
-        let currentMode = getMode();
-
-        // Initialize
-        hydrateCardsFromDataset();
-        applyBreakpointMode(true);
-
-        // Resize handling
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                const newMode = getMode();
-                if (newMode !== currentMode) {
-                    currentMode = newMode;
-                    applyBreakpointMode(false);
-                }
-            }, 150);
-        });
-
-        // Mode detection
-        function getMode() {
-            return window.innerWidth >= 1025 ? 'desktop' : 'mobile';
-        }
-
-        // Apply appropriate mode
-        function applyBreakpointMode(firstLoad) {
-            if (currentMode === 'desktop') {
-                teardownCarouselIfExists();
-                setDesktopActiveDefault();
-                attachDesktopHover();
-            } else {
-                initCarouselIfNeeded();
-                clearDesktopActiveClasses();
-            }
-
-            if (!firstLoad) {
-                forceSectionReflow();
-            }
-        }
-
-        // Desktop functions
-        function setDesktopActiveDefault() {
-            const cardsDesktop = document.querySelectorAll(".innovation-section .card");
-            const allDesktop = Array.from(cardsDesktop);
-            if (allDesktop.length && currentMode === 'desktop') {
-                clearDesktopActiveClasses();
-                allDesktop[1].classList.add("active"); // Set middle card as active
-            }
-        }
-
-        // UPDATED: Enhanced desktop hover functionality
-        function attachDesktopHover() {
-            const cardsDesktop = document.querySelectorAll(".innovation-section .card");
-
-            cardsDesktop.forEach(card => {
-                card.addEventListener("mouseenter", () => {
-                    if (currentMode === 'desktop') {
-                        clearDesktopActiveClasses();
-                        card.classList.add("active");
-                    }
-                });
-
-                // Optional: Clear active state when mouse leaves
-                // Uncomment the below if you want pure hover behavior (no persistent active state)
-                /*
-                card.addEventListener("mouseleave", () => {
-                    if (currentMode === 'desktop') {
-                        card.classList.remove("active");
-                    }
-                });
-                */
-            });
-        }
-
-        function clearDesktopActiveClasses() {
-            document.querySelectorAll(".innovation-section .card.active").forEach(c => c.classList.remove("active"));
-        }
-
-        // Mobile carousel functions
-        function initCarouselIfNeeded() {
-            let carousel = jQuery('.small-cards');
-            const mainCard = document.querySelector(".innovation-section .main-card");
-            const mainTitle = document.querySelector(".innovation-section .main-card-title");
-            const mainContent = document.querySelector(".innovation-section .main-card-content");
-
-            if (isMobileOrTabletPortrait() && !isCarouselInitialized) {
-                isCarouselInitialized = true;
-                carousel.addClass("owl-carousel").owlCarousel({
-                    center: true,
-                    loop: true,
-                    nav: true,
-                    autoplay: false,
-                    dots: true,
-                    responsive: {
-                        0: {
-                            items: 1.43,
-                            margin: 20,
-                        },
-                        768: {
-                            items: 2.25,
-                            margin: 24,
-                        }
-                    }
-                });
-
-                carousel.on('click', '.owl-item', function (event) {
-                    const clickedItem = event.currentTarget;
-                    const owlItems = carousel.find('.owl-item').toArray();
-                    const centerItem = carousel.find('.owl-item.center')[0];
-                    const clickedIndex = owlItems.indexOf(clickedItem);
-                    const centerIndex = owlItems.indexOf(centerItem);
-                    if (clickedIndex > centerIndex) {
-                        carousel.trigger('next.owl.carousel');
-                    } else if (clickedIndex < centerIndex) {
-                        carousel.trigger('prev.owl.carousel');
-                    }
-                });
-
-                carousel.on('changed.owl.carousel', function (event) {
-                    setTimeout(async () => {
-                        const centerCard = document.querySelector('.innovation-section .owl-item.center .card');
-                        if (centerCard && mainCard) {
-                            const title = centerCard.dataset.title;
-                            const desc = centerCard.dataset.desc;
-                            const bg = centerCard.dataset.bg;
-
-                            try {
-                                const dominantColor = await getDominantColorFromImage(bg);
-                                const colorData = formatDominantColor(dominantColor);
-                                updateOverlayColorWithCSS('.innovation-section .card-section .main-card', colorData.raw);
-                                setTextColor(colorData.isDark);
-                            } catch (error) {
-                                console.error('Error getting dominant color in carousel:', error);
-                            }
-
-                            mainCard.classList.remove("fade-in");
-                            mainCard.classList.add("fade-out");
-                            setTimeout(() => {
-                                mainCard.style.backgroundImage = `url(${bg})`;
-                                mainTitle.textContent = title;
-                                mainContent.innerHTML = desc;
-                                mainCard.classList.remove("fade-out");
-                                mainCard.classList.add("fade-in");
-                            }, 200);
-                        }
-                    }, 50);
-                });
-
-                // Set initial card for mobile
-                setTimeout(async () => {
-                    const centerCard = document.querySelector('.innovation-section .owl-item.center .card');
-                    if (centerCard && mainCard) {
-                        const title = centerCard.dataset.title;
-                        const desc = centerCard.dataset.desc;
-                        const bg = centerCard.dataset.bg;
-
-                        try {
-                            const dominantColor = await getDominantColorFromImage(bg);
-                            const colorData = formatDominantColor(dominantColor);
-                            updateOverlayColorWithCSS('.innovation-section .card-section .main-card', colorData.raw);
-                            setTextColor(colorData.isDark);
-                        } catch (error) {
-                            console.error('Error getting dominant color on initial mobile load:', error);
-                        }
-
-                        mainCard.style.backgroundImage = `url(${bg})`;
-                        mainTitle.textContent = title;
-                        mainContent.innerHTML = desc;
-                    }
-                }, 100);
-            }
-        }
-
-        function teardownCarouselIfExists() {
-            const carousel = jQuery('.small-cards');
-            if (isCarouselInitialized) {
-                isCarouselInitialized = false;
-                try {
-                    carousel.trigger("destroy.owl.carousel");
-                } catch (e) { /* ignore if already destroyed */ }
-                carousel.removeClass("owl-carousel owl-loaded");
-
-                const extraDiv = document.querySelector(".innovation-section .carousel-controls");
-                if (extraDiv) extraDiv.remove();
-            }
-        }
-
-        // Utility functions
-        function hydrateCardsFromDataset() {
-            document.querySelectorAll(".innovation-section .card").forEach(card => {
-                const title = card.dataset.title || '';
-                const desc = card.dataset.desc || '';
-                const bg = card.dataset.bg || '';
-
-                if (!card.dataset.originalTitle) {
-                    card.dataset.originalTitle = title;
-                    card.dataset.originalDesc = desc;
-                    card.dataset.originalBg = bg;
-                }
-
-                if (bg) card.style.backgroundImage = `url(${bg})`;
-                const titleEl = card.querySelector('.card-title');
-                const descEl = card.querySelector('.card-description');
-                if (titleEl) titleEl.textContent = title;
-                if (descEl) descEl.innerHTML = desc;
-            });
-
-            // Set initial main card content for mobile
-            const cards = Array.from(document.querySelectorAll(".innovation-section .card"));
-            const lastCard = cards.at(-1);
-            const mainCard = document.querySelector(".innovation-section .main-card");
-            const mainTitle = document.querySelector(".innovation-section .main-card-title");
-            const mainContent = document.querySelector(".innovation-section .main-card-content");
-
-            if (lastCard && mainCard && currentMode === 'mobile') {
-                mainCard.style.backgroundImage = `url(${lastCard.dataset.bg})`;
-                if (mainTitle) mainTitle.textContent = lastCard.dataset.title;
-                if (mainContent) mainContent.innerHTML = lastCard.dataset.desc;
-            }
-        }
-
-        // Click animations for all cards
-        document.querySelectorAll(".innovation-section .card").forEach(card => {
-            let isClickLocked = false;
-            card.addEventListener("click", async (event) => {
-                if (isClickLocked) return;
-                isClickLocked = true;
-                setTimeout(() => isClickLocked = false, 500);
-
-                const mainCard = document.querySelector(".innovation-section .main-card");
-                const mainTitle = document.querySelector(".innovation-section .main-card-title");
-                const mainContent = document.querySelector(".innovation-section .main-card-content");
-
-                // Handle dominant color extraction for mobile
-                if (event.target.closest('.item.card.card-wrapper.manual-lazy-load') && currentMode === 'mobile') {
-                    const clickedCard = event.target.closest('.item.card.card-wrapper.manual-lazy-load');
-                    const imageUrl = clickedCard.getAttribute('data-bg');
-                    try {
-                        const dominantColor = await getDominantColorFromImage(imageUrl);
-                        const colorData = formatDominantColor(dominantColor);
-                        updateOverlayColorWithCSS('.innovation-section .card-section .main-card', colorData.raw);
-                        setTextColor(colorData.isDark);
-                    } catch (error) {
-                        console.error('Error getting dominant color:', error);
-                    }
-                }
-
-                // Click animation
-                card.classList.add("clicked");
-                if (mainCard) mainCard.classList.add("clicked");
-
-                setTimeout(() => {
-                    card.classList.remove("clicked");
-                    if (mainCard) mainCard.classList.remove("clicked");
-                    card.classList.add("clicked-back");
-                    if (mainCard) mainCard.classList.add("clicked-back");
-
-                    setTimeout(() => {
-                        card.classList.remove("clicked-back");
-                        if (mainCard) mainCard.classList.remove("clicked-back");
-                    }, 300);
-                }, 200);
-
-                // Update main card content for mobile
-                if (currentMode === 'mobile' && mainCard && !isMobileCarouselClick(event)) {
-                    const cardBg = card.dataset.bg;
-                    const cardTitle = card.dataset.title;
-                    const cardDesc = card.dataset.desc;
-
-                    mainCard.classList.remove("fade-in");
-                    mainCard.classList.add("fade-out");
-                    setTimeout(() => {
-                        mainCard.style.backgroundImage = `url(${cardBg})`;
-                        if (mainTitle) mainTitle.textContent = cardTitle;
-                        if (mainContent) mainContent.innerHTML = cardDesc;
-                        mainCard.classList.remove("fade-out");
-                        mainCard.classList.add("fade-in");
-                    }, 200);
-                }
-            });
-        });
-
-        // Helper functions
-        function isMobileCarouselClick(event) {
-            return event.target.closest('.owl-carousel');
-        }
-
-        function forceSectionReflow() {
-            const section = document.querySelector('.innovation-section');
-            if (!section) return;
-            section.classList.add('reflow-flag');
-            void section.offsetHeight;
-            section.classList.remove('reflow-flag');
-        }
-
-        function isMobileOrTabletPortrait() {
-            return window.innerWidth <= 767 || window.matchMedia(
-                "(min-width: 768px) and (max-width: 1024px) and (orientation: portrait)"
-            ).matches;
-        }
-    });
-
-    // Your existing dominant color functions
-    async function getDominantColorFromImage(imageSrc, useCors = true) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-
-            if (imageSrc instanceof File) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    img.src = e.target.result;
-                };
-                reader.onerror = () => reject(new Error('Failed to read file'));
-                reader.readAsDataURL(imageSrc);
-            } else if (typeof imageSrc === 'string') {
-                if (imageSrc.startsWith('http') || imageSrc.startsWith('https')) {
-                    if (useCors) {
-                        img.crossOrigin = 'Anonymous';
-                    }
-                }
-                img.src = imageSrc;
-            } else {
-                reject(new Error('Invalid image source type'));
-                return;
-            }
-
-            img.onload = () => {
-                try {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    const width = 50;
-                    const height = 50;
-                    canvas.width = width;
-                    canvas.height = height;
-
-                    ctx.drawImage(img, 0, 0, width, height);
-                    const imageData = ctx.getImageData(0, 0, width, height);
-                    const data = imageData.data;
-                    const colorCount = {};
-
-                    for (let i = 0; i < data.length; i += 4) {
-                        const r = data[i];
-                        const g = data[i + 1];
-                        const b = data[i + 2];
-                        const key = `${Math.floor(r / 10) * 10},${Math.floor(g / 10) * 10},${Math.floor(b / 10) * 10}`;
-                        colorCount[key] = (colorCount[key] || 0) + 1;
-                    }
-
-                    let dominantColor = null;
-                    let maxCount = 0;
-                    for (const color in colorCount) {
-                        if (colorCount[color] > maxCount) {
-                            maxCount = colorCount[color];
-                            dominantColor = color;
-                        }
-                    }
-                    resolve(dominantColor);
-                } catch (error) {
-                    if (useCors && error.name === 'SecurityError' && typeof imageSrc === 'string' && imageSrc.startsWith('http')) {
-                        getDominantColorFromImage(imageSrc, false)
-                            .then(resolve)
-                            .catch(reject);
-                    } else {
-                        reject(error);
-                    }
-                }
-            };
-
-            img.onerror = (error) => {
-                if (useCors && typeof imageSrc === 'string' && imageSrc.startsWith('http')) {
-                    getDominantColorFromImage(imageSrc, false)
-                        .then(resolve)
-                        .catch(reject);
-                } else {
-                    reject(new Error('Failed to load image: ' + imageSrc));
-                }
-            };
-        });
-    }
-
-    function formatDominantColor(dominantColor) {
-        const [r, g, b] = dominantColor.split(',').map(Number);
-        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-        const isDark = luminance < 0.5;
-        return {
-            raw: dominantColor,
-            isDark: isDark
-        };
-    }
-
-    function updateOverlayColorWithCSS(elementSelector, color) {
-        const existingStyle = document.getElementById('dynamic-overlay-style');
-        if (existingStyle) {
-            existingStyle.remove();
-        }
-
-        let overlayColor;
-        if (color.startsWith('#')) {
-            const hex = color.slice(1);
-            const r = parseInt(hex.slice(0, 2), 16);
-            const g = parseInt(hex.slice(2, 4), 16);
-            const b = parseInt(hex.slice(4, 6), 16);
-            overlayColor = `rgba(${r}, ${g}, ${b}, 0.90)`;
-        } else {
-            const [r, g, b] = color.split(',').map(Number);
-            overlayColor = `rgba(${r}, ${g}, ${b}, 0.90)`;
-        }
-
-        const style = document.createElement('style');
-        style.id = 'dynamic-overlay-style';
-        style.textContent = `
-        ${elementSelector}::before {
-            background: linear-gradient(
-                0deg, 
-                ${overlayColor} 0%, 
-                ${overlayColor} 100%
-            ), lightgray 50% / cover no-repeat !important;
-        }
-    `;
-        document.head.appendChild(style);
-    }
-
-    function setTextColor(isDark) {
-        const mainTitle = document.querySelector(".innovation-section .main-card-title");
-        const mainContent = document.querySelector(".innovation-section .main-card-content");
-        if (isDark) {
-            if (mainTitle) mainTitle.style.color = 'white';
-            if (mainContent) mainContent.style.color = 'white';
-        } else {
-            if (mainTitle) mainTitle.style.color = 'var(--adro-deep-blue)';
-            if (mainContent) mainContent.style.color = 'var(--adro-deep-blue)';
-        }
-    }
-</script>
-
-<!-- DESCRIPTION:CSS -->
-
 <style>
-    .innovation-section {
-        button {
-            border-color: var(--adro-electric-green);
+    .owl-carousel .owl-dots .owl-dot {
+        flex-shrink: 0;
+        width: 6px !important;
+        height: 6px !important;
+        border-radius: 50% !important;
+        border: none !important;
+        background-color: rgba(255, 255, 255, 0.3) !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        margin: 0 4px !important;
+        opacity: 0.6;
+    }
+
+    /* Active dot - largest */
+    .owl-carousel .owl-dots .owl-dot.active {
+        width: 16px !important;
+        height: 16px !important;
+        background-color: white !important;
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    /* Adjacent dots (±1 from active) - medium-large */
+    .owl-carousel .owl-dots .owl-dot.adjacent {
+        width: 12px !important;
+        height: 12px !important;
+        background-color: rgba(255, 255, 255, 0.7) !important;
+        opacity: 0.8;
+    }
+
+    /* Near dots (±2 from active) - medium */
+    .owl-carousel .owl-dots .owl-dot.near {
+        width: 9px !important;
+        height: 9px !important;
+        background-color: rgba(255, 255, 255, 0.5) !important;
+        opacity: 0.7;
+    }
+
+    /* Far dots (±3+ from active) - smallest */
+    .owl-carousel .owl-dots .owl-dot.far {
+        width: 6px !important;
+        height: 6px !important;
+        background-color: rgba(255, 255, 255, 0.3) !important;
+        opacity: 0.6;
+    }
+
+    /* Enhanced scrollable dots container */
+    @media screen and (max-width: 1024px) {
+        .owl-carousel .owl-dots.scrollable-dots {
+            justify-content: flex-start;
+            max-width: 220px;
+            margin: 0 auto;
+            padding: 12px 20px;
+        }
+    }
+
+
+    .newshub-page-carousel-wrapper {
+        padding: 0 3.34%;
+
+        a {
+            text-decoration: none !important;
         }
 
-        button:hover,
-        button:focus {
-            background-color: var(--adro-electric-green);
-            color: var(--adro-deep-blue);
-        }
+        .section-central-heading {
+            margin-bottom: 2.7% !important;
+            text-align: left;
 
-        .our-innovation-header {
-            padding: 4.22% 3.34% 0;
-
-            .main-header {
-                margin-bottom: 1em;
-            }
-        }
-
-        .button-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 3.49%;
-        }
-
-        /* UPDATED DESKTOP LAYOUT - 3 Column Grid with Hover Support */
-        @media screen and (min-width: 1025px) {
-            .card-section {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                padding: 2.45% 2.8% 2.82%;
-                gap: 0;
-                overflow: hidden;
-                border-radius: 20px;
-
-                .main-card {
-                    display: none;
-                    /* Hide main card on desktop */
-                }
-
-                .small-cards {
-                    display: contents;
-                    /* Make cards part of main grid */
-
-                    .item {
-                        background-size: cover;
-                        background-position: center;
-                        aspect-ratio: 604 / 601;
-                        background-repeat: no-repeat;
-                        position: relative;
-                        cursor: pointer;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        transition: all 0.3s ease;
-                        /* Smooth transitions */
-                    }
-
-                    .item:first-child {
-                        border-top-left-radius: 20px;
-                        border-bottom-left-radius: 20px;
-                    }
-
-                    .item:last-child {
-                        border-top-right-radius: 20px;
-                        border-bottom-right-radius: 20px;
-                    }
-                }
-            }
-
-            /* Desktop card content positioning */
-            .card-section .item .card-content {
-                position: absolute;
-                bottom: 20px;
-                top: auto;
-                left: 50%;
-                transform: translate(-50%, 0);
-                width: 100%;
-                padding: 0 10px;
-                z-index: 2;
-                color: var(--adro-deep-blue);
-                text-align: center;
-                opacity: 1;
-                transition: top 0.5s ease, bottom 0.5s ease, transform 0.5s ease,
-                    opacity 0.5s ease, color 0.5s ease;
-            }
-
-            /* Desktop default overlay */
-            .card-section .item::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                background: linear-gradient(180deg,
-                        rgba(67, 102, 143, 0.14) 11.22%,
-                        rgba(5, 9, 14, 0.6) 74.68%);
-                opacity: 1;
-                transition: background 0.5s ease, opacity 0.5s ease;
-                pointer-events: none;
-                z-index: 1;
-            }
-
-            /* Desktop active and hover state overlay */
-            .card-section .item.active::before,
-            .card-section .item:hover::before {
-                background: linear-gradient(0deg,
-                        rgba(0, 204, 255, 0.78) 0%,
-                        rgba(0, 204, 255, 0.78) 100%),
-                    linear-gradient(180deg,
-                        rgba(67, 102, 143, 0.14) 11.22%,
-                        rgba(5, 9, 14, 0.64) 74.68%);
-                opacity: 1;
-            }
-
-            /* Desktop active and hover state content positioning */
-            .card-section .item.active .card-content,
-            .card-section .item:hover .card-content {
-                top: 50%;
-                bottom: auto;
-                transform: translate(-50%, -50%);
-                color: var(--adro-deep-blue);
-            }
-
-            /* Desktop description visibility - shown on both active and hover */
-            .card-section .item .card-description {
-                display: none;
-                margin-top: 24px !important;
-                width: 84%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .card-section .item.active .card-description,
-            .card-section .item:hover .card-description {
-                display: block;
-                color: var(--adro-deep-blue);
-            }
-
-            .card-section .item.active .card-title,
-            .card-section .item:hover .card-title {
-                color: var(--adro-deep-blue);
-            }
-
-            .card .card-title {
+            h2 {
                 margin: 0;
-                padding: 0 10px;
+                margin-bottom: 2.7%;
             }
 
-            .sub-header {
+            h3 {
                 text-align: center;
             }
+        }
 
-            .main-header {
-                margin-bottom: 2rem !important;
+        .newshub-page-item {
+            position: relative;
+
+            img {
+                aspect-ratio: 424/344;
+                border-radius: 20px;
             }
         }
 
-        /* MOBILE LAYOUT - Original carousel setup */
-        @media screen and (max-width: 1024px) {
-            .card-section {
-                display: grid;
-                grid-template-columns: 2.02fr 0.98fr;
-                gap: 1.67vw;
-                padding: 2.45% 3.34% 2.82%;
+        #playPauseBtn {
+            display: none !important;
+        }
 
-                .main-card {
-                    border-radius: 20px;
-                    grid-row: 1 / 2;
-                    grid-column: 2 / 3;
-                    position: relative;
-                    overflow: hidden;
-                    padding: 7.66%;
-                    background-size: cover;
-                    background-position: center;
-                    text-align: center;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
+        .owl-nav {
+            circle {
+                stroke: white;
+            }
 
-                    .main-card-title,
-                    .main-card-content {
-                        color: var(--adro-deep-blue);
-                        transition: opacity 0.3s ease, transform 0.3s ease;
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-
-                    .main-card-title {
-                        text-transform: uppercase !important;
-                        margin-bottom: 1.07em;
-                    }
-
-                    .main-card-scrollable {
-                        overflow: auto;
-                        scrollbar-width: none;
-                        -ms-overflow-style: none;
-                    }
-                }
-
-                .main-card.clicked {
-                    transform: scale(0);
-                    opacity: 0;
-                    filter: blur(1px);
-                    transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1),
-                        opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
-                        filter 0.5s ease;
-                }
-
-                .main-card.clicked-back {
-                    transform: scale(1);
-                    opacity: 1;
-                    filter: blur(0px);
-                    transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                        opacity 0.9s cubic-bezier(0.25, 0.1, 0.25, 1),
-                        filter 0.8s ease;
-                }
-
-                .main-card.fade-out .main-card-title,
-                .main-card.fade-out .main-card-content {
-                    opacity: 0;
-                    transform: translateY(10px);
-                }
-
-                .main-card.fade-in .main-card-title,
-                .main-card.fade-in .main-card-content {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-
-                .main-card::before {
-                    content: "";
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(0deg, rgba(35, 228, 186, 0.90) 0%, rgba(35, 228, 186, 0.90) 100%), lightgray 50% / cover no-repeat;
-                    z-index: 1;
-                }
-
-                .main-card * {
-                    position: relative;
-                    z-index: 2;
-                }
-
-                .small-cards {
-                    width: 100%;
-                    display: grid;
-                    grid-row: 1 / 2;
-                    grid-column: 1 / 2;
-                    grid-template-rows: repeat(2, 1fr);
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 1.67vw;
-
-                    .card:nth-child(4) {
-                        display: none;
-                    }
-
-                    .card {
-                        background-size: cover;
-                        background-position: center;
-                        aspect-ratio: 576 / 320;
-                        position: relative;
-                        cursor: pointer;
-                        border-radius: 20px;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-
-                        .card-content {
-                            z-index: 2;
-                            width: 100%;
-                            text-align: center;
-
-                            .card-title {
-                                padding: 8.33%;
-                                margin: 0;
-                                text-transform: uppercase !important;
-                                transition: opacity 0.3s ease;
-                            }
-                        }
-
-                        .card-description {
-                            display: none;
-                        }
-                    }
-
-                    .card::before {
-                        content: "";
-                        position: absolute;
-                        inset: 0;
-                        border-radius: 20px;
-                        z-index: 1;
-                    }
-
-                    .card.clicked {
-                        transform: scale(0);
-                        opacity: 0;
-                        filter: blur(1px);
-                        transition: transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1),
-                            opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
-                            filter 0.5s ease;
-
-                        .card-title {
-                            opacity: 0.75;
-                        }
-                    }
-
-                    .card.clicked-back {
-                        transform: scale(1);
-                        opacity: 1;
-                        filter: blur(0px);
-                        transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                            opacity 0.9s cubic-bezier(0.25, 0.1, 0.25, 1),
-                            filter 0.8s ease;
-                    }
-                }
+            svg path,
+            line {
+                fill: white !important;
+                stroke: white !important;
             }
         }
 
-        @media screen and (max-width: 767.5px),
-        screen and (max-width:1024px) and (orientation:portrait) {
-            .our-innovation-header {
-                padding: 12.31% 6.16% 0;
-
-                .main-header {
-                    margin-bottom: 1.34em;
-                }
-            }
-
-            .card-section {
-                display: flex;
-                flex-direction: column;
-                padding: 0;
-                gap: 0;
-
-                .owl-stage-outer {
-                    margin-bottom: 8.72%;
-                }
-
-                .owl-dot.active {
-                    background-color: var(--adro-electric-green) !important;
-                }
-
-                .owl-dots .owl-dot {
-                    border: 2px solid var(--adro-electric-green) !important;
-                }
-
-                .main-card {
-                    margin: 8.21% 6.16% !important;
-                    padding: 8.21% 6.67%;
-                    aspect-ratio: 342 / 344;
-
-                    .main-card-title {
-                        margin-bottom: 2.23em;
-                    }
-                }
-
-                .small-cards {
-                    margin-bottom: 15.39%;
-                    display: block;
-                }
-            }
+        .description-text {
+            margin: 4.2% 0 3.8% 0;
+            width: 100%;
         }
 
-        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
-            .card-section .small-cards .card {
-                aspect-ratio: 510/320;
+        .carousel-controls {
+            margin-bottom: 2.7%;
+            margin-top: 2.7%;
+        }
+
+        .owl-carousel .owl-dots .owl-dot {
+            border-color: white !important;
+        }
+
+        .owl-carousel .owl-dots .owl-dot.active {
+            background-color: white !important;
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+            padding: 0;
+
+            .section-central-heading {
+                text-align: center;
+                margin: 0 4.8% 8.7% 4.8% !important;
+
+                h2 {
+                    margin-bottom: 5.4%;
+                    text-align: left;
+                }
+            }
+
+            .description-text {
+                width: 100%;
+                margin: 4.5% 0 5.1% 0;
+            }
+
+            .carousel-controls {
+                margin-bottom: 8.7%;
+                margin-top: 4.6%;
             }
         }
 
         @media screen and (max-width: 767.5px) {
-            .button-box {
-                margin-bottom: 18.49%;
+            padding: 0;
+
+            .section-central-heading {
+                text-align: center;
+                margin: 0 6.3% 12.3% 6.3% !important;
+
+                h2 {
+                    margin-bottom: 9.4%;
+                }
+            }
+
+            .description-text {
+                width: 100%;
+                margin: 9% 0 4.1% 0;
+
+            }
+
+            .carousel-controls {
+                margin-bottom: 14.5%;
+                margin-top: 10.5%;
             }
         }
 
-        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
-            .our-innovation-header {
-                padding: 9.6% 4.8% 0;
-
-                .main-header {
-                    margin-bottom: 1em;
-                }
-            }
-
-            .card-section {
-                .owl-stage-outer {
-                    margin-bottom: 3.84%
-                }
-
-                .owl-dot.active {
-                    background-color: var(--adro-electric-green) !important;
-                }
-
-                .owl-dots .owl-dot {
-                    border: 2px solid var(--adro-electric-green) !important;
-                }
-
-                .main-card {
-                    margin: 4.8% !important;
-                    padding: 3.84% 5.28%;
-                    aspect-ratio: 754/352;
-
-                    .main-card-title {
-                        margin-bottom: 0.67em;
-                    }
-                }
-
-                .small-cards {
-                    margin-bottom: 5.76%;
-                }
-            }
-
-            .button-box {
-                margin-bottom: 2.88%;
+        @media screen and (max-width: 1024px) {
+            .service-button-cta {
+                display: block !important;
             }
         }
     }
 </style>
 
-
-<!-- DESCRIPTION:HTML -->
-<div class="innovation-section">
-    <div class="our-innovation-header">
-        <h2 class="main-header large-size font-bold">Innovation Showcase</h2>
-        <h3 class="sub-header small-size">Real problems. Real innovation.</h3>
+<div class="newshub-page-carousel-wrapper">
+    <div class="section-central-heading">
+        <h2 class="large-size font-bold">Awards and Recognition</h2>
+        <h3 class="small-size">
+            Lorem ipsum dolor sit amet consectetur. Faucibus ullamcorper potenti
+            posuere morbi.
+        </h3>
     </div>
 
-    <div class="card-section">
-        <!-- Main card for mobile only -->
-        <div class="main-card" id="mainCard"
-            style="background-image: url('/wp-content/uploads/2025/09/experiments-to-imapct-graphic.png');">
-            <h2 class="main-card-title small-size font-bold" id="mainTitle">Experiments to Impact</h2>
-            <div class="main-card-scrollable">
-                <p class="main-card-content smaller-size" id="mainContent">AI bridges the gap between unstructured
-                    information and actionable outcomes. <br><br> Our solutions capture and structure data, analyse it
-                    in real time, and automate workflows to drive rapid, informed decisions—reducing manual effort,
-                    improving accuracy and freeing people to focus on meaningful work.</p>
-            </div>
+    <div class="owl-carousel newshub-page-carousel">
+        <!-- Carousel Item Start -->
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/newshub/" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Join-our-Team-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
+        <div class="item newshub-page-item">
+            <a href="/contact-us" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Keep-up-to-Date-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+
+
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac
+                    aliquet
+                    odio
+                    mattis. Nunc vulputate libero et velit interdum, ac aliquet odio mattis ac aliquet odio mattis. Nunc
+                    NuncNunc
+                    vulputate
+                    libero et velit interdum, ac aliquet odio mattis ac aliquet odio mattis. Nunc Nunc mattis ac aliquet
+                    odio
+                    mattis.
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
+        <div class="item newshub-page-item">
+            <a href="/contact-us" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Job-Alert-Emails-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+                <div class="description-text smallest-size">
+                    Stay connected about new roles and opportunities at ADROSONIC
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/Careers/" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Join-our-Team-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis. Nunc
+                    vulputate libero et velit dum, ac aliquet odio matt
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/Careers/" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Join-our-Team-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis. Nunc
+                    vulputate libero et velit dum, ac aliquet odio matt
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/Careers/" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Join-our-Team-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis. Nunc
+                    vulputate libero et velit dum, ac aliquet odio matt
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/Careers/" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Join-our-Team-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis. Nunc
+                    vulputate libero et velit dum, ac aliquet odio matt
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/Careers/" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Join-our-Team-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis. Nunc
+                    vulputate libero et velit dum, ac aliquet odio matt
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/Careers/" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Join-our-Team-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis. Nunc
+                    vulputate libero et velit dum, ac aliquet odio matt
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
         </div>
 
-        <!-- Cards container - works for both mobile carousel and desktop grid -->
-        <div class="small-cards">
-            <div class="item card card-wrapper manual-lazy-load" data-index="0"
-                data-bg="/wp-content/uploads/2025/09/adrodatasonic-graphic.png" data-title="ADRODATASONIC"
-                data-desc="Purpose-built for insurance, ADRODATASONIC unifies structured and unstructured data on a trusted platform.<br><br>With embedded AI, machine learning and predictive analytics, it automates policy and claims, accelerates underwriting, improves accuracy and governance and empowers insurers to act faster, cut costs and stay transparent in critical decisions."
-                style="background-image: url('/wp-content/uploads/2025/09/adrodatasonic-graphic.png');">
-                <div class="card-content">
-                    <h2 class="card-title small-size font-bold">ADRODATASONIC</h2>
-                    <p class="card-description">Purpose-built for insurance, ADRODATASONIC unifies structured and
-                        unstructured data on a trusted platform.<br><br>With embedded AI, machine learning and
-                        predictive analytics, it automates policy and claims, accelerates underwriting, improves
-                        accuracy and governance and empowers insurers to act faster, cut costs and stay transparent in
-                        critical decisions.</p>
-                </div>
-            </div>
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/Careers/" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async" src="/wp-content/ alt=" Real-Time Data Analytics: Zeroing Down On Better Business
+                    Decisions" class="carousel-image" />
 
-            <div class="item card card-wrapper manual-lazy-load" data-index="1"
-                data-bg="/wp-content/uploads/2025/09/Intelligent-automation-hub-graphic.png"
-                data-title="Intelligent Automation Hub"
-                data-desc="Intelligent Automation Hub advances intelligent automation with self-learning, department-specific classification and centralised insights.<br><br>It removes bottlenecks, enhances transparency and scales seamlessly, enabling faster workflows, stronger governance and data-driven decisions without silos."
-                style="background-image: url('/wp-content/uploads/2025/09/Intelligent-automation-hub-graphic.png');">
-                <div class="card-content">
-                    <h2 class="card-title small-size font-bold">Intelligent Automation Hub</h2>
-                    <p class="card-description">Intelligent Automation Hub advances intelligent automation with
-                        self-learning, department-specific classification and centralised insights.<br><br>It removes
-                        bottlenecks, enhances transparency and scales seamlessly, enabling faster workflows, stronger
-                        governance and data-driven decisions without silos.</p>
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis. Nunc
+                    vulputate libero et velit dum, ac aliquet odio matt
                 </div>
-            </div>
-
-            <div class="item card card-wrapper manual-lazy-load" data-index="2"
-                data-bg="/wp-content/uploads/2025/09/suresight-AI-graphic.png" data-title="SURESIGHT AI"
-                data-desc="Built on a collaborative multi-agent framework, SureSight AI transforms single-pass OCR into an intelligent, adaptive process.<br><br>Specialised AI agents work in unison to classify, extract and refine data, using reinforcement learning to improve accuracy, boost efficiency and enhance transparency in high-volume document intelligence workflows."
-                style="background-image: url('/wp-content/uploads/2025/09/suresight-AI-graphic.png');">
-                <div class="card-content">
-                    <h2 class="card-title small-size font-bold">SURESIGHT AI</h2>
-                    <p class="card-description">Built on a collaborative multi-agent framework, SureSight AI transforms
-                        single-pass OCR into an intelligent, adaptive process.<br><br>Specialised AI agents work in
-                        unison to classify, extract and refine data, using reinforcement learning to improve accuracy,
-                        boost efficiency and enhance transparency in high-volume document intelligence workflows.</p>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
                 </div>
-            </div>
+            </a>
         </div>
-    </div>
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/Careers/" class="carousel-link">
+                <!-- Image -->
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Join-our-Team-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
 
-    <div class="button-box">
-        <a href="/innovation" class="our-innovation-button">
-            <button class="custom-button">Explore More</button>
-        </a>
+                <div class="description-text smallest-size">
+                    Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+                    vulputate libero et velit interdum, ac aliquet odio mattis. Nunc
+                    vulputate libero et velit dum, ac aliquet odio matt
+                </div>
+                <div class="underline-on-hover service-button-cta font-bold">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
+        <div class="item newshub-page-item">
+            <a href="https://adrosonic.zohorecruit.in/jobs/Careers/" class="carousel-link">
+
+                <img decoding="async"
+                    src="/wp-content/uploads/2025/06/Careers-page-Stay-connected-Join-our-Team-image.webp"
+                    alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+
+                <div class="description-text smallest-size">
+                    Grow your career with endless opportunities in diverse fields
+                </div>
+                <div class="underline-on-hover service-button-cta fon">
+                    <span class="smaller-size">Learn More</span>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
+
+<script>
+
+
+    jQuery(document).ready(function ($) {
+        const items = document.querySelectorAll(".newshub-page-item");
+        const shownav = window.innerWidth <= 1024 || items.length > 4;
+        const isSmallScreen = window.innerWidth < 1024;
+        const $newshubCarousel = $(".newshub-page-carousel");
+
+        $newshubCarousel.owlCarousel({
+            loop: isSmallScreen,
+            autoplay: false,
+            mouseDrag: false,
+            touchDrag: true,
+            nav: shownav,
+            smartSpeed: 800,
+            dots: isSmallScreen,
+            dotsEach: true,
+            margin: 32,
+            stagePadding: 0,
+            center: false,
+            responsive: {
+                1025: {
+                    items: 4,
+                },
+                768: {
+                    items: 2.165,
+                    loop: true,
+                    center: true,
+                    autoplay: false,
+                    dots: true,
+                },
+                0: {
+                    items: 1.42,
+                    loop: true,
+                    center: true,
+                    autoplay: false,
+                    dots: true,
+                    margin: 24,
+                },
+            },
+        });
+
+        function updateNewshubCarouselResponsive($carousel) {
+            const newResponsive = {
+                0: {
+                    items: 1.42,
+                    loop: true,
+                    center: true,
+                    autoplay: false,
+                    dots: true,
+                    margin: 24,
+                },
+                768: {
+                    items: 2.165,
+                    loop: true,
+                    center: true,
+                    autoplay: false,
+                    dots: true,
+                },
+                1025: {
+                    items: 4,
+                },
+            };
+
+            // Use the `trigger` method to update responsive settings
+            jQuery($newshubCarousel).trigger("refresh.owl.carousel");
+            jQuery($newshubCarousel).data("owl.carousel").options.responsive =
+                newResponsive;
+        }
+
+        let resizeTimeout;
+        jQuery(window).on("resize  orientationchange", function () {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(updateNewshubCarouselResponsive, 300); // Debounced resizing
+        });
+    });
+</script>
