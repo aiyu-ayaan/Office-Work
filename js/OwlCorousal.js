@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Global carousel configuration object
     window.carouselConfig = {
         dotColor: '#FFFFFF', // Default white - can be changed to any hex color
+        methodCalled: false, // Track if method has been called
 
         // Method to set custom color
         setDotColor: function (hexColor) {
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return false;
             }
             this.dotColor = hexColor.toUpperCase(); // Store in uppercase for consistency
+            this.methodCalled = true; // Mark that method has been called
             this.updateAllCarouselDots();
             console.log(`Carousel dot color updated to: ${this.dotColor}`);
             return true;
@@ -54,6 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
         updateSingleDot: function (dot) {
             const baseColor = this.dotColor;
 
+            // Only apply method colors if method has been called
+            if (!this.methodCalled) {
+                return; // Let CSS handle the colors
+            }
+
             // Clear existing inline styles
             dot.style.borderColor = '';
             dot.style.backgroundColor = '';
@@ -82,9 +89,19 @@ document.addEventListener('DOMContentLoaded', function () {
             return this.dotColor;
         },
 
-        // Reset to default color
+        // Reset to default color and clear method flag
         resetToDefault: function () {
-            this.setDotColor('#FFFFFF');
+            this.methodCalled = false;
+            this.dotColor = '#FFFFFF';
+            this.updateAllCarouselDots();
+            console.log('Reset to default color and cleared method override');
+        },
+
+        // Clear method override (allows CSS to take precedence again)
+        clearMethodOverride: function () {
+            this.methodCalled = false;
+            this.updateAllCarouselDots();
+            console.log('Cleared method override, CSS colors will take precedence');
         }
     };
 
@@ -93,8 +110,9 @@ document.addEventListener('DOMContentLoaded', function () {
         return window.carouselConfig.setDotColor(hexColor);
     };
 
+
     // Log that the carousel config is ready
-    console.log('Carousel configuration loaded. Use carouselConfig.setDotColor("#HEXCOLOR") to change colors.');
+    console.log('Carousel configuration loaded. Priority: CSS > Method > Default');
 
     const svg_prev = `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
 <g id="Icon button desktop Laptop tablet Mobile menu"><circle id="Ellipse 14" cx="16" cy="16" r="16" transform="matrix(-1 0 0 1 33 1)" stroke="#00CCFF" stroke-width="2"/><path id="Arrow 2" d="M25 16C25.5523 16 26 16.4477 26 17C26 17.5523 25.5523 18 25 18L25 16ZM8.29289 17.7071C7.90237 17.3166 7.90237 16.6834 8.29289 16.2929L14.6569 9.92893C15.0474 9.53841 15.6805 9.53841 16.0711 9.92893C16.4616 10.3195 16.4616 10.9526 16.0711 11.3431L10.4142 17L16.0711 22.6569C16.4616 23.0474 16.4616 23.6805 16.0711 24.0711C15.6805 24.4616 15.0474 24.4616 14.6569 24.0711L8.29289 17.7071ZM25 18L9 18L9 16L25 16L25 18Z" stroke-width="0"/></g></svg>`
@@ -232,7 +250,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function addCustomControls(carousel) {
         let isPlaying = true;
-
         const carouselControls = document.createElement('div');
         carouselControls.className = 'carousel-controls';
         const playPauseButton = document.createElement('button');
@@ -334,6 +351,6 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     const scrollTop = document.getElementById('ast-scroll-top');
     if (scrollTop) {
-        scrollTop.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M16 25C16 25.5523 16.4477 26 17 26C17.5523 26 18 25.5523 18 25L16 25ZM17.7071 8.29289C17.3166 7.90237 16.6834 7.90237 16.2929 8.29289L9.92893 14.6569C9.53841 15.0474 9.53841 15.6805 9.92893 16.0711C10.3195 16.4616 10.9526 16.4616 11.3431 16.0711L17 10.4142L22.6569 16.0711C23.0474 16.4616 23.6805 16.4616 24.0711 16.0711C24.4616 15.6805 24.4616 15.0474 24.0711 14.6569L17.7071 8.29289ZM18 25L18 9L16 9L16 25L18 25Z" fill="#1A2C47"></path></svg>';
+        scrollTop.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M16 25C16 25.5523 16.4477 26 17 26C17.5523 26 18 25.5523 18 25L16 25ZM17.7071 8.29289C17.3166 7.90237 16.6834 7.90237 16.2929 8.29289L9.92893 14.6569C9.53841 15.0474 9.53841 15.6805 9.92893 16.0711C10.3195 16.4616 10.9526 16.4616 11.3431 16.0711L17 10.4142L22.6569 16.0711C23.0474 16.4616 23.6805 16.6805 24.0711 16.0711C24.4616 15.6805 24.4616 15.0474 24.0711 14.6569L17.7071 8.29289ZM18 25L18 9L16 9L16 25L18 25Z" fill="#1A2C47"></path></svg>';
     }
 });
