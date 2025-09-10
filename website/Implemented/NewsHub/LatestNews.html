@@ -1,99 +1,83 @@
 <style>
-    .owl-carousel .owl-dots .owl-dot {
-        flex-shrink: 0;
-        width: 12px !important;
-        height: 12px !important;
-        border-radius: 50% !important;
-        border: 2px solid rgba(255, 255, 255, 0.4) !important;
-        background-color: transparent !important;
-        transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-            transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        margin: 0 6px !important;
-        opacity: 0.7;
-        display: block;
-        transform: scale(1) !important;
-    }
-
-    /* Active dot - filled white circle */
-    .owl-carousel .owl-dots .owl-dot.active {
-        width: 16px !important;
-        height: 16px !important;
-        background-color: white !important;
-        border: 2px solid white !important;
-        opacity: 1;
-        transform: scale(1) !important;
-    }
-
-    /* Adjacent dots (±1 from active) - medium rings */
-    .owl-carousel .owl-dots .owl-dot.adjacent {
-        width: 14px !important;
-        height: 14px !important;
-        border: 2px solid rgba(255, 255, 255, 0.7) !important;
-        background-color: transparent !important;
-        opacity: 0.8;
-        transform: scale(1) !important;
-    }
-
-    /* Near dots (±2 from active) - smaller rings */
-    .owl-carousel .owl-dots .owl-dot.near {
-        width: 12px !important;
-        height: 12px !important;
-        border: 2px solid rgba(255, 255, 255, 0.5) !important;
-        background-color: transparent !important;
-        opacity: 0.7;
-        transform: scale(1) !important;
-    }
-
-    /* Far dots (±3+ from active) - smallest rings */
-    .owl-carousel .owl-dots .owl-dot.far {
-        width: 10px !important;
-        height: 10px !important;
-        border: 2px solid rgba(255, 255, 255, 0.3) !important;
-        background-color: transparent !important;
-        opacity: 0.6;
-        transform: scale(1) !important;
-    }
-
-    /* Enhanced transition for middle state */
-    .owl-carousel .owl-dots .owl-dot.transitioning {
-        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-            height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-            border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-            background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-            opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-            transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-
-    /* Add subtle pulse effect for active dot in middle state */
-    .owl-carousel .owl-dots .owl-dot.active.transitioning {
-        animation: subtle-pulse 0.6s ease-in-out;
-    }
-
-    @keyframes subtle-pulse {
-        0% {
-            transform: scale(1);
+    /* Mobile and Tablet Only (0px to 1024px) */
+    @media only screen and (max-width: 1024px) {
+        .owl-carousel .owl-dots .owl-dot {
+            flex-shrink: 0;
+            width: 12px !important;
+            height: 12px !important;
+            border-radius: 50% !important;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            margin: 0 6px !important;
+            opacity: 0.7;
+            display: block;
+            transform: scale(1) !important;
         }
 
-        50% {
-            transform: scale(1.05);
+        /* Active dot - filled circle */
+        .owl-carousel .owl-dots .owl-dot.active {
+            width: 16px !important;
+            height: 16px !important;
+            opacity: 1;
+            transform: scale(1) !important;
         }
 
-        100% {
-            transform: scale(1);
+        /* Adjacent dots (±1 from active) - medium rings */
+        .owl-carousel .owl-dots .owl-dot.adjacent {
+            width: 14px !important;
+            height: 14px !important;
+            opacity: 0.8;
+            transform: scale(1) !important;
         }
-    }
 
-    /* Enhanced border colors for better middle state visibility */
-    .owl-carousel .owl-dots .owl-dot.transitioning:not(.active) {
-        border-color: rgba(255, 255, 255, 0.5) !important;
-    }
+        /* Near dots (±2 from active) - smaller rings */
+        .owl-carousel .owl-dots .owl-dot.near {
+            width: 12px !important;
+            height: 12px !important;
+            opacity: 0.7;
+            transform: scale(1) !important;
+        }
 
-    .owl-carousel .owl-dots .owl-dot.transitioning.adjacent {
-        border-color: rgba(255, 255, 255, 0.75) !important;
+        /* Far dots (±3+ from active) - smallest rings */
+        .owl-carousel .owl-dots .owl-dot.far {
+            width: 10px !important;
+            height: 10px !important;
+            opacity: 0.6;
+            transform: scale(1) !important;
+        }
+
+        /* Enhanced transition for middle state */
+        .owl-carousel .owl-dots .owl-dot.transitioning {
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        /* Add subtle pulse effect for active dot in middle state */
+        .owl-carousel .owl-dots .owl-dot.active.transitioning {
+            animation: subtle-pulse 0.6s ease-in-out;
+        }
+
+        @keyframes subtle-pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
     }
 
 
@@ -441,8 +425,8 @@
 
 <script>
 
-
     jQuery(document).ready(function ($) {
+        window.carouselConfig.setDotColor('#0066CC');
         const items = document.querySelectorAll(".newshub-page-item");
         const shownav = window.innerWidth <= 1024 || items.length > 4;
         const isSmallScreen = window.innerWidth < 1024;
