@@ -28,13 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
         function updateDotsAppearance() {
             const activeDot = dots.querySelector('.owl-dot.active');
             if (!activeDot) return;
-
             const activeIndex = Array.from(allDots).indexOf(activeDot);
 
             if (totalSlides > maxVisibleDots) {
                 // Calculate which dots to show (max 5)
                 let startIndex, endIndex;
-
                 if (activeIndex <= 2) {
                     startIndex = 0;
                     endIndex = maxVisibleDots - 1;
@@ -46,26 +44,38 @@ document.addEventListener('DOMContentLoaded', function () {
                     endIndex = activeIndex + 2;
                 }
 
-                // Show/hide dots instantly - no fade animations
+                // Show/hide dots with slight transition for better visual feedback
                 allDots.forEach((dot, index) => {
                     if (index >= startIndex && index <= endIndex) {
                         dot.style.display = 'block';
+                        // Add a subtle scale animation for newly visible dots
+                        if (dot.style.display === 'none') {
+                            dot.style.transform = 'scale(0.8)';
+                            setTimeout(() => {
+                                dot.style.transform = 'scale(1)';
+                            }, 50);
+                        }
                     } else {
                         dot.style.display = 'none';
                     }
                 });
 
-                // Apply size classes immediately to visible dots
+                // Apply size classes with enhanced middle state feedback
                 const visibleDots = Array.from(allDots).slice(startIndex, endIndex + 1);
                 const activeIndexInVisible = activeIndex - startIndex;
 
                 visibleDots.forEach((dot, index) => {
                     // Remove all size classes first
-                    dot.classList.remove('adjacent', 'near', 'far');
+                    dot.classList.remove('adjacent', 'near', 'far', 'transitioning');
 
                     const distance = Math.abs(index - activeIndexInVisible);
 
-                    // Apply gradient sizing immediately
+                    // Add transitioning class for middle state visual feedback
+                    if (activeIndex > 2 && activeIndex < totalSlides - 3) {
+                        dot.classList.add('transitioning');
+                    }
+
+                    // Apply gradient sizing with enhanced feedback
                     if (distance === 1) {
                         dot.classList.add('adjacent');
                     } else if (distance === 2) {
@@ -74,17 +84,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         dot.classList.add('far');
                     }
                 });
-
             } else {
                 // Less than or equal to 5 dots - show all with gradient sizing
                 allDots.forEach((dot, index) => {
                     dot.style.display = 'block';
-                    // Remove all size classes first
-                    dot.classList.remove('adjacent', 'near', 'far');
+                    dot.classList.remove('adjacent', 'near', 'far', 'transitioning');
 
                     const distance = Math.abs(index - activeIndex);
 
-                    // Apply gradient sizing immediately
                     if (distance === 1) {
                         dot.classList.add('adjacent');
                     } else if (distance === 2) {
@@ -95,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         }
+
 
         // Initial setup
         setTimeout(updateDotsAppearance, 50);
