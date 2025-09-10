@@ -111,6 +111,12 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
 
+    function isMobileOrTablet() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        return /android|ipad|iphone|ipod|windows phone/i.test(userAgent.toLowerCase());
+    }
+
+
     // Log that the carousel config is ready
     console.log('Carousel configuration loaded. Priority: CSS > Method > Default');
 
@@ -315,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (shouldUpdate) {
                 setTimeout(() => {
-                    addCustomControls(carousel);
+                    // addCustomControls(carousel);
                     setupInstagramDots(carousel);
                 }, 150);
                 observer.disconnect();
