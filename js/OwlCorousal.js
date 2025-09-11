@@ -1,25 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Global carousel configuration object
     window.carouselConfig = {
-        dotColor: '#FFFFFF', // Default white - can be changed to any hex color
-        methodCalled: false, // Track if method has been called
+        dotColor: '#FFFFFF',
+        methodCalled: false,
 
-        // Method to set custom color
         setDotColor: function (hexColor) {
             if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexColor)) {
                 console.warn('Invalid hex color provided. Using default white.');
                 return false;
             }
-            this.dotColor = hexColor.toUpperCase(); // Store in uppercase for consistency
-            this.methodCalled = true; // Mark that method has been called
+            this.dotColor = hexColor.toUpperCase();
+            this.methodCalled = true;
             this.updateAllCarouselDots();
             console.log(`Carousel dot color updated to: ${this.dotColor}`);
             return true;
         },
 
-        // Helper method to convert hex to rgba
         hexToRgba: function (hex, alpha) {
-            // Handle 3-character hex codes
             if (hex.length === 4) {
                 hex = hex.replace(/([^#])/g, '$1$1');
             }
@@ -29,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return `rgba(${r}, ${g}, ${b}, ${alpha})`;
         },
 
-        // Method to update all existing carousels
         updateAllCarouselDots: function () {
             const carousels = document.querySelectorAll('.owl-carousel');
             if (carousels.length === 0) {
@@ -42,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(`Updated ${carousels.length} carousel(s) with new dot colors`);
         },
 
-        // Apply colors to a specific carousel
         applyDotColors: function (carousel) {
             const dots = carousel.querySelectorAll('.owl-dot');
             if (dots.length === 0) return;
@@ -52,16 +47,13 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         },
 
-        // Update a single dot's colors based on its current classes
         updateSingleDot: function (dot) {
             const baseColor = this.dotColor;
 
-            // Only apply method colors if method has been called
             if (!this.methodCalled) {
-                return; // Let CSS handle the colors
+                return;
             }
 
-            // Clear existing inline styles
             dot.style.borderColor = '';
             dot.style.backgroundColor = '';
 
@@ -77,19 +69,20 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (dot.classList.contains('far')) {
                 dot.style.setProperty('border-color', this.hexToRgba(baseColor, 0.3), 'important');
                 dot.style.setProperty('background-color', 'transparent', 'important');
+            } else if (dot.classList.contains('edge-indicator')) {
+                // Small dots at edges to indicate more items
+                dot.style.setProperty('border-color', this.hexToRgba(baseColor, 0.4), 'important');
+                dot.style.setProperty('background-color', 'transparent', 'important');
             } else {
-                // Default state
                 dot.style.setProperty('border-color', this.hexToRgba(baseColor, 0.4), 'important');
                 dot.style.setProperty('background-color', 'transparent', 'important');
             }
         },
 
-        // Get current color
         getCurrentColor: function () {
             return this.dotColor;
         },
 
-        // Reset to default color and clear method flag
         resetToDefault: function () {
             this.methodCalled = false;
             this.dotColor = '#FFFFFF';
@@ -97,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Reset to default color and cleared method override');
         },
 
-        // Clear method override (allows CSS to take precedence again)
         clearMethodOverride: function () {
             this.methodCalled = false;
             this.updateAllCarouselDots();
@@ -105,19 +97,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // Also create a shorthand global function for easy access
     window.setCarouselDotColor = function (hexColor) {
         return window.carouselConfig.setDotColor(hexColor);
     };
-
 
     function isMobileOrTablet() {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
         return /android|ipad|iphone|ipod|windows phone/i.test(userAgent.toLowerCase());
     }
 
-
-    // Log that the carousel config is ready
     console.log('Carousel configuration loaded. Priority: CSS > Method > Default');
 
     const svg_prev = `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
@@ -138,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (totalSlides > maxVisibleDots) {
             dots.classList.add('scrollable-dots');
 
-            // Hide all dots initially - no animation
+            // Hide all dots initially
             allDots.forEach(dot => {
                 dot.style.display = 'none';
             });
@@ -150,57 +138,66 @@ document.addEventListener('DOMContentLoaded', function () {
             const activeIndex = Array.from(allDots).indexOf(activeDot);
 
             if (totalSlides > maxVisibleDots) {
-                // Calculate which dots to show (max 5)
                 let startIndex, endIndex;
+
+                // More realistic Instagram-like behavior
                 if (activeIndex <= 2) {
+                    // At the beginning - show first 5 dots
                     startIndex = 0;
                     endIndex = maxVisibleDots - 1;
-                } else if (activeIndex >= totalSlides - 3) {
+                } else if (activeIndex >= totalSlides - 2) {
+                    // At the end - show last 5 dots
                     startIndex = totalSlides - maxVisibleDots;
                     endIndex = totalSlides - 1;
                 } else {
-                    startIndex = activeIndex - 2;
-                    endIndex = activeIndex + 2;
+                    // In the middle - position active dot as 4th dot (index 3)
+                    // This makes it appear as 2nd-to-last in visible dots
+                    startIndex = activeIndex - 3;
+                    endIndex = activeIndex + 1;
                 }
 
-                // Show/hide dots with slight transition for better visual feedback
-                allDots.forEach((dot, index) => {
-                    if (index >= startIndex && index <= endIndex) {
-                        dot.style.display = 'block';
-                        // Add a subtle scale animation for newly visible dots
-                        if (dot.style.display === 'none') {
-                            dot.style.transform = 'scale(0.8)';
-                            setTimeout(() => {
-                                dot.style.transform = 'scale(1)';
-                            }, 50);
-                        }
-                    } else {
-                        dot.style.display = 'none';
+                // Ensure boundaries are valid
+                startIndex = Math.max(0, startIndex);
+                endIndex = Math.min(totalSlides - 1, endIndex);
+
+                // Adjust if we don't have enough dots to show
+                if (endIndex - startIndex < maxVisibleDots - 1) {
+                    if (startIndex === 0) {
+                        endIndex = Math.min(totalSlides - 1, startIndex + maxVisibleDots - 1);
+                    } else if (endIndex === totalSlides - 1) {
+                        startIndex = Math.max(0, endIndex - maxVisibleDots + 1);
                     }
+                }
+
+                // Show/hide dots
+                allDots.forEach((dot, index) => {
+                    dot.style.display = (index >= startIndex && index <= endIndex) ? 'block' : 'none';
                 });
 
-                // Apply size classes with enhanced middle state feedback
+                // Apply size classes
                 const visibleDots = Array.from(allDots).slice(startIndex, endIndex + 1);
                 const activeIndexInVisible = activeIndex - startIndex;
 
                 visibleDots.forEach((dot, index) => {
                     // Remove all size classes first
-                    dot.classList.remove('adjacent', 'near', 'far', 'transitioning');
+                    dot.classList.remove('adjacent', 'near', 'far', 'transitioning', 'edge-indicator');
 
                     const distance = Math.abs(index - activeIndexInVisible);
 
-                    // Add transitioning class for middle state visual feedback
-                    if (activeIndex > 2 && activeIndex < totalSlides - 3) {
-                        dot.classList.add('transitioning');
-                    }
-
-                    // Apply gradient sizing with enhanced feedback
-                    if (distance === 1) {
-                        dot.classList.add('adjacent');
-                    } else if (distance === 2) {
-                        dot.classList.add('near');
-                    } else if (distance > 2) {
-                        dot.classList.add('far');
+                    // Add edge indicators for first and last visible dots when not at carousel edges
+                    if (startIndex > 0 && index === 0) {
+                        dot.classList.add('edge-indicator');
+                    } else if (endIndex < totalSlides - 1 && index === visibleDots.length - 1) {
+                        dot.classList.add('edge-indicator');
+                    } else {
+                        // Apply gradient sizing based on distance from active
+                        if (distance === 1) {
+                            dot.classList.add('adjacent');
+                        } else if (distance === 2) {
+                            dot.classList.add('near');
+                        } else if (distance > 2) {
+                            dot.classList.add('far');
+                        }
                     }
 
                     // Apply colors after classes are set
@@ -210,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Less than or equal to 5 dots - show all with gradient sizing
                 allDots.forEach((dot, index) => {
                     dot.style.display = 'block';
-                    dot.classList.remove('adjacent', 'near', 'far', 'transitioning');
+                    dot.classList.remove('adjacent', 'near', 'far', 'transitioning', 'edge-indicator');
 
                     const distance = Math.abs(index - activeIndex);
 
@@ -222,34 +219,35 @@ document.addEventListener('DOMContentLoaded', function () {
                         dot.classList.add('far');
                     }
 
-                    // Apply colors after classes are set
                     window.carouselConfig.updateSingleDot(dot);
                 });
             }
         }
 
+
+
         // Initial setup
         setTimeout(updateDotsAppearance, 50);
 
-        // Update on carousel events - reduced delays
+        // Update on carousel events
         const $carousel = jQuery(carousel);
 
         $carousel.on('changed.owl.carousel', function () {
-            updateDotsAppearance(); // Immediate update, no delay
+            updateDotsAppearance();
         });
 
         $carousel.on('translated.owl.carousel', function () {
-            updateDotsAppearance(); // Immediate update
+            updateDotsAppearance();
         });
 
         $carousel.on('resized.owl.carousel', function () {
-            setTimeout(updateDotsAppearance, 50); // Minimal delay only for resize
+            setTimeout(updateDotsAppearance, 50);
         });
 
-        // Handle dot clicks immediately
+        // Handle dot clicks
         dots.addEventListener('click', function (e) {
             if (e.target.classList.contains('owl-dot')) {
-                setTimeout(updateDotsAppearance, 50); // Minimal delay
+                setTimeout(updateDotsAppearance, 50);
             }
         });
     }
@@ -284,7 +282,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Apply initial colors to dots
             window.carouselConfig.applyDotColors(carousel);
         }
         carousel.appendChild(carouselControls);
@@ -307,7 +304,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             mutations.forEach((mutation) => {
                 if (mutation.type === 'childList') {
-                    // Check if dots were added
                     if (mutation.addedNodes.length > 0) {
                         for (let node of mutation.addedNodes) {
                             if (node.classList && node.classList.contains('owl-dots')) {
@@ -321,7 +317,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (shouldUpdate) {
                 setTimeout(() => {
-                    // addCustomControls(carousel);
                     setupInstagramDots(carousel);
                 }, 150);
                 observer.disconnect();
@@ -337,13 +332,11 @@ document.addEventListener('DOMContentLoaded', function () {
     jQuery('.owl-carousel').on('initialized.owl.carousel', function (event) {
         const carousel = event.target;
 
-        // Add a small delay to ensure everything is rendered
         setTimeout(() => {
             addCustomControls(carousel);
             setupInstagramDots(carousel);
         }, 200);
 
-        // Also set up the observer as backup
         observeCarouselChanges(carousel);
     });
 
@@ -353,10 +346,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// Ensure the scroll top element is updated when DOM is ready
+// Scroll top element update
 document.addEventListener('DOMContentLoaded', function () {
     const scrollTop = document.getElementById('ast-scroll-top');
     if (scrollTop) {
-        scrollTop.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M16 25C16 25.5523 16.4477 26 17 26C17.5523 26 18 25.5523 18 25L16 25ZM17.7071 8.29289C17.3166 7.90237 16.6834 7.90237 16.2929 8.29289L9.92893 14.6569C9.53841 15.0474 9.53841 15.6805 9.92893 16.0711C10.3195 16.4616 10.9526 16.4616 11.3431 16.0711L17 10.4142L22.6569 16.0711C23.0474 16.4616 23.6805 16.6805 24.0711 16.0711C24.4616 15.6805 24.4616 15.0474 24.0711 14.6569L17.7071 8.29289ZM18 25L18 9L16 9L16 25L18 25Z" fill="#1A2C47"></path></svg>';
+        scrollTop.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M16 25C16 25.5523 16.4477 26 17 26C17.5523 26 18 25.5523 18 25L16 25ZM17.7071 8.29289C17.3166 7.90237 16.6834 7.90237 16.2929 8.29289L9.92893 14.6569C9.53841 15.0474 9.53841 15.6805 9.92893 16.0711C10.3195 16.4616 10.9526 16.4616 11.3431 16.0711L17 10.4142L22.6569 16.0711C23.0474 16.4616 23.6805 16.4616 24.0711 16.0711C24.4616 15.6805 24.4616 15.0474 24.0711 14.6569L17.7071 8.29289ZM18 25L18 9L16 9L16 25L18 25Z" fill="#1A2C47"></path></svg>';
     }
 });
