@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const allDots = dots.querySelectorAll('.owl-dot');
         const totalSlides = allDots.length;
-        const maxVisibleDots = 5;
+        let maxVisibleDots = window.innerWidth <= 1024 ? 5 : allDots.length;
 
         // Add scrollable class if more than 5 slides
         if (totalSlides > maxVisibleDots) {
@@ -140,23 +140,22 @@ document.addEventListener('DOMContentLoaded', function () {
             if (totalSlides > maxVisibleDots) {
                 let startIndex, endIndex;
 
-                // At the beginning - show first 5 dots
+                // Ensure we always show exactly 5 dots
                 if (activeIndex <= 2) {
+                    // At the beginning - show first 5 dots
                     startIndex = 0;
-                    endIndex = maxVisibleDots - 1;
-                }
-                // At the end - show last 5 dots
-                else if (activeIndex >= totalSlides - 3) {
-                    startIndex = totalSlides - maxVisibleDots;
+                    endIndex = Math.min(maxVisibleDots - 1, totalSlides - 1);
+                } else if (activeIndex >= totalSlides - 3) {
+                    // At the end - show last 5 dots
+                    startIndex = Math.max(0, totalSlides - maxVisibleDots);
                     endIndex = totalSlides - 1;
-                }
-                // In the middle - keep active dot centered
-                else {
+                } else {
+                    // In the middle - keep active dot centered (show 5 dots total)
                     startIndex = activeIndex - 2;
                     endIndex = activeIndex + 2;
                 }
 
-                // Show/hide dots
+                // Show/hide dots - ensure exactly 5 are visible when possible
                 allDots.forEach((dot, index) => {
                     dot.style.display = (index >= startIndex && index <= endIndex) ? 'block' : 'none';
                 });
@@ -185,14 +184,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-
-
-        // Initial setup
+        // Rest of your function remains the same...
         setTimeout(updateDotsAppearance, 50);
 
-        // Update on carousel events
         const $carousel = jQuery(carousel);
-
         $carousel.on('changed.owl.carousel', function () {
             updateDotsAppearance();
         });
@@ -205,13 +200,13 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(updateDotsAppearance, 50);
         });
 
-        // Handle dot clicks
         dots.addEventListener('click', function (e) {
             if (e.target.classList.contains('owl-dot')) {
                 setTimeout(updateDotsAppearance, 50);
             }
         });
     }
+
 
     function addCustomControls(carousel) {
         let isPlaying = true;

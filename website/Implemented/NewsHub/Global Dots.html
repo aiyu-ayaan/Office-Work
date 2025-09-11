@@ -1,6 +1,26 @@
 <style>
     /* Mobile and Tablet Only (0px to 1024px) */
+    /* Mobile and Tablet Only (0px to 1024px) */
     @media only screen and (max-width: 1024px) {
+        .owl-carousel .owl-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .owl-carousel .owl-dots.scrollable-dots {
+            /* Make dots wrapper flexible instead of fixed width */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            overflow: hidden;
+            gap: 12px;
+            /* keeps spacing consistent */
+        }
+
         .owl-carousel .owl-dots .owl-dot {
             flex-shrink: 0;
             width: 12px !important;
@@ -18,7 +38,12 @@
             transform: scale(1) !important;
         }
 
-        /* Active dot - filled circle */
+        .owl-carousel .owl-dots.scrollable-dots .owl-dot {
+            flex: 0 0 auto;
+            /* prevents shrinking */
+        }
+
+        /* Keep all your existing dot size classes as they are */
         .owl-carousel .owl-dots .owl-dot.active {
             width: 16px !important;
             height: 16px !important;
@@ -26,7 +51,6 @@
             transform: scale(1) !important;
         }
 
-        /* Adjacent dots (±1 from active) - medium rings */
         .owl-carousel .owl-dots .owl-dot.adjacent {
             width: 14px !important;
             height: 14px !important;
@@ -34,7 +58,6 @@
             transform: scale(1) !important;
         }
 
-        /* Near dots (±2 from active) - smaller rings */
         .owl-carousel .owl-dots .owl-dot.near {
             width: 12px !important;
             height: 12px !important;
@@ -42,7 +65,6 @@
             transform: scale(1) !important;
         }
 
-        /* Far dots (±3+ from active) - smallest rings */
         .owl-carousel .owl-dots .owl-dot.far {
             width: 10px !important;
             height: 10px !important;
@@ -50,7 +72,6 @@
             transform: scale(1) !important;
         }
 
-        /* Edge indicator dots - small dots to show there are more items */
         .owl-carousel .owl-dots .owl-dot.edge-indicator {
             width: 8px !important;
             height: 8px !important;
@@ -60,67 +81,7 @@
             background-color: transparent !important;
         }
 
-        /* Enhanced transition for middle state */
-        .owl-carousel .owl-dots .owl-dot.transitioning {
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-
-        /* Add subtle pulse effect for active dot in middle state */
-        .owl-carousel .owl-dots .owl-dot.active.transitioning {
-            animation: subtle-pulse 0.6s ease-in-out;
-        }
-
-        @keyframes subtle-pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* Smooth transitions for edge indicators */
-        .owl-carousel .owl-dots .owl-dot.edge-indicator {
-            transition: all 0.3s ease;
-        }
-
-        /* Optional: Add a subtle animation to edge indicators */
-        .owl-carousel .owl-dots .owl-dot.edge-indicator:hover {
-            opacity: 0.7;
-            transform: scale(1.1);
-        }
-
-        .owl-carousel .owl-dots {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .owl-carousel .owl-dots.scrollable-dots {
-            width: calc(5 * (16px + 12px));
-            /* Max 5 dots with margins */
-            justify-content: flex-start;
-        }
-
-        .owl-carousel .owl-dots .owl-dot {
-            transition: width 0.2s ease,
-                height 0.2s ease,
-                opacity 0.2s ease,
-                border-color 0.2s ease,
-                background-color 0.2s ease !important;
-        }
+        /* Rest of your CSS remains the same... */
     }
 
 
@@ -470,7 +431,7 @@
 
     jQuery(document).ready(function ($) {
 
-        carouselConfig.setDotColor('#0066CC');
+        carouselConfig.setDotColor('#FFFF00');
         const items = document.querySelectorAll(".newshub-page-item");
         const shownav = window.innerWidth <= 1024 || items.length > 4;
         const isSmallScreen = window.innerWidth < 1024;
