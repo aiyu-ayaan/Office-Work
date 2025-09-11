@@ -140,33 +140,20 @@ document.addEventListener('DOMContentLoaded', function () {
             if (totalSlides > maxVisibleDots) {
                 let startIndex, endIndex;
 
-                // More realistic Instagram-like behavior
+                // At the beginning - show first 5 dots
                 if (activeIndex <= 2) {
-                    // At the beginning - show first 5 dots
                     startIndex = 0;
                     endIndex = maxVisibleDots - 1;
-                } else if (activeIndex >= totalSlides - 2) {
-                    // At the end - show last 5 dots
+                }
+                // At the end - show last 5 dots
+                else if (activeIndex >= totalSlides - 3) {
                     startIndex = totalSlides - maxVisibleDots;
                     endIndex = totalSlides - 1;
-                } else {
-                    // In the middle - position active dot as 4th dot (index 3)
-                    // This makes it appear as 2nd-to-last in visible dots
-                    startIndex = activeIndex - 3;
-                    endIndex = activeIndex + 1;
                 }
-
-                // Ensure boundaries are valid
-                startIndex = Math.max(0, startIndex);
-                endIndex = Math.min(totalSlides - 1, endIndex);
-
-                // Adjust if we don't have enough dots to show
-                if (endIndex - startIndex < maxVisibleDots - 1) {
-                    if (startIndex === 0) {
-                        endIndex = Math.min(totalSlides - 1, startIndex + maxVisibleDots - 1);
-                    } else if (endIndex === totalSlides - 1) {
-                        startIndex = Math.max(0, endIndex - maxVisibleDots + 1);
-                    }
+                // In the middle - keep active dot centered
+                else {
+                    startIndex = activeIndex - 2;
+                    endIndex = activeIndex + 2;
                 }
 
                 // Show/hide dots
@@ -179,44 +166,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 const activeIndexInVisible = activeIndex - startIndex;
 
                 visibleDots.forEach((dot, index) => {
-                    // Remove all size classes first
                     dot.classList.remove('adjacent', 'near', 'far', 'transitioning', 'edge-indicator');
 
                     const distance = Math.abs(index - activeIndexInVisible);
 
-                    // Add edge indicators for first and last visible dots when not at carousel edges
                     if (startIndex > 0 && index === 0) {
                         dot.classList.add('edge-indicator');
                     } else if (endIndex < totalSlides - 1 && index === visibleDots.length - 1) {
                         dot.classList.add('edge-indicator');
                     } else {
-                        // Apply gradient sizing based on distance from active
-                        if (distance === 1) {
-                            dot.classList.add('adjacent');
-                        } else if (distance === 2) {
-                            dot.classList.add('near');
-                        } else if (distance > 2) {
-                            dot.classList.add('far');
-                        }
-                    }
-
-                    // Apply colors after classes are set
-                    window.carouselConfig.updateSingleDot(dot);
-                });
-            } else {
-                // Less than or equal to 5 dots - show all with gradient sizing
-                allDots.forEach((dot, index) => {
-                    dot.style.display = 'block';
-                    dot.classList.remove('adjacent', 'near', 'far', 'transitioning', 'edge-indicator');
-
-                    const distance = Math.abs(index - activeIndex);
-
-                    if (distance === 1) {
-                        dot.classList.add('adjacent');
-                    } else if (distance === 2) {
-                        dot.classList.add('near');
-                    } else if (distance > 2) {
-                        dot.classList.add('far');
+                        if (distance === 1) dot.classList.add('adjacent');
+                        else if (distance === 2) dot.classList.add('near');
+                        else if (distance > 2) dot.classList.add('far');
                     }
 
                     window.carouselConfig.updateSingleDot(dot);
