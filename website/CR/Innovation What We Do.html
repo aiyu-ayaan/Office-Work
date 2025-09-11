@@ -113,24 +113,27 @@ margin-top: 1.125em;
 
     /* Color transition animation styles */
     .animated-text-transition {
-        animation: containerFadeIn 0.3s ease-out 0.2s forwards;
-        color: #FFFFFF5C;
-    }
+    animation: containerFadeIn 0.6s ease-out 0.4s forwards; /* Changed from 0.3s to 0.6s, delay from 0.2s to 0.4s */
+    color: #FFFFFF5C;
+}
 
-    .animated-text-transition .word {
-        display: inline-block;
-        color: #FFFFFF5C;
-        animation: wordColorTransition 0.9s ease-out calc(var(--n) * 0.2s) forwards;
-    }
+.animated-text-transition .word {
+    display: inline-block;
+    color: #FFFFFF5C;
+    animation: wordColorTransition 1.5s ease-out calc(var(--n) * 0.3s) forwards; /* Changed from 0.9s to 1.5s, stagger from 0.2s to 0.3s */
+}
+
+.animated-text-transition .color-ia .word {
+    animation-name: colorIaTransition;
+    animation-duration: 1.5s; /* Ensure highlighted words also use slower duration */
+    animation-delay: calc(var(--n) * 0.3s);
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
 
     .animated-text-transition .word:last-child {
         margin-right: 0;
     }
-
-    .animated-text-transition .color-ia .word {
-        animation-name: colorIaTransition;
-    }
-
 
     @keyframes containerFadeIn {
         to {
