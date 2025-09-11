@@ -130,11 +130,17 @@ $section_subtitle = $award_and_recognition_section['acf_news_hub_awards_and_reco
                 <div class="below-homepage-banner">
                     <p class="has-text-align-center medium-size text-below-homepage-banner">
                         <?php echo ($text_below_banner); ?>
-                    </p><a href="<?php echo esc_html($_below_banner_button_url) ?>">
+                    </p><a href="<?php echo esc_html($_below_banner_button_url) ?>" class="link-below-the-banner">
                         <button class="custom-button"
                             onclick="window.location.href='<?php echo esc_html($_below_banner_button_url) ?>';">
+                            <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.3535 0.999878C24.4148 0.999878 26 2.74342 26 4.78503V16.62C26 18.6616 24.4148 20.4052 22.3535 20.4052H4.64648C2.58521 20.4052 1 18.6616 1 16.62V4.78503C1 2.74342 2.58521 0.999878 4.64648 0.999878H22.3535Z" fill="white" stroke="#1A2C47" stroke-width="2" />
+                                <path d="M25 1.99988L14.3399 13.1502C13.8876 13.6941 13.1124 13.6941 12.6601 13.1502L2 1.99988M2 19.4053L10.3343 10.7026M25 19.4053L16.6657 10.7026" stroke="#1A2C47" stroke-width="2" />
+                            </svg>
+
                             <?php echo esc_html($button_below_banner); ?>
-                        </button></a>
+                        </button>
+                    </a>
                 </div>
 
 
@@ -207,6 +213,11 @@ $section_subtitle = $award_and_recognition_section['acf_news_hub_awards_and_reco
                     <p class="smaller-size sub-line"><?php echo esc_html($contact_us_statement_below_sub_heading); ?></p>
 
                     <button class="custom-button contact-btn openSubscribeModal" onclick="console.log('clicked'); openSubscribeModal()">
+                        <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.3535 0.999878C24.4148 0.999878 26 2.74342 26 4.78503V16.62C26 18.6616 24.4148 20.4052 22.3535 20.4052H4.64648C2.58521 20.4052 1 18.6616 1 16.62V4.78503C1 2.74342 2.58521 0.999878 4.64648 0.999878H22.3535Z" fill="white" stroke="#1A2C47" stroke-width="2" />
+                            <path d="M25 1.99988L14.3399 13.1502C13.8876 13.6941 13.1124 13.6941 12.6601 13.1502L2 1.99988M2 19.4053L10.3343 10.7026M25 19.4053L16.6657 10.7026" stroke="#1A2C47" stroke-width="2" />
+                        </svg>
+
                         <?php echo esc_html($contact_us_social_media_button_text); ?>
                     </button>
 
