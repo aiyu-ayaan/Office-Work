@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Global carousel configuration object
+    // Global carousel configuration object
     window.carouselConfig = {
         dotColor: '#FFFFFF',
         methodCalled: false,
@@ -35,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
             carousels.forEach(carousel => {
                 this.applyDotColors(carousel);
             });
-            console.log(`Updated ${carousels.length} carousel(s) with new dot colors`);
         },
 
         applyDotColors: function (carousel) {
@@ -48,19 +48,26 @@ document.addEventListener('DOMContentLoaded', function () {
         },
 
         updateSingleDot: function (dot) {
-            const baseColor = this.dotColor;
+            const isMobile = isMobileOrTablet();
 
-            if (!this.methodCalled) {
+            // FIX: ONLY apply styling on mobile/tablet devices
+            if (!isMobile) {
+                // Always clear styles on desktop, regardless of methodCalled
+                dot.style.removeProperty('border-color');
+                dot.style.removeProperty('background-color');
                 return;
             }
 
-            // Clear existing styles
+            // From here, we're only dealing with mobile/tablet devices
+            // Apply styling only when on mobile/tablet
+            const baseColor = this.methodCalled ? this.dotColor : '#FFFFFF';
+
+            // Clear existing styles first
             dot.style.removeProperty('border-color');
             dot.style.removeProperty('background-color');
 
-            // **FIX: Check for active class correctly and apply proper styling**
+            // Apply mobile/tablet-specific styling
             if (dot.classList.contains('active')) {
-                console.log('Active dot found, applying base color:', baseColor);
                 dot.style.setProperty('background-color', baseColor, 'important');
                 dot.style.setProperty('border-color', baseColor, 'important');
             } else if (dot.classList.contains('adjacent')) {
@@ -73,11 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 dot.style.setProperty('border-color', this.hexToRgba(baseColor, 0.3), 'important');
                 dot.style.setProperty('background-color', 'transparent', 'important');
             } else if (dot.classList.contains('edge-indicator')) {
-                // Small dots at edges to indicate more items
                 dot.style.setProperty('border-color', this.hexToRgba(baseColor, 0.4), 'important');
                 dot.style.setProperty('background-color', 'transparent', 'important');
             } else {
-                // **FIX: Default styling for non-active dots**
                 dot.style.setProperty('border-color', this.hexToRgba(baseColor, 0.4), 'important');
                 dot.style.setProperty('background-color', 'transparent', 'important');
             }
@@ -90,27 +95,76 @@ document.addEventListener('DOMContentLoaded', function () {
         resetToDefault: function () {
             this.methodCalled = false;
             this.dotColor = '#FFFFFF';
-            this.updateAllCarouselDots();
-            console.log('Reset to default color and cleared method override');
+            this.clearAllCustomStyles();
+            console.log('Reset to default color (#FFFFFF) and cleared method override');
         },
 
         clearMethodOverride: function () {
             this.methodCalled = false;
-            this.updateAllCarouselDots();
+            this.clearAllCustomStyles();
             console.log('Cleared method override, CSS colors will take precedence');
+        },
+
+        clearAllCustomStyles: function () {
+            const carousels = document.querySelectorAll('.owl-carousel');
+            carousels.forEach(carousel => {
+                const dots = carousel.querySelectorAll('.owl-dot');
+                dots.forEach(dot => {
+                    dot.style.removeProperty('border-color');
+                    dot.style.removeProperty('background-color');
+                });
+            });
+        },
+
+        // FIX: Handle viewport changes - clear styles on desktop, apply on mobile/tablet
+        handleViewportChange: function () {
+            const isMobile = isMobileOrTablet();
+
+            if (!isMobile) {
+                // FIX: Always clear styles when switching to desktop
+                console.log('Switched to desktop: clearing all mobile/tablet styles');
+                this.clearAllCustomStyles();
+            } else {
+                // FIX: Apply styling when switching to mobile/tablet
+                console.log('Switched to mobile/tablet: applying dot colors');
+                this.updateAllCarouselDots();
+            }
         }
     };
 
+    // FIX: Resize event listener to handle desktop/mobile transitions
+    let resizeTimeout;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function () {
+            window.carouselConfig.handleViewportChange();
+        }, 150);
+    });
+
+    // Global function for manual color setting
     window.setCarouselDotColor = function (hexColor) {
-        return window.carouselConfig.setDotColor(hexColor);
+        const result = window.carouselConfig.setDotColor(hexColor);
+        if (!result) {
+            console.error('Failed to set carousel dot color. Please provide a valid hex color (e.g., #FF0000 or #F00)');
+        }
+        return result;
     };
 
     function isMobileOrTablet() {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        return /android|ipad|iphone|ipod|windows phone/i.test(userAgent.toLowerCase());
+        const isMobileUA = /android|ipad|iphone|ipod|windows phone|blackberry|opera mini/i.test(userAgent.toLowerCase());
+        const isMobileWidth = window.innerWidth <= 768;
+        const isTabletWidth = window.innerWidth > 768 && window.innerWidth <= 1024;
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        // FIX: More precise mobile/tablet detection
+        return (isMobileWidth || isTabletWidth) && (isMobileUA || isTouchDevice);
     }
 
+
     console.log('Carousel configuration loaded. Priority: CSS > Method > Default');
+    console.log('Use carouselConfig.setDotColor("#your-color") to override dot colors');
+    console.log('Use carouselConfig.clearMethodOverride() to restore CSS styling');
 
     const svg_prev = `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
 <g id="Icon button desktop Laptop tablet Mobile menu"><circle id="Ellipse 14" cx="16" cy="16" r="16" transform="matrix(-1 0 0 1 33 1)" stroke="#00CCFF" stroke-width="2"/><path id="Arrow 2" d="M25 16C25.5523 16 26 16.4477 26 17C26 17.5523 25.5523 18 25 18L25 16ZM8.29289 17.7071C7.90237 17.3166 7.90237 16.6834 8.29289 16.2929L14.6569 9.92893C15.0474 9.53841 15.6805 9.53841 16.0711 9.92893C16.4616 10.3195 16.4616 10.9526 16.0711 11.3431L10.4142 17L16.0711 22.6569C16.4616 23.0474 16.4616 23.6805 16.0711 24.0711C15.6805 24.4616 15.0474 24.4616 14.6569 24.0711L8.29289 17.7071ZM25 18L9 18L9 16L25 16L25 18Z" stroke-width="0"/></g></svg>`
@@ -146,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function updateDotsAppearance() {
-            debugCarouselState(carousel);
+            // debugCarouselState(carousel);
             const activeDot = dots.querySelector('.owl-dot.active');
 
             // Add validation check
@@ -203,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.carouselConfig.updateSingleDot(dot);
                 });
             } else {
-                // **FIX: Apply styling to all dots when not using scrollable mode**
+                // FIX: Apply styling to all dots when not using scrollable mode
                 allDots.forEach((dot, index) => {
                     dot.classList.remove('adjacent', 'near', 'far', 'transitioning', 'edge-indicator');
 
@@ -336,6 +390,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Scroll top element update
 document.addEventListener('DOMContentLoaded', function () {
+    window.carouselConfig.initMediaQueryListeners();
     const scrollTop = document.getElementById('ast-scroll-top');
     if (scrollTop) {
         scrollTop.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M16 25C16 25.5523 16.4477 26 17 26C17.5523 26 18 25.5523 18 25L16 25ZM17.7071 8.29289C17.3166 7.90237 16.6834 7.90237 16.2929 8.29289L9.92893 14.6569C9.53841 15.0474 9.53841 15.6805 9.92893 16.0711C10.3195 16.4616 10.9526 16.4616 11.3431 16.0711L17 10.4142L22.6569 16.0711C23.0474 16.4616 23.6805 16.4616 24.0711 16.0711C24.4616 15.6805 24.4616 15.0474 24.0711 14.6569L17.7071 8.29289ZM18 25L18 9L16 9L16 25L18 25Z" fill="#1A2C47"></path></svg>';
