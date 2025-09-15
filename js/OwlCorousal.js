@@ -151,16 +151,8 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function isMobileOrTablet() {
-        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        const isMobileUA = /android|ipad|iphone|ipod|windows phone|blackberry|opera mini/i.test(userAgent.toLowerCase());
-        const isMobileWidth = window.innerWidth <= 768;
-        const isTabletWidth = window.innerWidth > 768 && window.innerWidth <= 1024;
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-        // FIX: More precise mobile/tablet detection
-        return (isMobileWidth || isTabletWidth) && (isMobileUA || isTouchDevice);
+        return window.innerWidth <= 1024; // Match CSS breakpoint
     }
-
 
     console.log('Carousel configuration loaded. Priority: CSS > Method > Default');
     console.log('Use carouselConfig.setDotColor("#your-color") to override dot colors');
