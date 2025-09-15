@@ -36,6 +36,12 @@ $contact_us_social_media_image = get_field('acf_contact_us_social_media_image');
 $award_and_recognition_section = get_field('acf_news_hub_awards_and_recognition_section');
 $section_title = $award_and_recognition_section['acf_news_hub_awards_and_recognition_section_title'] ?: '';
 $section_subtitle = $award_and_recognition_section['acf_news_hub_awards_and_recognition_section_description'] ?: '';
+
+
+$events_section = get_field('acf_news_hub_events_and_highlights_section');
+$events_and_highlights_section_main_heading =  $events_section['acf_news_hub_events_and_highlights_section_heading'] ?? '';
+$events_and_highlights_section_sub_heading = $events_section['acf_news_hub_events_and_highlights_sub_heading'] ?? '';
+
 ?>
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -105,14 +111,7 @@ $section_subtitle = $award_and_recognition_section['acf_news_hub_awards_and_reco
                                             <?php echo $banner_sub_heading; ?>
                                         </p>
 
-                                        <?php if ($index == 1 || $index == 2) : ?>
-                                            <!-- For index 1 and 2: Open Vimeo video in a popup -->
-                                            <button class="custom-button play-video-button"
-                                                data-vimeo-url="<?php echo esc_url($banner_button_url); ?>">
-                                                <?php echo esc_html($banner_button_text); ?>
-                                            </button>
-                                        <?php else: ?>
-                                            <!-- For other indexes: Redirect to page URL -->
+                                        <?php if (!empty($banner_button_url)) : ?>
                                             <a href="<?php echo esc_url($banner_button_url); ?>">
                                                 <button class="custom-button">
                                                     <?php echo esc_html($banner_button_text); ?>
@@ -131,8 +130,7 @@ $section_subtitle = $award_and_recognition_section['acf_news_hub_awards_and_reco
                     <p class="has-text-align-center medium-size text-below-homepage-banner">
                         <?php echo ($text_below_banner); ?>
                     </p><a href="<?php echo esc_html($_below_banner_button_url) ?>" class="link-below-the-banner">
-                        <button class="custom-button"
-                            onclick="window.location.href='<?php echo esc_html($_below_banner_button_url) ?>';">
+                        <button class="custom-button" onclick="sendMail(event)">
                             <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M22.3535 0.999878C24.4148 0.999878 26 2.74342 26 4.78503V16.62C26 18.6616 24.4148 20.4052 22.3535 20.4052H4.64648C2.58521 20.4052 1 18.6616 1 16.62V4.78503C1 2.74342 2.58521 0.999878 4.64648 0.999878H22.3535Z" fill="white" stroke="#1A2C47" stroke-width="2" />
                                 <path d="M25 1.99988L14.3399 13.1502C13.8876 13.6941 13.1124 13.6941 12.6601 13.1502L2 1.99988M2 19.4053L10.3343 10.7026M25 19.4053L16.6657 10.7026" stroke="#1A2C47" stroke-width="2" />
@@ -141,6 +139,82 @@ $section_subtitle = $award_and_recognition_section['acf_news_hub_awards_and_reco
                             <?php echo esc_html($button_below_banner); ?>
                         </button>
                     </a>
+                </div>
+
+                <!-- REMOVEME:Spacer -->
+
+                <div class="spacer" style="height: 300px;"></div>
+
+                <!-- DESCRIPTION:Events and Highlights -->
+                <?php
+
+
+
+                $events_section = get_field('acf_news_hub_events_and_highlights_section');
+                $events_and_highlights_section_main_heading =  $events_section['acf_news_hub_events_and_highlights_section_heading'] ?? '';
+                $events_and_highlights_section_sub_heading = $events_section['acf_news_hub_events_and_highlights_sub_heading'] ?? '';
+
+                ?>
+                <div class="events-and-highlights-section">
+                    <div class="our-events-and-highlights-header">
+                        <h2 class="main-header large-size font-bold"><?php echo $events_and_highlights_section_main_heading; ?></h2>
+                        <h3 class="sub-header small-size"><?php echo $events_and_highlights_section_sub_heading; ?></h3>
+
+                    </div>
+                    <div class="card-section">
+                        <div class="main-card" id="mainCard">
+                            <h2 class="main-card-title small-size font-bold" id="mainTitle"></h2>
+                            <div class="main-card-scrollable">
+                                <p class="main-card-content smaller-size" id="mainContent"></p>
+                            </div>
+                            <a href="#" class="main-card-cta service-button-cta underline-on-hover smaller-size">
+                                <span id="mainCtaText"></span>
+                            </a>
+                        </div>
+                        <div class="small-cards owl-carousel">
+
+
+
+                            <?php if (!empty($events_section['acf_news_hub_events_and_highlights_items'])): ?>
+                                <?php foreach ($events_section['acf_news_hub_events_and_highlights_items'] as $index => $item):
+                                    $card_image = $item['acf_news_hub_events_and_highlights_item_image'] ?: '';
+                                    $card_title = $item['acf_news_hub_events_and_highlights_item_card_title'] ?: '';
+                                    $card_description_para1 = $item['acf_news_hub_events_and_highlights_item_card_description_para_1'] ?: '';
+                                    $card_description_para2 = $item['acf_news_hub_events_and_highlights_item_card_description_para_2'] ?: '';
+                                    $card_button_text = $item['acf_news_hub_events_and_highlights_item_card_button_text'] ?: '';
+                                    $card_button_url = $item['acf_news_hub_events_and_highlights_item_card_button_url'] ?: '';
+                                ?>
+
+                                    <div class="item card card-wrapper manual-lazy-load" data-index="<?php echo esc_html($index); ?>"
+                                        data-bg="<?php echo esc_html($card_image); ?>"
+                                        data-title="<?php echo esc_html($card_title); ?>"
+                                        data-desc="<?php echo esc_html($card_description_para1); ?>&lt;br&gt;&lt;br&gt;<?php echo esc_html($card_description_para2); ?>"
+                                        data-cta="<?php echo !empty($card_button_url) ? esc_url($card_button_url) : ''; ?>"
+                                        data-cta-text="<?php echo !empty($card_button_text) ? esc_html($card_button_text) : ''; ?>">
+
+                                        <div class="card-content">
+                                            <h2 class="card-title small-size font-bold"></h2>
+                                            <p class="card-description smaller-size"></p>
+
+                                            <?php if (!empty($card_button_url) && !empty($card_button_text)) : ?>
+                                                <a href="#" class="card-cta service-button-cta underline-on-hover smaller-size">
+                                                    <span></span>
+                                                </a>
+                                            <?php endif; ?>
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <p>No events-and-highlights found.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
                 </div>
 
 
@@ -212,7 +286,7 @@ $section_subtitle = $award_and_recognition_section['acf_news_hub_awards_and_reco
                     <p class="small-size description font-bold"> <?php echo esc_html($contact_us_social_media_sub_heading); ?> </p>
                     <p class="smaller-size sub-line"><?php echo esc_html($contact_us_statement_below_sub_heading); ?></p>
 
-                    <button class="custom-button contact-btn openSubscribeModal" onclick="console.log('clicked'); openSubscribeModal()">
+                    <button class="custom-button contact-btn openSubscribeModal" onclick="sendMail(event)">
                         <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M22.3535 0.999878C24.4148 0.999878 26 2.74342 26 4.78503V16.62C26 18.6616 24.4148 20.4052 22.3535 20.4052H4.64648C2.58521 20.4052 1 18.6616 1 16.62V4.78503C1 2.74342 2.58521 0.999878 4.64648 0.999878H22.3535Z" fill="white" stroke="#1A2C47" stroke-width="2" />
                             <path d="M25 1.99988L14.3399 13.1502C13.8876 13.6941 13.1124 13.6941 12.6601 13.1502L2 1.99988M2 19.4053L10.3343 10.7026M25 19.4053L16.6657 10.7026" stroke="#1A2C47" stroke-width="2" />

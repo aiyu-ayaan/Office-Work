@@ -78,6 +78,7 @@
                 color: var(--adro-deep-blue);
             }
 
+
             button:hover {
                 background-color: var(--adro-deep-blue);
                 color: var(--adro-electric-blue);
@@ -85,6 +86,7 @@
 
             .banner-main-header {
                 margin: 0;
+                text-align: start;
             }
 
             .banner-description {
@@ -225,6 +227,17 @@
             margin-bottom: 0.8em;
             width: 45.84%;
         }
+
+        .link-below-the-banner {
+            text-decoration: none !important;
+
+            button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+            }
+        }
     }
 
     @media (max-height: 650px) {
@@ -290,7 +303,6 @@
 
 
 <script>
-
     const owl = jQuery('.hero-carousel.owl-carousel');
     jQuery(document).ready(function () {
         owl.owlCarousel({
@@ -349,4 +361,16 @@
             owl.trigger("play.owl.autoplay", [5200]);
         }, 100);
     });
+
+   const sendMail = (e) => {
+        e.preventDefault();
+        const postTitle = "";
+        const postUrl = "";
+        const subject = encodeURIComponent("ADROSONIC | Press Release Collaboration");
+        const body = "";
+        const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
+        window.location.href = mailtoLink;
+    }
+
+  
 </script>

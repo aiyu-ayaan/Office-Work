@@ -54,10 +54,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            dot.style.borderColor = '';
-            dot.style.backgroundColor = '';
+            // Clear existing styles
+            dot.style.removeProperty('border-color');
+            dot.style.removeProperty('background-color');
 
+            // **FIX: Check for active class correctly and apply proper styling**
             if (dot.classList.contains('active')) {
+                console.log('Active dot found, applying base color:', baseColor);
                 dot.style.setProperty('background-color', baseColor, 'important');
                 dot.style.setProperty('border-color', baseColor, 'important');
             } else if (dot.classList.contains('adjacent')) {
@@ -74,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 dot.style.setProperty('border-color', this.hexToRgba(baseColor, 0.4), 'important');
                 dot.style.setProperty('background-color', 'transparent', 'important');
             } else {
+                // **FIX: Default styling for non-active dots**
                 dot.style.setProperty('border-color', this.hexToRgba(baseColor, 0.4), 'important');
                 dot.style.setProperty('background-color', 'transparent', 'important');
             }
@@ -116,9 +120,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setupInstagramDots(carousel) {
         const dots = carousel.querySelector('.owl-dots');
-        if (!dots) return;
+        if (!dots) {
+            console.warn('Dots container not found, retrying...');
+            setTimeout(() => setupInstagramDots(carousel), 200);
+            return;
+        }
 
         const allDots = dots.querySelectorAll('.owl-dot');
+        if (allDots.length === 0) {
+            console.warn('No dots found, retrying...');
+            setTimeout(() => setupInstagramDots(carousel), 200);
+            return;
+        }
         const totalSlides = allDots.length;
         let maxVisibleDots = window.innerWidth <= 1024 ? 5 : allDots.length;
 
@@ -133,8 +146,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function updateDotsAppearance() {
+            debugCarouselState(carousel);
             const activeDot = dots.querySelector('.owl-dot.active');
-            if (!activeDot) return;
+
+            // Add validation check
+            if (!activeDot || !dots || !allDots.length) {
+                console.warn('Carousel elements not ready, retrying...');
+                setTimeout(updateDotsAppearance, 100);
+                return;
+            }
+
             const activeIndex = Array.from(allDots).indexOf(activeDot);
 
             if (totalSlides > maxVisibleDots) {
@@ -181,10 +202,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     window.carouselConfig.updateSingleDot(dot);
                 });
+            } else {
+                // **FIX: Apply styling to all dots when not using scrollable mode**
+                allDots.forEach((dot, index) => {
+                    dot.classList.remove('adjacent', 'near', 'far', 'transitioning', 'edge-indicator');
+
+                    const distance = Math.abs(index - activeIndex);
+                    if (distance === 1) dot.classList.add('adjacent');
+                    else if (distance === 2) dot.classList.add('near');
+                    else if (distance > 2) dot.classList.add('far');
+
+                    window.carouselConfig.updateSingleDot(dot);
+                });
             }
         }
 
-        // Rest of your function remains the same...
+        // Initialize dots appearance
         setTimeout(updateDotsAppearance, 50);
 
         const $carousel = jQuery(carousel);
@@ -206,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
 
     function addCustomControls(carousel) {
         let isPlaying = true;
@@ -309,3 +341,11 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollTop.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M16 25C16 25.5523 16.4477 26 17 26C17.5523 26 18 25.5523 18 25L16 25ZM17.7071 8.29289C17.3166 7.90237 16.6834 7.90237 16.2929 8.29289L9.92893 14.6569C9.53841 15.0474 9.53841 15.6805 9.92893 16.0711C10.3195 16.4616 10.9526 16.4616 11.3431 16.0711L17 10.4142L22.6569 16.0711C23.0474 16.4616 23.6805 16.4616 24.0711 16.0711C24.4616 15.6805 24.4616 15.0474 24.0711 14.6569L17.7071 8.29289ZM18 25L18 9L16 9L16 25L18 25Z" fill="#1A2C47"></path></svg>';
     }
 });
+
+function debugCarouselState(carousel) {
+    console.log('Page URL:', window.location.href);
+    console.log('Carousel found:', !!carousel);
+    console.log('Dots container:', !!carousel.querySelector('.owl-dots'));
+    console.log('Dot elements:', carousel.querySelectorAll('.owl-dot').length);
+    console.log('Active dot:', !!carousel.querySelector('.owl-dot.active'));
+}
