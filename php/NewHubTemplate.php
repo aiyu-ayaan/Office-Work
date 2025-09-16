@@ -42,6 +42,12 @@ $events_section = get_field('acf_news_hub_events_and_highlights_section');
 $events_and_highlights_section_main_heading =  $events_section['acf_news_hub_events_and_highlights_section_heading'] ?? '';
 $events_and_highlights_section_sub_heading = $events_section['acf_news_hub_events_and_highlights_sub_heading'] ?? '';
 
+
+// DESCRIPTION:Latest News section
+$latest_news_section = get_field('acf_news_hub_latest_news_section');
+$latest_news_section_main_heading =  $latest_news_section['acf_news_hub_latest_news_section_heading'] ?? '';
+$latest_news_section_sub_heading = $latest_news_section['acf_news_hub_latest_news_sub_heading'] ?? '';
+
 ?>
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -139,6 +145,75 @@ $events_and_highlights_section_sub_heading = $events_section['acf_news_hub_event
                             <?php echo esc_html($button_below_banner); ?>
                         </button>
                     </a>
+                </div>
+
+                <!-- REMOVEME:Spacer -->
+
+                <div class="spacer" style="height: 300px;"></div>
+
+
+                <!-- DESCRIPTION:Latest News -->
+
+                <div class="latest-news-section">
+                    <div class="our-latest-news-header">
+                        <h2 class="main-header large-size font-bold"><?php echo $latest_news_section_main_heading; ?></h2>
+                        <h3 class="sub-header small-size"><?php echo $latest_news_section_sub_heading; ?></h3>
+
+                    </div>
+                    <div class="card-section">
+                        <div class="main-card" id="mainCard">
+                            <h2 class="main-card-title small-size font-bold" id="mainTitle"></h2>
+                            <div class="main-card-scrollable">
+                                <p class="main-card-content smaller-size" id="mainContent"></p>
+                            </div>
+                            <a href="#" class="main-card-cta service-button-cta underline-on-hover smaller-size">
+                                <span id="mainCtaText"></span>
+                            </a>
+                        </div>
+                        <div class="small-cards owl-carousel">
+
+
+
+                            <?php if (!empty($latest_news_section['acf_news_hub_latest_news_items'])): ?>
+                                <?php foreach ($latest_news_section['acf_news_hub_latest_news_items'] as $index => $item):
+                                    $card_image = $item['acf_news_hub_latest_news_item_image'] ?: '';
+                                    $card_title = $item['acf_news_hub_latest_news_item_card_title'] ?: '';
+                                    $card_description_para1 = $item['acf_news_hub_latest_news_item_card_description_para_1'] ?: '';
+                                    $card_description_para2 = $item['acf_news_hub_latest_news_item_card_description_para_2'] ?: '';
+                                    $card_button_text = $item['acf_news_hub_latest_news_item_card_button_text'] ?: '';
+                                    $card_button_url = $item['acf_news_hub_latest_news_item_card_button_url'] ?: '';
+                                ?>
+
+                                    <div class="item card card-wrapper manual-lazy-load" data-index="<?php echo esc_html($index); ?>"
+                                        data-bg="<?php echo esc_html($card_image); ?>"
+                                        data-title="<?php echo esc_html($card_title); ?>"
+                                        data-desc="<?php echo esc_html($card_description_para1); ?>&lt;br&gt;&lt;br&gt;<?php echo esc_html($card_description_para2); ?>"
+                                        data-cta="<?php echo !empty($card_button_url) ? esc_url($card_button_url) : ''; ?>"
+                                        data-cta-text="<?php echo !empty($card_button_text) ? esc_html($card_button_text) : ''; ?>">
+
+                                        <div class="card-content">
+                                            <h2 class="card-title small-size font-bold"></h2>
+                                            <p class="card-description smaller-size"></p>
+
+                                            <?php if (!empty($card_button_url) && !empty($card_button_text)) : ?>
+                                                <a href="#" class="card-cta service-button-cta underline-on-hover smaller-size">
+                                                    <span></span>
+                                                </a>
+                                            <?php endif; ?>
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <p>No latest-news found.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- REMOVEME:Spacer -->

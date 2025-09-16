@@ -123,16 +123,16 @@ button {
   }
 }
 
-/* .our-offerings-container .our-offerings-container-inner .carousel-controls,
+.our-offerings-container .our-offerings-container-inner .carousel-controls,
 .about-our-people .carousel-controls {
-    .owl-dots .owl-dot.active {
-        background-color: white !important;
-    }
+  .owl-dots .owl-dot.active {
+    background-color: white !important;
+  }
 
-    .owl-dots .owl-dot {
-        border-color: white !important;
-    }
-} */
+  .owl-dots .owl-dot {
+    border-color: white !important;
+  }
+}
 
 #playPauseBtn {
   flex: 0 0 auto;
@@ -210,28 +210,28 @@ button {
 }
 
 .swiper-pagination,
-/* .owl-carousel .owl-dots { 
-    position: static;
+.owl-carousel .owl-dots {
+  position: static;
 
-    background: none;
-    border: 2px solid;
-    border-color: var(--adro-electric-blue);
-    border-radius: 24px;
-    padding: 8px 22px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    align-self: start;
-    width: auto !important;
-    transform: translate(0, 0) !important;
+  background: none;
+  border: 2px solid;
+  border-color: var(--adro-electric-blue);
+  border-radius: 24px;
+  padding: 8px 22px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  align-self: start;
+  width: auto !important;
+  transform: translate(0, 0) !important;
 }
 
 @media screen and (min-width: 1024px) {
 
-    .swiper-pagination,
-    .owl-carousel .owl-dots {
-        background: rgba(53, 74, 96, 0.6);
-    }
+  .swiper-pagination,
+  .owl-carousel .owl-dots {
+    background: rgba(53, 74, 96, 0.6);
+  }
 }
 
 /* only for platform partners */
@@ -271,7 +271,7 @@ button {
 .technology-prowess-container .carousel-controls .owl-dots .owl-dot.active,
 .worldwide-offices-section .carousel-controls .owl-dots .owl-dot.active,
 .about-our-people .carousel-controls .owl-dots .owl-dot.active {
-  /* background-color: #fff !important; */
+  background-color: #fff !important;
 }
 
 @media all and (max-width: 1024px) {
@@ -307,7 +307,15 @@ button {
   .worldwide-offices-section .carousel-controls .owl-dots .owl-dot {
     width: 12px !important;
     height: 12px !important;
-    border-radius: 50% !important;
+    border-radius: 50%;
+    background-color: rgb(0, 0, 0, 0) !important;
+    border: 2px solid var(--adro-electric-blue) !important;
+    display: block;
+
+    background: 0 0;
+    color: inherit;
+    padding: 0 !important;
+    font: inherit;
 
     span {
       display: none;
@@ -323,13 +331,13 @@ button {
   .our-offerings-container .carousel-controls .owl-dots .owl-dot.active,
   .technology-prowess-container .carousel-controls .owl-dots .owl-dot.active,
   .worldwide-offices-section .carousel-controls .owl-dots .owl-dot.active {
-    /* background-color: var(--adro-electric-blue) !important; */
+    background-color: var(--adro-electric-blue) !important;
     transform: scale(1.333);
   }
 
-  /* .technology-prowess-container .carousel-controls .owl-dots .owl-dot.active {
-        background-color: var(--adro-deep-blue) !important;
-    } */
+  .technology-prowess-container .carousel-controls .owl-dots .owl-dot.active {
+    background-color: var(--adro-deep-blue) !important;
+  }
 }
 
 .e-n-carousel.swiper {
@@ -1488,7 +1496,7 @@ html.no-scroll {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    /* overflow: hidden; */
     transition: all 0.3s ease;
   }
 
