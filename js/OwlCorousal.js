@@ -624,14 +624,22 @@ function setupCompleteCarouselControls(carousel, options = {}) {
 
 
 // Global carousel utility functions
+// Global carousel utility functions
 window.CarouselUtils = window.CarouselUtils || {};
 
 // Global function to apply custom dot color to specific carousel
-window.CarouselUtils.applyCustomDotColor = function (carousel, hexColor) {
+window.CarouselUtils.applyCustomDotColor = function (carousel, hexColor, options = {}) {
     if (!carousel || !hexColor) {
         console.warn('[CarouselUtils] Missing carousel element or hex color');
         return false;
     }
+
+    // Default options
+    const config = {
+        mobileOnly: true,
+        mobileBreakpoint: 1024,
+        ...options
+    };
 
     // Validate hex color format
     if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexColor)) {
@@ -652,10 +660,10 @@ window.CarouselUtils.applyCustomDotColor = function (carousel, hexColor) {
 
     // Function to update a specific dot with custom color
     function updateDotWithCustomColor(dot) {
-        const isMobile = window.innerWidth <= 1024;
+        const isMobile = window.innerWidth <= config.mobileBreakpoint;
 
-        // Only apply on mobile/tablet (same logic as global carouselConfig)
-        if (!isMobile) {
+        // Apply mobile restriction only if mobileOnly is true
+        if (config.mobileOnly && !isMobile) {
             dot.style.removeProperty('border-color');
             dot.style.removeProperty('background-color');
             return;
@@ -687,7 +695,7 @@ window.CarouselUtils.applyCustomDotColor = function (carousel, hexColor) {
     function applyColorsWithRetry(retryCount = 0) {
         const dots = carousel.querySelectorAll('.owl-dot');
 
-        if (dots.length === 0 && retryCount < 10) {
+        if (dots.length === 0 && retryCount < 15) {
             // Dots not ready yet, retry after a short delay
             setTimeout(() => applyColorsWithRetry(retryCount + 1), 100);
             return;
@@ -747,6 +755,64 @@ window.CarouselUtils.applyCustomDotColor = function (carousel, hexColor) {
         }, 50);
     });
 
+    // IMPORTANT: Handle dot clicks specifically
+    function handleDotClick() {
+        setTimeout(() => {
+            const updatedDots = carousel.querySelectorAll('.owl-dot');
+            updatedDots.forEach(updateDotWithCustomColor);
+        }, 100); // Longer delay for dot clicks
+    }
+
+    // Remove existing dot click listener if exists
+    if (carousel._dotClickHandler) {
+        carousel.removeEventListener('click', carousel._dotClickHandler);
+    }
+
+    // Add new dot click handler
+    carousel._dotClickHandler = function (event) {
+        if (event.target.classList.contains('owl-dot') || event.target.parentElement.classList.contains('owl-dot')) {
+            handleDotClick();
+        }
+    };
+    carousel.addEventListener('click', carousel._dotClickHandler);
+
+    // Also handle MutationObserver for DOM changes (when dots are rebuilt)
+    if (carousel._colorObserver) {
+        carousel._colorObserver.disconnect();
+    }
+
+    carousel._colorObserver = new MutationObserver(function (mutations) {
+        let shouldUpdate = false;
+        mutations.forEach(function (mutation) {
+            if (mutation.type === 'childList') {
+                // Check if dots were added or removed
+                const addedNodes = Array.from(mutation.addedNodes);
+                const removedNodes = Array.from(mutation.removedNodes);
+
+                if (addedNodes.some(node => node.classList && node.classList.contains('owl-dot')) ||
+                    removedNodes.some(node => node.classList && node.classList.contains('owl-dot'))) {
+                    shouldUpdate = true;
+                }
+            }
+        });
+
+        if (shouldUpdate) {
+            setTimeout(() => {
+                const updatedDots = carousel.querySelectorAll('.owl-dot');
+                updatedDots.forEach(updateDotWithCustomColor);
+            }, 150);
+        }
+    });
+
+    // Observe the dots container for changes
+    const dotsContainer = carousel.querySelector('.owl-dots');
+    if (dotsContainer) {
+        carousel._colorObserver.observe(dotsContainer, {
+            childList: true,
+            subtree: true
+        });
+    }
+
     // Store the color and namespace on the carousel element for cleanup
     carousel._customDotColor = hexColor;
     carousel._customDotNamespace = colorNamespace;
@@ -767,7 +833,7 @@ window.CarouselUtils.refreshCustomDotColor = function (carousel) {
     return true;
 };
 
-// Rest of the functions remain the same...
+// Updated cleanup function
 window.CarouselUtils.removeCustomDotColor = function (carousel) {
     if (!carousel) return false;
 
@@ -785,6 +851,18 @@ window.CarouselUtils.removeCustomDotColor = function (carousel) {
         $carousel.off(`translated.owl.carousel.${carousel._customDotNamespace}`);
         $carousel.off(`resized.owl.carousel.${carousel._customDotNamespace}`);
         $carousel.off(`refreshed.owl.carousel.${carousel._customDotNamespace}`);
+    }
+
+    // Remove dot click handler
+    if (carousel._dotClickHandler) {
+        carousel.removeEventListener('click', carousel._dotClickHandler);
+        delete carousel._dotClickHandler;
+    }
+
+    // Disconnect observer
+    if (carousel._colorObserver) {
+        carousel._colorObserver.disconnect();
+        delete carousel._colorObserver;
     }
 
     // Clean up stored properties

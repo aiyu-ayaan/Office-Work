@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 const carousel = carouselContainer[0];
                 // print the carousel object to verify using log
-                console.log('From Above');
+                
 
                 console.log(carousel);
                 if (carousel && jQuery(carousel).data('owl.carousel')) {
@@ -564,7 +564,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 500);
 
     function applyDotColorsDirectly() {
-        console.log('Attempting direct color application...');
+        
 
         // Wait for dots to exist with multiple attempts
         let attempts = 0;
@@ -575,11 +575,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const carouselElement = document.querySelector('.our-offerings-container .owl-carousel');
             const dots = document.querySelectorAll('.our-offerings-container .owl-dots .owl-dot');
 
-            console.log(`Attempt ${attempts}: Found ${dots.length} dots`);
+            
 
             if (dots.length > 0) {
                 // SUCCESS - Apply colors
-                console.log('Applying white colors to dots...');
+                
 
                 // Add CSS class to carousel for targeting
                 if (carouselElement) {
@@ -587,24 +587,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 // Apply colors directly to each dot
-                dots.forEach((dot, index) => {
-                    console.log(`Styling dot ${index}`);
-
-                    // Base styling for all dots
-                    dot.style.setProperty('width', '12px', 'important');
-                    dot.style.setProperty('height', '12px', 'important');
-                    dot.style.setProperty('border-radius', '50%', 'important');
-                    dot.style.setProperty('border', '2px solid rgba(255, 255, 255, 0.4)', 'important');
-                    dot.style.setProperty('background-color', 'transparent', 'important');
-                    dot.style.setProperty('margin', '0 4px', 'important');
-                    dot.style.setProperty('transition', 'all 0.3s ease', 'important');
-
-                    // Active dot styling
-                    if (dot.classList.contains('active')) {
-                        dot.style.setProperty('background-color', '#FFFFFF', 'important');
-                        dot.style.setProperty('border-color', '#FFFFFF', 'important');
-                    }
-                });
+                applyDotStyles(dots);
 
                 // Set up event listeners for carousel changes
                 setupDotEventListeners(carouselElement);
@@ -614,7 +597,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 setTimeout(tryColorApplication, 100);
             } else {
                 // FAILED - No dots found after all attempts
-                console.log('No dots found after all attempts, adding CSS fallback...');
+                
                 addCSSFallback();
             }
         }
@@ -623,46 +606,135 @@ document.addEventListener("DOMContentLoaded", function () {
         tryColorApplication();
     }
 
+    // Separate function to apply dot styles
+    function applyDotStyles(dots) {
+        dots.forEach((dot, index) => {
+            
+
+            // Base styling for all dots
+            dot.style.setProperty('width', '12px', 'important');
+            dot.style.setProperty('height', '12px', 'important');
+            dot.style.setProperty('border-radius', '50%', 'important');
+            dot.style.setProperty('margin', '0 4px', 'important');
+            dot.style.setProperty('transition', 'all 0.3s ease', 'important');
+
+            // Apply color based on active state
+            if (dot.classList.contains('active')) {
+                dot.style.setProperty('background-color', '#FFFFFF', 'important');
+                dot.style.setProperty('border', '2px solid #FFFFFF', 'important');
+            } else {
+                dot.style.setProperty('background-color', 'transparent', 'important');
+                dot.style.setProperty('border', '2px solid rgba(255, 255, 255, 0.4)', 'important');
+            }
+        });
+    }
+
     function setupDotEventListeners(carouselElement) {
         if (!carouselElement) return;
 
-        console.log('Setting up event listeners...');
+        
 
         // Function to update active dot colors
         function updateActiveDot() {
             const dots = document.querySelectorAll('.our-offerings-container .owl-dots .owl-dot');
-            dots.forEach(dot => {
-                if (dot.classList.contains('active')) {
-                    dot.style.setProperty('background-color', '#FFFFFF', 'important');
-                    dot.style.setProperty('border-color', '#FFFFFF', 'important');
-                } else {
-                    dot.style.setProperty('background-color', 'transparent', 'important');
-                    dot.style.setProperty('border-color', 'rgba(255, 255, 255, 0.4)', 'important');
-                }
-            });
+            applyDotStyles(dots);
         }
 
-        // Listen for carousel events
+        // Listen for carousel events with immediate response
         const $carousel = jQuery(carouselElement);
-        $carousel.on('changed.owl.carousel.dotColor', updateActiveDot);
-        $carousel.on('translated.owl.carousel.dotColor', updateActiveDot);
-        $carousel.on('refreshed.owl.carousel.dotColor', updateActiveDot);
 
-        // Listen for dot clicks
-        document.addEventListener('click', function (e) {
-            if (e.target.classList.contains('owl-dot')) {
-                setTimeout(updateActiveDot, 50);
-            }
+        // Remove existing listeners to prevent duplicates
+        $carousel.off('changed.owl.carousel.dotColor');
+        $carousel.off('translated.owl.carousel.dotColor');
+        $carousel.off('refreshed.owl.carousel.dotColor');
+
+        // Add listeners with immediate execution (no delay)
+        $carousel.on('changed.owl.carousel.dotColor', function () {
+            updateActiveDot(); // Immediate
+            setTimeout(updateActiveDot, 10); // Quick backup
         });
+
+        $carousel.on('translated.owl.carousel.dotColor', function () {
+            updateActiveDot(); // Immediate
+            setTimeout(updateActiveDot, 10); // Quick backup
+        });
+
+        $carousel.on('refreshed.owl.carousel.dotColor', function () {
+            updateActiveDot(); // Immediate
+            setTimeout(updateActiveDot, 10); // Quick backup
+        });
+
+        // Enhanced dot click handling
+        function handleDotClick(e) {
+            if (e.target.classList.contains('owl-dot') ||
+                e.target.parentElement?.classList.contains('owl-dot') ||
+                e.target.closest('.owl-dot')) {
+
+                
+
+                // Apply colors immediately on click
+                updateActiveDot();
+
+                // Apply multiple times to ensure it sticks
+                setTimeout(updateActiveDot, 1);
+                setTimeout(updateActiveDot, 10);
+                setTimeout(updateActiveDot, 50);
+                setTimeout(updateActiveDot, 100);
+            }
+        }
+
+        // Remove existing click listener if any
+        if (carouselElement._dotClickHandler) {
+            carouselElement.removeEventListener('click', carouselElement._dotClickHandler);
+        }
+
+        // Add new click listener
+        carouselElement._dotClickHandler = handleDotClick;
+        carouselElement.addEventListener('click', handleDotClick);
+
+        // Also listen on the dots container directly
+        const dotsContainer = carouselElement.querySelector('.owl-dots');
+        if (dotsContainer) {
+            dotsContainer.addEventListener('click', handleDotClick);
+        }
 
         // Listen for window resize
         window.addEventListener('resize', function () {
             setTimeout(updateActiveDot, 100);
         });
+
+        // Use MutationObserver to catch when dots are rebuilt
+        if (carouselElement._observer) {
+            carouselElement._observer.disconnect();
+        }
+
+        carouselElement._observer = new MutationObserver(function (mutations) {
+            let dotsChanged = false;
+            mutations.forEach(function (mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    if (mutation.target.classList.contains('owl-dot')) {
+                        dotsChanged = true;
+                    }
+                }
+            });
+
+            if (dotsChanged) {
+                updateActiveDot();
+            }
+        });
+
+        // Observe the dots container for attribute changes
+        const dots = carouselElement.querySelectorAll('.owl-dot');
+        dots.forEach(dot => {
+            carouselElement._observer.observe(dot, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        });
     }
 
     function addCSSFallback() {
-        console.log('Adding CSS fallback...');
+        
 
         // Create and inject CSS
         const style = document.createElement('style');
@@ -702,21 +774,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 100);
         }
 
-        // Reapply colors after moving elements
-        setTimeout(() => {
-            const dots = document.querySelectorAll('.our-offerings-container .owl-dots .owl-dot');
-            dots.forEach(dot => {
-                if (dot.classList.contains('active')) {
-                    dot.style.setProperty('background-color', '#FFFFFF', 'important');
-                    dot.style.setProperty('border-color', '#FFFFFF', 'important');
-                } else {
-                    dot.style.setProperty('background-color', 'transparent', 'important');
-                    dot.style.setProperty('border-color', 'rgba(255, 255, 255, 0.4)', 'important');
-                }
-            });
-        }, 200);
+        // Reapply colors after moving elements (immediate + backup)
+        const dots = document.querySelectorAll('.our-offerings-container .owl-dots .owl-dot');
+        applyDotStyles(dots);
+        setTimeout(() => applyDotStyles(dots), 50);
+        setTimeout(() => applyDotStyles(dots), 200);
     }
 });
+
 
 
 
@@ -727,6 +792,16 @@ jQuery(window).ready(function () {
     const descriptionText = jQuery(
         ".platform-partners-carousel .description-text"
     );
+
+    function applyCustomDotColors() {
+        const carousel = owl[0];
+        if (carousel && window.CarouselUtils && window.CarouselUtils.applyCustomDotColor) {
+            window.CarouselUtils.applyCustomDotColor(carousel, '#1a2c47', {
+                mobileOnly: false
+            });
+        }
+    }
+
     function updateSlideButtonVisibility() {
         // Hide all slide buttons by default
         jQuery(".platform-partners-carousel .owl-carousel .slide button").css({
@@ -755,7 +830,6 @@ jQuery(window).ready(function () {
         // Also update the button visibility whenever description changes
         updateSlideButtonVisibility();
         updatePlatformPartnersButton();
-
     }
 
     function updatePlatformPartnersButton() {
@@ -795,16 +869,15 @@ jQuery(window).ready(function () {
 
         if (dotsContainer.length) {
             descriptionBlock.insertBefore(dotsContainer);
-            button.insertAfter(descriptionBlock); // insert button immediately after description
+            button.insertAfter(descriptionBlock);
         } else {
             const navContainer = jQuery(".platform-partners-carousel .owl-carousel .owl-nav");
             if (navContainer.length) {
                 descriptionBlock.insertBefore(navContainer);
-                button.insertAfter(descriptionBlock); // insert button immediately after description
+                button.insertAfter(descriptionBlock);
             }
         }
     }
-
 
     function initializePlatformPartnersCarousel() {
         owl.owlCarousel({
@@ -813,13 +886,25 @@ jQuery(window).ready(function () {
                 updateDescriptionText();
                 insertDescriptionText();
                 updateSlideButtonVisibility();
+                // Apply custom colors immediately after initialization
+                setTimeout(applyCustomDotColors, 50);
             },
             onChanged: function (event) {
                 updatePlatformPartnersDots(event);
                 setTimeout(function () {
                     updateDescriptionText();
                     updateSlideButtonVisibility();
+                    // Apply custom colors after each change
+                    applyCustomDotColors();
                 }, 300);
+            },
+            // Add this new callback for when dots are refreshed
+            onRefreshed: function (event) {
+                setTimeout(applyCustomDotColors, 50);
+            },
+            // Add this callback for translate events (includes dot clicks)
+            onTranslate: function (event) {
+                setTimeout(applyCustomDotColors, 100);
             },
             loop: true,
             autoplay: true,
@@ -884,18 +969,11 @@ jQuery(window).ready(function () {
         };
         jQuery(owl).trigger("refresh.owl.carousel");
         jQuery(owl).data("owl.carousel").options.responsive = newResponsive;
+        // Apply colors after responsive update
+        setTimeout(applyCustomDotColors, 100);
     }
 
     initializePlatformPartnersCarousel();
-
-    setTimeout(() => {
-        const carousel = owl[0];
-        if (carousel && window.CarouselUtils && window.CarouselUtils.applyCustomDotColor) {
-            window.CarouselUtils.applyCustomDotColor(carousel, '#1a2c47', {
-                mobileOnly: false
-            });
-        }
-    }, 500);
 
     let resizeTimeout;
     jQuery(window).on("resize", function () {
@@ -912,6 +990,11 @@ jQuery(window).ready(function () {
         }, 100);
     });
 
+    // Add event listener specifically for dot clicks
+    owl.on('click', '.owl-dot', function () {
+        setTimeout(applyCustomDotColors, 150);
+    });
+
     function updatePlatformPartnersDots(event) {
         const totalItems = event.item.count;
         const dotsContainer = jQuery(
@@ -926,7 +1009,6 @@ jQuery(window).ready(function () {
         }
     }
 });
-
 // about RPA
 function rearrangeHeader() {
     const sectionHeader = document.querySelector(
