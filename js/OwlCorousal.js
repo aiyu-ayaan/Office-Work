@@ -181,10 +181,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalSlides = allDots.length;
         let maxVisibleDots = window.innerWidth <= 1024 ? 5 : allDots.length;
 
-        // Add scrollable class if more than 5 slides
-        if (totalSlides > maxVisibleDots) {
+        // FIXED: Only apply scrollable behavior and size variations when more than 5 slides
+        const shouldApplyInstagramStyle = totalSlides > 5;
+
+        if (shouldApplyInstagramStyle && totalSlides > maxVisibleDots) {
             dots.classList.add('scrollable-dots');
-            // Hide all dots initially
             allDots.forEach(dot => {
                 dot.style.display = 'none';
             });
@@ -196,10 +197,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const activeIndex = Array.from(allDots).indexOf(activeDot);
 
-            if (totalSlides > maxVisibleDots) {
+            if (shouldApplyInstagramStyle && totalSlides > maxVisibleDots) {
+                // Instagram-style behavior for carousels with MORE than 5 items
                 let startIndex, endIndex;
 
-                // Calculate visible dot range
                 if (activeIndex <= 2) {
                     startIndex = 0;
                     endIndex = Math.min(maxVisibleDots - 1, totalSlides - 1);
@@ -211,12 +212,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     endIndex = activeIndex + 2;
                 }
 
-                // Show/hide dots
                 allDots.forEach((dot, index) => {
                     dot.style.display = (index >= startIndex && index <= endIndex) ? 'block' : 'none';
                 });
 
-                // Apply classes to visible dots
                 const visibleDots = Array.from(allDots).slice(startIndex, endIndex + 1);
                 const activeIndexInVisible = activeIndex - startIndex;
 
@@ -238,21 +237,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.carouselConfig.updateSingleDot(dot);
                 });
             } else {
-                // Show all dots and apply styling
+                // FIXED: For carousels with 5 or FEWER items - NO size variations
                 allDots.forEach((dot, index) => {
+                    dot.style.display = 'block';
+
+                    // IMPORTANT: Remove all size-variation classes
                     dot.classList.remove('adjacent', 'near', 'far', 'transitioning', 'edge-indicator');
 
-                    const distance = Math.abs(index - activeIndex);
-                    if (distance === 1) dot.classList.add('adjacent');
-                    else if (distance === 2) dot.classList.add('near');
-                    else if (distance > 2) dot.classList.add('far');
-
+                    // Only apply color styling, no size variations
                     window.carouselConfig.updateSingleDot(dot);
                 });
             }
         }
 
-        // Initialize dots appearance
         setTimeout(updateDotsAppearance, 50);
 
         const $carousel = jQuery(carousel);
@@ -268,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
 
     function addCustomControls(carousel) {
         let isPlaying = true;
