@@ -248,9 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 const carousel = carouselContainer[0];
                 // print the carousel object to verify using log
-                
 
-                console.log(carousel);
                 if (carousel && jQuery(carousel).data('owl.carousel')) {
                     // Use the global reusable function
                     if (typeof setupCompleteCarouselControls === 'function') {
@@ -564,7 +562,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 500);
 
     function applyDotColorsDirectly() {
-        
+
 
         // Wait for dots to exist with multiple attempts
         let attempts = 0;
@@ -575,11 +573,11 @@ document.addEventListener("DOMContentLoaded", function () {
             const carouselElement = document.querySelector('.our-offerings-container .owl-carousel');
             const dots = document.querySelectorAll('.our-offerings-container .owl-dots .owl-dot');
 
-            
+
 
             if (dots.length > 0) {
                 // SUCCESS - Apply colors
-                
+
 
                 // Add CSS class to carousel for targeting
                 if (carouselElement) {
@@ -597,7 +595,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 setTimeout(tryColorApplication, 100);
             } else {
                 // FAILED - No dots found after all attempts
-                
+
                 addCSSFallback();
             }
         }
@@ -609,7 +607,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Separate function to apply dot styles
     function applyDotStyles(dots) {
         dots.forEach((dot, index) => {
-            
+
 
             // Base styling for all dots
             dot.style.setProperty('width', '12px', 'important');
@@ -632,7 +630,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function setupDotEventListeners(carouselElement) {
         if (!carouselElement) return;
 
-        
+
 
         // Function to update active dot colors
         function updateActiveDot() {
@@ -670,7 +668,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.target.parentElement?.classList.contains('owl-dot') ||
                 e.target.closest('.owl-dot')) {
 
-                
+
 
                 // Apply colors immediately on click
                 updateActiveDot();
@@ -734,7 +732,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function addCSSFallback() {
-        
+
 
         // Create and inject CSS
         const style = document.createElement('style');

@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             this.methodCalled = false;
             this.dotColor = '#00ccff';
             this.clearAllCustomStyles();
-            console.log('Reset to default color (#FFFFFF) and cleared method override');
+            console.log('Reset to default color (#00ccff) and cleared method override');
         },
 
         clearMethodOverride: function () {
@@ -357,6 +357,7 @@ function debugCarouselState(carousel) {
 
 
 // Reusable Instagram-style dots function
+// Reusable Instagram-style dots function
 function setupCarouselInstagramDots(carousel, options = {}) {
     // Default options
     const defaultOptions = {
@@ -398,8 +399,11 @@ function setupCarouselInstagramDots(carousel, options = {}) {
     const totalSlides = allDots.length;
     let maxVisibleDots = window.innerWidth <= config.mobileBreakpoint ? config.maxVisibleDots : allDots.length;
 
-    // Add scrollable class if more than maxVisibleDots slides
-    if (totalSlides > maxVisibleDots) {
+    // FIXED: Only apply Instagram styling when more than 5 items
+    const shouldApplyInstagramStyle = totalSlides > 5;
+
+    // Add scrollable class if more than maxVisibleDots slides AND more than 5 total
+    if (shouldApplyInstagramStyle && totalSlides > maxVisibleDots) {
         dots.classList.add('scrollable-dots');
 
         // Hide all dots initially
@@ -420,7 +424,8 @@ function setupCarouselInstagramDots(carousel, options = {}) {
 
         const activeIndex = Array.from(allDots).indexOf(activeDot);
 
-        if (totalSlides > maxVisibleDots) {
+        if (shouldApplyInstagramStyle && totalSlides > maxVisibleDots) {
+            // Instagram-style behavior for carousels with MORE than 5 items
             let startIndex, endIndex;
 
             // Calculate visible range
@@ -443,7 +448,7 @@ function setupCarouselInstagramDots(carousel, options = {}) {
                 dot.style.display = (index >= startIndex && index <= endIndex) ? 'block' : 'none';
             });
 
-            // Apply classes to visible dots
+            // Apply classes to visible dots with size variations
             const visibleDots = Array.from(allDots).slice(startIndex, endIndex + 1);
             const activeIndexInVisible = activeIndex - startIndex;
 
@@ -459,7 +464,7 @@ function setupCarouselInstagramDots(carousel, options = {}) {
                 } else if (endIndex < totalSlides - 1 && index === visibleDots.length - 1) {
                     dot.classList.add('edge-indicator');
                 } else {
-                    // Add distance-based classes
+                    // Add distance-based classes for size variations
                     if (distance === 1) dot.classList.add('adjacent');
                     else if (distance === 2) dot.classList.add('near');
                     else if (distance > 2) dot.classList.add('far');
@@ -471,15 +476,15 @@ function setupCarouselInstagramDots(carousel, options = {}) {
                 }
             });
         } else {
-            // All dots visible - apply styling to all
+            // FIXED: For carousels with 5 or FEWER items - NO size variations
+            // All dots visible with uniform styling (same size)
             allDots.forEach((dot, index) => {
+                dot.style.display = 'block'; // Make sure all dots are visible
+
+                // IMPORTANT: Remove all size-variation classes
                 dot.classList.remove('adjacent', 'near', 'far', 'transitioning', 'edge-indicator');
 
-                const distance = Math.abs(index - activeIndex);
-                if (distance === 1) dot.classList.add('adjacent');
-                else if (distance === 2) dot.classList.add('near');
-                else if (distance > 2) dot.classList.add('far');
-
+                // Only apply color styling, no size variations
                 if (window.carouselConfig && typeof window.carouselConfig.updateSingleDot === 'function') {
                     window.carouselConfig.updateSingleDot(dot);
                 }
@@ -523,6 +528,7 @@ function setupCarouselInstagramDots(carousel, options = {}) {
     log('Instagram dots setup completed successfully');
     return true;
 }
+
 
 // Helper function to apply custom carousel controls
 function applyCarouselCustomControls(carousel, options = {}) {
@@ -875,3 +881,67 @@ window.CarouselUtils.removeCustomDotColor = function (carousel) {
 window.CarouselUtils.getCurrentDotColor = function (carousel) {
     return carousel && carousel._customDotColor ? carousel._customDotColor : null;
 };
+
+
+
+// Global dot color utility function
+window.applyCarouselDotColors = function (carouselElement, hexColor) {
+    if (!carouselElement || !hexColor) {
+        console.warn('[applyCarouselDotColors] Missing carousel element or hex color');
+        return false;
+    }
+
+    // Helper function to convert hex to rgba
+    function hexToRgba(hex, alpha) {
+        // Remove # if present
+        hex = hex.replace('#', '');
+
+        // Handle 3-character hex codes
+        if (hex.length === 3) {
+            hex = hex.split('').map(char => char + char).join('');
+        }
+
+        const r = parseInt(hex.slice(0, 2), 16);
+        const g = parseInt(hex.slice(2, 4), 16);
+        const b = parseInt(hex.slice(4, 6), 16);
+
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    // Function to apply dot colors
+    function applyDotColors() {
+        const dots = carouselElement.querySelectorAll('.owl-dot');
+        dots.forEach(dot => {
+            if (dot.classList.contains('active')) {
+                dot.style.setProperty('background-color', hexColor, 'important');
+                dot.style.setProperty('border', `2px solid ${hexColor}`, 'important');
+            } else {
+                dot.style.setProperty('background-color', 'transparent', 'important');
+                dot.style.setProperty('border', `2px solid ${hexToRgba(hexColor, 0.4)}`, 'important');
+            }
+        });
+    }
+
+    // Apply colors immediately
+    applyDotColors();
+
+    // Apply colors on carousel events and dot clicks
+    const $carousel = jQuery(carouselElement);
+    const namespace = `dotColors.${Date.now()}`;
+
+    $carousel.on(`changed.owl.carousel.${namespace} translated.owl.carousel.${namespace}`, applyDotColors);
+
+    // Handle dot clicks immediately
+    carouselElement.addEventListener('click', function (e) {
+        if (e.target.closest('.owl-dot')) {
+            applyDotColors();
+            setTimeout(applyDotColors, 10);
+            setTimeout(applyDotColors, 50);
+        }
+    });
+
+    console.log(`[applyCarouselDotColors] Applied ${hexColor} to carousel dots`);
+    return true;
+};
+
+
