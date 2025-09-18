@@ -944,4 +944,55 @@ window.applyCarouselDotColors = function (carouselElement, hexColor) {
     return true;
 };
 
+// Function to apply colors to custom pagination dots (not owl-carousel)
+function applyCustomDotColors(dotsContainer, hexColor) {
+    if (!dotsContainer || !hexColor) {
+        console.warn('[CustomDots] Missing dots container or hex color');
+        return false;
+    }
+
+    // Helper function to convert hex to rgba
+    function hexToRgba(hex, alpha) {
+        // Remove # if present
+        hex = hex.replace('#', '');
+
+        // Handle 3-character hex codes
+        if (hex.length === 3) {
+            hex = hex.split('').map(char => char + char).join('');
+        }
+
+        const r = parseInt(hex.slice(0, 2), 16);
+        const g = parseInt(hex.slice(2, 4), 16);
+        const b = parseInt(hex.slice(4, 6), 16);
+
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    // Function to apply colors to dots
+    function updateDotColors() {
+        const dots = dotsContainer.querySelectorAll('.dot');
+        dots.forEach(dot => {
+            if (dot.classList.contains('active')) {
+                dot.style.setProperty('background-color', hexColor, 'important');
+                dot.style.setProperty('border', `2px solid ${hexColor}`, 'important');
+            } else {
+                dot.style.setProperty('background-color', 'transparent', 'important');
+                dot.style.setProperty('border', `2px solid ${hexToRgba(hexColor, 0.4)}`, 'important');
+            }
+
+            // Base styling to match carousel dots
+            dot.style.setProperty('width', '12px', 'important');
+            dot.style.setProperty('height', '12px', 'important');
+            dot.style.setProperty('border-radius', '50%', 'important');
+            dot.style.setProperty('margin', '0 4px', 'important');
+            dot.style.setProperty('transition', 'all 0.3s ease', 'important');
+            dot.style.setProperty('cursor', 'pointer', 'important');
+        });
+    }
+
+    // Apply colors immediately
+    updateDotColors();
+
+    return updateDotColors; // Return function for manual updates
+}
 
