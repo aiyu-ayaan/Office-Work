@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         setDotColor: function (hexColor) {
             if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexColor)) {
-                console.warn('Invalid hex color provided. Using default white.');
+                // console.warn('Invalid hex color provided. Using default white.');
                 return false;
             }
             this.dotColor = hexColor.toUpperCase();
             this.methodCalled = true;
             this.updateAllCarouselDots();
-            console.log(`Carousel dot color updated to: ${this.dotColor}`);
+            // console.log(`Carousel dot color updated to: ${this.dotColor}`);
             return true;
         },
 
@@ -95,13 +95,13 @@ document.addEventListener('DOMContentLoaded', function () {
             this.methodCalled = false;
             this.dotColor = '#00ccff';
             this.clearAllCustomStyles();
-            console.log('Reset to default color (#00ccff) and cleared method override');
+            // console.log('Reset to default color (#00ccff) and cleared method override');
         },
 
         clearMethodOverride: function () {
             this.methodCalled = false;
             this.clearAllCustomStyles();
-            console.log('Cleared method override, CSS colors will take precedence');
+            // console.log('Cleared method override, CSS colors will take precedence');
         },
 
         clearAllCustomStyles: function () {
@@ -121,11 +121,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (!isMobile) {
                 // FIX: Always clear styles when switching to desktop
-                console.log('Switched to desktop: clearing all mobile/tablet styles');
+                // console.log('Switched to desktop: clearing all mobile/tablet styles');
                 this.clearAllCustomStyles();
             } else {
                 // FIX: Apply styling when switching to mobile/tablet
-                console.log('Switched to mobile/tablet: applying dot colors');
+                // console.log('Switched to mobile/tablet: applying dot colors');
                 this.updateAllCarouselDots();
             }
         }
@@ -160,9 +160,9 @@ document.addEventListener('DOMContentLoaded', function () {
         return (isMobileWidth || isTabletWidth) && (isMobileUA || isTouchDevice);
     }
 
-    console.log('Carousel configuration loaded. Priority: CSS > Method > Default');
-    console.log('Use carouselConfig.setDotColor("#your-color") to override dot colors');
-    console.log('Use carouselConfig.clearMethodOverride() to restore CSS styling');
+    // console.log('Carousel configuration loaded. Priority: CSS > Method > Default');
+    // console.log('Use carouselConfig.setDotColor("#your-color") to override dot colors');
+    // console.log('Use carouselConfig.clearMethodOverride() to restore CSS styling');
 
     const svg_prev = `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
 <g id="Icon button desktop Laptop tablet Mobile menu"><circle id="Ellipse 14" cx="16" cy="16" r="16" transform="matrix(-1 0 0 1 33 1)" stroke="#00CCFF" stroke-width="2"/><path id="Arrow 2" d="M25 16C25.5523 16 26 16.4477 26 17C26 17.5523 25.5523 18 25 18L25 16ZM8.29289 17.7071C7.90237 17.3166 7.90237 16.6834 8.29289 16.2929L14.6569 9.92893C15.0474 9.53841 15.6805 9.53841 16.0711 9.92893C16.4616 10.3195 16.4616 10.9526 16.0711 11.3431L10.4142 17L16.0711 22.6569C16.4616 23.0474 16.4616 23.6805 16.0711 24.0711C15.6805 24.4616 15.0474 24.4616 14.6569 24.0711L8.29289 17.7071ZM25 18L9 18L9 16L25 16L25 18Z" stroke-width="0"/></g></svg>`
@@ -345,13 +345,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function debugCarouselState(carousel) {
-    console.log('Page URL:', window.location.href);
-    console.log('Carousel found:', !!carousel);
-    console.log('Dots container:', !!carousel.querySelector('.owl-dots'));
-    console.log('Dot elements:', carousel.querySelectorAll('.owl-dot').length);
-    console.log('Active dot:', !!carousel.querySelector('.owl-dot.active'));
-}
+// function debugCarouselState(carousel) {
+//     console.log('Page URL:', window.location.href);
+//     console.log('Carousel found:', !!carousel);
+//     console.log('Dots container:', !!carousel.querySelector('.owl-dots'));
+//     console.log('Dot elements:', carousel.querySelectorAll('.owl-dot').length);
+//     console.log('Active dot:', !!carousel.querySelector('.owl-dot.active'));
+// }
 
 
 
@@ -371,9 +371,9 @@ function setupCarouselInstagramDots(carousel, options = {}) {
     const config = { ...defaultOptions, ...options };
 
     function log(message) {
-        if (config.enableLogging) {
-            console.log(`[CarouselDots] ${message}`);
-        }
+        // if (config.enableLogging) {
+        //     console.log(`[CarouselDots] ${message}`);
+        // }
     }
 
     // Validate carousel element
@@ -712,7 +712,7 @@ window.CarouselUtils.applyCustomDotColor = function (carousel, hexColor, options
 
         // Apply colors immediately
         dots.forEach(updateDotWithCustomColor);
-        console.log(`[CarouselUtils] Applied custom colors to ${dots.length} dots`);
+        // console.log(`[CarouselUtils] Applied custom colors to ${dots.length} dots`);
     }
 
     // Apply color immediately with retry mechanism
@@ -822,7 +822,7 @@ window.CarouselUtils.applyCustomDotColor = function (carousel, hexColor, options
     carousel._customDotNamespace = colorNamespace;
     carousel._customDotUpdateFunction = updateDotWithCustomColor;
 
-    console.log(`[CarouselUtils] Applied custom dot color ${hexColor} to carousel`);
+    // console.log(`[CarouselUtils] Applied custom dot color ${hexColor} to carousel`);
     return true;
 };
 
@@ -874,7 +874,7 @@ window.CarouselUtils.removeCustomDotColor = function (carousel) {
     delete carousel._customDotNamespace;
     delete carousel._customDotUpdateFunction;
 
-    console.log('[CarouselUtils] Removed custom dot color from carousel');
+    // console.log('[CarouselUtils] Removed custom dot color from carousel');
     return true;
 };
 
@@ -940,14 +940,14 @@ window.applyCarouselDotColors = function (carouselElement, hexColor) {
         }
     });
 
-    console.log(`[applyCarouselDotColors] Applied ${hexColor} to carousel dots`);
+    // console.log(`[applyCarouselDotColors] Applied ${hexColor} to carousel dots`);
     return true;
 };
 
 // Function to apply colors to custom pagination dots (not owl-carousel)
 function applyCustomDotColors(dotsContainer, hexColor) {
     if (!dotsContainer || !hexColor) {
-        console.warn('[CustomDots] Missing dots container or hex color');
+        // console.warn('[CustomDots] Missing dots container or hex color');
         return false;
     }
 
