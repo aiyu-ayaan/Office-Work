@@ -17,9 +17,12 @@ if (! defined('ABSPATH')) {
 get_header(); ?>
 
 <?php
-$text_below_banner = get_field('acf_text_below_banner');
-$button_below_banner = get_field('acf_button_below_banner');
-$_below_banner_button_url = get_field('acf_below_banner_button_url');
+
+$banner_section_fields = get_field('acf_news_hub_banner_section_fields');
+
+$text_below_banner = $banner_section_fields['acf_news_hub_banner_text_below_banner'] ?: '';
+$button_below_banner = $banner_section_fields['acf_news_hub_banner_below_banner_button_text'] ?: '';
+$_below_banner_button_url = $banner_section_fields['acf_news_hub_banner_below_banner_button_url'] ?: '';
 
 $contact_us_social_media_heading = get_field('acf_contact_us_social_media_heading');
 $contact_us_social_media_sub_heading = get_field('acf_contact_us_social_media_sub_heading');
@@ -80,22 +83,23 @@ $us_in_the_news_title = $news_hub_section_tab_groups['acf_news_hub_us_in_the_new
             itemtype="https://schema.org/CreativeWork">
             <div class="entry-content clear" data-ast-blocks-layout="true" itemprop="text">
 
+                <?php
+                $carousal_item = $banner_section_fields['acf_news_hub_banner_carousel_items'] ?? [];
+                ?>
                 <!-- DESCRIPTION:Banner Section -->
                 <div class="contain homepage-banner">
                     <div class="hero-carousel owl-carousel">
-                        <?php if (have_rows('acf_homepage_banner_single_slide_contents')) :
-                            $index = -1; ?>
-                            <?php while (have_rows('acf_homepage_banner_single_slide_contents')): the_row();
-                                $index++;
-                                $banner_video_url = get_sub_field('acf_banner_video_url') ?: '';
-                                $banner_video_thumbnail_image = get_sub_field('acf_banner_video_thumbnail_image') ?: '';
-                                $banner_main_heading = get_sub_field('acf_main_heading') ?: '';
-                                $banner_sub_heading = get_sub_field('acf_sub_heading') ?: '';
-                                $banner_button_text = get_sub_field('acf_button_text') ?: '';
-                                $banner_button_url = get_sub_field('acf_button_url') ?: '';
-                                $banner_slide_logo = get_sub_field('acf_banner_slide_logo') ?: '';
-
-                            ?>
+                        <?php if ($carousal_item && is_array($carousal_item)) : ?>
+                            <?php foreach ($carousal_item as $index => $card_items): ?>
+                                <?php
+                                $banner_video_url = $card_items['acf_news_hub_banner_banner_video_url'] ?: '';
+                                $banner_video_thumbnail_image = $card_items['acf_news_hub_banner_banner_video_thumbnail'] ?: '';
+                                $banner_main_heading = $card_items['acf_news_hub_banner_heading'] ?: '';
+                                $banner_sub_heading = $card_items['acf_news_hub_banner_sub-heading'] ?: '';
+                                $banner_button_text = $card_items['acf_news_hub_banner_button_text'] ?: '';
+                                $banner_button_url = $card_items['acf_news_hub_banner_button_url'] ?: '';
+                                $banner_slide_logo = $card_items['acf_news_hub_banner_banner_logo'] ?: '';
+                                ?>
                                 <div class="item">
                                     <div class="video-background">
                                         <video class="manual-lazy-load bg-img-video" preload="none"
@@ -110,25 +114,23 @@ $us_in_the_news_title = $news_hub_section_tab_groups['acf_news_hub_us_in_the_new
                                             <?php $fallback_svg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 2'%3E%3C/svg%3E";
                                             $logo_data_src = !empty($banner_slide_logo) ? esc_html($banner_slide_logo) : ''; ?>
                                             <img class="manual-lazy-load client-logo-img" <?php if ($logo_data_src): ?>
-                                                data-src="
-                                    <?php echo $logo_data_src; ?>"
-                                                <?php endif; ?> src="
-                                    <?php echo $fallback_svg; ?>" alt="Client Logo">
+                                                data-src="<?php echo $logo_data_src; ?>"
+                                                <?php endif; ?> src="<?php echo $fallback_svg; ?>" alt="Client Logo">
 
                                         </div>
                                         <?php if ($index == 0) : ?>
                                             <!-- First slide: Use H1 -->
                                             <h1 class="largest-size banner-main-header">
-                                                <?php echo ($banner_main_heading); ?>
+                                                <?php echo esc_html($banner_main_heading); ?>
                                             </h1>
                                         <?php else : ?>
                                             <!-- Other slides: Use H2 -->
                                             <h2 class="largest-size banner-main-header">
-                                                <?php echo ($banner_main_heading); ?>
+                                                <?php echo esc_html($banner_main_heading); ?>
                                             </h2>
                                         <?php endif; ?>
                                         <p class="small-size banner-description">
-                                            <?php echo $banner_sub_heading; ?>
+                                            <?php echo esc_html($banner_sub_heading); ?>
                                         </p>
 
                                         <?php if (!empty($banner_button_url)) : ?>
@@ -140,7 +142,7 @@ $us_in_the_news_title = $news_hub_section_tab_groups['acf_news_hub_us_in_the_new
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                            <?php endwhile; ?>
+                            <?php endforeach; ?>
                         <?php else : ?>
                             <p>No banners found.</p>
                         <?php endif; ?>

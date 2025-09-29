@@ -19,7 +19,28 @@ get_header(); ?>
 <?php
 
 $post_type = get_the_terms(get_the_ID(), 'post_type_category')[0]->name;
-$creation_date = get_the_date('F Y');
+function formatDateWithSuperscript($format = 'F Y')
+{
+  $day = get_the_date('j');
+  $month = get_the_date('F');
+  $year = get_the_date('Y');
+
+  // Determine suffix
+  if ($day >= 11 && $day <= 13) {
+    $suffix = 'th';
+  } else {
+    $suffix = match ($day % 10) {
+      1 => 'st',
+      2 => 'nd',
+      3 => 'rd',
+      default => 'th'
+    };
+  }
+
+  return $day . '<sup>' . $suffix . '</sup> ' . $month . ' ' . $year;
+}
+
+$creation_date = formatDateWithSuperscript();
 $blog_author_section = get_field('acf_blog_author_section');
 if (!empty($blog_author_section)) {
   $section_heading = $blog_author_section['acf_blog_author_section_heading'] ?? '';
@@ -55,9 +76,44 @@ $minute_read =  get_post_read_minutes(get_the_ID(), $post_type);
                     </h1>
                   </header>
 
+                  <div class="tts-player" data-state="idle">
+                    <!-- Left: icon-only button -->
+                    <button class="tts-icon-btn" aria-pressed="false" type="button" aria-label="Play">
+                      <span class="icon icon-play" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 39" fill="none" focusable="false">
+                          <path d="M35 19.6816L0 0V39L35 19.6816Z" fill="#1A2C47" />
+                        </svg>
+                      </span>
+                      <span class="icon icon-pause" aria-hidden="true">
+                        <svg viewBox="0 0 20 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2 2L2 23" stroke="#1A2C47" stroke-width="4" stroke-linecap="round"> </path>
+                          <path d="M18 2L18 23" stroke="#1A2C47" stroke-width="4" stroke-linecap="round"> </path>
+                        </svg>
+                      </span>
+                    </button>
+
+                    <!-- Right: content block (not clickable for play/pause) -->
+                    <div class="tts-content">
+                      <div class="tts-header-row">
+                        <span class="tts-label font-bold smaller-size">Listen to this blog</span>
+                      </div>
+                      <div class="tts-panel">
+                        <div class="tts-progress">
+                          <div class="tts-progress-fill"></div>
+                        </div>
+                        <div class="tts-meta">
+                          <span class="tts-time font-bold smallest-size">0:00 / 0:00</span>
+                          <button class="tts-speed font-bold smallest-size" type="button">1X</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
                   <div class="blog-button-container">
                     <p class="small-size blog-bottom-text"><?php echo $minute_read; ?></p>
                     <p class="small-size blog-bottom-text"><?php echo $creation_date; ?></p>
+
                   </div>
                 </div>
               </section>
@@ -123,7 +179,10 @@ $minute_read =  get_post_read_minutes(get_the_ID(), $post_type);
                     <!-- key takeaways section -->
                     <?php
                     $acf_blog_key_takeaways_section = get_field('acf_blog_key_takeaways_section');
-                    if ($acf_blog_key_takeaways_section):
+                    $heading = $acf_blog_key_takeaways_section['acf_key_takeaways_section_heading'] ?? '';
+                    $list_items = $acf_blog_key_takeaways_section['acf_key_takeaways_list_items'] ?? '';
+
+                    if (!empty($heading) || !empty($list_items)):
                     ?>
                       <section class="key-takeaways-box" aria-labelledby="key-takeaways-heading">
                         <div class="container">
@@ -140,6 +199,13 @@ $minute_read =  get_post_read_minutes(get_the_ID(), $post_type);
                               echo wp_kses($acf_blog_key_takeaways_section['acf_key_takeaways_list_items'], array(
                                 'ul' => array(),
                                 'li' => array(),
+                                'br' => array(),
+                                'a' => array(
+                                  'href' => array(),
+                                  'title' => array(),
+                                  'target' => array(),
+                                  'rel' => array(),
+                                ),
                               ));
                               ?>
                             </div>
@@ -165,12 +231,17 @@ $minute_read =  get_post_read_minutes(get_the_ID(), $post_type);
                           <?php
                           $image = get_sub_field('acf_blog_image');
                           $alignment = get_sub_field('acf_blog_image_alignment');
+                          $image_width = get_sub_field('acf_blog_image_width');
+                          if (!$image_width) {
+                            $image_width = 100; // default width
+                          }
+
 
                           ?>
                           <?php if ($image): ?>
                             <section class="acf-blog-image-block align-<?php echo esc_attr($alignment); ?>">
                               <div class="container">
-                                <img src="<?php echo esc_url($image['url']); ?>" alt="">
+                                <img src="<?php echo esc_url($image['url']); ?>" alt="" style="width: <?php echo esc_attr($image_width); ?>%;">
                               </div>
                             </section>
                           <?php endif; ?>
@@ -183,6 +254,22 @@ $minute_read =  get_post_read_minutes(get_the_ID(), $post_type);
                             </div>
                           </section>
 
+                          <!-- Two Column WYSIWYG Block -->
+                        <?php elseif (get_row_layout() === 'acf_blog_two_column_layout'): ?>
+                          <section class="acf-blog-two-column-block">
+                            <div class="container">
+                              <div class="two-column-layout">
+                                <div class="column left-column">
+                                  <?php the_sub_field('acf_blog_left_column_content'); ?>
+                                </div>
+                                <div class="column right-column">
+                                  <?php the_sub_field('acf_blog_right_column_content'); ?>
+                                </div>
+                              </div>
+                            </div>
+                          </section>
+
+
                         <?php endif; ?>
 
                       <?php endwhile; ?>
@@ -194,90 +281,92 @@ $minute_read =  get_post_read_minutes(get_the_ID(), $post_type);
                 Link copied to clipboard!
               </div>
               <!-- 							author section -->
-              <div class="author-section-container">
-                <h2 class="section-heading large-size font-bold"><?php echo $section_heading; ?></h2>
+              <?php if (!empty($blog_author_section) && !empty($blog_author_section['acf_blog_single_author'])) : ?>
+                <div class="author-section-container">
+                  <h2 class="section-heading large-size font-bold"><?php echo $section_heading; ?></h2>
 
-                <section class="layout-one" id="profileSection">
-                  <div class="profile-wrapper">
-                    <div class="profiles-section">
-                      <div class="profiles-grid">
+                  <section class="layout-one" id="profileSection">
+                    <div class="profile-wrapper">
+                      <div class="profiles-section">
+                        <div class="profiles-grid">
 
-                        <?php if (!empty($blog_author_section) && !empty($blog_author_section['acf_blog_single_author'])) :
-                          foreach ($blog_author_section['acf_blog_single_author'] as $row) :
-                            $author_name = $row['acf_blog_author_name'] ?? '';
-                            $author_designation = $row['acf_blog_author_designation'] ?? '';
-                            $linkedin_cta_text = $row['acf_blog_author_linkedin_cta_text'] ?? '';
-                            $linkedin_url = $row['acf_blog_author_linkedin_url'] ?? '';
-                            $author_img = $row['acf_blog_author_image'] ?? '';
-                        ?>
+                          <?php if (!empty($blog_author_section) && !empty($blog_author_section['acf_blog_single_author'])) :
+                            foreach ($blog_author_section['acf_blog_single_author'] as $row) :
+                              $author_name = $row['acf_blog_author_name'] ?? '';
+                              $author_designation = $row['acf_blog_author_designation'] ?? '';
+                              $linkedin_cta_text = $row['acf_blog_author_linkedin_cta_text'] ?? '';
+                              $linkedin_url = $row['acf_blog_author_linkedin_url'] ?? '';
+                              $author_img = $row['acf_blog_author_image'] ?? '';
+                          ?>
 
-                            <div class="profile-card">
-                              <div class="profile-box">
-                                <div class="profile">
-                                  <img class="manual-lazy-load profile-img"
-                                    data-src="<?php echo esc_html($author_img); ?>"
-                                    alt="Author Image" src="">
-                                  <div class="info">
-                                    <div class="name small-size font-bold"><?php echo $author_name; ?></div>
-                                    <div class="designation smaller-size"><?php echo $author_designation; ?></div>
+                              <div class="profile-card">
+                                <div class="profile-box">
+                                  <div class="profile">
+                                    <img class="manual-lazy-load profile-img"
+                                      data-src="<?php echo esc_html($author_img); ?>"
+                                      alt="Author Image" src="">
+                                    <div class="info">
+                                      <div class="name small-size font-bold"><?php echo $author_name; ?></div>
+                                      <div class="designation smaller-size"><?php echo $author_designation; ?></div>
 
-                                    <div class="cta">
-                                      <a href="<?php echo $linkedin_url; ?>" target="_blank"
-                                        class="leader-linkedin smallest-size font-bold"><?php echo $linkedin_cta_text; ?>
-                                        <?php if (!empty($linkedin_cta_text)) : ?>
-                                          <svg class="linkedin" xmlns="http://www.w3.org/2000/svg" width="19"
-                                            height="19" viewBox="0 0 19 19" fill="none">
-                                            <g clip-path="url(#clip0_14225_2156)">
-                                              <path
-                                                d="M17.5969 0H1.4039C0.628485 0 0 0.609267 0 1.36124V17.6381C0 18.3901 0.628696 19 1.4039 19H17.5969C18.3724 19 19 18.3899 19 17.6381V1.36124C19 0.609478 18.3724 0 17.5969 0ZM5.76023 15.9043H2.88951V7.32598H5.76023V15.9043ZM4.32508 6.1541H4.30587C3.34319 6.1541 2.71914 5.49564 2.71914 4.67147C2.71914 3.83061 3.36156 3.1901 4.34324 3.1901C5.32513 3.1901 5.92912 3.8304 5.94812 4.67147C5.94812 5.49586 5.32534 6.1541 4.32508 6.1541ZM16.1086 15.9043H13.2387V11.3147C13.2387 10.1612 12.8228 9.37439 11.785 9.37439C10.991 9.37439 10.5198 9.90533 10.3129 10.4177C10.236 10.6009 10.2173 10.8568 10.2173 11.1127V15.9041H7.3478C7.3478 15.9041 7.38538 8.13031 7.3478 7.32577H10.2175V8.54198C10.5985 7.95762 11.2792 7.12394 12.8034 7.12394C14.6922 7.12394 16.1086 8.34923 16.1086 10.9854V15.9043ZM10.1989 8.56921C10.204 8.56119 10.2107 8.55127 10.2175 8.54198V8.56921H10.1989Z"
-                                                fill="#1A2C47" />
-                                            </g>
-                                            <defs>
-                                              <clipPath id="clip0_14225_2156">
-                                                <rect width="19" height="19" fill="white" />
-                                              </clipPath>
-                                            </defs>
-                                          </svg>
-                                        <?php endif; ?>
-                                      </a>
+                                      <div class="cta">
+                                        <a href="<?php echo $linkedin_url; ?>" target="_blank"
+                                          class="leader-linkedin smallest-size font-bold"><?php echo $linkedin_cta_text; ?>
+                                          <?php if (!empty($linkedin_cta_text)) : ?>
+                                            <svg class="linkedin" xmlns="http://www.w3.org/2000/svg" width="19"
+                                              height="19" viewBox="0 0 19 19" fill="none">
+                                              <g clip-path="url(#clip0_14225_2156)">
+                                                <path
+                                                  d="M17.5969 0H1.4039C0.628485 0 0 0.609267 0 1.36124V17.6381C0 18.3901 0.628696 19 1.4039 19H17.5969C18.3724 19 19 18.3899 19 17.6381V1.36124C19 0.609478 18.3724 0 17.5969 0ZM5.76023 15.9043H2.88951V7.32598H5.76023V15.9043ZM4.32508 6.1541H4.30587C3.34319 6.1541 2.71914 5.49564 2.71914 4.67147C2.71914 3.83061 3.36156 3.1901 4.34324 3.1901C5.32513 3.1901 5.92912 3.8304 5.94812 4.67147C5.94812 5.49586 5.32534 6.1541 4.32508 6.1541ZM16.1086 15.9043H13.2387V11.3147C13.2387 10.1612 12.8228 9.37439 11.785 9.37439C10.991 9.37439 10.5198 9.90533 10.3129 10.4177C10.236 10.6009 10.2173 10.8568 10.2173 11.1127V15.9041H7.3478C7.3478 15.9041 7.38538 8.13031 7.3478 7.32577H10.2175V8.54198C10.5985 7.95762 11.2792 7.12394 12.8034 7.12394C14.6922 7.12394 16.1086 8.34923 16.1086 10.9854V15.9043ZM10.1989 8.56921C10.204 8.56119 10.2107 8.55127 10.2175 8.54198V8.56921H10.1989Z"
+                                                  fill="#1A2C47" />
+                                              </g>
+                                              <defs>
+                                                <clipPath id="clip0_14225_2156">
+                                                  <rect width="19" height="19" fill="white" />
+                                                </clipPath>
+                                              </defs>
+                                            </svg>
+                                          <?php endif; ?>
+                                        </a>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                        <?php endforeach;
-                        else :
-                          echo '<p>No authors found.</p>';
-                        endif;
-                        ?>
-                      </div>
-                      <div class="below-profile-btn-area">
-                        <?php if (!empty($text_above_button)) : ?>
-                          <h3 class="text smaller-size font-bold"><?php echo $text_above_button; ?></h3>
-                        <?php endif; ?>
-                        <?php if (!empty($button_text)) : ?>
-                          <a href="<?php echo $button_url; ?>"><button class="view-all-btn custom-button"><?php echo $button_text; ?></button></a>
-                        <?php endif; ?>
-                      </div>
-
-                    </div>
-
-                    <?php if (!empty($blog_author_section) && !empty($blog_author_section['acf_blog_single_author'])) :
-                      $rows = $blog_author_section['acf_blog_single_author'];
-                      if (!empty($rows)):
-                        $first_row = $rows[0];
-                        $sub_field_value = $first_row['acf_blog_author_description']; ?>
-                        <div class="description-panel small-size">
-                          <?php echo $sub_field_value; ?>
+                          <?php endforeach;
+                          else :
+                            echo '<p>No authors found.</p>';
+                          endif;
+                          ?>
                         </div>
-                      <?php else :
-                        echo '<p>No author description content found.</p>';
-                      endif; ?>
+                        <div class="below-profile-btn-area">
+                          <?php if (!empty($text_above_button)) : ?>
+                            <h3 class="text smaller-size font-bold"><?php echo $text_above_button; ?></h3>
+                          <?php endif; ?>
+                          <?php if (!empty($button_text)) : ?>
+                            <a href="<?php echo $button_url; ?>"><button class="view-all-btn custom-button"><?php echo $button_text; ?></button></a>
+                          <?php endif; ?>
+                        </div>
 
-                    <?php endif; ?>
-                  </div>
-                </section>
-              </div>
+                      </div>
+
+                      <?php if (!empty($blog_author_section) && !empty($blog_author_section['acf_blog_single_author'])) :
+                        $rows = $blog_author_section['acf_blog_single_author'];
+                        if (!empty($rows)):
+                          $first_row = $rows[0];
+                          $sub_field_value = $first_row['acf_blog_author_description']; ?>
+                          <div class="description-panel small-size">
+                            <?php echo $sub_field_value; ?>
+                          </div>
+                        <?php else :
+                          echo '<p>No author description content found.</p>';
+                        endif; ?>
+
+                      <?php endif; ?>
+                    </div>
+                  </section>
+                </div>
+              <?php endif; ?>
               <div aria-hidden="true" class="wp-block-spacer spacer-below-author-frame"></div>
               <?php the_content(); ?>
             </div>
