@@ -6,7 +6,7 @@ Template Name: Elevate connect
 /**
  * Custom Elevate template for Astra child theme.
  *
- * This template is specifically for the career of the site.
+ * This template is specifically for the elevate connect london landing page of the site.
  *
  * @package Astra Child
  * @since 1.0.0
@@ -96,12 +96,6 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
     <?php get_sidebar(); ?>
 <?php endif; ?>
 
-<script nonce="<?php echo esc_attr(get_csp_nonce()); ?>">
-    // Your inline JavaScript
-    console.log("Secure CSP script: <?php echo esc_attr(get_csp_nonce()); ?>");
-</script>
-
-
 <div id="primary" <?php astra_primary_class(); ?>>
     <main id="main" class="site-main">
         <article id="post-<?php the_ID(); ?>" <?php post_class('ast-article-single'); ?> itemscope itemtype="https://schema.org/CreativeWork">
@@ -109,6 +103,7 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                 <!-- ECL Banner section -->
 
                 <div class="elevate-banner">
+
                     <div class="animated-svg">
                         <svg viewBox="0 0 1920 1074" fill="none" xmlns="http://www.w3.org/2000/svg"
                             preserveAspectRatio="xMidYMid slice">
@@ -333,15 +328,17 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
 
                     <div class="banner-content">
                         <div class="text-above-logo smaller-size">
-                            <?php echo esc_html($banner_text_above_logo); ?>
+                            <?php echo ($banner_text_above_logo); ?>
                         </div>
 
                         <?php
                         $banner_logo_url = !empty($banner_logo_svg_link) ? $banner_logo_svg_link : $banner_logo;
                         ?>
 
-                        <div class="elevate-logo manual-lazy-load" data-src="<?php echo esc_url($banner_logo_url); ?>"
-                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
+                        <div class="logo-wrapper">
+                            <div class="elevate-logo manual-lazy-load" data-src="<?php echo esc_url($banner_logo_url); ?>"
+                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 1'%3E%3C/svg%3E">
+                            </div>
                         </div>
 
 
@@ -350,7 +347,7 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                         </h1>
 
                         <div class="text-below-title small-size">
-                            <?php echo esc_html($banner_text_below_title); ?>
+                            <?php echo ($banner_text_below_title); ?>
                         </div>
 
                         <a href="<?php echo esc_url($banner_button_url); ?>">
@@ -364,7 +361,7 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                 <!--DESCRIPTION: ECL Counter section -->
                 <div class="counter-section">
                     <h2 class="medium-size event-start-title">
-                        <?php echo esc_html($counter_left_size_title); ?>
+                        <?php echo ($counter_left_size_title); ?>
                     </h2>
 
                     <div class="counter" endDate="<?php echo esc_html($counter_date_picker); ?>" endCountDownMessage="<?php echo esc_html($counter_end_message); ?>">
@@ -395,17 +392,16 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
 
                 <!--DESCRIPTION: Introduction section-->
                 <div class="our_expertise_container" id="expertise">
-                    <h2 class="large-size font-bold portrait-only-header"><?php echo esc_html($our_expertise_section_main_heading); ?></h2>
+                    <h2 class="large-size font-bold portrait-only-header"><?php echo ($our_expertise_section_main_heading); ?></h2>
                     <div class="video-container">
                         <iframe class="manual-lazy-load" data-src="<?php echo esc_html($our_expertise_video_url) ?>" autoplay muted loop playsinline poster="<?php echo esc_html($our_expertise_video_thumbnail) ?>">
-                            <!--                 <source class="manual-lazy-load"  type="video/mp4"> -->
                             Your browser does not support the video tag.
                         </iframe>
                     </div>
                     <div class="content">
-                        <h2 class="large-size font-bold main-header"><?php echo esc_html($our_expertise_section_main_heading); ?></h2>
-                        <p class="small-size description"><?php echo esc_html($our_expertise_description_para_1); ?></p><br>
-                        <p class="small-size description"><?php echo esc_html($our_expertise_description_para_2); ?></p>
+                        <h2 class="large-size font-bold main-header"><?php echo ($our_expertise_section_main_heading); ?></h2>
+                        <p class="small-size description"><?php echo ($our_expertise_description_para_1); ?></p><br>
+                        <p class="small-size description"><?php echo ($our_expertise_description_para_2); ?></p>
                     </div>
                 </div>
 
@@ -437,7 +433,7 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                                     <div class="carousel-link">
                                         <div class="image-wrapper">
                                             <img decoding="async" src="<?php echo esc_url($image); ?>"
-                                                alt="Real-Time Data Analytics: Zeroing Down On Better Business Decisions" class="carousel-image" />
+                                                alt="<?php echo ($name_and_designation) ?>" class="carousel-image" />
                                             <div class="speaker-name smaller-size">
                                                 <?php echo ($name_and_designation); ?>
                                             </div>
@@ -479,7 +475,7 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                                 </div>
                                 <div class="content-overlay">
                                     <div class="content-left animate-on-scroll">
-                                        <h2 class="large-size font-bold"><?php echo esc_html($elevate_keynote_section_item_title); ?></h2>
+                                        <h2 class="large-size font-bold"><?php echo ($elevate_keynote_section_item_title); ?></h2>
                                         <p class="small-size">
                                             <?php echo ($elevate_keynote_section_item_description); ?>
                                         </p>
@@ -512,21 +508,19 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                 <div class="round-table">
                     <div class="main-header">
                         <div class="main-header-inner all-section-header">
-                            <h2 class="round-table-header large-size font-bold type-1"> <?php echo esc_html($round_table_section_heading_1); ?></h2>
-                            <h2 class="round-table-header large-size font-bold type-2"> <?php echo esc_html($round_table_section_heading_2); ?></h2>
+                            <h2 class="round-table-header large-size font-bold type-1 fade-text" data-type1="<?php echo esc_html($round_table_section_heading_1); ?>" data-type2="<?php echo esc_html($round_table_section_heading_2); ?>"></h2>
+
                         </div>
                     </div>
 
                     <div class="container">
                         <div class="left-box">
-                            <h3 class="round-table-header large-size font-bold type-1"><?php echo esc_html($round_table_left_heading_1); ?></h3>
-                            <h3 class="round-table-header large-size font-bold type-2"><?php echo esc_html($round_table_left_heading_2); ?></h3>
-                            <p class="round-table-text small-size type-1"><?php echo esc_html($round_table_left_description_1); ?></p>
-                            <p class="round-table-text small-size type-2"><?php echo esc_html($round_table_left_description_2); ?></p>
+                            <h3 class="round-table-header large-size font-bold type-1 fade-text" data-type1="<?php echo esc_html($round_table_left_heading_1); ?>" data-type2="<?php echo esc_html($round_table_left_heading_2); ?>"></h3>
+                            <p class="round-table-text small-size type-1 fade-text" data-type1="<?php echo esc_html($round_table_left_description_1); ?>" data-type2="<?php echo esc_html($round_table_left_description_2); ?>"></p>
                             <div class="sub-header">
                                 <div class="sub-header-inner all-section-header">
-                                    <h3 class="round-table-header large-size font-bold type-1"><?php echo esc_html($round_table_section_heading_1); ?></h3>
-                                    <h3 class="round-table-header large-size font-bold type-2"><?php echo esc_html($round_table_section_heading_2); ?></h3>
+                                    <h3 class="round-table-header large-size font-bold type-1 fade-text" data-type1="<?php echo esc_html($round_table_section_heading_1); ?>" data-type2="<?php echo esc_html($round_table_section_heading_2); ?>"></h3>
+
                                 </div>
                             </div>
                         </div>
@@ -642,8 +636,8 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                     </div>
                     <div class="content-container">
                         <div class="content">
-                            <h2 class="content-heading large-size"><?php echo esc_html($elevate_glimpse_section_title); ?></h2>
-                            <p class="content-description small-size"><?php echo esc_html($elevate_glimpse_section_sub_title); ?></p>
+                            <h2 class="content-heading large-size"><?php echo ($elevate_glimpse_section_title); ?></h2>
+                            <p class="content-description small-size"><?php echo ($elevate_glimpse_section_sub_title); ?></p>
                             <div class="video-container">
                                 <?php
                                 // Ensure the video URL ends with the required Vimeo params
@@ -660,7 +654,6 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                                     class="video-player" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
                                     title="Elevate 2024 Glimpse">
                                 </iframe>
-                                <!-- <img src="/wp-content/uploads/2025/07/image-245.png" alt="Elevate 2024 Glimpse" class="video-player"> -->
                             </div>
                         </div>
                     </div>
@@ -691,10 +684,10 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                                             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 1'%3E%3C/svg%3E">
                                     </div>
                                     <p class="custom-font-size"><span>“</span>
-                                        <?php echo esc_html($our_clients_text) ?><span>”</span>
+                                        <?php echo ($our_clients_text) ?><span>”</span>
                                     </p>
-                                    <p class="custom-font-size-author">
-                                        <?php echo esc_html($our_clients_signature) ?>
+                                    <p class="custom-font-size-author our-client-auther">
+                                        <?php echo ($our_clients_signature) ?>
                                     </p>
                                 </div>
                             <?php endwhile; ?>
@@ -710,7 +703,7 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
 
                 <!-- DESCRIPTION:Agenda section -->
                 <div class="agenda-section-head">
-                    <h2 class="large-size section-head"><?php echo esc_html($agenda_section_heading); ?></h2>
+                    <h2 class="large-size section-head"><?php echo ($agenda_section_heading); ?></h2>
                 </div>
                 <section class="svg-background-section">
                     <div class="only-space-div"></div>
@@ -744,9 +737,9 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                                 <div class="timeline-item">
                                     <div class="svg-connector"></div>
                                     <div class="content">
-                                        <p class="smallest-size font-bold"><?php echo esc_html($event_duration); ?></p>
-                                        <h3 class="smaller-size font-bold"><?php echo esc_html($event_name); ?></h3>
-                                        <p class="smallest-size"><?php echo esc_html($event_brief_description); ?></p>
+                                        <p class="smallest-size font-bold"><?php echo ($event_duration); ?></p>
+                                        <h3 class="smaller-size font-bold"><?php echo ($event_name); ?></h3>
+                                        <p class="smallest-size"><?php echo ($event_brief_description); ?></p>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -765,7 +758,7 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
 
                 <div class="join-us-at-wrapper">
                     <div class="section-header-container">
-                        <h2 class="large-size font-bold"><?php echo esc_html($join_us_section_heading); ?></h2>
+                        <h2 class="large-size font-bold"><?php echo ($join_us_section_heading); ?></h2>
                     </div>
                     <div class="map-content-wrapper">
                         <div class="google-map-container">
@@ -777,7 +770,7 @@ $round_table_partition_point = $round_table_section_fields['acf_elevate_new_roun
                             </div>
                         </div>
                         <p class="shortdesc small-size">
-                            <?php echo esc_html($join_us_description); ?>
+                            <?php echo ($join_us_description); ?>
                         </p>
                         <div class="transport-info">
                             <div class="info">

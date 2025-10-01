@@ -116,7 +116,7 @@ $you_may_be_interested_plugin_shortcode = get_field('you_might_be_interested_plu
                                                             ?>
                                                             <div class="card">
                                                                 <div class="partner-img">
-                                                                    <img src="<?php echo esc_url($item_logo); ?>" alt="">
+                                                                    <img class="manual-lazy-load" data-src="<?php echo esc_url($item_logo); ?>" alt="">
                                                                     <a class="see-more underline-on-hover service-button-cta">
                                                                         <span class="see-more-text">See More</span>
                                                                     </a>
@@ -137,14 +137,14 @@ $you_may_be_interested_plugin_shortcode = get_field('you_might_be_interested_plu
                                     <?php endif; ?>
                                 </div>
                                 <div class="pagination" id="desktop-nav">
-                                    <button id="prev-btn"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34"
+                                    <button id="prev-btn" aria-label="Previous"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34"
                                             fill="none">
                                             <circle cx="16" cy="16" r="16" transform="matrix(-1 0 0 1 33 1)" stroke="white" stroke-width="2" />
                                             <path
                                                 d="M25 16C25.5523 16 26 16.4477 26 17C26 17.5523 25.5523 18 25 18L25 16ZM8.29289 17.7071C7.90237 17.3166 7.90237 16.6834 8.29289 16.2929L14.6569 9.92893C15.0474 9.53841 15.6805 9.53841 16.0711 9.92893C16.4616 10.3195 16.4616 10.9526 16.0711 11.3431L10.4142 17L16.0711 22.6569C16.4616 23.0474 16.4616 23.6805 16.0711 24.0711C15.6805 24.4616 15.0474 24.4616 14.6569 24.0711L8.29289 17.7071ZM25 18L9 18L9 16L25 16L25 18Z"
                                                 fill="white" />
                                         </svg></button>
-                                    <button id="next-btn"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34"
+                                    <button id="next-btn" aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34"
                                             fill="none">
                                             <circle cx="16" cy="16" r="16" transform="matrix(-1 0 0 1 33 1)" stroke="white" stroke-width="2" />
                                             <path
@@ -154,14 +154,14 @@ $you_may_be_interested_plugin_shortcode = get_field('you_might_be_interested_plu
                                 </div>
                                 <div id="popup-modal" class="hidden">
                                     <div class="popup-content">
-                                        <button id="close-popup"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
+                                        <button id="close-popup" aria-label="Close Popup"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"
                                                 fill="none">
                                                 <path d="M9 9L23 23" stroke="#1A2C47" stroke-width="2" stroke-linecap="round" />
                                                 <path d="M9 23L23 9" stroke="#1A2C47" stroke-width="2" stroke-linecap="round" />
                                                 <circle cx="16" cy="16" r="15.5" stroke="#1A2C47" />
                                             </svg></button>
                                         <div class="popup-body">
-                                            <div class="partner-img"><img id="popup-img" src="" alt=""></div>
+                                            <div class="partner-img"><img class="manual-lazy-load" id="popup-img" src="" alt=""></div>
                                             <div class="popup-text">
                                                 <div class="scrollable-text">
                                                     <p class="partner-description smallest-size" id="popup-description"></p>

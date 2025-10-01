@@ -85,6 +85,8 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                                 </div>
                             </div>
                             <!-- END: Banner Ends here -->
+                            <!--  Spacer between banner and content frame for mobile							 -->
+                            <div aria-hidden="true" class="spacer-between-banner-content-frame-mobile wp-block-spacer"></div>
 
                             <!-- DESCRIPTION:Content frame section -->
                             <div class="content-cards">
@@ -98,13 +100,17 @@ $post_content_frame_section = get_field('acf_post_content_frame_section') ?? '';
                                             <div class="content-overlay">
                                                 <div class="content-left animate-on-scroll small-size" style="border-color: <?php the_sub_field('acf_who_we_are_page_card_border_color'); ?>;">
                                                     <h2 class="large-size font-bold"><?php the_sub_field('acf_who_we_are_page_card_title'); ?></h2>
-                                                    <?php the_sub_field('acf_who_we_are_page_card_description'); ?>
-                                                    <a class="underline-on-hover service-button-cta" href="<?php echo esc_url(get_sub_field('acf_who_we_are_page_card_button_url')); ?>">
-                                                        <span class="smaller-size"><?php echo esc_html(get_sub_field('acf_who_we_are_page_card_button_text')); ?></span>
-                                                    </a>
+                                                    <p>
+                                                        <?php the_sub_field('acf_who_we_are_page_card_description'); ?>
+                                                    </p>
+                                                    <?php if (!empty(esc_url(get_sub_field('acf_who_we_are_page_card_button_text')))): ?>
+                                                        <a class="underline-on-hover service-button-cta" href="<?php echo esc_url(get_sub_field('acf_who_we_are_page_card_button_url')); ?>">
+                                                            <span class="smaller-size"><?php echo esc_html(get_sub_field('acf_who_we_are_page_card_button_text')); ?></span>
+                                                        </a>
+                                                    <?php endif; ?>
                                                 </div>
                                                 <div class="content-right animate-on-scroll">
-                                                    <img src="<?php echo esc_url(get_sub_field('acf_who_we_are_page_card_image')); ?>" alt="<?php echo esc_attr(get_sub_field('acf_who_we_are_page_card_title')); ?>">
+                                                    <img class="manual-lazy-load" data-src="<?php echo esc_url(get_sub_field('acf_who_we_are_page_card_image')); ?>" alt="<?php echo esc_attr(get_sub_field('acf_who_we_are_page_card_title')); ?>">
                                                 </div>
                                             </div>
                                         </div>
