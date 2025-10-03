@@ -1,0 +1,252 @@
+<div class="about-us-below-banner-sec">
+    <div class="we-belive">
+        <h2 class="belive-heading large-size">Our Purpose</h2>
+        <p class="belive medium-size animated-text-transition" id="animatedPurposeParagraph">
+            Our team combines <span class="color-ia">experience and curiosity</span> to solve
+            complex problems with clarity and confidence
+        </p>
+    </div>
+</div>
+
+
+<style>
+    .about-us-below-banner-sec {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .we-belive {
+        max-width: 100%;
+        text-align: center;
+        z-index: 1;
+    }
+
+    .belive-heading {
+        height: auto;
+        margin: 3rem auto 3.0625rem auto;
+        font-weight: 500;
+    }
+
+    .belive {
+        line-height: normal;
+        width: 45.85%;
+        text-align: center;
+        margin: auto;
+        height: auto;
+    }
+
+    .belive span {
+        font-weight: 600;
+    }
+
+    /* Animation styles with proper font-weight handling */
+    .animated-text-transition {
+        animation: containerFadeIn 0.6s ease-out 0.4s forwards;
+        color: #FFFFFF5C;
+    }
+
+    .animated-text-transition .word {
+        display: inline-block;
+        color: #FFFFFF5C;
+        animation: wordColorTransition 1.5s ease-out calc(var(--n) * 0.3s) forwards;
+        /* Inherit all properties but default to paragraph font-weight */
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: 400;
+        /* Default paragraph weight */
+        line-height: inherit;
+        letter-spacing: inherit;
+    }
+
+    /* Words inside .color-ia spans get the heavier weight */
+    .animated-text-transition .color-ia .word {
+        animation-name: colorIaTransition;
+        animation-duration: 1.5s;
+        animation-delay: calc(var(--n) * 0.3s);
+        animation-timing-function: ease-out;
+        animation-fill-mode: forwards;
+        font-weight: 600;
+        /* Span weight */
+    }
+
+    .animated-text-transition .word:last-child {
+        margin-right: 0;
+    }
+
+    @keyframes containerFadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes wordColorTransition {
+        to {
+            color: white;
+        }
+    }
+
+    @keyframes colorIaTransition {
+        to {
+            color: var(--adro-electric-blue);
+        }
+    }
+
+    /* Your original responsive styles unchanged */
+    @media screen and (min-width:768px) and (max-width:1024.9px) {
+        @media (orientation:landscape) {
+            .belive-heading {
+                margin: 1.5rem auto;
+                height: auto;
+            }
+
+            .belive {
+                line-height: normal;
+                width: 70%;
+                margin-left: 32.5rem;
+                margin: auto;
+                text-align: center;
+                height: auto;
+            }
+        }
+
+        @media (orientation: portrait) {
+            .belive-heading {
+                margin: 1.5rem auto;
+                height: auto;
+            }
+
+            .belive {
+                line-height: normal;
+                width: 75.7%;
+                margin: auto;
+                text-align: center;
+                height: auto;
+            }
+
+            .belive span {
+                font-weight: 500;
+            }
+
+            /* Responsive font-weight for highlighted words */
+            .animated-text-transition .color-ia .word {
+                font-weight: 500;
+            }
+        }
+    }
+
+    @media screen and (max-width: 767.5px) {
+        .belive-heading {
+            width: 100%;
+            margin: auto auto 1.5rem;
+            height: auto;
+        }
+
+        .belive {
+            line-height: normal;
+            width: 100%;
+            margin: 0;
+            padding: 0 1.5rem;
+            text-align: center;
+            height: auto;
+        }
+
+        .belive strong {
+            color: #00bfff;
+        }
+    }
+</style>
+
+<script>
+    // Utility: build animated spans from original HTML
+    function buildAnimatedTextFromHTML(html, targetEl) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(`<div>${html}</div>`, 'text/html');
+        const container = doc.querySelector('div');
+
+        let wordIndex = 0;
+
+        function processNode(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const text = node.textContent;
+                const parts = text.split(/(\s+)/);
+
+                const fragment = document.createDocumentFragment();
+
+                parts.forEach(part => {
+                    if (part.trim()) {
+                        const subParts = part.split(/([^\w\s'-])/);
+                        subParts.forEach(subPart => {
+                            if (subPart) {
+                                const span = document.createElement('span');
+                                span.className = 'word';
+                                span.style.setProperty('--n', wordIndex);
+                                span.textContent = subPart;
+                                fragment.appendChild(span);
+                                wordIndex++;
+                            }
+                        });
+                    } else {
+                        fragment.appendChild(document.createTextNode(part));
+                    }
+                });
+
+                node.parentNode.replaceChild(fragment, node);
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                Array.from(node.childNodes).forEach(child => processNode(child));
+            }
+        }
+
+        Array.from(container.childNodes).forEach(child => processNode(child));
+        targetEl.innerHTML = container.innerHTML;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const paragraph = document.getElementById('animatedPurposeParagraph');
+        if (!paragraph) return;
+
+        // Save the pristine HTML so we can rebuild animations fresh each time
+        const originalHTML = paragraph.innerHTML.trim();
+
+        // First build on load so initial view animates
+        buildAnimatedTextFromHTML(originalHTML, paragraph);
+
+        // Replay control to avoid excessive retriggers
+        let lastReplayAt = 0;
+        const REPLAY_COOLDOWN_MS = 600;
+
+        // Observer to trigger when paragraph is at least 30% visible
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+                        const now = Date.now();
+                        if (now - lastReplayAt < REPLAY_COOLDOWN_MS) return;
+
+                        // Reset HTML to original (removes previous spans and animations)
+                        paragraph.classList.remove('animated-text-transition');
+                        paragraph.innerHTML = originalHTML;
+
+                        // Force reflow so CSS animations can restart reliably
+                        void paragraph.offsetWidth;
+
+                        // Re-apply animated structure and class
+                        buildAnimatedTextFromHTML(originalHTML, paragraph);
+                        paragraph.classList.add('animated-text-transition');
+
+                        lastReplayAt = now;
+                    }
+                });
+            },
+            {
+                root: null,
+                threshold: [0, 0.3, 0.6, 1],
+            }
+        );
+
+        // Ensure the class is present for the container animation
+        paragraph.classList.add('animated-text-transition');
+        observer.observe(paragraph);
+    });
+
+</script>

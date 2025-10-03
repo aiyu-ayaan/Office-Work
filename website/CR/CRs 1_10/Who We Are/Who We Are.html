@@ -1,4 +1,43 @@
 <style>
+    /* Create an image wrapper that handles overflow without affecting the item container */
+    .hover-zoom {
+        position: relative;
+        /* Remove overflow: hidden */
+        contain: layout style paint;
+    }
+
+
+    .hover-zoom:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Use clip-path for containment */
+    .hover-zoom:hover {
+        clip-path: inset(0);
+    }
+
+    .hover-zoom img,
+    .hover-zoom video {
+        transition: transform 0.4s ease-out !important;
+        transform-origin: center;
+        will-change: transform;
+        display: block;
+        /* removes inline gaps */
+    }
+
+    .hover-zoom:hover img,
+    .hover-zoom:hover video {
+        transform: scale(1.05);
+    }
+
+    /* For video blocks - use clip-path instead of overflow */
+    .video-block.hover-zoom:hover {
+        clip-path: inset(0);
+        overflow: visible;
+        /* Keep original overflow */
+    }
+
+
     @media screen and (min-width:768px) and (max-width:1024px) and (orientation: landscape),
     (min-width:1024px) {
         .fade-in-on-scroll {
@@ -86,6 +125,10 @@
             display: flex;
             flex-direction: column;
             gap: 2%;
+
+            transform: translateZ(0);
+            /* Creates new stacking context */
+            will-change: transform;
         }
 
         .column:first-child {
@@ -122,6 +165,7 @@
             text-align: center;
             position: relative;
             border-radius: 20px;
+            z-index: 1;
 
             .svg-container-bottom-left,
             .svg-container-bottom-right {
@@ -151,7 +195,11 @@
             aspect-ratio: 0.73;
             width: 41.8%;
             margin-left: auto;
-            transform: translate(-13%, 2%);
+            /* transform: translate(-13%, 2%); */
+
+            margin-left: auto;
+            margin-right: 13%;
+            margin-top: 2%;
         }
 
         .column:nth-child(2) .item:first-child {
@@ -500,7 +548,7 @@
     </div>
     <div class="container desktop-grid" style="display: flex;">
         <div class="column">
-            <div class="item fade-in-on-scroll no-radius-left visible" data-url="1">
+            <div class="item hover-zoom fade-in-on-scroll no-radius-left visible" data-url="1">
                 <img class="manual-lazy-load no-radius-left lazy-loaded"
                     data-src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Top-Left.webp" alt="Image 1"
                     src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Top-Left.webp">
@@ -513,7 +561,7 @@
                 </div>
 
             </div>
-            <div class="fade-in-on-scroll item no-grey video-block bottom-left visible" data-url="">
+            <div class="fade-in-on-scroll hover-zoom item no-grey video-block bottom-left visible" data-url="">
 
 
                 <img class="who-we-are-video manual-lazy-load lazy-loaded"
@@ -529,7 +577,7 @@
             </div>
         </div>
         <div class="column">
-            <div class="fade-in-on-scroll item bottom-left visible" data-url="2">
+            <div class="fade-in-on-scroll hover-zoom item bottom-left visible" data-url="2">
                 <img class="manual-lazy-load lazy-loaded"
                     data-src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Top-Middle.png" alt="Image 3"
                     src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Top-Middle.png">
@@ -540,7 +588,7 @@
                         onclick="setTargetSection(2)"><span>Read more</span></a>
                 </div>
             </div>
-            <div class="fade-in-on-scroll item bottom-left visible" data-url="">
+            <div class="fade-in-on-scroll hover-zoom item bottom-left visible" data-url="">
                 <img class="manual-lazy-load lazy-loaded"
                     data-src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Bottom-Middle.webp" alt="Image 4"
                     src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Bottom-Middle.webp">
@@ -553,7 +601,7 @@
             </div>
         </div>
         <div class="column">
-            <div class="fade-in-on-scroll no-radius-right item bottom-left visible" data-url="">
+            <div class="fade-in-on-scroll hover-zoom no-radius-right item bottom-left visible" data-url="">
                 <img class="manual-lazy-load no-radius-right lazy-loaded"
                     data-src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Top-Right.png" alt="Image 5"
                     src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Top-Right.png">
@@ -565,7 +613,7 @@
                 </div>
 
             </div>
-            <div class="fade-in-on-scroll item no-radius-right bottom-left visible" data-url="">
+            <div class="fade-in-on-scroll hover-zoom item no-radius-right bottom-left visible" data-url="">
                 <img class="no-radius-right manual-lazy-load lazy-loaded"
                     data-src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Bottom-Right-1.webp" alt="Image 6"
                     src="/wp-content/uploads/2025/04/Home-Page-Who-We-Are-Bottom-Right-1.webp">
