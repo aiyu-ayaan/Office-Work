@@ -1,0 +1,676 @@
+<div class="popup-content">
+    <button id="close-popup"><img src="/wp-content/uploads/2025/03/ic-leader-popup-cross.svg" alt="Close"></button>
+    <div class="popup-body">
+        <div class="leader-img"><img id="popup-img" alt="leader-img"
+                src="https://website-dev.adrosonic.com/wp-content/uploads/2025/04/Leadership-Meet-our-Leaders-Leadership-Ms-Sonal.png">
+        </div>
+        <div class="popup-text">
+            <h2 class="leader-name small-size font-bold" id="popup-name">Sonal</h2>
+            <h3 class="leader-designation smaller-size font-bold" id="popup-designation">Co-Founder, Chief Operating
+                Officer</h3>
+            <a class="leader-linkedin font-bold" id="popup-linkedin"
+                href="https://www.linkedin.com/in/ms-sonal-613209a8/" target="_blank">Connect with Sonal
+                <img src="/wp-content/uploads/2025/03/Vector.svg" class="linkedin" alt="LinkedIn">
+            </a>
+            <div class="scrollable-text">
+                <p class="leader-description smallest-size" id="popup-description">Sonal is the driving force behind
+                    ADROSONIC’s global operations, customer success, and talent transformation. With a strategic vision
+                    rooted in care and empathy, she established the Customer Success Office – integrating client
+                    feedback and talent acquisition to elevate service quality and champion continuous innovation.
+                    Sonal’s disciplined execution shapes ADROSONIC’s delivery culture through standardised processes,
+                    cross-functional collaboration and sustainable growth. She ensures the CEO’s vision is realised by
+                    aligning people, processes and technology, while also overseeing key initiatives across risk,
+                    compliance, process maturity and quality governance. Deeply passionate about creating impact, she
+                    also leads ADROSONIC’s CSR efforts-spearheading initiatives to bring quality education to
+                    underprivileged children. Outside of work, she enjoys music and playing the keyboard. Sonal lives in
+                    Mumbai with her husband and two sons.</p>
+                <p class="leader-note smaller-size" id="popup-author">“True operational excellence is built on empathy –
+                    when you listen deeply to people, the right processes follow.”</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .meet-our-leaders {
+        .meet-our-leaders-heading {
+            padding: 0 3.34%;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 6%;
+            padding: 0 3.34%;
+            margin-top: 2.5%;
+            margin-bottom: 3.34%;
+
+            button {
+                max-width: 328px;
+                width: -webkit-fill-available;
+                min-height: 40px;
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            button:focus,
+            button:active,
+            button:hover,
+            button.active {
+                background: var(--adro-electric-blue);
+                color: var(--adro-deep-blue);
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) {
+            .button-container {
+                gap: 2%;
+                padding: 0 3.34%;
+
+                button {
+                    max-width: 328px;
+                    width: -webkit-fill-available;
+                    min-width: unset;
+                    padding-left: 16px;
+                    padding-right: 16px;
+                }
+            }
+        }
+
+        #grid-container {
+            margin: 0 3.34%;
+            column-gap: 2em;
+            row-gap: 4.5em;
+        }
+
+        .grid {
+            display: grid;
+
+            .card {
+                display: flex;
+                flex-direction: column;
+
+                .leader-img {
+                    width: 100%;
+                    aspect-ratio: 1.23;
+                    margin-bottom: 1em;
+                    position: relative;
+                    border-radius: 20px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 20px;
+                        transition: opacity 0.3s ease-in-out;
+                    }
+
+
+
+                    .see-more {
+                        position: absolute;
+                        font-size: 18px;
+                        left: 20px;
+                        bottom: 20px;
+                        opacity: 0;
+                        z-index: 2;
+                        transition: opacity 0.3s ease-in-out;
+                    }
+                }
+
+                .leader-img::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 20px;
+                    background: linear-gradient(180deg,
+                            rgba(67, 102, 143, 0.62) 0.03%,
+                            rgba(55, 82, 114, 0.71) 38.69%,
+                            rgba(5, 9, 14, 0.95) 128.89%);
+                    opacity: 0;
+                    z-index: 1;
+                    transition: opacity 0.3s ease-in-out;
+                }
+
+                .leader-hover-box {
+                    flex: 1;
+                }
+
+                .leader-hover-box:hover {
+
+                    .leader-img::before,
+                    .see-more {
+                        opacity: 1;
+                    }
+                }
+
+
+                .leader-name {
+                    margin-bottom: 0.25em;
+                }
+
+                .leader-designation {
+                    margin-bottom: 0.34em;
+                }
+
+                .leader-description {
+                    margin-bottom: 1.78em;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 5;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-height: calc(1.2em * 5);
+                }
+
+                .leader-linkedin {
+                    color: var(--adro-electric-blue);
+                    text-decoration: none;
+                    display: inline-flex;
+                    align-items: flex-start;
+
+                    img {
+                        margin-left: 1em;
+                    }
+                }
+            }
+        }
+
+        #popup-modal {
+            .popup-content {
+                display: flex;
+                width: 77.5%;
+                height: 59.08vh;
+
+                .popup-body {
+                    display: flex;
+                    width: 100%;
+
+
+                    .leader-img {
+                        aspect-ratio: 1;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 20px 0 0 20px;
+                        }
+                    }
+
+                    .popup-text {
+                        width: 100%;
+                        /* overflow-y: auto; */
+                        margin: 3.7% 2.69% 3.7% 3.7%;
+                        display: flex;
+                        flex-direction: column;
+
+                        .leader-name {
+                            margin-bottom: 0.375em;
+                        }
+
+                        .leader-designation {
+                            margin-bottom: 0.875em;
+                        }
+
+                        .scrollable-text {
+                            overflow-y: auto;
+                            display: flex;
+                            flex-direction: column;
+                            padding-right: 1.875em;
+                            margin-top: 2em;
+                        }
+
+                        .leader-description {
+                            /* margin: 1.73em 0; */
+                            margin-bottom: 1.73em;
+                        }
+
+                        .leader-linkedin {
+                            color: var(--adro-electric-blue);
+                            text-decoration: none;
+                            font-size: 18px;
+
+                            img {
+                                margin-left: 1em;
+                            }
+                        }
+
+                        .leader-note {
+                            color: var(--adro-electric-blue);
+                            font-style: italic;
+                            text-align: center;
+                            width: 88.3%;
+                            margin: auto;
+                            align-self: flex-end;
+                        }
+                    }
+
+                    .scrollable-text::-webkit-scrollbar {
+                        width: 6px;
+                    }
+
+                    .scrollable-text::-webkit-scrollbar-thumb {
+                        background: var(--adro-electric-blue);
+                        border-radius: 6px;
+                    }
+
+                    .scrollable-text::-webkit-scrollbar-track {
+                        background: rgba(45, 121, 166, 1);
+                        border-radius: 10px;
+                    }
+
+                    @-moz-document url-prefix() {
+                        .scrollable-text {
+                            scrollbar-width: auto;
+                            scrollbar-color: var(--adro-electric-blue) rgba(45, 121, 166, 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        @media (min-width: 768px) {
+
+            .grid {
+
+                grid-template-columns: repeat(4, 1fr);
+                grid-auto-rows: min-content;
+                transition: height 0.4s ease-in-out;
+            }
+
+            #desktop-nav {
+                display: flex;
+                justify-content: center;
+                gap: 0.35em;
+                margin: 3.34% 0 2.09%;
+            }
+
+            .mobile-dots {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) and (max-aspect-ratio:1.4) {
+            #popup-modal {
+                .popup-content {
+                    height: 45.08vh;
+                }
+            }
+        }
+
+        @media (max-width: 767.5px),
+        screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+            .leader-category-header {
+                text-align: center;
+            }
+
+            .button-container {
+                display: none;
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: min-content;
+                column-gap: 1em;
+                row-gap: 3em;
+
+                .card {
+                    .leader-description {
+                        display: none;
+                    }
+
+                    .cta {
+                        display: none;
+                    }
+                }
+            }
+
+            #desktop-nav {
+                display: none;
+            }
+
+            .mobile-dots {
+                display: flex;
+                justify-content: center;
+                gap: 5px;
+                border: none;
+                display: flex;
+                gap: 32px;
+                justify-content: center;
+                padding: 0;
+
+                .dot {
+                    cursor: pointer;
+                }
+            }
+
+            #popup-modal {
+                .popup-content {
+                    text-align: center;
+
+                    .popup-body {
+                        flex-direction: column;
+
+                        .leader-img {
+                            margin-left: auto;
+                            margin-right: auto;
+
+                            img {
+                                border-radius: 20px;
+                            }
+                        }
+
+                        .popup-text {
+                            width: auto;
+                            overflow: hidden;
+
+                            .leader-note {
+                                width: auto;
+                            }
+
+                            .scrollable-text::-webkit-scrollbar {
+                                width: 4px;
+                            }
+
+                            .scrollable-text {
+                                overflow-y: auto;
+                            }
+
+                            .scrollable-text::-webkit-scrollbar-thumb {
+                                background: var(--adro-electric-blue);
+                                border-radius: 10px;
+                            }
+
+                            .scrollable-text::-webkit-scrollbar-track {
+                                background: rgba(45, 121, 166, 1);
+                                border-radius: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            #close-popup {
+                padding: 0.89em !important;
+            }
+        }
+
+        @media (max-width: 767.5px) {
+            .meet-our-leaders-heading {
+                margin-bottom: 15.39%;
+                padding: 0 6.16%;
+            }
+
+            .leader-category-header {
+                margin-bottom: 1.8em;
+            }
+
+            #grid-container {
+                margin: 0 6.16%;
+            }
+
+            .grid {
+
+                .card {
+                    .leader-img {
+                        margin-bottom: 0.5em;
+
+                        .see-more {
+                            left: 9px;
+                            bottom: 10px;
+                        }
+                    }
+                }
+            }
+
+            .mobile-dots {
+                margin: 18.72% 0 12.9% 0;
+            }
+
+            #popup-modal {
+                .popup-content {
+                    width: 87.7%;
+                    height: 70vh;
+
+                    .popup-body {
+
+                        .leader-img {
+                            width: 36.55%;
+                            aspect-ratio: 1.08;
+                            margin-top: 1.5em;
+                        }
+
+                        .popup-text {
+                            margin: 3.22% 0;
+
+                            .scrollable-text {
+                                margin: 1.5em 0;
+                                margin-left: 5.56%;
+                                margin-right: 1.76%;
+
+                                .leader-description {
+                                    margin-bottom: 1.73em;
+                                    margin-top: 0;
+                                    margin-right: 2.88%;
+                                }
+
+                                .leader-note {
+                                    margin-right: 2.88%;
+                                }
+                            }
+
+                            .scrollable-text::-webkit-scrollbar {
+                                width: 4px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            #close-popup {
+                padding: 0.89em !important;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+            .meet-our-leaders-heading {
+                margin-bottom: 8.52%;
+                padding: 0 4.8%;
+            }
+
+            .leader-category-header {
+                margin-bottom: 2em;
+            }
+
+            #grid-container {
+                margin: 0 4.8%;
+            }
+
+            .grid {
+
+                .card {
+                    .leader-img {
+                        .see-more {
+                            left: 15px;
+                            bottom: 18px;
+                        }
+                    }
+                }
+            }
+
+            .mobile-dots {
+                margin: 6.5% 0;
+            }
+
+            #popup-modal {
+                .popup-content {
+                    width: 83.7%;
+                    height: 73.14vh;
+
+                    .popup-body {
+
+                        .leader-img {
+                            width: 45.27%;
+                            aspect-ratio: 1.08;
+                            margin-top: 3em;
+                        }
+
+                        .popup-text {
+                            margin: 3.44% 0;
+
+                            .leader-name {
+                                margin-bottom: 0.34em;
+                            }
+
+                            .leader-designation {
+                                margin-bottom: 0.89em;
+                            }
+
+                            .scrollable-text {
+                                margin-top: 3em;
+                                margin-left: 11.04%;
+                                margin-right: 3.73%;
+
+                                .leader-description {
+                                    margin-bottom: 1.73em;
+                                    margin-top: 0;
+                                    margin-right: 7.11%;
+                                }
+
+                                .leader-note {
+                                    margin-right: 7.11%;
+                                }
+                            }
+
+                            .scrollable-text::-webkit-scrollbar {
+                                width: 6px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            #close-popup {
+                padding: 1.34em !important;
+            }
+        }
+
+        @media screen and (max-width: 1024px) {
+            .service-button-cta {
+                display: block;
+            }
+        }
+
+        .grid-item {
+            text-align: center;
+        }
+
+        .dot {
+            transition: 0.3s;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgb(0, 0, 0, 0);
+            border: 2px solid #00CCFF;
+            display: block;
+            background: 0 0;
+            color: inherit;
+            padding: 0;
+            font: inherit;
+        }
+
+        .dot.active {
+            background-color: #00CCFF;
+        }
+
+        .card {
+            text-align: left;
+            transition: 0.3s;
+
+            .leader-img {
+                width: 100%;
+                object-fit: cover;
+            }
+
+            .cta {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .see-more {
+                text-decoration: none;
+            }
+
+            .see-more::after {
+                background: url(/wp-content/uploads/2025/01/Property-1Icon-Property-2DT-LT-menu-Property-3Electric-blue.png);
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+        }
+
+
+
+        #popup-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #1A2C47 4.08%, rgba(61, 92, 125, 0.70) 49.29%, rgba(55, 82, 114, 0.75) 74.27%, rgba(5, 9, 14, 0.50) 109.97%);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #popup-modal.active {
+            display: flex;
+        }
+
+        .popup-content {
+            background: var(--adro-mid-blue);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        #close-popup {
+            position: absolute;
+            right: 0;
+            top: 0;
+            border: none;
+            cursor: pointer;
+            padding: 1.1em;
+            background-color: var(--adro-mid-blue);
+        }
+
+        #close-popup:hover {
+            background: var(--adro-mid-blue);
+        }
+
+        .pagination {
+            button {
+                border: none;
+                line-height: 0;
+            }
+
+            #prev-btn:hover,
+            #next-btn:hover,
+            #prev-btn:focus,
+            #next-btn:focus,
+            #prev-btn:active,
+            #next-btn:active {
+                background: none;
+            }
+
+            #next-btn {
+                transform: rotate(180deg);
+            }
+        }
+    }
+</style>
