@@ -1,12 +1,11 @@
 <div class="leadership-page-banner">
-    <h1 class="headline largest-size" id="animated-headline">We Lead With <span
-            class="color-ia font-bold">Innovation</span> in Mind and <span class="color-ia font-bold">Care</span> at our
-        Core</h1>
-    <div class="desc small-size">Our leadership team has an impressive track record of helping customers achieve success
+    <h1 class="headline largest-size" id="animated-headline" style="opacity: 0;">We Lead With <span class="color-ia font-bold">Innovation</span> in Mind and <span
+            class="color-ia font-bold">Care</span> at our Core</h1>
+    <div class="desc small-size" id="animated-desc">Our leadership team has an impressive track record of helping customers achieve success
         across industries and across the globe. As important as their technical and business acumen is their focus on
         people: our employees, partners, customers and our customers' customers. We believe that caring for people is
         the cornerstone of success.</div>
-    <button class="custom-button" onclick="window.location.href='/contact-us';">Get in Touch</button>
+    <button class="custom-button" id="animated-button" onclick="window.location.href='/contact-us';">Get in Touch</button>
 </div>
 
 
@@ -21,6 +20,9 @@
             margin: 17.4% 0 0 0;
             text-align: left;
             transform: scale(0.94);
+        }
+        
+        .headline.animated {
             animation: scale 3s forwards cubic-bezier(0.5, 1, 0.89, 1);
         }
 
@@ -85,19 +87,50 @@
             filter: blur(0);
         }
     }
+
+    /* Slide up animation with blur effect */
+    #animated-desc,
+    #animated-button {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(4px);
+    }
+
+    #animated-desc.slide-up {
+        animation: slide-up-blur 1s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    #animated-button.slide-up {
+        animation: slide-up-blur 1s 0.2s forwards cubic-bezier(0.11, 0, 0.5, 0);
+    }
+
+    @keyframes slide-up-blur {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(4px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+    }
 </style>
 
 <script>
     function animateHeadline() {
         const headline = document.getElementById('animated-headline');
+        const desc = document.getElementById('animated-desc');
+        const button = document.getElementById('animated-button');
         const originalHTML = headline.innerHTML;
-
+        
         const temp = document.createElement('div');
         temp.innerHTML = originalHTML;
-
+        
         let wordIndex = 0;
         const animatedContent = [];
-
+        
         function processNode(node) {
             if (node.nodeType === Node.TEXT_NODE) {
                 const words = node.textContent.split(/(\s+)/);
@@ -116,7 +149,7 @@
             } else if (node.nodeType === Node.ELEMENT_NODE) {
                 const element = node.cloneNode(false);
                 const innerContent = [];
-
+                
                 node.childNodes.forEach(child => {
                     if (child.nodeType === Node.TEXT_NODE) {
                         const words = child.textContent.split(/(\s+)/);
@@ -134,15 +167,28 @@
                         });
                     }
                 });
-
+                
                 element.innerHTML = innerContent.join('');
                 animatedContent.push(element.outerHTML);
             }
         }
-
+        
         temp.childNodes.forEach(processNode);
         headline.innerHTML = animatedContent.join('');
+        
+        // Make headline visible and start scale animation
+        headline.style.opacity = '1';
+        headline.classList.add('animated');
+        
+        // Calculate total heading animation duration
+        const headingAnimationDuration = (0.1 + wordIndex * 0.1 + 0.8) * 1000;
+        
+        // Trigger slide-up animations after heading animation completes
+        setTimeout(() => {
+            desc.classList.add('slide-up');
+            button.classList.add('slide-up');
+        }, headingAnimationDuration);
     }
-
+    
     window.addEventListener('DOMContentLoaded', animateHeadline);
 </script>
