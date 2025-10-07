@@ -828,20 +828,18 @@
                 if (entry.isIntersecting) {
                     // Add animate class when element enters viewport
                     entry.target.classList.add('animate');
+                    // Stop observing this element after animation
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
         // Observe all elements with animate-on-scroll class
         const animateElements = document.querySelectorAll('.animate-on-scroll');
-        animateElements.forEach(function (element) {
+        animateElements.forEach(function (element, index) {
+            // Add staggered delay to each element
+            element.style.transitionDelay = (index * 0.15) + 's';
             observer.observe(element);
-        });
-
-        // Add staggered animation for grid items
-        const gridItems = document.querySelectorAll('.grid-item.animate-on-scroll');
-        gridItems.forEach(function (item, index) {
-            item.style.transitionDelay = (index * 0.2) + 's';
         });
     });
 </script>
