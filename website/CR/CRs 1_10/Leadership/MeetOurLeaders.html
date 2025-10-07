@@ -1,0 +1,1018 @@
+<style>
+    .meet-our-leaders {
+        .meet-our-leaders-heading {
+            padding: 0 3.34%;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 6%;
+            padding: 0 3.34%;
+            margin-top: 2.5%;
+            margin-bottom: 3.34%;
+
+            button {
+                max-width: 328px;
+                width: -webkit-fill-available;
+                min-height: 40px;
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            button:focus,
+            button:active,
+            button:hover,
+            button.active {
+                background: var(--adro-electric-blue);
+                color: var(--adro-deep-blue);
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) {
+            .button-container {
+                gap: 2%;
+                padding: 0 3.34%;
+
+                button {
+                    max-width: 328px;
+                    width: -webkit-fill-available;
+                    min-width: unset;
+                    padding-left: 16px;
+                    padding-right: 16px;
+                }
+            }
+        }
+
+        #grid-container {
+            margin: 0 3.34%;
+            column-gap: 2em;
+            row-gap: 4.5em;
+        }
+
+        .grid {
+            display: grid;
+
+            .card {
+                display: flex;
+                flex-direction: column;
+
+                .leader-img {
+                    width: 100%;
+                    aspect-ratio: 1.23;
+                    margin-bottom: 1em;
+                    position: relative;
+                    border-radius: 20px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 20px;
+                        transition: opacity 0.3s ease-in-out;
+                    }
+
+
+
+                    .see-more {
+                        position: absolute;
+                        font-size: 18px;
+                        left: 20px;
+                        bottom: 20px;
+                        opacity: 0;
+                        z-index: 2;
+                        transition: opacity 0.3s ease-in-out;
+                    }
+                }
+
+                .leader-img::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 20px;
+                    background: linear-gradient(180deg,
+                            rgba(67, 102, 143, 0.62) 0.03%,
+                            rgba(55, 82, 114, 0.71) 38.69%,
+                            rgba(5, 9, 14, 0.95) 128.89%);
+                    opacity: 0;
+                    z-index: 1;
+                    transition: opacity 0.3s ease-in-out;
+                }
+
+                .leader-hover-box {
+                    flex: 1;
+                }
+
+                .leader-hover-box:hover {
+
+                    .leader-img::before,
+                    .see-more {
+                        opacity: 1;
+                    }
+                }
+
+
+                .leader-name {
+                    margin-bottom: 0.25em;
+                }
+
+                .leader-designation {
+                    margin-bottom: 0.34em;
+                }
+
+                .leader-description {
+                    margin-bottom: 1.78em;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 5;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-height: calc(1.2em * 5);
+                }
+
+                .leader-linkedin {
+                    color: var(--adro-electric-blue);
+                    text-decoration: none;
+                    display: inline-flex;
+                    align-items: flex-start;
+
+                    img {
+                        margin-left: 1em;
+                    }
+                }
+            }
+        }
+
+        #popup-modal {
+            .popup-content {
+                display: flex;
+                width: 77.5%;
+                height: 59.08vh;
+
+                .popup-body {
+                    display: flex;
+                    width: 100%;
+
+
+                    .leader-img {
+                        align-items: center;
+                        justify-content: center;
+                        display: flex;
+                        width: 42.28% !important;
+                        aspect-ratio: 629 / 510;
+                        margin-left: 2.49%;
+
+                        img {
+                            width: 100%;
+                            border-radius: 20px 0 0 20px;
+                        }
+                    }
+
+                    .popup-text {
+                        width: 100%;
+                        /* overflow-y: auto; */
+                        margin: 3.7% 2.69% 3.7% 3.7%;
+                        display: flex;
+                        flex-direction: column;
+
+                        .leader-name {
+                            margin-bottom: 0.375em;
+                        }
+
+                        .leader-designation {
+                            margin-bottom: 0.875em;
+                        }
+
+                        .scrollable-text {
+                            overflow-y: auto;
+                            display: flex;
+                            flex-direction: column;
+                            padding-right: 1.875em;
+                            margin-top: 2em;
+                        }
+
+                        .leader-description {
+                            /* margin: 1.73em 0; */
+                            margin-bottom: 1.73em;
+                        }
+
+                        .leader-linkedin {
+                            color: var(--adro-electric-blue);
+                            text-decoration: none;
+                            font-size: 18px;
+
+                            img {
+                                margin-left: 1em;
+                            }
+                        }
+
+                        .leader-note {
+                            color: var(--adro-electric-blue);
+                            font-style: italic;
+                            text-align: center;
+                            width: 88.3%;
+                            margin: auto;
+                            align-self: flex-end;
+                        }
+                    }
+
+                    .scrollable-text::-webkit-scrollbar {
+                        width: 6px;
+                    }
+
+                    .scrollable-text::-webkit-scrollbar-thumb {
+                        background: var(--adro-electric-blue);
+                        border-radius: 6px;
+                    }
+
+                    .scrollable-text::-webkit-scrollbar-track {
+                        background: rgba(45, 121, 166, 1);
+                        border-radius: 10px;
+                    }
+
+                    @-moz-document url-prefix() {
+                        .scrollable-text {
+                            scrollbar-width: auto;
+                            scrollbar-color: var(--adro-electric-blue) rgba(45, 121, 166, 1);
+                        }
+                    }
+                }
+            }
+        }
+
+        @media (min-width: 768px) {
+
+            .grid {
+
+                grid-template-columns: repeat(4, 1fr);
+                grid-auto-rows: min-content;
+                transition: height 0.4s ease-in-out;
+            }
+
+            #desktop-nav {
+                display: flex;
+                justify-content: center;
+                gap: 0.35em;
+                margin: 3.34% 0 2.09%;
+            }
+
+            .mobile-dots {
+                display: none;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) and (max-aspect-ratio:1.4) {
+            #popup-modal {
+                .popup-content {
+                    height: 45.08vh;
+                }
+            }
+        }
+
+        @media (max-width: 767.5px),
+        screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+            .leader-category-header {
+                text-align: center;
+            }
+
+            .button-container {
+                display: none;
+            }
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: min-content;
+                column-gap: 1em;
+                row-gap: 3em;
+
+                .card {
+                    .leader-description {
+                        display: none;
+                    }
+
+                    .cta {
+                        display: none;
+                    }
+                }
+            }
+
+            #desktop-nav {
+                display: none;
+            }
+
+            .mobile-dots {
+                display: flex;
+                justify-content: center;
+                gap: 5px;
+                border: none;
+                display: flex;
+                gap: 32px;
+                justify-content: center;
+                padding: 0;
+
+                .dot {
+                    cursor: pointer;
+                }
+            }
+
+            #popup-modal {
+                .popup-content {
+                    text-align: center;
+
+                    .popup-body {
+                        flex-direction: column;
+
+                        .leader-img {
+                            margin-left: auto;
+                            margin-right: auto;
+
+                            img {
+                                border-radius: 20px;
+                            }
+                        }
+
+                        .popup-text {
+                            width: auto;
+                            overflow: hidden;
+
+                            .leader-note {
+                                width: auto;
+                            }
+
+                            .scrollable-text::-webkit-scrollbar {
+                                width: 4px;
+                            }
+
+                            .scrollable-text {
+                                overflow-y: auto;
+                            }
+
+                            .scrollable-text::-webkit-scrollbar-thumb {
+                                background: var(--adro-electric-blue);
+                                border-radius: 10px;
+                            }
+
+                            .scrollable-text::-webkit-scrollbar-track {
+                                background: rgba(45, 121, 166, 1);
+                                border-radius: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            #close-popup {
+                padding: 0.89em !important;
+            }
+        }
+
+        @media (max-width: 767.5px) {
+            .meet-our-leaders-heading {
+                margin-bottom: 15.39%;
+                padding: 0 6.16%;
+            }
+
+            .leader-category-header {
+                margin-bottom: 1.8em;
+            }
+
+            #grid-container {
+                margin: 0 6.16%;
+            }
+
+            .grid {
+
+                .card {
+                    .leader-img {
+                        margin-bottom: 0.5em;
+
+                        .see-more {
+                            left: 9px;
+                            bottom: 10px;
+                        }
+                    }
+                }
+            }
+
+            .mobile-dots {
+                margin: 18.72% 0 12.9% 0;
+            }
+
+            #popup-modal {
+                .popup-content {
+                    width: 87.7%;
+                    height: 70vh;
+
+                    .popup-body {
+
+                        .leader-img {
+                            width: 36.55%;
+                            aspect-ratio: 1.08;
+                            margin-top: 1.5em;
+                        }
+
+                        .popup-text {
+                            margin: 3.22% 0;
+
+                            .scrollable-text {
+                                margin: 1.5em 0;
+                                margin-left: 5.56%;
+                                margin-right: 1.76%;
+
+                                .leader-description {
+                                    margin-bottom: 1.73em;
+                                    margin-top: 0;
+                                    margin-right: 2.88%;
+                                }
+
+                                .leader-note {
+                                    margin-right: 2.88%;
+                                }
+                            }
+
+                            .scrollable-text::-webkit-scrollbar {
+                                width: 4px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            #close-popup {
+                padding: 0.89em !important;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+            .meet-our-leaders-heading {
+                margin-bottom: 8.52%;
+                padding: 0 4.8%;
+            }
+
+            .leader-category-header {
+                margin-bottom: 2em;
+            }
+
+            #grid-container {
+                margin: 0 4.8%;
+            }
+
+            .grid {
+
+                .card {
+                    .leader-img {
+                        .see-more {
+                            left: 15px;
+                            bottom: 18px;
+                        }
+                    }
+                }
+            }
+
+            .mobile-dots {
+                margin: 6.5% 0;
+            }
+
+            #popup-modal {
+                .popup-content {
+                    width: 83.7%;
+                    height: 73.14vh;
+
+                    .popup-body {
+
+                        .leader-img {
+                            width: 45.27%;
+                            aspect-ratio: 1.08;
+                            margin-top: 3em;
+                        }
+
+                        .popup-text {
+                            margin: 3.44% 0;
+
+                            .leader-name {
+                                margin-bottom: 0.34em;
+                            }
+
+                            .leader-designation {
+                                margin-bottom: 0.89em;
+                            }
+
+                            .scrollable-text {
+                                margin-top: 3em;
+                                margin-left: 11.04%;
+                                margin-right: 3.73%;
+
+                                .leader-description {
+                                    margin-bottom: 1.73em;
+                                    margin-top: 0;
+                                    margin-right: 7.11%;
+                                }
+
+                                .leader-note {
+                                    margin-right: 7.11%;
+                                }
+                            }
+
+                            .scrollable-text::-webkit-scrollbar {
+                                width: 6px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            #close-popup {
+                padding: 1.34em !important;
+            }
+        }
+
+        @media screen and (max-width: 1024px) {
+            .service-button-cta {
+                display: block;
+            }
+        }
+
+        .grid-item {
+            text-align: center;
+        }
+
+        .dot {
+            transition: 0.3s;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgb(0, 0, 0, 0);
+            border: 2px solid #00CCFF;
+            display: block;
+            background: 0 0;
+            color: inherit;
+            padding: 0;
+            font: inherit;
+        }
+
+        .dot.active {
+            background-color: #00CCFF;
+        }
+
+        .card {
+            text-align: left;
+            transition: 0.3s;
+
+            .leader-img {
+                width: 100%;
+                object-fit: cover;
+            }
+
+            .cta {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .see-more {
+                text-decoration: none;
+            }
+
+            .see-more::after {
+                background: url(/wp-content/uploads/2025/01/Property-1Icon-Property-2DT-LT-menu-Property-3Electric-blue.png);
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+        }
+
+
+
+        #popup-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #1A2C47 4.08%, rgba(61, 92, 125, 0.70) 49.29%, rgba(55, 82, 114, 0.75) 74.27%, rgba(5, 9, 14, 0.50) 109.97%);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #popup-modal.active {
+            display: flex;
+        }
+
+        .popup-content {
+            background: var(--adro-mid-blue);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        #close-popup {
+            position: absolute;
+            right: 0;
+            top: 0;
+            border: none;
+            cursor: pointer;
+            padding: 1.1em;
+            background-color: var(--adro-mid-blue);
+        }
+
+        #close-popup:hover {
+            background: var(--adro-mid-blue);
+        }
+
+        .pagination {
+            button {
+                border: none;
+                line-height: 0;
+            }
+
+            #prev-btn:hover,
+            #next-btn:hover,
+            #prev-btn:focus,
+            #next-btn:focus,
+            #prev-btn:active,
+            #next-btn:active {
+                background: none;
+            }
+
+            #next-btn {
+                transform: rotate(180deg);
+            }
+        }
+    }
+</style>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let category = "";
+        const selector_buttons = document.querySelectorAll(".meet-our-leaders .button-container button");
+        const firstButton = selector_buttons[0];
+        if (firstButton) {
+            category = firstButton.textContent.trim();
+            firstButton.classList.add("active");
+        }
+        const popupModal = document.querySelector(".meet-our-leaders #popup-modal");
+        const popupImg = document.querySelector(".meet-our-leaders #popup-img");
+        const popupName = document.querySelector(".meet-our-leaders #popup-name");
+        const popupDesignation = document.querySelector(".meet-our-leaders #popup-designation");
+        const popupDescription = document.querySelector(".meet-our-leaders #popup-description");
+        const popupAuthor = document.querySelector(".meet-our-leaders #popup-author");
+        const popupLinkedIn = document.querySelector(".meet-our-leaders #popup-linkedin");
+        const closePopup = document.querySelector(".meet-our-leaders #close-popup");
+
+        const itemsPerPageDesktop = 8;
+        const itemsPerPageMobile = 4;
+        let currentPage = 0;
+        let currentPageMobile = {};
+
+        selector_buttons.forEach(button => {
+            let categoryName = button.textContent.trim();
+            currentPageMobile[categoryName] = 0;
+        });
+
+
+        function renderGrid(selectedCategory = null) {
+            const width = window.innerWidth;
+            const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+            let isMobile = false;
+            if (width <= 767) {
+                isMobile = true;
+            } else if (width <= 1024) {
+                if (isPortrait) {
+                    isMobile = true;
+                }
+            }
+
+
+            if (isMobile) {
+                const gridContainer = document.querySelector(".meet-our-leaders #grid-container");
+                gridContainer.innerHTML = "";
+                gridContainer.className = "";
+                // Show all categories one below the other in mobile view
+                selector_buttons.forEach(button => {
+                    // Create grid container
+                    const grid = document.createElement("div");
+                    grid.className = "grid";
+                    // category = button.getAttribute("data-category");
+                    category = button.textContent.trim();
+                    grid.setAttribute("data-category", category);
+                    const heading = document.createElement("h2");
+                    heading.classList.add("medium-size", "font-bold", "leader-category-header");
+                    heading.textContent = category;
+                    gridContainer.appendChild(heading);
+                    const itemsPerPage = itemsPerPageMobile;
+
+                    const mobileDotsContainer = document.createElement("div");
+                    mobileDotsContainer.className = "mobile-dots";
+                    mobileDotsContainer.setAttribute("data-category", category);
+                    const start = currentPageMobile[category] * itemsPerPage;
+                    const paginatedItems = leadersData[category].slice(start, start + itemsPerPage);
+                    paginatedItems.forEach(item => {
+                        const card = document.createElement("div");
+                        card.className = "card";
+                        card.setAttribute("data-leader-note", `${item.leaderNote}`);
+                        card.innerHTML = `
+                        <div class="leader-hover-box">
+                    <div class="leader-img">
+                        <img class="manual-lazy-load" data-src="${item.img}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="${item.name}">
+                        <a class="see-more font-bold underline-on-hover service-button-cta"><span class="see-more-text">See More</span></a>
+                    </div>
+                    <h3 class="leader-name small-size font-bold">${item.name}</h3>
+                    <p class="leader-designation smaller-size font-bold">${item.designation}</p>
+                    </div>
+                    <p class="leader-description smallest-size">${item.description}</p>
+                    <div class="cta">
+                        <a href="${item.linkedin}" target="_blank" class="leader-linkedin smallest-size font-bold">${item.linkedinText}
+                            <img src="/wp-content/uploads/2025/03/Vector.svg" class="linkedin" alt="LinkedIn">
+                        </a>
+                    </div>`;
+                        grid.appendChild(card);
+                    });
+
+                    // Append category wrapper to main container
+                    gridContainer.appendChild(grid);
+
+                    // Add pagination dots in mobile view
+                    const totalPages = Math.ceil(leadersData[category].length / itemsPerPage);
+
+                    for (let i = 0; i < totalPages; i++) {
+                        const dot = document.createElement("div");
+                        dot.className = "dot";
+                        if (i === currentPageMobile[category]) dot.classList.add("active");
+                        mobileDotsContainer.appendChild(dot);
+                    }
+                    gridContainer.appendChild(mobileDotsContainer);
+                    if (totalPages <= 1) {
+                        mobileDotsContainer.style.visibility = "hidden";
+                        mobileDotsContainer.style.height = "0";
+                    }
+                    else {
+                        mobileDotsContainer.style.visibility = "visible";
+                        mobileDotsContainer.style.height = "";
+                    }
+
+
+                    // Attach swipe event to each grid
+                    attachSwipeEvents(grid, category);
+                    updateOnDotsClick(grid, category);
+                });
+
+                if (firstButton) {
+                    category = firstButton.textContent.trim();
+                    firstButton.classList.add("active");
+                }
+            }
+            else {
+                const gridContainer = document.querySelector(".meet-our-leaders #grid-container");
+
+                gridContainer.innerHTML = "";
+                gridContainer.className = "grid";
+
+                const itemsPerPage = itemsPerPageDesktop;
+                const start = currentPage * itemsPerPage;
+                const paginatedItems = leadersData[category].slice(start, start + itemsPerPage);
+                paginatedItems.forEach(item => {
+                    const card = document.createElement("div");
+                    card.className = "card";
+                    card.setAttribute("data-leader-note", `${item.leaderNote}`);
+                    card.innerHTML = `
+                    <div class="leader-hover-box">
+                    <div class="leader-img"><img class="manual-lazy-load" data-src="${item.img}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="${item.name}">
+                        <a class="see-more font-bold underline-on-hover service-button-cta"><span class="see-more-text">See More</span></a>
+                    </div>
+                    <h3 class="leader-name small-size font-bold">${item.name}</h3>
+                    <p class="leader-designation smaller-size font-bold">${item.designation}</p>
+                    </div>
+                    <p class="leader-description smallest-size">${item.description}</p>
+                    <div class="cta">
+                        <a href="${item.linkedin}" target="_blank" class="leader-linkedin smallest-size font-bold">${item.linkedinText}
+                            <img src="/wp-content/uploads/2025/03/Vector.svg" class="linkedin" alt="LinkedIn">
+                        </a>
+                    </div>
+                `;
+                    gridContainer.appendChild(card);
+                });
+                const totalPages = Math.ceil(leadersData[category].length / itemsPerPage);
+                const desktopPaginationContainer = document.querySelector(".meet-our-leaders .pagination");
+                if (totalPages <= 1) {
+                    desktopPaginationContainer.style.visibility = "hidden";
+
+                }
+                else {
+                    desktopPaginationContainer.style.visibility = "visible";
+
+                }
+            }
+        }
+
+        function attachSwipeEvents(grid, category) {
+            let touchStartX = 0;
+
+            grid.addEventListener("touchstart", (e) => {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            grid.addEventListener("touchend", (e) => {
+                let touchEndX = e.changedTouches[0].clientX;
+                const width = window.innerWidth;
+                const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+                let isMobile = false;
+                if (width <= 767) {
+                    isMobile = true;
+                } else if (width <= 1024) {
+                    if (isPortrait) {
+                        isMobile = true;
+                    }
+                }
+
+                if (isMobile) {
+                    let totalItems = leadersData[category].length;
+                    let itemsPerPage = itemsPerPageMobile;
+                    let maxPages = Math.ceil(totalItems / itemsPerPage);
+
+                    if (touchStartX - touchEndX > 50 && currentPageMobile[category] < maxPages - 1) {
+                        currentPageMobile[category]++;
+                        updateGridContent(grid, category, currentPageMobile[category]);
+                    } else if (touchEndX - touchStartX > 50 && currentPageMobile[category] > 0) {
+                        currentPageMobile[category]--;
+                        updateGridContent(grid, category, currentPageMobile[category]);
+                    }
+                }
+                updateDots(category, currentPageMobile[category])
+            });
+        }
+        function updateGridContent(grid, category, page) {
+            grid.innerHTML = "";
+
+            const start = page * itemsPerPageMobile;
+
+            const paginatedItems = leadersData[category].slice(start, start + itemsPerPageMobile);
+
+            paginatedItems.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.setAttribute("data-leader-note", `${item.leaderNote}`);
+                card.innerHTML = `
+                <div class="leader-hover-box">
+            <div class="leader-img">
+                <img class="manual-lazy-load" data-src="${item.img}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="${item.name}">
+                <a class="see-more underline-on-hover service-button-cta"><span class="see-more-text">See More</span></a>
+            </div>
+            <h3 class="leader-name small-size font-bold">${item.name}</h3>
+            <p class="leader-designation smaller-size font-bold">${item.designation}</p>
+            </div>
+            <p class="leader-description smallest-size">${item.description}</p>
+            <div class="cta">
+                <a href="${item.linkedin}" target="_blank" class="leader-linkedin smallest-size font-bold">${item.linkedinText}
+                    <img src="/wp-content/uploads/2025/03/Vector.svg" class="linkedin">
+                </a>
+            </div>
+        `;
+                grid.appendChild(card);
+            });
+            updateDots(category, page);
+        }
+
+        function updateDots(category, page) {
+            const mobileDotsContainer = document.querySelector(`.meet-our-leaders .mobile-dots[data-category="${category}"]`);
+            if (!mobileDotsContainer) return;
+
+            mobileDotsContainer.querySelectorAll(".dot").forEach((dot, index) => {
+                if (index === page) {
+                    dot.classList.add("active");
+                } else {
+                    dot.classList.remove("active");
+                }
+            });
+        }
+        function updateOnDotsClick(grid, category) {
+            const mobileDotsContainer = document.querySelector(`.meet-our-leaders .mobile-dots[data-category="${category}"]`);
+            if (!mobileDotsContainer) return;
+
+            const dots = mobileDotsContainer.querySelectorAll(".dot");
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener("click", () => {
+                    if (currentPageMobile[category] !== index) {
+                        currentPageMobile[category] = index;
+                        updateGridContent(grid, category, index);
+                        updateDots(category, index);
+                    }
+                });
+            });
+        }
+        let scrollPosition = 0;
+        function openModal(item) {
+
+            if (!item) return;
+            popupImg.src = item.img;
+            popupName.textContent = item.name;
+            popupDesignation.textContent = item.designation;
+            popupDescription.innerHTML = item.description;
+            popupAuthor.textContent = item.leaderNote;
+            popupLinkedIn.href = item.linkedin;
+            popupLinkedIn.innerHTML = item.linkedinText;
+
+            popupModal.classList.add("active");
+            // Save the current scroll position
+            scrollPosition = window.scrollY;
+
+            // Disable scrolling and keep the body in place
+            document.body.style.position = "fixed";
+            document.body.style.top = `-${scrollPosition}px`;
+            document.body.style.width = "100%";
+
+            popupModal.querySelector(".popup-body .scrollable-text").scrollTop = 0;
+        }
+
+        function closeModal() {
+            popupModal.classList.remove("active");
+            // Re-enable scrolling and restore the previous scroll position
+            document.body.style.position = "";
+            document.body.style.top = "";
+            window.scrollTo(0, scrollPosition);
+        }
+
+
+        selector_buttons.forEach(button => {
+            button.addEventListener("click", (event) => {
+                selector_buttons.forEach(b => b.classList.remove("active"));
+                event.target.classList.add("active");
+                category = event.target.textContent.trim();
+                currentPage = 0;
+                renderGrid(category);
+            })
+        })
+        closePopup.addEventListener("click", closeModal);
+
+        popupModal.addEventListener("click", (e) => {
+            if (e.target === popupModal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("see-more") || e.target.classList.contains("see-more-text")) {
+                e.preventDefault();
+                const card = e.target.closest(".card");
+                const img = card.querySelector(".leader-img img").src;
+                const name = card.querySelector(".leader-name").textContent;
+                const designation = card.querySelector(".leader-designation").textContent;
+                const description = card.querySelector(".leader-description").innerHTML;
+                const leaderNote = card.getAttribute("data-leader-note");
+                const linkedinText = card.querySelector(".leader-linkedin");
+
+                openModal({
+                    img: img,
+                    name: name,
+                    designation: designation,
+                    description: description,
+                    leaderNote: leaderNote,
+                    linkedin: linkedinText.href,
+                    linkedinText: linkedinText.innerHTML
+                });
+            }
+        });
+
+        document.querySelector(".meet-our-leaders #prev-btn").addEventListener("click", () => {
+            if (currentPage > 0) {
+                currentPage--;
+                renderGrid(category);
+            }
+        });
+
+        document.querySelector(".meet-our-leaders #next-btn").addEventListener("click", () => {
+            const isMobile = window.innerWidth < 768;
+            const itemsPerPage = isMobile ? itemsPerPageMobile : itemsPerPageDesktop;
+
+            if ((currentPage + 1) * itemsPerPage < leadersData[category].length) {
+                currentPage++;
+                renderGrid(category);
+            }
+        });
+
+        // Add smooth scroll to the top of the page when pagination buttons are clicked
+        const leaders_pagination_buttons = document.querySelectorAll(".meet-our-leaders .pagination button")
+
+        leaders_pagination_buttons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector('.meet-our-leaders');
+                window.scrollTo({
+                    top: target.offsetTop,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Initial Render
+        renderGrid(category);
+        window.addEventListener("resize", () => {
+            renderGrid(category);
+        });
+
+    });
+</script>

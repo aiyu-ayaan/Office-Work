@@ -1,0 +1,232 @@
+<div class="leader-sec">
+    <div class="we-belive">
+        <h2 class="belive-heading large-size">What We <span>Believe</span> in</h2>
+        <p class="belive medium-size">Driving change with empathy and innovation</p>
+        <button class="about-btn smaller-size" onclick="window.location.href='/about-us';">Learn about us</button>
+    </div>
+</div>
+
+<style>
+    /* Slide-up animation keyframes */
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Animation classes that will be added dynamically */
+    .animate-slide-up {
+        animation: slideUp 0.8s ease-out forwards;
+    }
+
+    /* Initial hidden state */
+    .leader-sec .we-belive>* {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    /* Your existing CSS remains exactly the same */
+    .leader-sec {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .we-belive {
+        max-width: 100%;
+        text-align: center;
+        z-index: 1;
+    }
+
+    .belive-heading {
+        height: auto;
+        margin: auto;
+        margin-bottom: 2.5rem;
+    }
+
+    .belive-heading span {
+        color: #00ccff;
+    }
+
+    .belive {
+        line-height: normal;
+        width: 100%;
+        text-align: center;
+        margin: auto;
+        height: auto;
+    }
+
+    .belive strong {
+        color: #00ccff;
+        font-weight: 600;
+    }
+
+    .about-btn {
+        display: none;
+        width: 12.92%;
+        height: 40px;
+        padding: 8px 16px;
+        margin-top: 32px;
+        margin-bottom: 32px;
+    }
+
+    /* All your existing media queries remain unchanged */
+    @media screen and (min-width:768px) and (max-width:1024.9px) {
+        @media (orientation:landscape) {
+            .belive-heading {
+                margin: auto auto 1rem;
+                height: auto;
+            }
+
+            .belive-heading span {
+                color: #00ccff;
+            }
+
+            .belive {
+                line-height: normal;
+                width: 70%;
+                margin-left: 32.5rem;
+                margin: auto;
+                text-align: center;
+                height: auto;
+            }
+
+            .belive strong {
+                color: #00ccff;
+            }
+
+            .about-btn {
+                width: 280px;
+                height: 48px;
+                padding: 8px 16px;
+            }
+        }
+
+        @media (orientation: portrait) {
+            .we-belive {
+                text-align: center;
+                height: auto;
+            }
+
+            .belive-heading {
+                margin: auto auto 1rem;
+                height: auto;
+            }
+
+            .belive-heading span {
+                color: #00ccff;
+            }
+
+            .belive {
+                line-height: normal;
+                width: 99.6%;
+                margin: auto;
+                text-align: center;
+                height: auto;
+            }
+
+            .belive strong {
+                color: #00ccff;
+                font-weight: 500;
+            }
+
+            .about-btn {
+                width: 29.8%;
+                height: 40px;
+                padding: 8px 16px;
+                margin-top: 1rem;
+                margin-bottom: 32px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 767.5px) {
+        .belive-heading {
+            width: 100%;
+            margin: auto auto 1.5rem;
+            height: auto;
+            font-weight: 500;
+        }
+
+        .belive-heading span {
+            color: #00ccff;
+        }
+
+        .belive {
+            line-height: normal;
+            width: 91%;
+            margin: auto;
+            text-align: center;
+            height: auto;
+        }
+
+        .belive strong {
+            color: #00ccff;
+            font-weight: 400;
+        }
+
+        .about-btn {
+            width: 72%;
+            height: 48px;
+            padding: 8px 16px;
+            font-size: 18px;
+            margin-top: 32px;
+            margin-bottom: 32px;
+        }
+    }
+
+    /* Respect user's motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .animate-slide-up {
+            animation: none;
+        }
+
+        .leader-sec .we-belive>* {
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>
+
+<script>
+    // Intersection Observer for slide-up animation
+    const observerOptions = {
+        threshold: 0.1, // Trigger when 10% of element is visible
+        rootMargin: '0px 0px -50px 0px' // Trigger slightly before element comes into view
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const elements = entry.target.querySelectorAll('.belive-heading, .belive, .about-btn');
+
+            if (entry.isIntersecting) {
+                // Add animation with staggered delays
+                elements.forEach((element, index) => {
+                    element.style.animationDelay = `${index * 0.2}s`;
+                    element.classList.add('animate-slide-up');
+                });
+            } else {
+                // Remove animation classes to allow replay
+                elements.forEach(element => {
+                    element.classList.remove('animate-slide-up');
+                    element.style.animationDelay = '';
+                });
+            }
+        });
+    }, observerOptions);
+
+    // Start observing when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        const leaderSection = document.querySelector('.leader-sec');
+        if (leaderSection) {
+            observer.observe(leaderSection);
+        }
+    });
+
+</script>
