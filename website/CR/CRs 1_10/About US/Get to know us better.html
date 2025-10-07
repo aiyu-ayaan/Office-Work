@@ -1,10 +1,9 @@
 <div class="AboutUs-Innovation-frame">
-    <h2 class="know-us large-size">Get to know us better</h2>
+    <h2 class="know-us large-size animate-on-scroll">Get to know us better</h2>
     <div class="moto">
-        <h3 class="moto-stmt  small-size">Explore our culture of care and innovation</h3>
+        <h3 class="moto-stmt small-size animate-on-scroll">Explore our culture of care and innovation</h3>
         <div class="moto-grid">
-            <div class="grid-item large-left">
-
+            <div class="grid-item large-left animate-on-scroll">
                 <img class="manual-lazy-load lazy-loaded"
                     data-src="/wp-content/uploads/2025/04/About-Us-Get-to-Know-Us-Better-Left.webp" alt="Large Section"
                     src="/wp-content/uploads/2025/04/About-Us-Get-to-Know-Us-Better-Left.webp">
@@ -22,8 +21,7 @@
                 </div>
             </div>
             <div class="grid-right">
-                <div class="grid-item small-right first">
-
+                <div class="grid-item small-right first animate-on-scroll">
                     <img class="manual-lazy-load lazy-loaded"
                         data-src="/wp-content/uploads/2025/04/About-Us-Get-to-Know-Us-Better-Middle-Top.webp"
                         src="/wp-content/uploads/2025/04/About-Us-Get-to-Know-Us-Better-Middle-Top.webp"
@@ -43,8 +41,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="grid-item small-right second">
-
+                <div class="grid-item small-right second animate-on-scroll">
                     <img class="manual-lazy-load lazy-loaded"
                         data-src="/wp-content/uploads/2025/04/About-Us-Get-to-Know-Us-Better-Right-Top-Updated.webp"
                         src="/wp-content/uploads/2025/04/About-Us-Get-to-Know-Us-Better-Right-Top-Updated.webp"
@@ -64,8 +61,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="grid-item full-width">
-
+                <div class="grid-item full-width animate-on-scroll">
                     <img class="manual-lazy-load lazy-loaded"
                         data-src="/wp-content/uploads/2025/04/About-Us-Get-to-Know-Us-Better-Right-Bottom.webp"
                         alt="Full Width"
@@ -80,7 +76,7 @@
                                 fill="none">
                                 <path d="M27 12L3 12" stroke="#1A2C47" stroke-width="2" stroke-linecap="round"></path>
                                 <path
-                                    d="M17 12C17 13.9778 17.5865 15.9112 18.6853 17.5557C19.7841 19.2002 21.3459 20.4819 23.1732 21.2388C25.0004 21.9957 27.0111 22.1937 28.9509 21.8078C30.8907 21.422 32.6725 20.4696 34.0711 19.0711C35.4696 17.6725 36.422 15.8907 36.8078 13.9509C37.1937 12.0111 36.9957 10.0004 36.2388 8.17316C35.4819 6.3459 34.2002 4.78412 32.5557 3.6853C30.9112 2.58649 28.9778 2 27 2C24.3478 2 21.8043 3.05357 19.9289 4.92893C18.0536 6.8043 17 9.34783 17 12Z"
+                                    d="M17 12C17 13.9778 17.5865 15.9112 18.6853 17.5557C19.7841 19.2002 21.3459 20.4819 23.1732 21.2388C25.0004 21.9957 27.0111 22.1937 28.9509 21.8078C30.8907 21.422 32.6725 20.4696 34.0711 19.0711C35.4696 17.6725 36.422 15.8907 36.8078 13.9509C37.1937 12.0111 36.9957 10.0004 36.2388 8.17316C35.4819 6.3459 34.2002 4.78412 32.5557 3.6853Uc3.01 2.58649 28.9778 2 27 2C24.3478 2 21.8043 3.05357 19.9289 4.92893C18.0536 6.8043 17 9.34783 17 12Z"
                                     stroke="#1A2C47" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 </path>
                             </svg>
@@ -89,11 +85,11 @@
                 </div>
             </div>
         </div>
-        <button class="discover-us custom-button" onclick="window.location.href='/who-we-are';">Discover Who We
+        <button class="discover-us custom-button animate-on-scroll"
+            onclick="window.location.href='/who-we-are';">Discover Who We
             Are</button>
     </div>
 </div>
-
 
 <style>
     .AboutUs-Innovation-frame {
@@ -115,6 +111,53 @@
 
         .moto {
             text-align: center;
+        }
+
+        /* ADD SCROLL ANIMATION KEYFRAMES */
+        @keyframes slideUpFade {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* INITIAL STATE FOR ANIMATED ELEMENTS */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* ANIMATED STATE WHEN IN VIEWPORT */
+        .animate-on-scroll.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* STAGGERED ANIMATION DELAYS FOR MULTIPLE ITEMS */
+        .animate-on-scroll:nth-child(1).animate {
+            animation-delay: 0.1s;
+        }
+
+        .animate-on-scroll:nth-child(2).animate {
+            animation-delay: 0.2s;
+        }
+
+        .animate-on-scroll:nth-child(3).animate {
+            animation-delay: 0.3s;
+        }
+
+        .animate-on-scroll:nth-child(4).animate {
+            animation-delay: 0.4s;
+        }
+
+        .animate-on-scroll:nth-child(5).animate {
+            animation-delay: 0.5s;
         }
 
         /* Grid Layout */
@@ -285,11 +328,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* ADD THESE NEW PROPERTIES FOR ZOOM EFFECT */
+            /* ZOOM EFFECT PROPERTIES */
             transition: transform 0.3s ease-in-out;
         }
 
-        /* ADD THIS NEW HOVER RULE FOR ZOOM EFFECT */
+        /* ZOOM EFFECT ON HOVER */
         .grid-item:hover img {
             transform: scale(1.1);
         }
@@ -310,6 +353,15 @@
         /* Remove gradient on hover */
         .grid-item:hover::before {
             opacity: 0;
+        }
+
+        /* RESPECT USER'S MOTION PREFERENCES */
+        @media (prefers-reduced-motion: reduce) {
+            .animate-on-scroll {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
         }
     }
 
@@ -761,3 +813,35 @@
         }
     }
 </style>
+
+<script>
+    // INTERSECTION OBSERVER FOR SCROLL ANIMATIONS
+    document.addEventListener('DOMContentLoaded', function () {
+        // Create intersection observer with options
+        const observerOptions = {
+            threshold: 0.1, // Trigger when 10% of element is visible
+            rootMargin: '0px 0px -50px 0px' // Start animation 50px before element enters viewport
+        };
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    // Add animate class when element enters viewport
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+        animateElements.forEach(function (element) {
+            observer.observe(element);
+        });
+
+        // Add staggered animation for grid items
+        const gridItems = document.querySelectorAll('.grid-item.animate-on-scroll');
+        gridItems.forEach(function (item, index) {
+            item.style.transitionDelay = (index * 0.2) + 's';
+        });
+    });
+</script>
