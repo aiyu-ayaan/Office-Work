@@ -1,0 +1,138 @@
+<div class="our_expertise_container" id="expertise">
+    <h2 class="large-size font-bold portrait-only-header">Our Expertise</h2>
+    <div class="video-container">
+        <video class="manual-lazy-load lazy-loaded" data-src="https://player.vimeo.com/video/1109250134" autoplay=""
+            muted="" loop="" playsinline=""
+            poster="/wp-content/uploads/2025/04/Service-Our-expertise-Intelligent-Automation.webp"
+            src="https://player.vimeo.com/video/1109250134">
+            <!--                 <source class="manual-lazy-load"  type="video/mp4"> -->
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="content">
+        <h2 class="large-size font-bold main-header">Our Expertise</h2>
+        <p class="small-size description">Streamlining operations with smarter workflows removes friction, enabling your
+            organisation to run efficiently, scale up and focus on adding more value for customers.</p><br>
+        <p class="small-size description">ADROSONIC's intelligent automation solutions are tailored to deliver
+            measurable value with speed, scale and precision.</p>
+    </div>
+</div>
+
+<style>
+    .our_expertise_container {
+    .portrait-only-header {
+        display: none;
+    }
+
+    display: flex;
+    align-items: start;
+    background-color: white;
+    padding: 2.11% 3.37%;
+    padding-top:4vw;
+    position: relative;
+    justify-content: space-between;
+
+    .video-container {
+        width: 66.66%;
+        aspect-ratio: 1.72;
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .video-container video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .content {
+        width: 30.63%;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+
+        .main-header {
+            margin-bottom: 1.17em;
+        }
+
+        .main-header,
+        .description {
+            color: var(--adro-deep-blue);
+        }
+    }
+
+
+}
+
+@media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
+    .our_expertise_container {
+        padding: 3.4%;
+        padding-top: 8vw;
+
+        .portrait-only-header {
+            margin-bottom: 1em;
+        }
+
+        .video-container {
+            width: 62.82%;
+            aspect-ratio: 1.39;
+        }
+
+        .content {
+            width: 34.32%;
+
+            .main-header {
+                margin-bottom: 1.4em;
+            }
+        }
+    }
+}
+
+@media screen and (max-width:767.5px),
+screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+    .our_expertise_container {
+        flex-direction: column;
+        align-items: center;
+        padding: 10.7% 6.41%;
+        padding-top: 15vw;
+
+        .portrait-only-header {
+            display: block;
+            color: var(--adro-deep-blue);
+            margin-bottom: 1.34em;
+        }
+
+        .content {
+            width: 100%;
+
+            .main-header {
+                display: none;
+            }
+        }
+
+        .video-container {
+            width: 100%;
+            aspect-ratio: 1.15;
+            margin-bottom: 2em;
+        }
+    }
+
+    @media screen and (min-width:768px) and (max-width:1024px) {
+        .our_expertise_container {
+            padding: 4.89%;
+            padding-top: 8vw;
+
+            .portrait-only-header {
+                margin-bottom: 1em;
+            }
+
+            .video-container {
+                aspect-ratio: 1.72;
+                margin-bottom: 2.5em;
+            }
+        }
+    }
+}
+</style>

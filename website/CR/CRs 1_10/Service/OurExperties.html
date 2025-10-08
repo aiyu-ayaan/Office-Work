@@ -1,18 +1,20 @@
 <div class="our_expertise_container" id="expertise">
-    <h2 class="large-size font-bold portrait-only-header animate-on-scroll slide-in-top">Why Adrosonic</h2>
+    <h2 class="large-size font-bold portrait-only-header animate-on-scroll slide-in-top">Our Expertise</h2>
     <div class="video-container animate-on-scroll slide-in-left">
-        <video class="manual-lazy-load lazy-loaded" data-src="" autoplay="" muted="" loop="" playsinline=""
-            poster="/wp-content/uploads/2025/06/0686db16a3531cfe549dee0f8bb2038fa54ea2cd.png">
+        <video class="manual-lazy-load lazy-loaded" data-src="https://player.vimeo.com/video/1109250134" autoplay=""
+            muted="" loop="" playsinline=""
+            poster="/wp-content/uploads/2025/04/Service-Our-expertise-Intelligent-Automation.webp"
+            src="https://player.vimeo.com/video/1109250134">
             <!--                 <source class="manual-lazy-load"  type="video/mp4"> -->
             Your browser does not support the video tag.
         </video>
     </div>
     <div class="content animate-on-scroll slide-in-right">
-        <h2 class="large-size font-bold main-header">Why Adrosonic</h2>
-        <p class="small-size description">At ADROSONIC, we foster a culture of innovation and support our employees in
-            becoming their best selves by creating a work environment that enables them to thrive.</p><br>
-        <p class="small-size description">Through a strong learning and development framework, we empower employees to
-            make a difference every day—no matter where they are in their career.</p>
+        <h2 class="large-size font-bold main-header">Our Expertise</h2>
+        <p class="small-size description">Streamlining operations with smarter workflows removes friction, enabling your
+            organisation to run efficiently, scale up and focus on adding more value for customers.</p><br>
+        <p class="small-size description">ADROSONIC's intelligent automation solutions are tailored to deliver
+            measurable value with speed, scale and precision.</p>
     </div>
 </div>
 
@@ -24,9 +26,9 @@
 
         display: flex;
         align-items: start;
-        /* gap: 3.7%; */
-
+        background-color: white;
         padding: 2.11% 3.37%;
+        padding-top:4vw;
         position: relative;
         justify-content: space-between;
 
@@ -57,9 +59,11 @@
 
             .main-header,
             .description {
-                color: white;
+                color: var(--adro-deep-blue);
             }
         }
+
+
     }
 
     /* Animation Styles */
@@ -74,17 +78,14 @@
 
     .slide-in-left {
         transform: translateX(-100px);
-        opacity: 0;
     }
 
     .slide-in-right {
         transform: translateX(100px);
-        opacity: 0;
     }
 
     .slide-in-top {
         transform: translateY(-50px);
-        opacity: 0;
     }
 
     .slide-in-left.in-view {
@@ -116,6 +117,7 @@
     @media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
         .our_expertise_container {
             padding: 3.4%;
+            padding-top: 8vw;
 
             .portrait-only-header {
                 margin-bottom: 1em;
@@ -141,11 +143,12 @@
         .our_expertise_container {
             flex-direction: column;
             align-items: center;
-            padding: 10% 6.41%;
+            padding: 10.7% 6.41%;
+            padding-top: 15vw;
 
             .portrait-only-header {
                 display: block;
-                /*color: var(--adro-deep-blue);*/
+                color: var(--adro-deep-blue);
                 margin-bottom: 1.34em;
             }
 
@@ -172,6 +175,7 @@
         @media screen and (min-width:768px) and (max-width:1024px) {
             .our_expertise_container {
                 padding: 4.89%;
+                padding-top: 8vw;
 
                 .portrait-only-header {
                     margin-bottom: 1em;
