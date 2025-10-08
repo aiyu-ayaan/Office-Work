@@ -1,4 +1,4 @@
-<div class="careers-diversity-banner animate-section">
+<div class="careers-diversity-banner">
     <div class="careers-diversity-hero-banner">
         <div class="left-text-box animate-on-scroll slide-in-left">
             <h2 class="large-size careers-diversity-text-above-title">Diversity, Equity and Inclusiveness​</h2>
@@ -22,9 +22,12 @@
                 style="background-image: url(&quot;/wp-content/uploads/2025/06/Rectangle-3585.png&quot;);">
             </div>
         </div>
-        <h2 class="large-size diversity-title-tablet-mobile">Diversity, Equity and Inclusiveness​</h2>
+        <h2 class="large-size diversity-title-tablet-mobile animate-on-scroll slide-in-top">Diversity, Equity and
+            Inclusiveness​</h2>
     </div>
 </div>
+
+
 
 <style>
     .careers-diversity-banner {
@@ -121,7 +124,6 @@
     /* Animation Styles */
     .animate-on-scroll {
         opacity: 0;
-        transform: translateY(50px);
         transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
@@ -135,16 +137,33 @@
         opacity: 0;
     }
 
-    .slide-in-left.in-view,
+    .slide-in-top {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    .slide-in-left.in-view {
+        opacity: 1 !important;
+        transform: translateX(0);
+        transition: transform 1.5s ease, opacity 1.5s ease;
+    }
+
     .slide-in-right.in-view {
         opacity: 1 !important;
         transform: translateX(0);
         transition: transform 1.5s ease, opacity 1.5s ease;
     }
 
+    .slide-in-top.in-view {
+        opacity: 1 !important;
+        transform: translateY(0);
+        transition: transform 1.2s ease, opacity 1.2s ease;
+    }
+
     /* Ensure proper z-index for animated elements */
     .careers-diversity-banner .left-text-box,
-    .careers-diversity-banner .right-container {
+    .careers-diversity-banner .right-container,
+    .careers-diversity-banner .diversity-title-tablet-mobile {
         position: relative;
         z-index: 1;
     }
@@ -171,9 +190,7 @@
                 flex-direction: column-reverse;
                 justify-content: start;
                 padding: 0% 4.8% 0%;
-                flex-direction: column-reverse;
                 z-index: 1;
-                justify-content: start;
 
                 .diversity-title-tablet-mobile {
                     display: block;
@@ -236,16 +253,25 @@
                         margin-top: 3.77%;
                     }
                 }
+            }
+        }
 
-                @media screen and (orientation: landscape) {
-                    height: 79.68%;
-                    height: 79.68vh;
-                    min-height: fit-content;
+        /* Mobile tablet title animation delay */
+        .diversity-title-tablet-mobile.slide-in-top.in-view {
+            transition-delay: 0.3s;
+        }
 
-                    @supports (-moz-appearance: none) {
-                        height: -moz-max-content;
-                    }
+        @media screen and (orientation: landscape) {
+            .careers-diversity-banner {
+                height: 79.68%;
+                height: 79.68vh;
+                min-height: fit-content;
 
+                @supports (-moz-appearance: none) {
+                    height: -moz-max-content;
+                }
+
+                .careers-diversity-hero-banner {
                     padding: 9.54% 3.4% 3.4%;
                     flex-wrap: nowrap;
                     gap: 0;
@@ -374,38 +400,30 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Initialize Intersection Observer for animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("in-view");
-                }
+            // Initialize Intersection Observer for animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("in-view");
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
             });
-        }, {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        });
 
-        // Observe all animated elements in the diversity banner
-        document.querySelectorAll(".careers-diversity-banner .animate-on-scroll").forEach(el => {
-            observer.observe(el);
-        });
+            // Observe all animated elements
+            const animatedElements = document.querySelectorAll(".careers-diversity-banner .animate-on-scroll");
 
-        // Optional: Reset animation when element leaves viewport
-        const resetObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) {
-                    entry.target.classList.remove("in-view");
-                }
+            animatedElements.forEach(el => {
+                observer.observe(el);
             });
-        }, {
-            threshold: 0.1
-        });
 
-        // Uncomment below if you want animations to reset when scrolling away
-        // document.querySelectorAll(".careers-diversity-banner .animate-on-scroll").forEach(el => {
-        //     resetObserver.observe(el);
-        // });
-    });
+            // Debug: Log when elements are found
+            console.log(`Found ${animatedElements.length} animated elements`);
+            animatedElements.forEach((el, index) => {
+                console.log(`Element ${index}:`, el.className);
+            });
+        });
 
 </script>
