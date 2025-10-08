@@ -1,0 +1,218 @@
+<div class="harness-the-power">
+    <div class="content-wrapper">
+        <div class="left-container animate-on-scroll slide-in-left">
+            <!-- SVG Circle Chart -->
+            <svg class="circle-chart" viewBox="0 0 120 120">
+                <circle class="circle-bg" cx="60" cy="60" r="59.5"></circle>
+                <!-- Inner circle with the background image -->
+                <circle class="inner-circle-bg" cx="60" cy="60" r="57"></circle>
+                <!-- Image inside the inner circle -->
+                <image href="/wp-content/uploads//2025/04/Quality-Engineering.webp" x="3" y="3" width="114"
+                    height="114"></image>
+            </svg>
+        </div>
+        <div class="right-container animate-on-scroll slide-in-right">
+            <h2 class="header largest-size">
+                Harness The Power Of Partnership​ </h2>
+            <p class="description-text small-size">
+                We provide professional services to power digital transformation leveraging the world's leading
+                technologies and partners.​ </p>
+            <a href="/contact-us/">
+                <button class="custom-button">
+                    Get in Touch​ </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .harness-the-power * {
+        color: var(--adro-deep-blue) !important;
+    }
+
+    .harness-the-power {
+        background-color: var(--adro-electric-blue);
+        color: var(--adro-deep-blue);
+
+
+        .content-wrapper {
+            padding: 3.47% 7% 3.47% 3.33% !important;
+            display: flex;
+            gap: 6.04%;
+        }
+
+        .left-container {
+            width: 45.78%;
+            margin: auto;
+            aspect-ratio: 1 / 1;
+        }
+
+        .right-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 48.22%;
+            gap: 5%;
+        }
+
+        .header {
+            margin-bottom: 0;
+        }
+
+        .custom-button {
+            background-color: var(--adro-deep-blue);
+            color: white !important;
+            border: none;
+            align-self: flex-start;
+            width: fit-content
+        }
+
+        .custom-button:hover {
+            background-color: var(--adro-electric-blue);
+            color: var(--adro-deep-blue) !important;
+            border: 2px solid var(--adro-deep-blue);
+        }
+
+        .circle-chart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .circle-bg {
+            fill: none;
+        }
+
+        .circle-bg {
+            stroke: var(--adro-deep-blue);
+            /* Light gray background */
+            stroke-width: 0.5px;
+        }
+
+        .inner-circle-bg {
+            fill: none;
+        }
+
+        @media screen and (max-width: 767.5px) {
+            .content-wrapper {
+                flex-direction: column;
+                padding: 16.8% 6.2% 24.7% 6.2% !important;
+            }
+
+            .right-container {
+                width: 100%;
+                margin: auto;
+                margin: 0;
+
+            }
+
+            .left-container {
+                width: 100%;
+            }
+
+            .header {
+                margin-top: 12%;
+            }
+
+            .description-text {
+                margin: 4.7% 0%;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+
+            .right-container {
+                width: 100%;
+                margin: 0;
+            }
+
+            .content-wrapper {
+                flex-direction: column;
+                padding: 6.3% 4.8% 9.6% 4.8% !important;
+            }
+
+            .header {
+                margin-bottom: 0;
+                margin-top: 7.8%;
+            }
+
+            .description-text {
+                margin: 3.2% 0;
+            }
+
+            .left-container {
+                text-align: center;
+                width: 50.2%;
+            }
+
+        }
+    }
+
+    /* Animation Styles */
+    .animate-on-scroll {
+        opacity: 1;
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .animate-on-scroll:not(.in-view) {
+        opacity: 0;
+    }
+
+    .slide-in-left {
+        transform: translateX(-100px);
+    }
+
+    .slide-in-right {
+        transform: translateX(100px);
+    }
+
+    .slide-in-left.in-view {
+        opacity: 1 !important;
+        transform: translateX(0);
+        transition: transform 1.5s ease, opacity 1.5s ease;
+    }
+
+    .slide-in-right.in-view {
+        opacity: 1 !important;
+        transform: translateX(0);
+        transition: transform 1.5s ease, opacity 1.5s ease;
+    }
+
+    /* Ensure proper z-index for animated elements */
+    .harness-the-power .left-container,
+    .harness-the-power .right-container {
+        position: relative;
+        z-index: 1;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("in-view");
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -30px 0px'
+        });
+
+        // Observe all animated elements in the harness-the-power section
+        const animatedElements = document.querySelectorAll(".harness-the-power .animate-on-scroll");
+
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+
+        // Debug: Log when elements are found
+        console.log(`Found ${animatedElements.length} animated elements in harness-the-power section`);
+        animatedElements.forEach((el, index) => {
+            console.log(`Element ${index}:`, el.className);
+        });
+    });
+</script>
