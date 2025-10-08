@@ -400,30 +400,30 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-            // Initialize Intersection Observer for animations
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("in-view");
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -30px 0px'
+        // Initialize Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("in-view");
+                }
             });
-
-            // Observe all animated elements
-            const animatedElements = document.querySelectorAll(".careers-diversity-banner .animate-on-scroll");
-
-            animatedElements.forEach(el => {
-                observer.observe(el);
-            });
-
-            // Debug: Log when elements are found
-            console.log(`Found ${animatedElements.length} animated elements`);
-            animatedElements.forEach((el, index) => {
-                console.log(`Element ${index}:`, el.className);
-            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -30px 0px'
         });
+
+        // Observe all animated elements
+        const animatedElements = document.querySelectorAll(".careers-diversity-banner .animate-on-scroll");
+
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+
+        // Debug: Log when elements are found
+        console.log(`Found ${animatedElements.length} animated elements`);
+        animatedElements.forEach((el, index) => {
+            console.log(`Element ${index}:`, el.className);
+        });
+    });
 
 </script>
