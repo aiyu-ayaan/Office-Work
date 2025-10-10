@@ -1,0 +1,278 @@
+<div class="contact-us-get-social">
+    <div class="contact-left">
+        <h2 class="large-size main-header font-bold animate-on-scroll"> Get Social with Us </h2>
+        <p class="small-size description font-bold animate-on-scroll delay-1"> Whether you have clear goals or are
+            seeking guidance, we're ready
+            to help. </p>
+        <p class="smaller-size sub-line animate-on-scroll delay-2">Get the business insights that matter—straight to
+            your inbox.</p>
+
+        <button class="custom-button contact-btn openSubscribeModal animate-on-scroll delay-3"
+            onclick="sendMail(event)">
+            <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- SVG content unchanged -->
+            </svg>
+            Media Contact
+        </button>
+
+        <!-- Modal remains unchanged -->
+        <div id="subscribeModal" class="custom-modal" style="display: none;">
+            <!-- Modal content unchanged -->
+        </div>
+
+        <div class="social-icons animate-on-scroll delay-3">
+            <!-- Social icons remain unchanged -->
+        </div>
+    </div>
+    <div class="contact-right animate-on-scroll delay-2">
+        <img data-src="/wp-content/uploads/2025/02/Contact%20Us-%20%20Social%20Media%20Graphics%20%28to%20be%20replaced%29.svg"
+            alt="Contact Us Image"
+            src="/wp-content/uploads/2025/02/Contact%20Us-%20%20Social%20Media%20Graphics%20%28to%20be%20replaced%29.svg"
+            class="lazy-loaded">
+    </div>
+</div>
+
+
+<style>
+    .contact-us-get-social {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 11.25%;
+        margin: auto;
+
+        .contact-left {
+            width: 51.08%;
+            margin: 0 !important;
+
+            .main-header {
+                margin-bottom: 0.84em;
+            }
+
+            .description {
+                margin-bottom: 0.75em;
+                width: 78.81%;
+            }
+
+            .sub-line {
+                margin-bottom: 1.67em;
+                width: 82.89%;
+            }
+
+            .contact-btn {
+                margin-bottom: 2em;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+            }
+
+
+            .social-icons {
+                width: 35.53%;
+                display: flex;
+                justify-content: space-between;
+
+                .icon-a {
+                    margin: 0 5px;
+                }
+
+                .icon-a svg {
+                    width: 100%;
+                    height: 48px;
+                    fill: white;
+                }
+
+                .icon-a:hover svg {
+                    fill: var(--adro-electric-blue);
+                }
+
+            }
+
+        }
+
+
+
+        .contact-right {
+            width: 40.06%;
+            margin: 0 !important;
+            text-align: center;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:landscape) {
+            padding: 0 3.36%;
+
+            .contact-left {
+                .social-icons {
+                    gap: 1em;
+                    width: fit-content;
+
+                    .icon-a svg {
+                        width: 100%;
+                        height: 32px;
+                    }
+                }
+            }
+        }
+
+        @media (max-width: 768px),
+        screen and (min-width:768px) and (max-width:1024px) and (orientation: portrait) {
+            flex-direction: column;
+
+            .contact-left {
+                width: auto;
+
+                .description {
+                    width: auto;
+                }
+
+                .sub-line {
+                    width: auto;
+                }
+
+                .social-icons {
+                    .icon-a svg {
+                        width: 100%;
+                        height: 32px;
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width:767.5px) {
+            padding: 0 6.16%;
+
+            .contact-left {
+                .main-header {
+                    margin-bottom: 1em;
+                }
+
+                .description {
+                    margin-bottom: 0.89em;
+                }
+
+                .sub-line {
+                    margin-bottom: 1.5em;
+                }
+
+                .contact-btn {
+                    margin-bottom: 1.34em;
+                }
+
+                .social-icons {
+                    width: 51.47%;
+                    margin-bottom: 2.25em;
+
+                }
+            }
+
+            .contact-right {
+                width: 100%;
+                padding: 10.83%;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation:portrait) {
+            padding: 0 4.8%;
+
+            .contact-left {
+                .main-header {
+                    margin-bottom: 0.6em;
+                }
+
+                .description {
+                    margin-bottom: 0.67em;
+                }
+
+                .sub-line {
+                    margin-bottom: 1.34em;
+                }
+
+                .contact-btn {
+                    margin-bottom: 1.34em;
+                }
+
+                .social-icons {
+                    width: 26.93%;
+                    margin-bottom: 3.125em;
+
+
+                }
+            }
+
+            .contact-right {
+                width: 61.02%;
+                padding: 4.91%;
+            }
+        }
+    }
+
+ /* Base state - hidden and positioned down */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: none; /* Prevent any transitions initially */
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation class applied when in viewport */
+.animate-fade-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Different delay classes for staggered effect */
+.animate-on-scroll.delay-1 {
+    animation-delay: 0.2s;
+}
+
+.animate-on-scroll.delay-2 {
+    animation-delay: 0.4s;
+}
+
+.animate-on-scroll.delay-3 {
+    animation-delay: 0.6s;
+}
+
+</style>
+
+<script>
+    // JavaScript for viewport-triggered animations
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select all elements that should animate
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+            // Create intersection observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // Add animation class when element enters viewport
+                        entry.target.classList.add('animate-fade-up');
+                    }
+                });
+            }, {
+                threshold: 0.2, // Trigger when 20% of element is visible
+                rootMargin: '0px 0px -50px 0px' // Trigger slightly before element is fully visible
+            });
+
+            // Start observing each element
+            animateElements.forEach((element) => {
+                observer.observe(element);
+            });
+        });
+
+</script>
