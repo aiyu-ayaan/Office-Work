@@ -48,9 +48,9 @@ $leadership_gradient_cta_url = get_field('acf_about_us_our_difference_gradient_b
 
                 <!-- banner section -->
                 <div class="leadership-page-banner">
-                    <h1 class="headline largest-size"><?php echo ($banner_title); ?></h1>
-                    <div class="desc small-size"><?php echo esc_html($banner_description); ?></div>
-                    <button class="custom-button" onclick="window.location.href='<?php echo esc_html($banner_button_url) ?>';"><?php echo esc_html($banner_button_text); ?></button>
+                    <h1 class="headline largest-size" id="animated-headline" style="opacity: 0;"><?php echo ($banner_title); ?></h1>
+                    <div class="desc small-size" id="animated-desc"><?php echo esc_html($banner_description); ?></div>
+                    <button class="custom-button" id="animated-button" onclick="window.location.href='<?php echo esc_html($banner_button_url) ?>';"><?php echo esc_html($banner_button_text); ?></button>
                 </div>
                 <!-- space below banner -->
                 <div aria-hidden="true" class="wp-block-spacer below-banner-space"></div>
@@ -58,9 +58,9 @@ $leadership_gradient_cta_url = get_field('acf_about_us_our_difference_gradient_b
 
                 <!-- meet our leaders  -->
                 <div class="meet-our-leaders">
-                    <h2 class="large-size font-bold meet-our-leaders-heading animate-on-scroll">Meet Our Leaders</h2>
+                    <h2 class="large-size font-bold meet-our-leaders-heading">Meet Our Leaders</h2>
 
-                    <div class="button-container animate-on-scroll">
+                    <div class="button-container">
                         <?php
                         $terms = get_terms([
                             'taxonomy'   => 'leader-category',
@@ -78,8 +78,8 @@ $leadership_gradient_cta_url = get_field('acf_about_us_our_difference_gradient_b
                         ?>
                     </div>
 
-                    <div id="grid-container" class="animate-on-scroll"></div>
-                    <div class="pagination animate-on-scroll" id="desktop-nav">
+                    <div id="grid-container"></div>
+                    <div class="pagination" id="desktop-nav">
                         <button id="prev-btn" aria-label="Previous"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34"
                                 fill="none">
                                 <circle cx="16" cy="16" r="16" transform="matrix(-1 0 0 1 33 1)" stroke="white" stroke-width="2" />
