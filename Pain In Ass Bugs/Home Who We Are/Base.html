@@ -1,0 +1,884 @@
+<style>
+    /* Create an image wrapper that handles overflow without affecting the item container */
+    .hover-zoom {
+        position: relative;
+        /* Remove overflow: hidden */
+        contain: layout style paint;
+    }
+
+    .hover-zoom:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Use clip-path for containment */
+    .hover-zoom:hover {
+        clip-path: inset(0);
+    }
+
+    .hover-zoom img,
+    .hover-zoom video {
+        transition: transform 0.4s ease-out !important;
+        transform-origin: center;
+        will-change: transform;
+        display: block;
+        /* removes inline gaps */
+    }
+
+    .hover-zoom:hover img,
+    .hover-zoom:hover video {
+        transform: scale(1.05);
+    }
+
+    /* For video blocks - use clip-path instead of overflow */
+    .video-block.hover-zoom:hover {
+        clip-path: inset(0);
+        overflow: visible;
+        /* Keep original overflow */
+    }
+
+    .fade-in-on-scroll {
+        opacity: 0;
+        transform: translateY(35px);
+        transition: opacity 2s ease-out, transform 2s ease-out;
+    }
+
+    .fade-in-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @media screen and (min-width:768px) and (max-width:1024px) and (orientation: landscape),
+    (min-width:1024px) {
+
+        .no-radius-left {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
+
+        .no-radius-right {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .learn-more-btn:after {
+            /* width: 37.39%; */
+        }
+    }
+
+    @media screen and (max-width: 767.5px) {
+        .learn-more-btn:after {
+            /* width: 57.3%; */
+        }
+    }
+
+    .who-we-are-btn-block {
+        margin-bottom: 0 !important;
+    }
+
+    .who-we-are-btn {
+        display: flex;
+    }
+
+    .who-we-are-section {
+        .learn-more-btn {
+            margin-top: 6%;
+        }
+
+        .video-block p.learn-more-btn.smaller-size.underline-on-hover {
+            display: block;
+        }
+
+        .video-block p.learn-more-btn:after {
+            display: none;
+        }
+
+        margin-bottom: 18%;
+
+        @media screen and (max-width: 1680px) {
+            margin-bottom: 20%;
+        }
+
+        .header {
+            transform: translateY(30%);
+
+            .large-size {
+                margin-bottom: 0;
+            }
+
+            .small-size {
+                width: 50%;
+                margin-top: 2.68%;
+            }
+        }
+
+        .container {
+            display: flex;
+            aspect-ratio: 2.245;
+            width: 100%;
+            gap: 1.25%;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 2%;
+
+            transform: translateZ(0);
+            /* Creates new stacking context */
+            will-change: transform;
+        }
+
+        .column:first-child {
+            width: 50.84%;
+
+            .item-content {
+                margin: 6.56%;
+                /*                 width: 43.45%; */
+            }
+        }
+
+        .column:nth-child(2) {
+            width: 25.41%;
+
+            .item-content {
+                width: 57.4%;
+                margin: 4.92%;
+            }
+        }
+
+        .column:nth-child(3) {
+            width: 21.25%;
+
+            .item-content {
+                width: 68.63%;
+                margin: 5.89%;
+            }
+        }
+
+        .item {
+            display: flex;
+            /* cursor: pointer; */
+            flex-direction: column;
+            text-align: center;
+            position: relative;
+            border-radius: 20px;
+            z-index: 1;
+
+            .svg-container-bottom-left,
+            .svg-container-bottom-right {
+                opacity: 1;
+                transition: opacity 0.3s ease-in-out;
+            }
+        }
+
+        .column:first-child .item:first-child {
+            aspect-ratio: 1.74;
+            top: 14%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            .svg-container-bottom-left {
+                width: 14.65%;
+
+                svg {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
+
+        .column:first-child .item:last-child {
+            aspect-ratio: 0.73;
+            width: 41.8%;
+            margin-left: auto;
+            /* transform: translate(-13%, 2%); */
+
+            margin-left: auto;
+            margin-right: 13%;
+            margin-top: 2%;
+        }
+
+        .column:nth-child(2) .item:first-child {
+            flex-grow: 0.8;
+        }
+
+        .column:nth-child(2) .item:nth-child(2) {
+            flex-grow: 1.2;
+        }
+
+        .column:nth-child(2) .item:nth-child(3) {
+            flex-grow: 1.2;
+        }
+
+        .column:nth-child(3) .item:first-child {
+            flex-grow: 1.12;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            .svg-container-bottom-right {
+                width: 22.06%;
+                aspect-ratio: 0.5;
+
+                svg {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
+
+        .column:nth-child(3) .item:nth-child(2) {
+            flex-grow: 0.88;
+        }
+
+        .item img,
+        .item video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
+        }
+
+        .item:after {
+            position: absolute;
+            content: "";
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            border-radius: inherit;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+            background: linear-gradient(180deg,
+                    #43668fa6 65%,
+                    #375272bf 75%,
+                    #05090ebf 100%);
+            background: linear-gradient(180deg, rgba(67, 102, 143, 0.13) 27.5%, rgba(6, 22, 43, 0.60) 61.93%);
+        }
+
+        .video-block {
+            z-index: 1;
+            overflow: visible;
+        }
+
+        .play-icon {
+            z-index: 2;
+            position: absolute;
+            right: 0;
+            width: 30%;
+            bottom: 0;
+            transform: translate(50%, -89%);
+            cursor: pointer;
+        }
+
+        .play-icon:hover {
+            path.play {
+                fill: #000;
+            }
+
+            path.pause {
+                stroke-width: 6px;
+            }
+        }
+
+        .item-content {
+            display: flex;
+            text-align: left;
+            flex-direction: column;
+        }
+
+        .item p {
+            z-index: 1;
+        }
+
+        .item a {
+            cursor: pointer;
+            z-index: 1;
+            text-decoration: none;
+        }
+
+        .bottom-left {
+            justify-content: end;
+            align-items: flex-start;
+        }
+
+
+        .svg-container-bottom-left,
+        .svg-container-bottom-right {
+            z-index: 1;
+            padding-bottom: 2.46%;
+        }
+
+        .svg-container-bottom-right {
+            align-self: flex-end;
+        }
+
+
+        @media screen and (min-width:768px) and (max-width:1024px) and (orientation: landscape) {
+            .column:nth-child(2) {
+                .item-content {
+                    width: unset;
+                }
+            }
+        }
+
+        /* DESCRIPTION:changes */
+
+
+        /* DESCRIPTION:changes */
+
+        @media (max-width: 1024px) and (orientation: portrait),
+        (max-width: 767.5px) {
+            .header {
+                .small-size {
+                    margin-top: 8.8%;
+                }
+            }
+
+            margin-bottom:13.36%;
+
+            .who-we-are-section .desktop-grid {
+                display: none !important;
+            }
+
+            .owl-carousel-mobile {
+                display: block !important;
+            }
+
+            .header {
+                transform: translateY(0);
+                padding: 0 6.16%;
+
+                .small-size {
+                    width: unset;
+                }
+            }
+
+            .item {
+                aspect-ratio: 1.674;
+                transform: scale(1);
+                transition: transform 0.3s ease-in-out;
+                transition-delay: 0.1s;
+                margin: 15.5% 0;
+                justify-content: center;
+
+                img,
+                video {
+                    position: unset;
+                }
+
+                .play-icon {
+                    display: none;
+                }
+
+                .item-content {
+                    padding: 9.41% 0;
+                    /* justify-content: center; */
+                }
+            }
+
+            .item:after {
+                background: unset;
+            }
+
+            .owl-item.active.center .item {
+                transform: scale(1.13);
+                transition-delay: 0.5s;
+            }
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+            margin-bottom: 7.68%;
+
+            .section-header-container {
+                padding: 0 4.8%;
+            }
+
+            .header {
+                .small-size {
+                    margin-top: 6.39%;
+                    text-align: center;
+                }
+            }
+
+            .item {
+                margin: 16.5% 0;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .fade-in-on-scroll {
+                opacity: 0;
+                transform: translateY(35px);
+                transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+                /* Shorter duration for better mobile performance */
+            }
+
+            .fade-in-on-scroll.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Touch-optimized hover effects */
+            .hover-zoom {
+                position: relative;
+                /* Use will-change for better GPU acceleration */
+                will-change: transform;
+                contain: layout style paint;
+            }
+
+            /* Replace hover with touch-friendly interactions */
+            .hover-zoom img,
+            .hover-zoom video {
+                transition: transform 0.3s ease-out !important;
+                transform-origin: center;
+                will-change: transform;
+                display: block;
+            }
+
+            /* Active state for touch devices instead of hover */
+            .hover-zoom.active img,
+            .hover-zoom.active video {
+                transform: scale(1.03);
+                /* Slightly smaller scale for mobile */
+            }
+
+            /* Carousel items animation */
+            .owl-item {
+                opacity: 0.7;
+                transform: scale(0.9) translateY(20px);
+                transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            }
+
+            .owl-item.active {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+
+            .owl-item.active.center {
+                transform: scale(1.05) translateY(-10px);
+                transition-delay: 0.2s;
+            }
+        }
+
+        /* --- SOLUTION: Make all mobile carousel cards the same size --- */
+        @media (max-width: 1024px) and (orientation: portrait),
+        (max-width: 767.5px) {
+
+            /* Reset the scale-up effect on the centered card */
+            .owl-item.active.center .item {
+                transform: none;
+            }
+
+            /* Reset the scale-down and fade effects on the side cards */
+            .owl-item {
+                transform: none;
+                opacity: 1;
+            }
+        }
+
+
+
+
+        /* Desktop and large screens - ensure grid is visible */
+        @media (min-width: 1025px) {
+            .who-we-are-section .desktop-grid {
+                display: flex !important;
+            }
+
+            .owl-carousel-mobile {
+                display: none !important;
+            }
+        }
+
+        /* Landscape tablets - keep grid visible */
+        @media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+            .who-we-are-section .desktop-grid {
+                display: flex !important;
+            }
+
+            .owl-carousel-mobile {
+                display: none !important;
+            }
+        }
+
+        /* Portrait tablets and mobile - show carousel */
+        @media (max-width: 1024px) and (orientation: portrait),
+        (max-width: 768px) {
+            .who-we-are-section .desktop-grid {
+                display: none !important;
+            }
+
+            .owl-carousel-mobile {
+                display: block !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+
+            .owl-carousel-mobile .item {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+    }
+
+    @supports (-webkit-touch-callout: none) {
+        .who-we-are-section .item {
+            flex-shrink: 0 !important;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        .who-we-are-section .container {
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+</style>
+
+
+<script>
+    const who_we_are = document.querySelector(".who-we-are-section");
+    const video_play_svg =
+        '<g id="Play Button Electric Blue"><path id="Path 3597" d="M120 60C120 71.8668 116.481 83.4672 109.888 93.3341C103.295 103.201 93.9247 110.891 82.9612 115.433C71.9977 119.974 59.9338 121.162 48.2949 118.847C36.6561 116.532 25.9651 110.818 17.574 102.427C9.18277 94.0357 3.46825 83.3448 1.15303 71.706C-1.16219 60.0672 0.0258704 48.0032 4.56698 37.0396C9.10809 26.0761 16.7983 16.7053 26.6651 10.1123C36.5319 3.51928 48.1322 0.000187218 59.9991 0C75.912 0.000251046 91.1731 6.32174 102.425 17.5739C113.677 28.826 119.999 44.0871 119.999 60" fill="#00CCFF"></path><path class="play" id="Path 3598" d="M82.1802 60.1L49.0002 42V77.866L82.1802 60.1Z" stroke="#1A2C47" stroke-width="2" stroke-miterlimit="10"></path></g>';
+    const video_pause_svg =
+        '<path d="M120 60C120 71.8668 116.481 83.4672 109.888 93.3341C103.295 103.201 93.9247 110.891 82.9612 115.433C71.9977 119.974 59.9338 121.162 48.2949 118.847C36.6561 116.532 25.9651 110.818 17.574 102.427C9.18277 94.0357 3.46825 83.3448 1.15303 71.706C-1.16219 60.0672 0.0258704 48.0032 4.56698 37.0396C9.10809 26.0761 16.7983 16.7053 26.6651 10.1123C36.5319 3.51928 48.1322 0.000187218 59.9991 0C75.912 0.000251046 91.1731 6.32174 102.425 17.5739C113.677 28.826 119.999 44.0871 119.999 60" fill="#00CCFF"></path><path class="pause" d="M44 42L44 78" stroke="#1A2C47" stroke-width="4" stroke-linecap="round"></path><path class="pause" d="M76 42L76 78" stroke="#1A2C47" stroke-width="4" stroke-linecap="round"></path>';
+    document.addEventListener("DOMContentLoaded", () => {
+        const videos = who_we_are.querySelectorAll(".who-we-are-video");
+        console.log("click", who_we_are);
+        videos.forEach((video) => {
+            const playPauseButton = video.parentNode.querySelector(".play-icon");
+            playPauseButton.addEventListener("click", () => {
+                event.stopPropagation();
+                if (video.paused) {
+                    video.play();
+                    playPauseButton.innerHTML = video_pause_svg;
+                } else {
+                    video.pause();
+                    playPauseButton.innerHTML = video_play_svg;
+                }
+            });
+        });
+    });
+    function setTargetSection(num) {
+        sessionStorage.setItem("scrollTarget", num);
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target); // animate only once
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+            }
+        );
+
+        document.querySelectorAll(".fade-in-on-scroll").forEach((el) => {
+            observer.observe(el);
+        });
+    });
+
+
+    // Enhanced mobile animation and interaction handling
+    document.addEventListener("DOMContentLoaded", () => {
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        // Enhanced intersection observer for mobile
+        const observerOptions = {
+            threshold: window.innerWidth <= 768 ? 0.15 : 0.1,
+            rootMargin: window.innerWidth <= 768 ? '0px 0px -50px 0px' : '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // Add staggered animation for mobile
+                    const delay = window.innerWidth <= 768 ?
+                        Array.from(entry.target.parentNode.children).indexOf(entry.target) * 100 : 0;
+
+                    setTimeout(() => {
+                        entry.target.classList.add("visible");
+                    }, delay);
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll(".fade-in-on-scroll").forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Touch-friendly hover replacement
+        if (isTouchDevice) {
+            document.querySelectorAll('.hover-zoom').forEach(item => {
+                let touchTimer;
+
+                item.addEventListener('touchstart', (e) => {
+                    touchTimer = setTimeout(() => {
+                        item.classList.add('active');
+                    }, 100);
+                }, { passive: true });
+
+                item.addEventListener('touchend', (e) => {
+                    clearTimeout(touchTimer);
+                    setTimeout(() => {
+                        item.classList.remove('active');
+                    }, 200);
+                }, { passive: true });
+
+                item.addEventListener('touchmove', (e) => {
+                    clearTimeout(touchTimer);
+                    item.classList.remove('active');
+                }, { passive: true });
+            });
+        }
+    });
+
+    // Enhanced carousel initialization with better mobile animations
+    function initWhoWeAreCarousel() {
+        const isMobileOrPortraitTablet =
+            window.innerWidth <= 767 ||
+            (window.innerWidth <= 1024 &&
+                window.matchMedia("(orientation: portrait)").matches);
+
+        const $desktopGrid = document.querySelector(".who-we-are-section .desktop-grid");
+        const $mobileCarousel = document.querySelector(".owl-carousel-mobile");
+
+        if (isMobileOrPortraitTablet && !$mobileCarousel.classList.contains("owl-loaded")) {
+            // Clone items with enhanced animation classes
+            const items = $desktopGrid.querySelectorAll(".item");
+            $mobileCarousel.innerHTML = "";
+
+            items.forEach((item, index) => {
+                const clone = item.cloneNode(true);
+                clone.classList.add('fade-in-on-scroll');
+                clone.style.animationDelay = `${index * 0.1}s`;
+
+                clone.querySelectorAll(".smaller-size.italic-text").forEach((el) => {
+                    el.classList.remove("smaller-size");
+                    el.classList.add("small-size");
+                });
+                $mobileCarousel.appendChild(clone);
+            });
+
+            $mobileCarousel.style.display = "block";
+            $desktopGrid.style.display = "none";
+
+            // Enhanced Owl Carousel with animation callbacks
+            jQuery(".owl-carousel-mobile")
+                .addClass("owl-carousel")
+                .owlCarousel({
+                    loop: true,
+                    autoplay: false,
+                    autoplayTimeout: 4000, // Slightly faster for mobile
+                    autoplayHoverPause: false, // Disable for touch devices
+                    smartSpeed: 600,
+                    dots: true,
+                    nav: true,
+                    center: true,
+                    mouseDrag: false,
+                    touchDrag: true,
+                    animateOut: 'fadeOut',
+                    animateIn: 'fadeIn',
+                    responsive: {
+                        0: {
+                            items: 1.47,
+                            margin: 32,
+                        },
+                        768: {
+                            items: window.matchMedia("(orientation: portrait)").matches ? 1.89 : 3,
+                            margin: window.matchMedia("(orientation: portrait)").matches ? 57.3 : 50,
+                            stagePadding: window.matchMedia("(orientation: portrait)").matches ? 0 : 40,
+                        },
+                    },
+                    onChanged: function (event) {
+                        // Add active class to center item for enhanced animation
+                        jQuery('.owl-item').removeClass('active-center');
+                        jQuery('.owl-item.active.center').addClass('active-center');
+                    }
+                });
+
+                
+
+            // Trigger initial animations after carousel is ready
+            setTimeout(() => {
+                $mobileCarousel.querySelectorAll('.fade-in-on-scroll').forEach(el => {
+                    observer.observe(el);
+                });
+            }, 100);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        initWhoWeAreCarousel();
+        window.addEventListener("resize", () => {
+            clearTimeout(window.carouselResizeTimeout);
+            window.carouselResizeTimeout = setTimeout(initWhoWeAreCarousel, 200);
+        });
+    });
+</script>
+
+
+<?php if (!empty($who_we_are_main_header)): ?>
+<div class="who-we-are-section  fade-in-on-scroll">
+    <div class="section-header-container header">
+        <h2 class="large-size font-bold">
+            <?php echo esc_html($who_we_are_main_header) ?>
+        </h2>
+        <p class="small-size">
+            <?php echo esc_html($text_below_who_we_are_header) ?>
+        </p>
+    </div>
+    <div class="container desktop-grid">
+        <div class="column">
+            <div class="item hover-zoom fade-in-on-scroll no-radius-left"
+                data-url="<?php echo esc_html($left_landscape_image_button_url) ?>">
+                <img class="manual-lazy-load no-radius-left" data-src="<?php echo esc_html($left_landscape_image) ?>"
+                    alt="Image 1"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E">
+                <div class="item-content">
+                    <p class="small-size">
+                        <?php echo esc_html($left_landscape_image_overlay_text) ?>
+                    </p>
+                    <a href="<?php echo esc_html($discover_button_url); ?>"
+                        class="learn-more-btn smaller-size underline-on-hover"
+                        onclick="setTargetSection(<?php echo esc_html($left_landscape_image_button_url) ?>)"><span>
+                            <?php echo esc_html($left_landscape_image_button_text) ?>
+                        </span></a>
+                </div>
+
+            </div>
+            <div class="fade-in-on-scroll hover-zoom item no-grey video-block bottom-left"
+                data-url="<?php echo esc_html($left_video_url) ?>">
+
+                <?php if (!empty($left_video_url)) : ?>
+                <video class="who-we-are-video manual-lazy-load" data-src="<?php echo esc_html($left_video_url) ?>"
+                    poster="<?php echo esc_html($left_video_thumbnail) ?>" autoplay loop muted playsinline></video>
+                <?php else : ?>
+
+                <img class="who-we-are-video manual-lazy-load" data-src="<?php echo esc_html($left_video_thumbnail) ?>"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E"
+                    alt="Image 2" />
+
+                <?php endif; ?>
+
+                <?php if (!empty($left_video_url)) : ?>
+                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"
+                    fill="none">
+                    <path
+                        d="M120 60C120 71.8668 116.481 83.4672 109.888 93.3341C103.295 103.201 93.9247 110.891 82.9612 115.433C71.9977 119.974 59.9338 121.162 48.2949 118.847C36.6561 116.532 25.9651 110.818 17.574 102.427C9.18277 94.0357 3.46825 83.3448 1.15303 71.706C-1.16219 60.0672 0.0258704 48.0032 4.56698 37.0396C9.10809 26.0761 16.7983 16.7053 26.6651 10.1123C36.5319 3.51928 48.1322 0.000187218 59.9991 0C75.912 0.000251046 91.1731 6.32174 102.425 17.5739C113.677 28.826 119.999 44.0871 119.999 60"
+                        fill="#00CCFF"></path>
+                    <path class="pause" d="M44 42L44 78" stroke="#1A2C47" stroke-width="4" stroke-linecap="round">
+                    </path>
+                    <path class="pause" d="M76 42L76 78" stroke="#1A2C47" stroke-width="4" stroke-linecap="round">
+                    </path>
+                </svg>
+                <?php endif; ?>
+                <div class="item-content">
+
+                    <?php if (!empty($left_video_url)) : ?>
+                    <a class="page-video-popup learn-more-btn smaller-size underline-on-hover" href="javascript:void(0)"
+                        onclick="openPageVideoPopup('<?php echo esc_html($left_video_cta_url) ?>','')">
+                        <span>
+                            Full Video
+                        </span></a>
+                    <?php else : ?>
+                    <p class="small-size">
+                        <?php echo esc_html($left_video_cta_text) ?>
+                    </p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="fade-in-on-scroll item bottom-left hover-zoom "
+                data-url="<?php echo esc_html($right_grid_top_left_image_button_url) ?>">
+                <img class="manual-lazy-load" data-src="<?php echo esc_html($right_grid_top_left_image) ?>"
+                    alt="Image 3"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" />
+                <div class="item-content">
+                    <p class="smaller-size who-we-are-desc">
+                        <?php echo esc_html($right_grid_top_left_image_overlay_text) ?>
+                    </p>
+                    <a href="<?php echo esc_html($discover_button_url); ?>"
+                        class="learn-more-btn smaller-size underline-on-hover"
+                        onclick="setTargetSection(<?php echo esc_html($right_grid_top_left_image_button_url) ?>)"><span>
+                            <?php echo esc_html($right_grid_top_left_image_cta_text) ?>
+                        </span></a>
+                </div>
+            </div>
+            <div class="fade-in-on-scroll item bottom-left hover-zoom" data-url="">
+                <img class="manual-lazy-load" data-src="<?php echo esc_html($right_grid_bottom_left_image) ?>"
+                    alt="Image 4"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" />
+                <div class="item-content">
+                    <p class="smaller-size who-we-are-desc">
+                        <?php echo esc_html($right_grid_bottom_left_image_overlay_text) ?>
+                    </p>
+                    <a href="<?php echo esc_html($discover_button_url); ?>"
+                        class="learn-more-btn smaller-size underline-on-hover"
+                        onclick="setTargetSection(<?php echo esc_html($right_grid_bottom_left_image_button_url) ?>)"><span>
+                            <?php echo esc_html($right_grid_bottom_left_cta_text) ?>
+                        </span></a>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="fade-in-on-scroll no-radius-right item bottom-left hover-zoom" data-url="">
+                <img class="manual-lazy-load no-radius-right"
+                    data-src="<?php echo esc_html($right_grid_top_right_image) ?>" alt="Image 5"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" />
+                <div class="item-content">
+                    <p class="smaller-size who-we-are-desc">
+                        <?php echo esc_html($right_grid_top_right_image_overlay_text) ?>
+                    </p>
+                    <a href="<?php echo esc_html($discover_button_url); ?>"
+                        class="learn-more-btn smaller-size underline-on-hover"
+                        onclick="setTargetSection(<?php echo esc_html($right_grid_top_right_image_button_url) ?>)"><span>
+                            <?php echo esc_html($right_grid_top_right_cta_text) ?>
+                        </span></a>
+                </div>
+
+            </div>
+            <div class="fade-in-on-scroll item no-radius-right bottom-left hover-zoom" data-url="">
+                <img class="no-radius-right manual-lazy-load"
+                    data-src="<?php echo esc_html($right_grid_bottom_right_image) ?>" alt="Image 6"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" />
+                <div class="item-content">
+                    <p class="smaller-size who-we-are-desc">
+                        <?php echo esc_html($right_grid_bottom_right_image_overlay_text) ?>
+                    </p>
+                    <a href="<?php echo esc_html($discover_button_url); ?>"
+                        class="learn-more-btn smaller-size underline-on-hover"
+                        onclick="setTargetSection(<?php echo esc_html($right_grid_bottom_right_image_button_url) ?>)"><span>
+                            <?php echo esc_html($right_grid_bottom_right_cta_text) ?>
+                        </span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container owl-carousel owl-carousel-mobile fade-in-on-scroll" style="display: none;"></div>
+
+</div>
+<?php endif; ?>
+
+<div
+    class="who-we-are-btn-block wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-1 wp-block-buttons-is-layout-flex">
+    <div class="wp-block-button who-we-are-btn">
+        <a class="wp-block-button__link wp-element-button" href="<?php echo esc_html($discover_button_url); ?>">
+            <?php echo esc_html($discover_button_text) ?>
+        </a>
+    </div>
+</div>
