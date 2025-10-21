@@ -148,6 +148,22 @@
             }
 
         }
+
+        .circle-bg {
+            stroke-dasharray: 374;
+            /* Circumference of circle with r=59.5: 2 * π * 59.5 ≈ 374 */
+            stroke-dashoffset: 374;
+            /* Initially hide the stroke completely */
+            stroke-linecap: round;
+            transition: stroke-dashoffset 2s ease-out;
+        }
+
+        &.animate-stroke {
+            .circle-bg {
+                stroke-dashoffset: 0;
+                /* Reveal the full circle when animated */
+            }
+        }
     }
 
     /* Animation Styles */
@@ -195,6 +211,14 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add("in-view");
+
+                    // Add stroke animation to the section after slide-in animations
+                    const section = entry.target.closest('.harness-the-power');
+                    if (section) {
+                        setTimeout(() => {
+                            section.classList.add("animate-stroke");
+                        }, 800); // Delay stroke animation slightly after slide-in
+                    }
                 }
             });
         }, {
@@ -215,4 +239,5 @@
             console.log(`Element ${index}:`, el.className);
         });
     });
+
 </script>

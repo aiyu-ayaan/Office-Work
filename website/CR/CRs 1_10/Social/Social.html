@@ -1,13 +1,14 @@
 <div class="contact-us-get-social">
     <div class="contact-left">
-        <h2 class="large-size main-header font-bold animate-on-scroll"> Get Social with Us </h2>
-        <p class="small-size description font-bold animate-on-scroll"> Whether you have clear goals or are
+        <h2 class="large-size main-header font-bold contact-animate-scroll"> Get Social with Us </h2>
+        <p class="small-size description font-bold contact-animate-scroll"> Whether you have clear goals or are
             seeking guidance, we're ready
             to help. </p>
-        <p class="smaller-size sub-line animate-on-scroll delay-2">Get the business insights that matter—straight to
+        <p class="smaller-size sub-line contact-animate-scroll contact-delay-2">Get the business insights that
+            matter—straight to
             your inbox.</p>
 
-        <button class="custom-button contact-btn openSubscribeModal animate-on-scroll delay-3"
+        <button class="custom-button contact-btn openSubscribeModal contact-animate-scroll contact-delay-3"
             onclick="sendMail(event)">
             <svg width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- SVG content unchanged -->
@@ -20,11 +21,11 @@
             <!-- Modal content unchanged -->
         </div>
 
-        <div class="social-icons animate-on-scroll delay-3">
+        <div class="social-icons contact-animate-scroll contact-delay-3">
             <!-- Social icons remain unchanged -->
         </div>
     </div>
-    <div class="contact-right animate-on-scroll delay-2">
+    <div class="contact-right contact-animate-scroll contact-delay-2">
         <img data-src="/wp-content/uploads/2025/02/Contact%20Us-%20%20Social%20Media%20Graphics%20%28to%20be%20replaced%29.svg"
             alt="Contact Us Image"
             src="/wp-content/uploads/2025/02/Contact%20Us-%20%20Social%20Media%20Graphics%20%28to%20be%20replaced%29.svg"
@@ -211,68 +212,69 @@
         }
     }
 
- /* Base state - hidden and positioned down */
-.animate-on-scroll {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: none; /* Prevent any transitions initially */
-}
-
-/* Animation keyframes */
-@keyframes fadeInUp {
-    0% {
+    /* Base state - hidden and positioned down */
+    .contact-animate-scroll {
         opacity: 0;
         transform: translateY(50px);
+        transition: none;
+        /* Prevent any transitions initially */
     }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
+
+    /* Animation keyframes */
+    @keyframes contactFadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-}
 
-/* Animation class applied when in viewport */
-.animate-fade-up {
-    animation: fadeInUp 0.8s ease-out forwards;
-}
+    /* Animation class applied when in viewport */
+    .contact-animate-active {
+        animation: contactFadeInUp 0.8s ease-out forwards;
+    }
 
-/* Different delay classes for staggered effect */
-.animate-on-scroll.delay-1 {
-    animation-delay: 0.2s;
-}
+    /* Different delay classes for staggered effect */
+    .contact-animate-scroll.contact-delay-1 {
+        animation-delay: 0.2s;
+    }
 
-.animate-on-scroll.delay-2 {
-    animation-delay: 0.4s;
-}
+    .contact-animate-scroll.contact-delay-2 {
+        animation-delay: 0.4s;
+    }
 
-.animate-on-scroll.delay-3 {
-    animation-delay: 0.6s;
-}
-
+    .contact-animate-scroll.contact-delay-3 {
+        animation-delay: 0.6s;
+    }
 </style>
 
 <script>
     // JavaScript for viewport-triggered animations
-        document.addEventListener('DOMContentLoaded', function () {
-            // Select all elements that should animate
-            const animateElements = document.querySelectorAll('.animate-on-scroll');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Select all elements that should animate
+        const contactAnimateElements = document.querySelectorAll('.contact-animate-scroll');
 
-            // Create intersection observer
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        // Add animation class when element enters viewport
-                        entry.target.classList.add('animate-fade-up');
-                    }
-                });
-            }, {
-                threshold: 0.2, // Trigger when 20% of element is visible
-                rootMargin: '0px 0px -50px 0px' // Trigger slightly before element is fully visible
+        // Create intersection observer
+        const contactObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // Add animation class when element enters viewport
+                    entry.target.classList.add('contact-animate-active');
+                }
             });
-
-            // Start observing each element
-            animateElements.forEach((element) => {
-                observer.observe(element);
-            });
+        }, {
+            threshold: 0.2, // Trigger when 20% of element is visible
+            rootMargin: '0px 0px -50px 0px' // Trigger slightly before element is fully visible
         });
+
+        // Start observing each element
+        contactAnimateElements.forEach((element) => {
+            contactObserver.observe(element);
+        });
+    });
 
 </script>

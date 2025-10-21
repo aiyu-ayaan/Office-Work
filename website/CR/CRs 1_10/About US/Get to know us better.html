@@ -126,17 +126,22 @@
             }
         }
 
-        /* INITIAL STATE FOR ANIMATED ELEMENTS */
+
+          /* INITIAL STATE FOR ANIMATED ELEMENTS */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(50px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            /* Use will-change for better iOS performance */
+            will-change: opacity, transform;
         }
 
         /* ANIMATED STATE WHEN IN VIEWPORT */
         .animate-on-scroll.animate {
             opacity: 1;
             transform: translateY(0);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            /* Remove will-change after animation */
+            will-change: auto;
         }
 
         /* STAGGERED ANIMATION DELAYS FOR MULTIPLE ITEMS */
@@ -656,6 +661,7 @@
         .AboutUs-Innovation-frame {
             .know-us {
                 margin: 1rem auto 1.9rem auto !important;
+                margin-top:0px !important;
                 font-weight: 500 !important;
                 text-transform: capitalize !important;
                 width: 93.35%;
