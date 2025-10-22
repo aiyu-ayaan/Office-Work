@@ -15,8 +15,24 @@ Template Name: CSR page
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
-
 get_header(); ?>
+
+
+<!-- DESCRIPTION:All veriables -->
+
+<?php
+$adrosonic_foundation_section = get_field('csr_page_adrosonic_foundation_section');
+// this is ACF group field
+$adrosonic_foundation_section_heading = $adrosonic_foundation_section['csr_page_adrosonic_foundation_main_heading'];
+$adrosonic_foundation_video_url = $adrosonic_foundation_section['csr_page_adrosonic_foundation_video_url'];
+$adrosonic_foundation_video_thumbnail = $adrosonic_foundation_section['csr_page_adrosonic_foundation_video_thumbnail'];
+$adrosonic_foundation_section_description1 = $adrosonic_foundation_section['csr_page_adrosonic_foundation_description_para_1'];
+$adrosonic_foundation_section_description2 = $adrosonic_foundation_section['csr_page_adrosonic_foundation_description_para_2'];
+
+?>
+
+<!-- END: -->
+
 
 
 <?php if (astra_page_layout() == 'left-sidebar') : ?>
@@ -28,7 +44,25 @@ get_header(); ?>
         <article id="post-<?php the_ID(); ?>" <?php post_class('ast-article-single'); ?> itemscope itemtype="https://schema.org/CreativeWork">
             <div class="entry-content clear" data-ast-blocks-layout="true" itemprop="text">
 
-            
+            <!-- REMOVEME:Spacer 80px-->
+            <div role="presentation" aria-hidden="true" style="height:80px; width:100%;"></div>
+
+            <!-- DESCRIPTION:Foundation Section -->
+                <div class="our_expertise_container" id="expertise">
+                    <h2 class="large-size font-bold portrait-only-header animate-on-scroll slide-in-top"><?php echo esc_html($adrosonic_foundation_section_heading); ?></h2>
+                    <div class="video-container animate-on-scroll slide-in-left">
+                        <video class="manual-lazy-load" data-src="<?php echo esc_html($adrosonic_foundation_video_url); ?>" autoplay muted loop playsinline poster="<?php echo esc_html($adrosonic_foundation_video_thumbnail); ?>">
+                            <!--                 <source class="manual-lazy-load"  type="video/mp4"> -->
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="content animate-on-scroll slide-in-right">
+                        <h2 class="large-size font-bold main-header"><?php echo esc_html($adrosonic_foundation_section_heading); ?></h2>
+                        <p class="small-size description"><?php echo esc_html($adrosonic_foundation_section_description1); ?></p><br>
+                        <p class="small-size description"><?php echo esc_html($adrosonic_foundation_section_description2); ?></p>
+                    </div>
+                </div>
+
             </div>
         </article>
     </main>
