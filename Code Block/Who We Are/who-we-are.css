@@ -1,5 +1,4 @@
-/* DESCRIPTION: banner*/
-
+/* DESCRIPTION: banner */
 .who-we-are-banner-container {
     width: 100%;
     max-height: 115vh;
@@ -362,8 +361,7 @@
     }
 }
 
-/* DESCRIPTION: Spacers*/
-
+/* DESCRIPTION: Custom HTML */
 .spacer-between-banner-content-frame-mobile {
     height: 0px;
 }
@@ -375,8 +373,7 @@
 
 }
 
-/* DESCRIPTION: content frame section*/
-
+/* DESCRIPTION: content frame section */
 .content-cards {
     overflow-x: hidden;
 }
@@ -637,8 +634,7 @@ display: none;
     transform: translateX(0);
 }
 
-/* DESCRIPTION: bottom quote*/
-
+/* DESCRIPTION: bottom quote */
 .statement-section {
     margin: 0% 27.1% 11.7% 27.1% !important;
     text-align: center;
@@ -663,4 +659,8 @@ display: none;
     .statement-section {
         margin: 0% 14.5% 16.4% 14.5% !important;
     }
+}
+
+body {
+    overflow: clip;
 }

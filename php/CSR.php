@@ -44,22 +44,25 @@ $adrosonic_foundation_section_description2 = $adrosonic_foundation_section['csr_
         <article id="post-<?php the_ID(); ?>" <?php post_class('ast-article-single'); ?> itemscope itemtype="https://schema.org/CreativeWork">
             <div class="entry-content clear" data-ast-blocks-layout="true" itemprop="text">
 
-            <!-- REMOVEME:Spacer 80px-->
-            <div role="presentation" aria-hidden="true" style="height:80px; width:100%;"></div>
+                <!-- REMOVEME:Spacer 80px-->
+                <div role="presentation" aria-hidden="true" style="height:80px; width:100%;"></div>
 
-            <!-- DESCRIPTION:Foundation Section -->
+                <!-- DESCRIPTION:Foundation Section -->
                 <div class="our_expertise_container" id="expertise">
-                    <h2 class="large-size font-bold portrait-only-header animate-on-scroll slide-in-top"><?php echo esc_html($adrosonic_foundation_section_heading); ?></h2>
-                    <div class="video-container animate-on-scroll slide-in-left">
-                        <video class="manual-lazy-load" data-src="<?php echo esc_html($adrosonic_foundation_video_url); ?>" autoplay muted loop playsinline poster="<?php echo esc_html($adrosonic_foundation_video_thumbnail); ?>">
-                            <!--                 <source class="manual-lazy-load"  type="video/mp4"> -->
-                            Your browser does not support the video tag.
-                        </video>
+                    <div class="section-header animate-on-scroll slide-in-top">
+                        <h2 class="large-size font-bold"><?php echo esc_html($adrosonic_foundation_section_heading); ?></h2>
                     </div>
-                    <div class="content animate-on-scroll slide-in-right">
-                        <h2 class="large-size font-bold main-header"><?php echo esc_html($adrosonic_foundation_section_heading); ?></h2>
-                        <p class="small-size description"><?php echo esc_html($adrosonic_foundation_section_description1); ?></p><br>
-                        <p class="small-size description"><?php echo esc_html($adrosonic_foundation_section_description2); ?></p>
+
+                    <div class="content-wrapper">
+                        <div class="video-container animate-on-scroll slide-in-left">
+                            <video class="manual-lazy-load" data-src="<?php echo esc_html($adrosonic_foundation_video_url); ?>" autoplay muted loop playsinline poster="<?php echo esc_html($adrosonic_foundation_video_thumbnail); ?>">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="content animate-on-scroll slide-in-right">
+                            <p class="small-size description"><?php echo esc_html($adrosonic_foundation_section_description1); ?></p><br>
+                            <p class="small-size description"><?php echo esc_html($adrosonic_foundation_section_description2); ?></p>
+                        </div>
                     </div>
                 </div>
 

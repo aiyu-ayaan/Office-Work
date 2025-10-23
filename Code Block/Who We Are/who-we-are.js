@@ -1,5 +1,4 @@
-//  DESCRIPTION:banner banner
-
+// DESCRIPTION: banner
 let resizeTimeout;
 
 function initializeAnimation() {
@@ -73,9 +72,9 @@ window.addEventListener('resize', function () {
         initializeAnimation();
     }, 250);
 });
+// DESCRIPTION: Custom HTML
 
-//  DESCRIPTION:banner Spacers
-//  DESCRIPTION:banner content frame section
+// DESCRIPTION: content frame section
 document.addEventListener("DOMContentLoaded", function () {
     const sections = document.querySelectorAll('.section-wrapper');
     sections.forEach((section, index) => {
@@ -156,5 +155,4 @@ document.addEventListener("DOMContentLoaded", function () {
         sessionStorage.removeItem("scrollTarget"); // clear after use
     }
 });
-
-//  DESCRIPTION:banner bottom quote
+// DESCRIPTION: bottom quote
